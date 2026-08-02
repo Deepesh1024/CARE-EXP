@@ -1,0 +1,18 @@
+torch
+transformers>=4.40.0        # first release with qwen2_moe support — anything older will KeyError: 'qwen2_moe'
+accelerate>=0.29.0          # required by device_map="auto"/{"":0}
+datasets>=2.18.0
+tokenizers>=0.19.0
+safetensors>=0.4.2
+ 
+numpy>=1.26,<2.0            # pin <2.0 — some transformers/datasets versions still assume NumPy 1.x ABI
+pandas>=2.2.0
+scipy>=1.12.0
+ 
+matplotlib>=3.8.0
+seaborn>=0.13.0
+ 
+tqdm>=4.66.0
+ipywidgets>=8.1.0           # silences the tqdm.auto "IProgress not found" warning you saw in Jupyter
+jupyterlab>=4.1.0           # or notebook>=7.1.0 if you prefer classic Notebook
+ 
