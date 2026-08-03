@@ -435,7 +435,8 @@ def main():
     if "middle" in LAYERS_TO_EVALUATE: layer_indices["middle"] = len(moe_layers) // 2
     if "last" in LAYERS_TO_EVALUATE: layer_indices["last"] = len(moe_layers) - 1
 
-    raw = load_dataset("wikitext", "wikitext-2-raw-v1", split="train")
+    # Use the explicit path if the generic 'wikitext' fails due to hub changes
+    raw = load_dataset("Salesforce/wikitext", "wikitext-2-raw-v1", split="train")
     texts = [t for t in raw["text"] if len(t.strip()) > 0]
     random.Random(SEED).shuffle(texts)
 
