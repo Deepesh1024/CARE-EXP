@@ -187,7 +187,11 @@ def collect_calibration_activations(model, moe_block, input_ids, attention_mask,
 
     h1 = moe_block.register_forward_pre_hook(lambda m, inputs: hidden_list.append(inputs[0].detach()))
     gate_module = getattr(moe_block, "gate", None) or getattr(moe_block, "router", None)
-    h2 = gate_module.register_forward_hook(lambda m, inputs, output: router_list.append(output.detach()))
+    
+    # FIX: Safely unpack the tuple output from the OLMoE gate before calling .detach()
+    h2 = gate_module.register_forward_hook(
+        lambda m, inputs, output: router_list.append((output[0] if isinstance(output, tuple) else output).detach())
+    )
 
     n = input_ids.shape[0]
     for start in range(0, n, batch_size):
