@@ -34,20 +34,21 @@ Output layout
 
 Resumability
 ------------
-This script checkpoints to output/output.json after EVERY pair. If it dies
-or gets pre-empted at pair 1,400 of 1,770 (shared server, walltime limit,
-OOM, SSH drop -- doesn't matter which), just rerun it: already-completed
-pairs are loaded from output.json and skipped, not recomputed.
+This script checkpoints to output/output.json every CHECKPOINT_EVERY_N_PAIRS
+pairs (default 50), plus once more at the end. If it dies or gets pre-empted
+(shared server, walltime limit, OOM, SSH drop -- doesn't matter which), just
+rerun it: already-completed pairs are loaded from output.json and skipped,
+not recomputed. Worst case you lose the pairs since the last checkpoint
+(at most CHECKPOINT_EVERY_N_PAIRS of them), not the whole run.
 """
 
 import os
-import io
 import json
 import math
 import copy
 import random
+import signal
 import itertools
-import contextlib
 
 import numpy as np
 import pandas as pd
@@ -89,8 +90,20 @@ CALIB_BATCH_SIZE = 4
 # blowing up runtime. Reduce this first if you hit GPU memory limits.
 EVAL_TOKENS_FOR_EXPERT_METRICS = 4096
 
-DEVICE = "cuda"
+# GPU index WITHIN whatever CUDA_VISIBLE_DEVICES exposes to this process.
+# On a Slurm/K8s job allocated exactly one GPU, that GPU is already index 0
+# in-process (that's what CUDA_VISIBLE_DEVICES remapping does) -- so the
+# default below is correct out of the box. Override via env var only if a
+# launcher assigns you a specific slot within a multi-GPU allocation
+# (e.g. LOCAL_RANK in a multi-process launch).
+GPU_ID = int(os.environ.get("CARE_MOE_GPU_ID", 0))
+DEVICE = f"cuda:{GPU_ID}"
 DTYPE = torch.float16
+
+# Checkpoint frequency: write output.json every N completed pairs, plus once
+# more at the very end. Trades a bounded amount of lost work on crash/pre-emption
+# (at most N pairs) for far less I/O than checkpointing every single pair.
+CHECKPOINT_EVERY_N_PAIRS = 50
 
 OUTPUT_DIR = "./output"
 SCATTER_DIR = os.path.join(OUTPUT_DIR, "scatterplots")
@@ -100,6 +113,24 @@ METRIC_COLS = [
     "Weight_Distance", "Weight_Cosine", "Activation_Similarity",
     "Output_Similarity", "Routing_Similarity", "Usage_Frequency",
 ]
+
+# Set by _handle_shutdown_signal below. Checked inside the main sweep loop so
+# a SIGTERM (AWS Spot reclaim, systemd stop) or SIGINT (Ctrl+C) triggers an
+# immediate checkpoint instead of silently losing work since the last
+# periodic save. This is what actually makes CHECKPOINT_EVERY_N_PAIRS safe
+# to use on Spot -- without it, the 2-minute Spot reclaim warning is wasted.
+_shutdown_requested = False
+
+
+def _handle_shutdown_signal(signum, frame):
+    global _shutdown_requested
+    _shutdown_requested = True
+    print(f"\nReceived signal {signum} -- finishing current pair, checkpointing, and exiting. "
+          f"Rerun the script afterward to resume from output.json.")
+
+
+signal.signal(signal.SIGTERM, _handle_shutdown_signal)
+signal.signal(signal.SIGINT, _handle_shutdown_signal)
 
 
 # ============================================================
@@ -292,7 +323,10 @@ def run_oracle_pair(model, moe_block, i, j, merge_operator, input_ids, attention
         total_tokens += shift_mask.sum().item()
 
         del logits_orig, logits_merged, logp_orig, logp_merged, p_orig
-        torch.cuda.empty_cache()
+        # NOTE: deliberately NOT calling torch.cuda.empty_cache() here.
+        # That forces a device sync and flushes the caching allocator on every
+        # batch -- it destroys throughput. Let PyTorch's allocator reuse freed
+        # blocks itself. If this loop OOMs, lower CALIB_BATCH_SIZE instead.
 
     # Restore the original, unmodified experts before returning.
     install_experts(moe_block, [i, j], [orig_i, orig_j])
@@ -322,7 +356,7 @@ def main():
     torch.cuda.manual_seed_all(SEED)
 
     assert torch.cuda.is_available(), "This script requires a CUDA GPU."
-    print("CUDA device:", torch.cuda.get_device_name(0))
+    print(f"CUDA device (index {GPU_ID}):", torch.cuda.get_device_name(GPU_ID))
 
     checkpoint = load_checkpoint()
     checkpoint["config"] = {
@@ -338,11 +372,11 @@ def main():
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    print("Loading model in FP16 on CUDA (cached after first run)...")
+    print(f"Loading model in FP16 on CUDA (device index {GPU_ID}, cached after first run)...")
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         torch_dtype=DTYPE,
-        device_map={"": 0},   # whole model on one GPU -- required for in-place expert swapping below
+        device_map={"": GPU_ID},   # whole model on one GPU -- required for in-place expert swapping below
     )
     model.eval()
     print("Model loaded.")
@@ -429,14 +463,31 @@ def main():
     topk = getattr(cfg, "num_experts_per_tok", 4)
     topk_idx = torch.topk(router_probs, k=topk, dim=-1).indices
 
+    # Per-token boolean: was expert e in the top-k for this token? Computed once
+    # per expert and reused for both the marginal usage rate AND the pairwise
+    # union frequency below -- no need to recompute this inside the pair loop.
+    routed_to = {e: (topk_idx == e).any(dim=-1) for e in range(num_experts)}  # each: (T,) bool tensor
+
     usage_counts = torch.zeros(num_experts)
     for e in range(num_experts):
-        usage_counts[e] = (topk_idx == e).any(dim=-1).sum().item()
-    usage_frequency = (usage_counts / calib_router_logits.shape[0]).numpy()
+        usage_counts[e] = routed_to[e].sum().item()
+    usage_frequency = (usage_counts / calib_router_logits.shape[0]).numpy()  # per-expert marginal rate
 
     def routing_similarity(i, j):
         r, _ = pearsonr(router_probs[:, i].numpy(), router_probs[:, j].numpy())
         return r
+
+    def union_usage_frequency(i, j):
+        """
+        Fraction of calibration tokens routed to expert i OR expert j.
+        This -- not the mean of the two marginal rates -- is what a merged
+        slot would actually see: averaging overstates traffic when the two
+        experts are frequently co-activated on the same tokens, and
+        understates it when their token sets are disjoint. The union is the
+        exact quantity, computed directly from the same top-k membership data
+        already captured, not an invented proxy.
+        """
+        return (routed_to[i] | routed_to[j]).float().mean().item()
 
     checkpoint["usage_frequency"] = {str(k): float(v) for k, v in enumerate(usage_frequency)}
     print(f"Usage frequency range: min={usage_frequency.min():.4f}, "
@@ -492,27 +543,49 @@ def main():
           f"{len(pairs_to_run)} remaining")
 
     # ---------------- Metrics + oracle sweep ----------------
-    for (i, j) in tqdm(pairs_to_run, desc=f"Layer {LAYER_INDEX}: metrics + oracle per pair"):
-        row = {
-            "Layer": LAYER_INDEX,
-            "Expert_A": i,
-            "Expert_B": j,
-            "Weight_Distance": weight_distance(i, j),
-            "Weight_Cosine": weight_cosine(i, j),
-            "Activation_Similarity": activation_similarity(i, j),
-            "Output_Similarity": output_similarity(i, j),
-            "Routing_Similarity": routing_similarity(i, j),
-            # Usage_Frequency: schema calls for a single scalar per pair; we use the
-            # mean of the two individual experts' usage rates. Per-expert rates are
-            # in checkpoint["usage_frequency"] if finer-grained analysis is needed.
-            "Usage_Frequency": float((usage_frequency[i] + usage_frequency[j]) / 2.0),
-        }
-        row.update(run_oracle_pair(
-            model, moe_block, i, j, merge_operator,
-            calib_input_ids, calib_attn_mask, batch_size=CALIB_BATCH_SIZE,
-        ))
-        checkpoint["results"].append(row)
-        save_checkpoint(checkpoint)   # checkpoint after EVERY pair -- see module docstring
+    # try/finally guarantees a checkpoint save on ANY exit path -- normal
+    # completion, an unhandled exception, or a shutdown signal (see
+    # _handle_shutdown_signal above) -- not just the periodic 50-pair boundary.
+    try:
+        for pair_idx, (i, j) in enumerate(tqdm(pairs_to_run, desc=f"Layer {LAYER_INDEX}: metrics + oracle per pair")):
+            row = {
+                "Layer": LAYER_INDEX,
+                "Expert_A": i,
+                "Expert_B": j,
+                "Weight_Distance": weight_distance(i, j),
+                "Weight_Cosine": weight_cosine(i, j),
+                "Activation_Similarity": activation_similarity(i, j),
+                "Output_Similarity": output_similarity(i, j),
+                "Routing_Similarity": routing_similarity(i, j),
+                # Usage_Frequency: fraction of calibration tokens routed to EITHER
+                # expert (union of top-k membership), not the mean of their marginal
+                # rates -- see union_usage_frequency() docstring for why the mean is
+                # wrong. Per-expert marginal rates are still in
+                # checkpoint["usage_frequency"] if you need them separately.
+                "Usage_Frequency": union_usage_frequency(i, j),
+            }
+            row.update(run_oracle_pair(
+                model, moe_block, i, j, merge_operator,
+                calib_input_ids, calib_attn_mask, batch_size=CALIB_BATCH_SIZE,
+            ))
+            checkpoint["results"].append(row)
+
+            # Checkpoint every N pairs, OR immediately if a shutdown was requested --
+            # bounds lost work to at most N pairs in the normal case, and to ~0 pairs
+            # when responding to a Spot reclaim / Ctrl+C.
+            if (pair_idx + 1) % CHECKPOINT_EVERY_N_PAIRS == 0 or _shutdown_requested:
+                save_checkpoint(checkpoint)
+
+            if _shutdown_requested:
+                break
+    finally:
+        save_checkpoint(checkpoint)  # covers normal completion AND any unhandled exception
+
+    if _shutdown_requested:
+        print(f"Exiting early after {len(checkpoint['results'])} total completed pairs "
+              f"due to shutdown signal. Rerun the script to resume and finish the sweep "
+              f"(final analysis/plots are only generated once the full sweep completes).")
+        return
 
     results_df = pd.DataFrame(checkpoint["results"])
     print(f"Total completed pairs: {len(results_df)}")
