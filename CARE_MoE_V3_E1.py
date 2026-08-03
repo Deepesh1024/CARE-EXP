@@ -111,11 +111,18 @@ def load_checkpoint():
         "split_sample_stability": {}
     }
 
+def default_json_converter(o):
+    if isinstance(o, (np.generic, np.ndarray)):
+        return o.item() if (np.isscalar(o) or o.size == 1) else o.tolist()
+    if isinstance(o, torch.Tensor):
+        return o.item() if o.numel() == 1 else o.tolist()
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+
 def save_checkpoint(data):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     tmp_path = RESULTS_JSON_PATH + ".tmp"
     with open(tmp_path, "w") as f:
-        json.dump(data, f, indent=2)
+        json.dump(data, f, indent=2, default=default_json_converter)
     os.replace(tmp_path, RESULTS_JSON_PATH)
 
 def bootstrap_ci(x, y, metric_func, n_resamples=1000, ci=0.95):
@@ -571,7 +578,7 @@ def main():
                         "Weight_Cosine": F.cosine_similarity(flat_weights[i].unsqueeze(0), flat_weights[j].unsqueeze(0)).item(),
                         "Activation_Similarity": F.cosine_similarity(expert_activations[i], expert_activations[j], dim=-1).mean().item(),
                         "Output_Similarity": F.cosine_similarity(expert_outputs[i], expert_outputs[j], dim=-1).mean().item(),
-                        "Routing_Similarity": pearsonr(router_probs[:, i].numpy(), router_probs[:, j].numpy())[0],
+                        "Routing_Similarity": float(pearsonr(router_probs[:, i].numpy(), router_probs[:, j].numpy())[0]),
                         "Usage_Frequency": float(union / max(1, router_probs.shape[0])),
                         "Jaccard_Overlap": float(intersect / max(union, 1))
                     }
