@@ -253,7 +253,7 @@ The gap of +0.109 exceeds the 0.05 threshold defined in H₁, and both models fa
 
 ## 10.1 Feature-Target Correlation Matrix
 
-![Feature-Target Correlation Matrix (Training Set)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/01_correlation_heatmap.png)
+![Feature-Target Correlation Matrix (Training Set)](./figures/01_correlation_heatmap.png)
 
 The Pearson correlation heatmap reveals several important structural properties:
 
@@ -267,7 +267,7 @@ The Pearson correlation heatmap reveals several important structural properties:
 
 ## 10.2 LASSO Coefficients
 
-![LASSO Coefficients (α = 0.0001)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/02_lasso_coefficients.png)
+![LASSO Coefficients (α = 0.0001)](./figures/02_lasso_coefficients.png)
 
 LASSO with α = 0.0001 retains all 7 features but assigns highly asymmetric magnitudes:
 
@@ -287,7 +287,7 @@ LASSO with α = 0.0001 retains all 7 features but assigns highly asymmetric magn
 
 ## 10.3 XGBoost Feature Importance (Gain)
 
-![XGBoost Feature Importance](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/03_xgboost_importance.png)
+![XGBoost Feature Importance](./figures/03_xgboost_importance.png)
 
 XGBoost gain-based importance reveals a strikingly different ranking from LASSO:
 
@@ -308,7 +308,7 @@ XGBoost gain-based importance reveals a strikingly different ranking from LASSO:
 
 ## 10.4 SHAP Feature Importance
 
-![SHAP Feature Importance](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/03b_shap_importance.png)
+![SHAP Feature Importance](./figures/03b_shap_importance.png)
 
 SHAP values (mean absolute) provide a model-agnostic measure of actual contribution to XGBoost_B predictions:
 
@@ -329,7 +329,7 @@ SHAP values (mean absolute) provide a model-agnostic measure of actual contribut
 
 ## 10.5 Predicted vs Actual Scatter
 
-![Predicted vs Actual — XGBoost_B (Spearman ρ = 0.5927)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/04_predicted_vs_oracle.png)
+![Predicted vs Actual — XGBoost_B (Spearman ρ = 0.5927)](./figures/04_predicted_vs_oracle.png)
 
 The predicted-vs-actual scatter for XGBoost_B reveals severe pathologies:
 
@@ -343,7 +343,7 @@ The predicted-vs-actual scatter for XGBoost_B reveals severe pathologies:
 
 ## 10.6 Residual Analysis
 
-![Residuals — XGBoost_B](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/05_residual_plot.png)
+![Residuals — XGBoost_B](./figures/05_residual_plot.png)
 
 The residual plot exhibits a strong **heteroscedastic fan pattern**:
 
@@ -355,7 +355,7 @@ This pattern is diagnostic of a model that has learned the central tendency of t
 
 ## 10.7 Linearization Gap Chart
 
-![Linearization Gap — All Models × Feature Variants](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/06_linearization_gap.png)
+![Linearization Gap — All Models × Feature Variants](./figures/06_linearization_gap.png)
 
 This chart visualizes the Spearman ρ for all 12 models. Key patterns:
 

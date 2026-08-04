@@ -71,19 +71,19 @@ When plotting individual descriptors against ground-truth Oracle KL, the data fo
 
 ### Early Layer (`first`, $N=256$) — Weight Distance
 
-![Weight Distance (First Layer, N=256)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_256_first_Weight_Distance.png)
+![Weight Distance (First Layer, N=256)](./results/exp1/256_segmented/first/scatter_first_Weight_Distance.png)
 
 *Analytical Conclusion:* Weight distance sets an outer degradation boundary, yet low parameter Euclidean distance still exhibits unpredictable Oracle KL variance.
 
 ### Middle Layer (`middle`, $N=128$) — Weight Cosine
 
-![Weight Cosine (Middle Layer, N=128)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_128_middle_Weight_Cosine.png)
+![Weight Cosine (Middle Layer, N=128)](./results/exp1/128_segmented/middle/scatter_middle_Weight_Cosine.png)
 
 *Analytical Conclusion:* High weight direction cosine alignment (>0.85) produces diffuse vertical scatter; directional similarity fails to safeguard semantic capability.
 
 ### Late Layer (`last`, $N=64$) — Activation Similarity
 
-![Activation Similarity (Last Layer, N=64)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_64_last_Activation_Similarity.png)
+![Activation Similarity (Last Layer, N=64)](./results/exp1/64_segmented/last/scatter_last_Activation_Similarity.png)
 
 *Analytical Conclusion:* In terminal readout layers, intermediate activation matching shows complete orthogonality to merge destruction.
 
@@ -131,31 +131,31 @@ We trained 12 experimental models combining 4 regression architectures across 3 
 ### The Linearization Gap ($\Delta = +0.109$)
 The difference between our best nonlinear model (XGBoost_B: $\rho = 0.593$) and our best linear model (LASSO_A: $\rho = 0.484$) is **$\Delta = +0.109$**.
 
-![Linearization Gap Across Models & Variants](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/06_linearization_gap.png)
+![Linearization Gap Across Models & Variants](./results/exp1_5/figures/06_linearization_gap.png)
 
 This substantial gap demonstrates that non-additive, depth-dependent feature interactions contain critical ranking signals that linear models cannot access. When depth interactions are linearly injected (Variants B & C), OLS and Ridge models collapse ($\rho \approx 0.20$), indicating complex, nonlinear modulation across network layers.
 
 ### Feature Importance & Multicollinearity
 
-![Feature Correlation Heatmap](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/01_correlation_heatmap.png)
+![Feature Correlation Heatmap](./results/exp1_5/figures/01_correlation_heatmap.png)
 
 Two prominent collinear pairs emerge in our correlation analysis: `Weight_Cosine` with `Output_Similarity` ($r = 0.79$), and `Routing_Similarity` with `Jaccard_Overlap` ($r = 0.79$). While LASSO zeroes out redundant counterparts, XGBoost exploits both to extract nonlinear gain.
 
 #### XGBoost Gain Importance
 
-![XGBoost Gain Importance](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/03_xgboost_importance.png)
+![XGBoost Gain Importance](./results/exp1_5/figures/03_xgboost_importance.png)
 
 *Insights:* **Relative Depth** emerges as the single most dominant splitting gain variable (0.220), confirming depth acts as a non-additive gating modulator for similarity rules.
 
 #### SHAP Marginal Value
 
-![SHAP Summary Importance](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/03b_shap_importance.png)
+![SHAP Summary Importance](./results/exp1_5/figures/03b_shap_importance.png)
 
 *Insights:* While depth guides tree branching, **Weight Distance** provides the highest actual per-prediction marginal magnitude impact ($|\text{SHAP}| = 0.00105$).
 
 #### LASSO Linear Weights
 
-![LASSO Coefficient Profile](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/02_lasso_coefficients.png)
+![LASSO Coefficient Profile](./results/exp1_5/figures/02_lasso_coefficients.png)
 
 *Insights:* Under linear L1 regularization, Weight Distance, Output Similarity, and Usage Frequency dominate, while Activation Similarity is assigned near-zero utility.
 
@@ -164,13 +164,13 @@ Why did all models exhibit near-zero or negative test $R^2$ ($\le 3.7\%$ varianc
 
 #### Predicted vs. Oracle Scatter
 
-![Predicted vs Actual Scatter](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/04_predicted_vs_oracle.png)
+![Predicted vs Actual Scatter](./results/exp1_5/figures/04_predicted_vs_oracle.png)
 
 *Pathology:* **Severe mean regression and compression.** Model predictions compress tightly within $[0.001, 0.006]$. High-drift catastrophic pairs ($\text{KL} > 0.01$) are consistently underestimated.
 
 #### Residual Fan Pattern
 
-![Residual Distribution Plot](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/05_residual_plot.png)
+![Residual Distribution Plot](./results/exp1_5/figures/05_residual_plot.png)
 
 *Pathology:* Strong heteroscedastic fan pattern with extreme negative residuals along the upper prediction edge. The current pre-merge feature space lacks the explanatory variables required to predict high-drift outliers.
 

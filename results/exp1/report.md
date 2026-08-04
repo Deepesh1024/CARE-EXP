@@ -120,25 +120,25 @@ In early layers, token routing is primarily structural. While weight-space featu
 
 ### Weight Distance Scatter Profile ($N=256$, First Layer)
 
-![Weight Distance Scatter Profile (N=256, First Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_256_first_Weight_Distance.png)
+![Weight Distance Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Weight_Distance.png)
 
 *Scientific Commentary:* Weight Distance demonstrates an approximate triangular bounding contour. While minimal weight distances rarely induce extreme KL drift, moderate-to-high distances span the entire vertical drift spectrum, preventing precise ranking thresholds.
 
 ### Weight Cosine Scatter Profile ($N=256$, First Layer)
 
-![Weight Cosine Scatter Profile (N=256, First Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_256_first_Weight_Cosine.png)
+![Weight Cosine Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Weight_Cosine.png)
 
 *Scientific Commentary:* Displays severe vertical variance at high cosine alignments (>0.8). Parameter direction alignment does not guarantee functional safety upon weight averaging.
 
 ### Output Similarity Scatter Profile ($N=256$, First Layer)
 
-![Output Similarity Scatter Profile (N=256, First Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_256_first_Output_Similarity.png)
+![Output Similarity Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Output_Similarity.png)
 
 *Scientific Commentary:* Complete horizontal scattering across similarity values with invariant vertical drift distribution. Output representation matching provides zero protection against destructive merges.
 
 ### Routing Similarity Profile ($N=64$, First Layer)
 
-![Routing Similarity Scatter Profile (N=64, First Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_64_first_Routing_Similarity.png)
+![Routing Similarity Scatter Profile (N=64, First Layer)](./64_segmented/first/scatter_first_Routing_Similarity.png)
 
 *Scientific Commentary:* Low sample estimation ($N=64$) confirms that routing similarity is fundamentally independent of parameter averaging tolerance; co-routed pairs show identical probability of severe degradation.
 
@@ -150,13 +150,13 @@ Middle layers handle deep abstract semantic transformations. Here, representatio
 
 ### Weight Distance Scatter Profile ($N=256$, Middle Layer)
 
-![Weight Distance Scatter Profile (N=256, Middle Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_256_middle_Weight_Distance.png)
+![Weight Distance Scatter Profile (N=256, Middle Layer)](./256_segmented/middle/scatter_middle_Weight_Distance.png)
 
 *Scientific Commentary:* Compared to early layers, the distribution widens significantly. Variance across the target Oracle KL axis explodes, illustrating layer-depth non-stationarity.
 
 ### Weight Cosine Scatter Profile ($N=128$, Middle Layer)
 
-![Weight Cosine Scatter Profile (N=128, Middle Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_128_middle_Weight_Cosine.png)
+![Weight Cosine Scatter Profile (N=128, Middle Layer)](./128_segmented/middle/scatter_middle_Weight_Cosine.png)
 
 *Scientific Commentary:* Consistent non-injective structural pattern at moderate calibration sample budgets ($N=128$). Directional weight vectors remain insufficient predictors of semantic preservation.
 
@@ -168,19 +168,19 @@ In terminal layers ($N \in \{64, 128\}$), experts directly shape vocabulary logi
 
 ### Weight Distance Scatter Profile ($N=128$, Last Layer)
 
-![Weight Distance Scatter Profile (N=128, Last Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_128_last_Weight_Distance.png)
+![Weight Distance Scatter Profile (N=128, Last Layer)](./128_segmented/last/scatter_last_Weight_Distance.png)
 
 *Scientific Commentary:* Terminal layers exhibit discrete, high-drift outliers along the top vertical axis that appear entirely uncorrelated with weight L2 magnitude.
 
 ### Output Similarity Scatter Profile ($N=128$, Last Layer)
 
-![Output Similarity Scatter Profile (N=128, Last Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_128_last_Output_Similarity.png)
+![Output Similarity Scatter Profile (N=128, Last Layer)](./128_segmented/last/scatter_last_Output_Similarity.png)
 
 *Scientific Commentary:* High output similarity in final layers paradoxically co-occurs with massive Oracle KL spikes upon merging, likely due to cancellation of refined logit biases.
 
 ### Activation Similarity Scatter Profile ($N=64$, Last Layer)
 
-![Activation Similarity Scatter Profile (N=64, Last Layer)](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/bb28edf0-b344-4b1f-ad2d-73c2911dca29/exp1_64_last_Activation_Similarity.png)
+![Activation Similarity Scatter Profile (N=64, Last Layer)](./64_segmented/last/scatter_last_Activation_Similarity.png)
 
 *Scientific Commentary:* Persistent uninformative point cloud confirming null correlation across the entire network depth, even at low calibration budgets ($N=64$).
 
