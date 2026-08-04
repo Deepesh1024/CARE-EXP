@@ -94,14 +94,23 @@ Feature × depth interactions provide **additional** predictive value beyond dep
 
 ## 5. Figures
 
-| # | Description | File |
-|---|---|---|
-| 1 | Correlation heatmap | `01_correlation_heatmap.png` |
-| 2 | LASSO coefficients | `02_lasso_coefficients.png` |
-| 3 | XGBoost feature importance | `03_xgboost_importance.png` |
-| 4 | Predicted vs Oracle scatter | `04_predicted_vs_oracle.png` |
-| 5 | Residual plot | `05_residual_plot.png` |
-| 6 | Linearization Gap summary | `06_linearization_gap.png` |
+### 5.1 Correlation Heatmap
+![Correlation heatmap](./figures/01_correlation_heatmap.png)
+
+### 5.2 LASSO Coefficients
+![LASSO coefficients](./figures/02_lasso_coefficients.png)
+
+### 5.3 XGBoost Feature Importance
+![XGBoost feature importance](./figures/03_xgboost_importance.png)
+
+### 5.4 Predicted vs Oracle Scatter
+![Predicted vs Oracle scatter](./figures/04_predicted_vs_oracle.png)
+
+### 5.5 Residual Plot
+![Residual plot](./figures/05_residual_plot.png)
+
+### 5.6 Linearization Gap Summary
+![Linearization Gap summary](./figures/06_linearization_gap.png)
 
 ---
 

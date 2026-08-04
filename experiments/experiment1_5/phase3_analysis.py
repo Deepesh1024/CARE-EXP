@@ -514,14 +514,23 @@ def generate_report(
 
 ## 5. Figures
 
-| # | Description | File |
-|---|---|---|
-| 1 | Correlation heatmap | `01_correlation_heatmap.{FIGURE_FORMAT}` |
-| 2 | LASSO coefficients | `02_lasso_coefficients.{FIGURE_FORMAT}` |
-| 3 | {_TREE_ENGINE} feature importance | `03_xgboost_importance.{FIGURE_FORMAT}` |
-| 4 | Predicted vs Oracle scatter | `04_predicted_vs_oracle.{FIGURE_FORMAT}` |
-| 5 | Residual plot | `05_residual_plot.{FIGURE_FORMAT}` |
-| 6 | Linearization Gap summary | `06_linearization_gap.{FIGURE_FORMAT}` |
+### 5.1 Correlation Heatmap
+![Correlation heatmap](./figures/01_correlation_heatmap.{FIGURE_FORMAT})
+
+### 5.2 LASSO Coefficients
+![LASSO coefficients](./figures/02_lasso_coefficients.{FIGURE_FORMAT})
+
+### 5.3 {_TREE_ENGINE} Feature Importance
+![{_TREE_ENGINE} feature importance](./figures/03_xgboost_importance.{FIGURE_FORMAT})
+
+### 5.4 Predicted vs Oracle Scatter
+![Predicted vs Oracle scatter](./figures/04_predicted_vs_oracle.{FIGURE_FORMAT})
+
+### 5.5 Residual Plot
+![Residual plot](./figures/05_residual_plot.{FIGURE_FORMAT})
+
+### 5.6 Linearization Gap Summary
+![Linearization Gap summary](./figures/06_linearization_gap.{FIGURE_FORMAT})
 
 ---
 
