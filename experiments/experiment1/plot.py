@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
 
 # 1. Define deterministic paths
-input_file = "./output/output.json"
-base_output_dir = "./output/256_segmented/"
+_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", ".."))
+input_file = os.path.join(_PROJECT_ROOT, "results", "exp1", "output.json")
+base_output_dir = os.path.join(_PROJECT_ROOT, "results", "exp1", "256_segmented")
 
 # 2. Load and parse the raw checkpoint
 if not os.path.exists(input_file):

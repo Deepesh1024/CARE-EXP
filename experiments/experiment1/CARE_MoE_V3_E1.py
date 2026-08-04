@@ -50,8 +50,9 @@ GPU_ID = int(os.environ.get("CARE_MOE_GPU_ID", 0))
 DEVICE = f"cuda:{GPU_ID}"
 DTYPE = torch.bfloat16
 
-CHECKPOINT_EVERY_N_PAIRS = 50
-OUTPUT_DIR = "./output"
+_THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", ".."))
+OUTPUT_DIR = os.path.join(_PROJECT_ROOT, "results", "exp1")
 SCATTER_DIR = os.path.join(OUTPUT_DIR, "scatterplots")
 RESULTS_JSON_PATH = os.path.join(OUTPUT_DIR, "output.json")
 

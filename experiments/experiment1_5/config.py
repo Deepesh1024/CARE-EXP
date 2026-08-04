@@ -16,7 +16,7 @@ import os
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, "..", ".."))
 
-DATA_PATH = os.path.join(_PROJECT_ROOT, "output", "output.json")
+DATA_PATH = os.path.join(_PROJECT_ROOT, "results", "exp1", "output.json")
 RESULTS_DIR = os.path.join(_PROJECT_ROOT, "results", "exp1_5")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
 MODELS_DIR = os.path.join(RESULTS_DIR, "models")

@@ -176,7 +176,7 @@ During the initial implementation of Experiment 1.5, six additional features wer
 
 # 7. Experimental Pipeline
 
-1. **Data Ingestion:** Load 16,112 rows from [output.json](file:///Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/output/output.json).
+1. **Data Ingestion:** Load 16,112 rows from [output.json](../exp1/output.json).
 2. **Filtering:** Retain only Seq_Len = 256 → 4,016 rows.
 3. **Expert Split:** Assign experts 0–31 to train, 32–63 to test. Discard cross-boundary pairs → 992 train, 976 test, 2,048 discarded.
 4. **Feature Selection:** Extract 7 pre-merge proxy features + Oracle_KL target.
