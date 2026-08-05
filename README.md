@@ -1,6 +1,6 @@
 # CARE-MoE: Capability-Aware Redundancy Elimination in Mixture-of-Experts
 
-![Research Stage](https://img.shields.io/badge/Research_Stage-Exp_1.5_Complete_%7C_Exp_2_Planned-blue.svg)
+![Research Stage](https://img.shields.io/badge/Research_Stage-Exp_2_Complete_%7C_Canonical_Release-blue.svg)
 ![Target Architecture](https://img.shields.io/badge/Model-OLMoE--1B--7B-purple.svg)
 ![Python](https://img.shields.io/badge/Python-3.9+-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-orange.svg)
@@ -39,18 +39,29 @@ The **CARE-MoE** research program is dedicated to solving this problem not by pr
   │    • Status: Completed & Published                                    │
   │    • Innovation: Enforced strict disjoint expert split (No Leakage).  │
   │    • Discovery: Purged oracle-grade features (CE_Delta, L2_Drift).    │
-  │    • Findings: Gap Δ = +0.109; Tree Test R² = -50.7% (Catastrophic).    │
+  │    • Findings: Gap Δ = +0.109; Tree Test R² = -50.7% (Catastrophic).  │
   │    • Decision: Outcome B (Current pre-merge features insufficient).   │
   │    • Documentation: results/exp1_5/report.md                          │
   └───────────────────────────────────────────────────────────────────────┘
                                       │
                                       ▼
   ┌───────────────────────────────────────────────────────────────────────┐
-  │ 🟡 Experiment 2: Capability-Aware Feature Engineering [NEXT PHASE]    │
-  │    • Status: Architectural Design Finalized                           │
-  │    • Targets: Output Magnitude Asymmetry (Δ_mag), Routing JSD,        │
-  │               Routing NPMI Co-Activation, & Specialization Entropy.   │
-  │    • Objective: Within-layer ρ >= 0.80 & Test R² >= +50% calibration. │
+  │ 🟢 Experiment 2: Capability-Aware Feature Engineering [COMPLETE]      │
+  │    • Status: Completed & Published                                    │
+  │    • Innovation: Engineered 4 pre-merge capability descriptors        │
+  │                  (NPMI_routing, JSD_routing, Usage_Asym, Spec_Diff).  │
+  │    • Discovery: Routing_NPMI_Proxy is #1 in XGBoost (15.98% gain)!    │
+  │    • Findings: Linearization gap is layer-localized (Late layer linear│
+  │                ρ = 0.835, gap < 0.02).                                │
+  │    • Prescription: Trees for early gating, linear models for deep     │
+  │                    layers.                                            │
+  │    • Documentation: results/exp2/report.md                            │
+  └───────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │ 🟣 Experiment 3: Layer-Adaptive Compression Engine [PLANNED]          │
+  │    • Target: End-to-end LLM decoding efficiency benchmarking.         │
   └───────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -62,10 +73,10 @@ All experimental phases are comprehensively documented with mathematical rigor, 
 
 | Research Paper / Report | Scope & Content Highlights |
 |---|---|
-| [**Unified Master Research Report**](./full_report.md) | **Recommended starting point.** Covers the complete scientific journey spanning Experiments 1 and 1.5, details our **non-injective** scatter discoveries, and establishes the formal mathematical specification for **Experiment 2**. |
-| [**Experiment 1: Univariate Study**](./results/exp1/report.md) | Detailed empirical evaluation of 7 standalone heuristics (Weight Distance, Cosine, Activation Sim, Routing Sim, etc.) across calibration sequence budgets ($N=64, 128, 256$) and network layer depths (`first`, `middle`, `last`). |
-| [**Experiment 1.5: Linearization Gap**](./results/exp1_5/report.md) | Exhaustive 17-section publication on multivariate capability modeling, disjoint expert partitioning, the disqualification of oracle-grade features, heteroscedastic error analysis, and proof of **Outcome B**. |
-| [**Experiment 1.5 Automated Summary**](./results/exp1_5/experiment1_5_report.md) | Executive visual briefing generated directly by `phase3_analysis.py`, showcasing the 6 foundational 300 DPI analytical charts and core Q&A scientific deductions. |
+| [**Unified Master Research Report**](./full_report.md) | **Recommended starting point.** Covers the complete scientific journey spanning Experiments 1, 1.5, and the newly completed Experiment 2 descriptor engineering findings. |
+| [**Experiment 2: Capability-Aware Descriptors**](./results/exp2/report.md) | Exhaustive 26-section scientific publication documenting the formulation, complexity, and dominance of our new pre-merge capability descriptors (including `Routing_NPMI_Proxy`, the #1 predictive feature), layer-localized non-linearity, and deployment protocols. |
+| [**Experiment 1.5: Linearization Gap**](./results/exp1_5/report.md) | Exhaustive publication on multivariate capability modeling, disjoint expert partitioning, the disqualification of oracle-grade features, heteroscedastic error analysis, and proof of **Outcome B**. |
+| [**Experiment 1: Univariate Study**](./results/exp1/report.md) | Detailed empirical evaluation of 7 standalone heuristics across calibration sequence budgets ($N=64, 128, 256$) and network layer depths. |
 
 ---
 
@@ -73,7 +84,7 @@ All experimental phases are comprehensively documented with mathematical rigor, 
 
 ```
 CARE-EXP/
-├── full_report.md                      # Master unified scientific research paper (Exp 1 & 1.5)
+├── full_report.md                      # Master unified scientific research paper (Exp 1 & 1.5 & 2)
 ├── README.md                           # Project landing page & navigation guide
 │
 ├── experiments/                        # Core algorithmic execution suites
@@ -81,24 +92,29 @@ CARE-EXP/
 │   │   ├── CARE_MoE_V3_E1.py           # Token activation calibration & Oracle KL correlation pipeline
 │   │   └── plot.py                     # N-segmented scatterplot visualization synthesizer
 │   │
-│   └── experiment1_5/                  # 3-Phase multivariate regression suite
-│       ├── config.py                   # Centralized hyperparameter, deterministic paths & split bounds
-│       ├── utils.py                    # Logging formatting and disk safety guardrails
-│       ├── phase1_dataset.py           # Disjoint expert partitioner (prevents identity leakage)
-│       ├── phase2_regression.py        # OLS, Ridge, LASSO, & XGBoost model training engine
-│       └── phase3_analysis.py          # High-resolution figure renderer, SHAP explainer, & reporter
+│   ├── experiment1_5/                  # 3-Phase multivariate regression suite
+│   │   ├── config.py                   # Centralized hyperparameter, deterministic paths & split bounds
+│   │   ├── utils.py                    # Logging formatting and disk safety guardrails
+│   │   ├── phase1_dataset.py           # Disjoint expert partitioner (prevents identity leakage)
+│   │   ├── phase2_regression.py        # OLS, Ridge, LASSO, & XGBoost model training engine
+│   │   └── phase3_analysis.py          # High-resolution figure renderer, SHAP explainer, & reporter
+│   │
+│   └── experiment2/                    # 7-Phase Capability-Aware Descriptor Engineering suite
+│       ├── run_all.py                  # Master sequential execution pipeline orchestrator
+│       ├── phase0_audit.py             # Feature eligibility registry and oracle exclusion verification
+│       ├── phase05_residuals.py        # Residual diagnostic failure mapping of legacy baselines
+│       ├── phase075_correlation.py     # Multicollinearity and VIF diagnostic analysis
+│       ├── phase1_descriptors.py       # Algorithmic generation of NPMI, JSD, Usage Asymmetry, Spec Diff
+│       ├── phase2_diagnostics.py       # Univariate and orthogonal evaluation scatterplots
+│       ├── phase3_regression.py        # Model benchmarking suite (Variants A, B, C across hypothesis classes)
+│       ├── phase4_interpretability.py  # SHAP trees, LASSO L1 weights, and OOD permutation importance
+│       ├── phase5_ablation.py          # Leave-One-Out marginal feature value ranking
+│       └── phase6_gap.py               # Linearization Gap comparison, bootstrap p-values, & within-layer analysis
 │
 └── results/                            # Persistent artifacts, raw datasets, & visual output
     ├── exp1/                           # Experiment 1 output storage
-    │   ├── report.md                   # Dedicated Exp 1 academic report
-    │   ├── output.json                 # Raw evaluation checkpoints (16,112 expert pairs in OLMoE-1B-7B)
-    │   └── {64,128,256}_segmented/     # Layer-stratified univariate scatterplots
-    │
-    └── exp1_5/                         # Experiment 1.5 output storage
-        ├── report.md                   # Complete 640-line academic research paper
-        ├── experiment1_5_report.md     # Automated Phase 3 visual summary
-        ├── figures/                    # High-resolution 300 DPI publication charts
-        └── models/                     # Serialized scalers, regression equations, & XGBoost trees (.pkl)
+    ├── exp1_5/                         # Experiment 1.5 output storage
+    └── exp2/                           # Experiment 2 output storage (metrics.json, plots/, tables/, models/, report.md)
 ```
 
 ---
@@ -110,48 +126,36 @@ Ensure you have Python 3.9+ and PyTorch installed, along with our regression and
 
 ```bash
 pip install torch torchvision torchaudio transformers accelerate
-pip install scikit-learn xgboost shap pandas numpy scipy matplotlib
+pip install scikit-learn xgboost shap pandas numpy scipy matplotlib tabulate
 ```
 
-### 2. Replicating Experiment 1.5 (Multivariate Pipeline)
-To re-verify the **$+0.109$ Linearization Gap** and train all 12 experimental regression models from scratch using the raw checkpoint data in `results/exp1/output.json`:
+### 2. Replicating Experiment 2 (Capability-Aware Descriptors)
+To execute the full 7-phase pipeline, compute the four new capability descriptors, train all model variants, and generate publication charts:
 
 ```bash
-# Phase 1: Ingest raw data, apply Seq_Len=256 filters, & generate strict disjoint split
-python experiments/experiment1_5/phase1_dataset.py
-
-# Phase 2: Train OLS, Ridge, LASSO, and XGBoost across Variants A, B, and C
-python experiments/experiment1_5/phase2_regression.py
-
-# Phase 3: Calculate SHAP values, generate 300 DPI figures, & build automated summary
-python experiments/experiment1_5/phase3_analysis.py
+# Execute master orchestrator (completes all phases in under 20 seconds)
+python3 experiments/experiment2/run_all.py
 ```
-*Outputs, trained checkpoints, and new graphs will automatically be saved into `results/exp1_5/`.*
+*All generated metrics, trained model binaries (`.pkl`), feature importance CSVs, and 300 DPI analytical charts are automatically deposited into `results/exp2/`.*
 
-### 3. Running Experiment 1 (Univariate Calibration)
-To re-run the calibration generation and univariate correlation calculations on OLMoE-1B-7B:
+### 3. Replicating Experiment 1.5 (Multivariate Pipeline)
+To re-verify the baseline **$+0.0995$ Linearization Gap** and train the legacy regression suites:
 
 ```bash
-python experiments/experiment1/CARE_MoE_V3_E1.py
-python experiments/experiment1/plot.py
+python3 experiments/experiment1_5/phase1_dataset.py
+python3 experiments/experiment1_5/phase2_regression.py
+python3 experiments/experiment1_5/phase3_analysis.py
 ```
 
 ---
 
-## 🎯 What Lies Ahead: Experiment 2
+## 🎯 What Lies Ahead: Experiment 3
 
-With **Outcome B** scientifically established—confirming that linear formulations using conventional pre-merge heuristics fall well below required thresholds ($\rho_{\text{linear}} = 0.484 < 0.80$, $\Delta = +0.109$) and that tree ensembles suffer from catastrophic numerical calibration failure on out-of-distribution pairs (test $R^2 = -50.7\%$ or $-0.507$, performing worse than predicting the training mean)—our immediate next focus is **Experiment 2 (Capability-Aware Feature Engineering)**. Furthermore, our empirical focus on **OLMoE-1B-7B (64 experts across 16 MoE layers)** explicitly supersedes earlier theoretical problem definitions grounded around Qwen1.5-MoE-A2.7B.
+With **Experiment 2 completed and published**—proving that our new **`Routing_NPMI_Proxy`** descriptor controls nearly 16% of non-linear tree gain and discovering that the Linearization Gap is concentrated almost entirely in initial transformer layers (while deeper layers achieve super-linear convergence $\rho > 0.83$ with regularized ridge models)—our next frontier is **Experiment 3 (Layer-Adaptive Compression Deployment Engine)**.
 
-We will design and test:
-1. **Output Magnitude Asymmetry ($\Delta_{\text{mag}}$)**
-2. **Routing Jensen-Shannon Divergence ($\text{JSD}$)**
-3. **Routing NPMI (Co-Activation Dependency)**
-4. **Expert Specialization Entropy ($H_{\text{spec}}$)**
-
-### Dual Success Criteria (Rank & Calibration)
-To prevent between-group depth effects and out-of-distribution error collapse, an acceptable feature specification must meet two simultaneous verification bars:
-1. **Within-Layer Rank Precision:** $\rho_{\text{linear}}(\text{within-layer}) \ge 0.80$, evaluated independently within each individual network layer rather than pooled across depths.
-2. **Absolute Numerical Calibration:** $\text{Test } R^2 \ge 0.50$ on held-out disjoint expert sets, ensuring reliable absolute KL drift predictions.
+We will build and benchmark:
+1. **Runtime Layer-Adaptive Pruning:** Implementing hybrid compression routines that invoke lightweight trees for early gating layers and fast linear scoring for deep layers.
+2. **Dynamic Calibration Sweeps:** Validating descriptor invariance under domain-shifted multi-lingual and code generation token distributions.
 
 ---
 

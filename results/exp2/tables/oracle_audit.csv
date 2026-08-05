@@ -1,0 +1,24 @@
+Column,Classification,CARE_Eligible,Reason
+Activation_Similarity,Pre-Merge,✓,Mean cosine similarity of intermediate activations between two experts on calibration data. Requires only a single forward pass through the original (unmerged) model.
+CrossEntropy_Delta,Oracle-Dependent,✗,Difference in cross-entropy loss between original and merged model. REQUIRES creating the merged expert and running a forward pass through the merged model. Cannot be computed pre-merge.
+Expert_A,Metadata,✗,"Index of first expert in the pair. Identity information, not a feature."
+Expert_B,Metadata,✗,"Index of second expert in the pair. Identity information, not a feature."
+Hidden_L2_Drift,Oracle-Dependent,✗,L2 distance between hidden states of original vs. merged model at the MoE layer. REQUIRES creating the merged expert and running both original and merged forward passes.
+Jaccard_Overlap,Pre-Merge,✓,Jaccard index of token sets routed to each expert (|A∩B|/|A∪B|). Computed from the original router's top-k selection.
+Layer,Metadata,✗,Network layer label (first/middle/last). Used to derive Relative_Depth.
+Max_VRAM_MB,Metadata,✗,Peak GPU memory during oracle evaluation. Infrastructure metric.
+Oracle_KL,Target,✗,KL divergence between original and merged model output distributions. This IS the oracle — the quantity we are trying to predict.
+Oracle_KL_SplitA,Target (Split),✗,Oracle KL computed on first half of calibration data. Used for split-sample stability validation only.
+Oracle_KL_SplitB,Target (Split),✗,Oracle KL computed on second half of calibration data. Used for split-sample stability validation only.
+Output_Similarity,Pre-Merge,✓,Mean cosine similarity of expert output tensors on calibration data. Requires only a single forward pass through the original model.
+Random_Baseline,Metadata,✗,Random number for baseline comparison. Not a meaningful feature.
+Router_Entropy_Merged,Oracle-Dependent,✗,Mean entropy of the merged model's router distribution. REQUIRES creating the merged expert and running a forward pass.
+Router_Entropy_Orig,Oracle-Dependent,✗,"Mean entropy of the original router's softmax distribution. Although this measures the UNmerged router, it is computed inside the oracle evaluation function (run_oracle_pair) as a byproduct. Empirically verified to be CONSTANT across all pairs within a layer (std=0.0), making it useless as a pairwise feature regardless of classification. Extracting it independently would require a separate calibration run not present in the current pipeline."
+Routing_Similarity,Pre-Merge,✓,Pearson correlation between router probability vectors for the two experts. Computed from the original model's gating network output.
+Runtime_Sec,Metadata,✗,Wall-clock time for oracle evaluation. Infrastructure metric.
+Seq_Len,Metadata,✗,"Calibration sequence length. Experimental condition, not a feature."
+Top1_Routing_Agreement,Oracle-Dependent,✗,Fraction of tokens where the original and merged router agree on top-1 expert selection. REQUIRES the merged model.
+TopK_Routing_Agreement,Oracle-Dependent,✗,Fraction of tokens where the original and merged router agree on top-k expert selection. REQUIRES the merged model.
+Usage_Frequency,Pre-Merge,✓,Fraction of tokens routed to either expert (|A∪B|/N). Computed from the original router's top-k selection.
+Weight_Cosine,Pre-Merge,✓,Cosine similarity between flattened expert weight tensors. Computable directly from model parameters without any forward pass.
+Weight_Distance,Pre-Merge,✓,L2 norm between flattened expert weight tensors. Computable directly from model parameters without any forward pass.
