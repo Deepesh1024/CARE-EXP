@@ -32,7 +32,7 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │ • Combined pre-merge features via LASSO, Ridge, XGBoost│
    │ • Enforced strict disjoint expert split (No Leakage)   │
    │ • Removed oracle-grade features (CE_Delta, L2_Drift)   │
-   │ • RESULT: Linearization Gap Δ = +0.100, Linear R² = 33.2% │
+   │ • RESULT: Gap Δ = +0.109; Tree Test R² = -50.7% (Catastrophic)│
    │ • DECISION: Outcome B (Existing features insufficient) │
    └────────────────────────────────────────────────────────┘
                                │
@@ -40,7 +40,7 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    ┌────────────────────────────────────────────────────────┐
    │ Experiment 2: Capability-Aware Feature Engineering     │
    │ • Design asymmetric magnitude & distributional metrics │
-   │ • Target: Lift linear ρ to exceed tree baseline (0.59) │
+   │ • Criteria: Within-layer ρ ≥ 0.80 & Test R² ≥ +50%      │
    └────────────────────────────────────────────────────────┘
 ```
 
@@ -128,8 +128,8 @@ We trained 12 experimental models combining 4 regression architectures across 3 
 
 ## 4. Analytical Evaluation & Visual Evidence
 
-### The Linearization Gap ($\Delta = +0.100$)
-With comprehensive layer coverage at $N=256$, the difference between our best nonlinear model (XGBoost_B: $\rho = 0.677$) and our best linear model (LinearRegression_A: $\rho = 0.578$, test $R^2 = 33.24\%$) is **$\Delta = +0.100$**.
+### The Linearization Gap ($\Delta = +0.109$)
+Evaluating across our disjoint test partition ($N=256$, `first` and `middle` layers), the difference between our best nonlinear model (XGBoost_B: $\rho = 0.593$) and our best linear model (LASSO_A: $\rho = 0.484$, test $R^2 = +3.7\%$) is **$\Delta = +0.109$**.
 
 ![Linearization Gap Across Models & Variants](./results/exp1_5/figures/06_linearization_gap.png)
 
@@ -160,7 +160,7 @@ Two prominent collinear pairs emerge in our **correlation analysis**: `Weight_Co
 *Insights:* Under linear L1 regularization, Weight Distance, Output Similarity, and Usage Frequency dominate, while Activation Similarity is assigned near-zero utility.
 
 ### Error Pathology: Tail-Blindness & Variance Deficit
-Why did all models exhibit near-zero or negative test $R^2$ ($\le 3.7\%$ variance explained)?
+Why did our best linear model achieve negligible variance explanation ($R^2 = +3.7\%$) and our best tree model collapse into negative out-of-distribution calibration ($R^2 = -50.7\%$)?
 
 #### Predicted vs. Oracle Scatter
 
@@ -181,9 +181,9 @@ Why did all models exhibit near-zero or negative test $R^2$ ($\le 3.7\%$ varianc
 ## 1. Unified Conclusion: Outcome B (Existing Features Insufficient)
 Our foundational research experiments establish two irrefutable principles regarding Mixture-of-Experts parameter merging:
 1. **Univariate Heuristics Fail (Exp 1):** No individual geometric, activation, or routing descriptor directly represents expert capability or predicts Oracle KL degradation.
-2. **Standard Multivariate Feature Spaces Fall Short (Exp 1.5):** Even when combined via nonlinear tree ensembles ($\rho = 0.677$), existing pre-merge features fall below our target precision ($\rho \ge 0.80$), suffer from a persistent $+0.100$ linearization gap, and exhibit extreme out-of-distribution variance on high-risk tail merges.
+2. **Standard Multivariate Feature Spaces Fall Short (Exp 1.5):** Even when combined via nonlinear tree ensembles ($\rho = 0.593$), existing pre-merge features fall below target rank precision ($\rho \ge 0.80$), suffer from a $+0.109$ linearization gap, and fail catastrophically on numerical generalization ($R^2 = -50.7\%$, worse than predicting the training mean). Furthermore, within-layer evaluation proves that pooled correlation relies heavily on depth separation (`Relative_Depth` gain = 0.220), with ranking precision degrading sharply within intermediate network layers.
 
-**Hypothesis Evaluation:** Because $\rho_{\text{linear}} = 0.578 < 0.80$ and $\Delta = 0.100 > 0.05$, the null hypothesis cannot be rejected. We determine **Outcome B**: current features are representationally insufficient. CARE cannot advance to deployment (Experiment 3) without engineering new capability-aware descriptors.
+**Hypothesis Evaluation:** Because $\rho_{\text{linear}} = 0.484 < 0.80$ and $\Delta = 0.109 > 0.05$, the null hypothesis cannot be rejected. We determine **Outcome B**: current features are representationally and computationally insufficient for operational pre-merge estimation.
 
 ---
 
@@ -200,10 +200,10 @@ To bridge the linearization gap and eliminate tail-blindness, **Experiment 2** w
 | **Routing NPMI (Co-Activation)** | $\text{NPMI}(E_i, E_j) = \frac{\ln\big(P(E_i, E_j) / (P(E_i)P(E_j))\big)}{-\ln P(E_i, E_j)}$ | Identifies whether experts co-activate beyond statistical chance on complex tokens, indicating symbiotic complementary processing rather than redundancy. |
 | **Specialization Entropy ($H_{\text{spec}}$)** | $H(P_{i}) = -\sum_{k} p_{i,k} \ln p_{i,k}$ over sequence tokens | Differentiates broad generalist experts from specialized niche experts. Merging generalists with specialists reliably triggers severe high-drift tail degradation. |
 
-### Experiment 2 Success Criterion
-The primary success criterion for Experiment 2 is closing the representation gap such that a simple, interpretable linear regression model utilizing our augmented feature family equals or surpasses our current nonlinear XGBoost ceiling:
-$$\rho_{\text{linear}}(\text{Augmented Features}) \ge \rho_{\text{tree}}(\text{Old Features}) \approx 0.593$$
-Achieving this threshold will confirm that CARE has captured latent expert capability within an efficient, scalable analytical form ready for full model integration.
+### Experiment 2 Success Criteria (Dual Requirement: Rank & Calibration)
+An acceptable capability-aware pre-merge predictor must satisfy two rigorous verification thresholds simultaneously:
+1. **Within-Layer Rank Precision:** $\rho_{\text{linear}}(\text{within-layer}) \ge 0.80$. Because expert merging occurs within individual transformer layers, ranking accuracy must be verified independently within each layer rather than pooled across depths.
+2. **Absolute Numerical Calibration:** $\text{Test } R^2 \ge 0.50$ on held-out disjoint expert sets. A model that ranks adequately but exhibits negative test R² (worse than predicting the training mean, as observed in Exp 1.5 where XGBoost_B collapsed to $R^2 = -50.7\%$) cannot safely guide automated compression thresholds.
 
 ---
 
@@ -221,5 +221,5 @@ All scripts, datasets, and visualizations supporting Experiments 1 and 1.5 are p
 | `experiments/experiment1_5/phase3_analysis.py` | High-resolution figure synthesizer, SHAP calculator, and gap diagnostic engine. |
 | `results/exp1/report.md` | Complete dedicated scientific research report for Experiment 1 (with embedded plots). |
 | `results/exp1_5/report.md` | Complete dedicated scientific research report for Experiment 1.5 (with embedded plots). |
-| `results/exp1/output.json` | Master raw operational dataset (18,644 evaluated expert pairs in OLMoE-1B-7B across all layers). |
+| `results/exp1/output.json` | Master raw operational dataset (16,112 evaluated expert pairs in OLMoE-1B-7B across completed calibration slices). |
 | `results/exp1_5/models/*.pkl` | Serialized checkpoints of trained linear scalers, OLS/LASSO equations, and XGBoost trees. |

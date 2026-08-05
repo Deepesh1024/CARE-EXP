@@ -39,7 +39,7 @@ The **CARE-MoE** research program is dedicated to solving this problem not by pr
   │    • Status: Completed & Published                                    │
   │    • Innovation: Enforced strict disjoint expert split (No Leakage).  │
   │    • Discovery: Purged oracle-grade features (CE_Delta, L2_Drift).    │
-  │    • Findings: Linearization Gap Δ = +0.100; Linear R² = 33.2%.         │
+  │    • Findings: Gap Δ = +0.109; Tree Test R² = -50.7% (Catastrophic).    │
   │    • Decision: Outcome B (Current pre-merge features insufficient).   │
   │    • Documentation: results/exp1_5/report.md                          │
   └───────────────────────────────────────────────────────────────────────┘
@@ -50,7 +50,7 @@ The **CARE-MoE** research program is dedicated to solving this problem not by pr
   │    • Status: Architectural Design Finalized                           │
   │    • Targets: Output Magnitude Asymmetry (Δ_mag), Routing JSD,        │
   │               Routing NPMI Co-Activation, & Specialization Entropy.   │
-  │    • Objective: Lift linear prediction above tree ceiling (ρ >= 0.59).│
+  │    • Objective: Within-layer ρ >= 0.80 & Test R² >= +50% calibration. │
   └───────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -91,7 +91,7 @@ CARE-EXP/
 └── results/                            # Persistent artifacts, raw datasets, & visual output
     ├── exp1/                           # Experiment 1 output storage
     │   ├── report.md                   # Dedicated Exp 1 academic report
-    │   ├── output.json                 # Raw evaluation checkpoints (18,644 expert pairs in OLMoE-1B-7B)
+    │   ├── output.json                 # Raw evaluation checkpoints (16,112 expert pairs in OLMoE-1B-7B)
     │   └── {64,128,256}_segmented/     # Layer-stratified univariate scatterplots
     │
     └── exp1_5/                         # Experiment 1.5 output storage
@@ -114,7 +114,7 @@ pip install scikit-learn xgboost shap pandas numpy scipy matplotlib
 ```
 
 ### 2. Replicating Experiment 1.5 (Multivariate Pipeline)
-To re-verify the **$+0.100$ Linearization Gap** and train all 12 experimental regression models from scratch using the raw checkpoint data in `results/exp1/output.json`:
+To re-verify the **$+0.109$ Linearization Gap** and train all 12 experimental regression models from scratch using the raw checkpoint data in `results/exp1/output.json`:
 
 ```bash
 # Phase 1: Ingest raw data, apply Seq_Len=256 filters, & generate strict disjoint split
@@ -140,7 +140,7 @@ python experiments/experiment1/plot.py
 
 ## 🎯 What Lies Ahead: Experiment 2
 
-With **Outcome B** scientifically established—confirming that linear formulations using conventional pre-merge heuristics fall below the required similarity threshold ($\rho_{\text{linear}} = 0.578 < 0.80$, $\Delta = +0.100$)—our immediate next focus is **Experiment 2 (Capability-Aware Feature Engineering)**. 
+With **Outcome B** scientifically established—confirming that linear formulations using conventional pre-merge heuristics fall well below required thresholds ($\rho_{\text{linear}} = 0.484 < 0.80$, $\Delta = +0.109$) and that tree ensembles suffer from catastrophic numerical calibration failure on out-of-distribution pairs (test $R^2 = -50.7\%$ or $-0.507$, performing worse than predicting the training mean)—our immediate next focus is **Experiment 2 (Capability-Aware Feature Engineering)**. Furthermore, our empirical focus on **OLMoE-1B-7B (64 experts across 16 MoE layers)** explicitly supersedes earlier theoretical problem definitions grounded around Qwen1.5-MoE-A2.7B.
 
 We will design and test:
 1. **Output Magnitude Asymmetry ($\Delta_{\text{mag}}$)**
@@ -148,7 +148,10 @@ We will design and test:
 3. **Routing NPMI (Co-Activation Dependency)**
 4. **Expert Specialization Entropy ($H_{\text{spec}}$)**
 
-Our success criterion is achieving a linear regression Spearman rank correlation that equals or surpasses the existing nonlinear decision tree ceiling: $\rho_{\text{linear}} \ge 0.593$.
+### Dual Success Criteria (Rank & Calibration)
+To prevent between-group depth effects and out-of-distribution error collapse, an acceptable feature specification must meet two simultaneous verification bars:
+1. **Within-Layer Rank Precision:** $\rho_{\text{linear}}(\text{within-layer}) \ge 0.80$, evaluated independently within each individual network layer rather than pooled across depths.
+2. **Absolute Numerical Calibration:** $\text{Test } R^2 \ge 0.50$ on held-out disjoint expert sets, ensuring reliable absolute KL drift predictions.
 
 ---
 

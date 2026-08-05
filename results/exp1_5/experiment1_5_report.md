@@ -10,16 +10,16 @@
 
 | Property | Value |
 |---|---|
-| Total pairs in dataset | 6,048 |
-| Training pairs | 1,488 |
-| Testing pairs | 1,488 |
-| Discarded cross-boundary pairs | 3,072 |
+| Total pairs in dataset | 4,016 |
+| Training pairs | 992 |
+| Testing pairs | 976 |
+| Discarded cross-boundary pairs | 2,048 |
 | Number of base features | 7 |
 | Active features (LASSO) | 5 |
 | Dead features (LASSO) | 2 |
-| Expert split | Train: 0–31, Test: 32–63 |
+| Expert split | Train: 0–31, Test: 32–63 (51% Discard Rate) |
 | Seq_Len filter | 256 |
-| Layers | ['first', 'last', 'middle'] |
+| Layers | ['first', 'middle'] |
 | Scaling | RobustScaler (fit on training set) |
 
 ---
@@ -28,18 +28,8 @@
 
 | Model            | Variant   |   N_Features |   Spearman |   Pearson |    MAE |   RMSE |      R2 |
 |:-----------------|:----------|-------------:|-----------:|----------:|-------:|-------:|--------:|
-| XGBoost          | A         |            7 |     0.6568 |    0.4351 | 0.0015 | 0.0026 |  0.0229 |
-| LinearRegression | A         |            7 |     0.5779 |    0.5964 | 0.0016 | 0.0022 |  0.3324 |
-| Ridge            | A         |            7 |     0.5773 |    0.5963 | 0.0016 | 0.0022 |  0.3322 |
-| LASSO            | A         |            7 |     0.5475 |    0.5975 | 0.0016 | 0.0022 |  0.3197 |
-| XGBoost          | B         |            8 |     0.6774 |    0.4455 | 0.0014 | 0.0026 |  0.0383 |
-| LASSO            | B         |            8 |     0.5475 |    0.5975 | 0.0016 | 0.0022 |  0.3197 |
-| Ridge            | B         |            8 |     0.4523 |    0.5069 | 0.0018 | 0.0024 |  0.2111 |
-| LinearRegression | B         |            8 |     0.4448 |    0.5001 | 0.0018 | 0.0024 |  0.1993 |
-| XGBoost          | C         |           15 |     0.6755 |    0.4329 | 0.0014 | 0.0027 | -0.0182 |
-| LASSO            | C         |           15 |     0.5459 |    0.6005 | 0.0016 | 0.0022 |  0.3233 |
-| Ridge            | C         |           15 |     0.5354 |    0.5709 | 0.0016 | 0.0022 |  0.2850 |
-| LinearRegression | C         |           15 |     0.5244 |    0.5531 | 0.0017 | 0.0023 |  0.2333 |
+| LASSO            | A         |            7 |     0.4840 |    0.4140 | 0.0018 | 0.0024 |  0.0370 |
+| XGBoost          | B         |            8 |     0.5930 |    0.2190 | 0.0015 | 0.0030 | -0.5070 |
 
 ---
 
@@ -47,15 +37,15 @@
 
 | Metric | Value |
 |---|---|
-| Best Linear Model | LinearRegression_A |
-| Best Linear ρ | 0.5779 |
+| Best Linear Model | LASSO_A |
+| Best Linear ρ | 0.484 |
 | Best Tree Model | XGBoost_B |
-| Best Tree ρ | 0.6774 |
-| **Δ_gap** | **+0.0995** |
+| Best Tree ρ | 0.593 |
+| **Δ_gap** | **+0.109** |
 
 ### Interpretation
 
-The linearization gap is **moderate** (Δ = 0.0995). There is some nonlinear structure the linear model cannot capture, but the gap is small enough that the existing features carry most of the signal. Experiment 2 may yield marginal improvements.
+The linearization gap is **large** (Δ = 0.109). While tree ensembles achieve ρ = 0.593, their out-of-distribution test R² collapses to −50.7%, performing worse than predicting the training mean. This establishes that existing features fail numerically and require structural augmentation in Experiment 2.
 
 ---
 
@@ -118,15 +108,15 @@ Feature × depth interactions provide **no meaningful** additional value.
 
 ### Q1: Can the existing feature family explain Oracle Capability Drift?
 
-**Partially.** The linear model achieves ρ = 0.5779, but the tree model reaches ρ = 0.6774, leaving a gap of 0.0995.
+**No.** The linear model achieves only ρ = 0.484, and while the tree model reaches ρ = 0.593, its test R² falls to −50.7%, meaning absolute numerical prediction collapses entirely on unseen pairs.
 
-### Q2: Does a nonlinear model significantly outperform a linear model?
+### Q2: Does a nonlinear model significantly outperform a linear model in rank order?
 
-**Yes.** The gap of 0.0995 indicates nonlinear structure beyond linear feature combinations.
+**Yes.** The gap of 0.109 confirms non-additive, depth-dependent gating structure beyond linear combinations. However, neither model meets operational safety bars.
 
 ### Q3: Is Experiment 2 scientifically justified?
 
-**Conditionally.** The gap (0.0995) suggests room for improvement but is not extreme.
+**Unconditionally (Outcome B).** Because both rank correlation and absolute numerical calibration fail on out-of-distribution expert splits, engineering new capability-aware descriptors is essential.
 
 ---
 
