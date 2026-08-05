@@ -122,7 +122,7 @@ In early layers, token routing is primarily structural. While weight-space featu
 
 ![Weight Distance Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Weight_Distance.png)
 
-*Scientific Commentary:* Weight Distance demonstrates an approximate triangular bounding contour. While minimal weight distances rarely induce extreme KL drift, moderate-to-high distances span the entire vertical drift spectrum, preventing precise ranking thresholds.
+*Scientific Commentary:* Weight Distance demonstrates an approximate **triangular bounding contour**. While minimal weight distances rarely induce extreme KL drift, moderate-to-high distances span the entire vertical drift spectrum, preventing precise ranking thresholds.
 
 ### Weight Cosine Scatter Profile ($N=256$, First Layer)
 
