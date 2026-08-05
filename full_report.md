@@ -139,7 +139,7 @@ This substantial gap demonstrates that **non-additive, depth-dependent** feature
 
 ![Feature Correlation Heatmap](./results/exp1_5/figures/01_correlation_heatmap.png)
 
-Two prominent collinear pairs emerge in our correlation analysis: `Weight_Cosine` with `Output_Similarity` ($r = 0.79$), and `Routing_Similarity` with `Jaccard_Overlap` ($r = 0.79$). While LASSO zeroes out redundant counterparts, XGBoost exploits both to extract nonlinear gain.
+Two prominent collinear pairs emerge in our **correlation analysis**: `Weight_Cosine` with `Output_Similarity` ($r = 0.79$), and `Routing_Similarity` with `Jaccard_Overlap` ($r = 0.79$). While LASSO zeroes out redundant counterparts, XGBoost exploits both to extract nonlinear gain.
 
 #### XGBoost Gain Importance
 
