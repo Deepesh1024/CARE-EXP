@@ -128,7 +128,7 @@ In early layers, token routing is primarily structural. While weight-space featu
 
 ![Weight Cosine Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Weight_Cosine.png)
 
-*Scientific Commentary:* Displays severe vertical variance at high cosine alignments (>0.8). Parameter direction alignment does not guarantee functional safety upon weight averaging.
+*Scientific Commentary:* Displays **severe vertical variance** at high cosine alignments (>0.8). Parameter direction alignment does not guarantee functional safety upon weight averaging.
 
 ### Output Similarity Scatter Profile ($N=256$, First Layer)
 
