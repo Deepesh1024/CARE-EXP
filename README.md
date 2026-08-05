@@ -62,7 +62,7 @@ All experimental phases are comprehensively documented with mathematical rigor, 
 
 | Research Paper / Report | Scope & Content Highlights |
 |---|---|
-| [**Unified Master Research Report**](./full_report.md) | **Recommended starting point.** Covers the complete scientific journey spanning Experiments 1 and 1.5, details our non-injective scatter discoveries, and establishes the formal mathematical specification for **Experiment 2**. |
+| [**Unified Master Research Report**](./full_report.md) | **Recommended starting point.** Covers the complete scientific journey spanning Experiments 1 and 1.5, details our **non-injective** scatter discoveries, and establishes the formal mathematical specification for **Experiment 2**. |
 | [**Experiment 1: Univariate Study**](./results/exp1/report.md) | Detailed empirical evaluation of 7 standalone heuristics (Weight Distance, Cosine, Activation Sim, Routing Sim, etc.) across calibration sequence budgets ($N=64, 128, 256$) and network layer depths (`first`, `middle`, `last`). |
 | [**Experiment 1.5: Linearization Gap**](./results/exp1_5/report.md) | Exhaustive 17-section publication on multivariate capability modeling, disjoint expert partitioning, the disqualification of oracle-grade features, heteroscedastic error analysis, and proof of **Outcome B**. |
 | [**Experiment 1.5 Automated Summary**](./results/exp1_5/experiment1_5_report.md) | Executive visual briefing generated directly by `phase3_analysis.py`, showcasing the 6 foundational 300 DPI analytical charts and core Q&A scientific deductions. |
