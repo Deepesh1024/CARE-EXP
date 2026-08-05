@@ -11,7 +11,7 @@
 
 ## 🔬 Core Research Vision
 
-As **Mixture-of-Experts (MoE)** architectures dominate large-scale model scaling, compressing layer parameters via expert merging becomes essential for deployment efficiency. However, conventional pruning and averaging heuristics struggle because they rely either on basic parameter distance—which destroys model performance—or iterative **oracle evaluation** (re-running forward passes after each test merge), which is computationally intractable at scale.
+As **Mixture-of-Experts (MoE)** architectures dominate large-scale model scaling, compressing layer parameters via expert merging becomes essential for deployment efficiency. However, conventional pruning and averaging heuristics struggle because they rely either on basic **parameter distance**—which destroys model performance—or iterative **oracle evaluation** (re-running forward passes after each test merge), which is computationally intractable at scale.
 
 The **CARE-MoE** research program is dedicated to solving this problem not by proposing ad-hoc compression hacks, but by discovering mathematically rigorous, pre-merge descriptors that model **latent expert capability**, **domain specialization**, and **operational redundancy**.
 
