@@ -134,7 +134,7 @@ In early layers, token routing is primarily structural. While weight-space featu
 
 ![Output Similarity Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Output_Similarity.png)
 
-*Scientific Commentary:* Complete horizontal scattering across similarity values with invariant vertical drift distribution. Output representation matching provides zero protection against destructive merges.
+*Scientific Commentary:* **Complete horizontal scattering** across similarity values with invariant vertical drift distribution. Output representation matching provides zero protection against destructive merges.
 
 ### Routing Similarity Profile ($N=64$, First Layer)
 
