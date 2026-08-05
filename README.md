@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3.9+-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-orange.svg)
 
-> **An explainable, lightweight research framework for quantifying expert capability, redundancy, and mergeability in Mixture-of-Experts (MoE) language models without expensive oracle forward-pass evaluations.**
+> **An explainable, lightweight research framework for quantifying **expert capability**, redundancy, and mergeability in Mixture-of-Experts (MoE) language models without expensive oracle forward-pass evaluations.**
 
 ---
 
