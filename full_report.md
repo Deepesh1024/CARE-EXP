@@ -133,7 +133,7 @@ With comprehensive layer coverage at $N=256$, the difference between our best no
 
 ![Linearization Gap Across Models & Variants](./results/exp1_5/figures/06_linearization_gap.png)
 
-This substantial gap demonstrates that non-additive, depth-dependent feature interactions contain critical ranking signals that linear models cannot access. When depth interactions are linearly injected (Variants B & C), OLS and Ridge models collapse ($\rho \approx 0.20$), indicating complex, nonlinear modulation across network layers.
+This substantial gap demonstrates that **non-additive, depth-dependent** feature interactions contain critical ranking signals that linear models cannot access. When depth interactions are linearly injected (Variants B & C), OLS and Ridge models collapse ($\rho \approx 0.20$), indicating complex, nonlinear modulation across network layers.
 
 ### Feature Importance & Multicollinearity
 
