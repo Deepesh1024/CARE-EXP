@@ -255,7 +255,7 @@ The gap of +0.100 exceeds the 0.05 threshold defined in H₁, and both models fa
 
 ![Feature-Target Correlation Matrix (Training Set)](./figures/01_correlation_heatmap.png)
 
-The Pearson correlation heatmap reveals several important structural properties:
+The Pearson correlation heatmap reveals several important **structural properties**:
 
 **Target correlations are weak.** The bottom row shows Pearson correlations between each feature and Oracle_KL. The strongest correlation is Usage_Frequency (r = +0.23), followed by Weight_Distance (r = −0.22). All other features have |r| ≤ 0.07, confirming the Experiment 1 finding that individual features are poor predictors.
 
