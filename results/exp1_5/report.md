@@ -345,7 +345,7 @@ The predicted-vs-actual scatter for XGBoost_B reveals severe pathologies:
 
 ![Residuals — XGBoost_B](./figures/05_residual_plot.png)
 
-The residual plot exhibits a strong **heteroscedastic fan pattern**:
+The residual diagnostic plot exhibits a strong **heteroscedastic fan pattern**:
 
 - For predicted values < 0.005 (the bulk of predictions), residuals are centered near zero with moderate variance.
 - As predicted values increase, residuals become systematically negative, indicating the model overpredicts for pairs in the moderate-drift range.
