@@ -170,7 +170,7 @@ In terminal layers ($N \in \{64, 128\}$), experts directly shape vocabulary logi
 
 ![Weight Distance Scatter Profile (N=128, Last Layer)](./128_segmented/last/scatter_last_Weight_Distance.png)
 
-*Scientific Commentary:* Terminal layers exhibit discrete, high-drift outliers along the top vertical axis that appear entirely uncorrelated with weight L2 magnitude.
+*Scientific Commentary:* Terminal layers exhibit discrete, **high-drift outliers** along the top vertical axis that appear entirely uncorrelated with weight L2 magnitude.
 
 ### Output Similarity Scatter Profile ($N=128$, Last Layer)
 
