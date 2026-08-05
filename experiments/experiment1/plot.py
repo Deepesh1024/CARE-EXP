@@ -32,13 +32,15 @@ if df_256.empty:
     raise ValueError("WARNING: No data for N=256 found in the checkpoint.")
 
 # 4. Define target parameters strictly for completed layers
-layers = ["first", "middle"]
+layers = ["first", "middle", "last"]
 proxies = [
     "Weight_Distance", 
     "Weight_Cosine", 
     "Activation_Similarity", 
     "Output_Similarity", 
-    "Routing_Similarity"
+    "Routing_Similarity",
+    "Usage_Frequency",
+    "Jaccard_Overlap"
 ]
 
 # 5. Execute segmented plotting

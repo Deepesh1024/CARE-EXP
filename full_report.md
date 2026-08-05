@@ -32,7 +32,7 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │ • Combined pre-merge features via LASSO, Ridge, XGBoost│
    │ • Enforced strict disjoint expert split (No Leakage)   │
    │ • Removed oracle-grade features (CE_Delta, L2_Drift)   │
-   │ • RESULT: Linearization Gap Δ = +0.109, test R² ≤ 3.7% │
+   │ • RESULT: Linearization Gap Δ = +0.100, Linear R² = 33.2% │
    │ • DECISION: Outcome B (Existing features insufficient) │
    └────────────────────────────────────────────────────────┘
                                │
@@ -128,8 +128,8 @@ We trained 12 experimental models combining 4 regression architectures across 3 
 
 ## 4. Analytical Evaluation & Visual Evidence
 
-### The Linearization Gap ($\Delta = +0.109$)
-The difference between our best nonlinear model (XGBoost_B: $\rho = 0.593$) and our best linear model (LASSO_A: $\rho = 0.484$) is **$\Delta = +0.109$**.
+### The Linearization Gap ($\Delta = +0.100$)
+With comprehensive layer coverage at $N=256$, the difference between our best nonlinear model (XGBoost_B: $\rho = 0.677$) and our best linear model (LinearRegression_A: $\rho = 0.578$, test $R^2 = 33.24\%$) is **$\Delta = +0.100$**.
 
 ![Linearization Gap Across Models & Variants](./results/exp1_5/figures/06_linearization_gap.png)
 
@@ -181,9 +181,9 @@ Why did all models exhibit near-zero or negative test $R^2$ ($\le 3.7\%$ varianc
 ## 1. Unified Conclusion: Outcome B (Existing Features Insufficient)
 Our foundational research experiments establish two irrefutable principles regarding Mixture-of-Experts parameter merging:
 1. **Univariate Heuristics Fail (Exp 1):** No individual geometric, activation, or routing descriptor directly represents expert capability or predicts Oracle KL degradation.
-2. **Standard Multivariate Feature Spaces Fall Short (Exp 1.5):** Even when combined via nonlinear tree ensembles, existing pre-merge features explain less than 4% of target variance, suffer from a $+0.109$ linearization gap, and fail catastrophically on high-risk tail merges.
+2. **Standard Multivariate Feature Spaces Fall Short (Exp 1.5):** Even when combined via nonlinear tree ensembles ($\rho = 0.677$), existing pre-merge features fall below our target precision ($\rho \ge 0.80$), suffer from a persistent $+0.100$ linearization gap, and exhibit extreme out-of-distribution variance on high-risk tail merges.
 
-**Hypothesis Evaluation:** Because $\rho_{\text{linear}} = 0.484 < 0.80$ and $\Delta = 0.109 > 0.05$, the null hypothesis cannot be rejected. We determine **Outcome B**: current features are representationally insufficient. CARE cannot advance to deployment (Experiment 3) without engineering new capability-aware descriptors.
+**Hypothesis Evaluation:** Because $\rho_{\text{linear}} = 0.578 < 0.80$ and $\Delta = 0.100 > 0.05$, the null hypothesis cannot be rejected. We determine **Outcome B**: current features are representationally insufficient. CARE cannot advance to deployment (Experiment 3) without engineering new capability-aware descriptors.
 
 ---
 
@@ -221,5 +221,5 @@ All scripts, datasets, and visualizations supporting Experiments 1 and 1.5 are p
 | `experiments/experiment1_5/phase3_analysis.py` | High-resolution figure synthesizer, SHAP calculator, and gap diagnostic engine. |
 | `results/exp1/report.md` | Complete dedicated scientific research report for Experiment 1 (with embedded plots). |
 | `results/exp1_5/report.md` | Complete dedicated scientific research report for Experiment 1.5 (with embedded plots). |
-| `results/exp1/output.json` | Master raw operational dataset (16,112 evaluated expert pairs in OLMoE-1B-7B). |
+| `results/exp1/output.json` | Master raw operational dataset (18,644 evaluated expert pairs in OLMoE-1B-7B across all layers). |
 | `results/exp1_5/models/*.pkl` | Serialized checkpoints of trained linear scalers, OLS/LASSO equations, and XGBoost trees. |

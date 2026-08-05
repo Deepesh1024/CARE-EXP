@@ -10,16 +10,16 @@
 
 | Property | Value |
 |---|---|
-| Total pairs in dataset | 4,016 |
-| Training pairs | 992 |
-| Testing pairs | 976 |
-| Discarded cross-boundary pairs | 2,048 |
+| Total pairs in dataset | 6,048 |
+| Training pairs | 1,488 |
+| Testing pairs | 1,488 |
+| Discarded cross-boundary pairs | 3,072 |
 | Number of base features | 7 |
-| Active features (LASSO) | 7 |
-| Dead features (LASSO) | 0 |
+| Active features (LASSO) | 5 |
+| Dead features (LASSO) | 2 |
 | Expert split | Train: 0–31, Test: 32–63 |
 | Seq_Len filter | 256 |
-| Layers | ['first', 'middle'] |
+| Layers | ['first', 'last', 'middle'] |
 | Scaling | RobustScaler (fit on training set) |
 
 ---
@@ -28,18 +28,18 @@
 
 | Model            | Variant   |   N_Features |   Spearman |   Pearson |    MAE |   RMSE |      R2 |
 |:-----------------|:----------|-------------:|-----------:|----------:|-------:|-------:|--------:|
-| XGBoost          | A         |            7 |     0.5595 |    0.2128 | 0.0016 | 0.0029 | -0.4946 |
-| LASSO            | A         |            7 |     0.4836 |    0.4139 | 0.0018 | 0.0024 |  0.0367 |
-| Ridge            | A         |            7 |     0.4760 |    0.4345 | 0.0018 | 0.0024 |  0.0007 |
-| LinearRegression | A         |            7 |     0.4757 |    0.4343 | 0.0018 | 0.0024 | -0.0011 |
-| XGBoost          | B         |            8 |     0.5927 |    0.2193 | 0.0015 | 0.0030 | -0.5066 |
-| LASSO            | B         |            8 |     0.4300 |    0.3881 | 0.0018 | 0.0024 |  0.0022 |
-| Ridge            | B         |            8 |     0.2495 |    0.2495 | 0.0021 | 0.0029 | -0.4778 |
-| LinearRegression | B         |            8 |     0.2334 |    0.2338 | 0.0022 | 0.0030 | -0.5528 |
-| XGBoost          | C         |           15 |     0.5725 |    0.1974 | 0.0016 | 0.0030 | -0.5919 |
-| LASSO            | C         |           15 |     0.4057 |    0.4207 | 0.0017 | 0.0023 |  0.0699 |
-| Ridge            | C         |           15 |     0.2060 |    0.2379 | 0.0020 | 0.0029 | -0.4154 |
-| LinearRegression | C         |           15 |     0.1939 |    0.2235 | 0.0021 | 0.0029 | -0.4802 |
+| XGBoost          | A         |            7 |     0.6568 |    0.4351 | 0.0015 | 0.0026 |  0.0229 |
+| LinearRegression | A         |            7 |     0.5779 |    0.5964 | 0.0016 | 0.0022 |  0.3324 |
+| Ridge            | A         |            7 |     0.5773 |    0.5963 | 0.0016 | 0.0022 |  0.3322 |
+| LASSO            | A         |            7 |     0.5475 |    0.5975 | 0.0016 | 0.0022 |  0.3197 |
+| XGBoost          | B         |            8 |     0.6774 |    0.4455 | 0.0014 | 0.0026 |  0.0383 |
+| LASSO            | B         |            8 |     0.5475 |    0.5975 | 0.0016 | 0.0022 |  0.3197 |
+| Ridge            | B         |            8 |     0.4523 |    0.5069 | 0.0018 | 0.0024 |  0.2111 |
+| LinearRegression | B         |            8 |     0.4448 |    0.5001 | 0.0018 | 0.0024 |  0.1993 |
+| XGBoost          | C         |           15 |     0.6755 |    0.4329 | 0.0014 | 0.0027 | -0.0182 |
+| LASSO            | C         |           15 |     0.5459 |    0.6005 | 0.0016 | 0.0022 |  0.3233 |
+| Ridge            | C         |           15 |     0.5354 |    0.5709 | 0.0016 | 0.0022 |  0.2850 |
+| LinearRegression | C         |           15 |     0.5244 |    0.5531 | 0.0017 | 0.0023 |  0.2333 |
 
 ---
 
@@ -47,15 +47,15 @@
 
 | Metric | Value |
 |---|---|
-| Best Linear Model | LASSO_A |
-| Best Linear ρ | 0.4836 |
+| Best Linear Model | LinearRegression_A |
+| Best Linear ρ | 0.5779 |
 | Best Tree Model | XGBoost_B |
-| Best Tree ρ | 0.5927 |
-| **Δ_gap** | **+0.1091** |
+| Best Tree ρ | 0.6774 |
+| **Δ_gap** | **+0.0995** |
 
 ### Interpretation
 
-The linearization gap is **large** (Δ = 0.1091). The nonlinear model extracts substantially more signal than any linear combination of existing features. This indicates the feature family is insufficient for a linear predictor.
+The linearization gap is **moderate** (Δ = 0.0995). There is some nonlinear structure the linear model cannot capture, but the gap is small enough that the existing features carry most of the signal. Experiment 2 may yield marginal improvements.
 
 ---
 
@@ -65,30 +65,30 @@ The linearization gap is **large** (Δ = 0.1091). The nonlinear model extracts s
 
 | Feature | Coefficient |
 |---|---|
-| Weight_Distance | -0.002283 |
-| Output_Similarity | -0.001268 |
-| Usage_Frequency | +0.001139 |
-| Jaccard_Overlap | +0.000284 |
-| Activation_Similarity | -0.000176 |
-| Routing_Similarity | -0.000155 |
-| Weight_Cosine | +0.000017 |
+| Usage_Frequency | +0.001566 |
+| Jaccard_Overlap | +0.000342 |
+| Routing_Similarity | -0.000339 |
+| Weight_Cosine | -0.000181 |
+| Weight_Distance | -0.000065 |
+| Activation_Similarity | -0.000000 ⚠️ DEAD |
+| Output_Similarity | +0.000000 ⚠️ DEAD |
 
 **Dead features** (coefficient = 0, mathematically eliminated by LASSO):
-None — all features retained.
+Activation_Similarity, Output_Similarity
 
-**Active features** (7):
-Weight_Distance, Weight_Cosine, Activation_Similarity, Output_Similarity, Routing_Similarity, Usage_Frequency, Jaccard_Overlap
+**Active features** (5):
+Weight_Distance, Weight_Cosine, Routing_Similarity, Usage_Frequency, Jaccard_Overlap
 
 ### 4.2 Depth Effects
 
 | Comparison | Δ Spearman |
 |---|---|
-| Model B (+ depth) vs Model A (global) | -0.0537 |
-| Model C (+ interactions) vs Model B (+ depth) | -0.0243 |
+| Model B (+ depth) vs Model A (global) | -0.0304 |
+| Model C (+ interactions) vs Model B (+ depth) | -0.0016 |
 
 Adding relative layer depth **improves** prediction, confirming layer-dependent behavior.
 
-Feature × depth interactions provide **additional** predictive value beyond depth alone.
+Feature × depth interactions provide **no meaningful** additional value.
 
 ---
 
@@ -118,23 +118,23 @@ Feature × depth interactions provide **additional** predictive value beyond dep
 
 ### Q1: Can the existing feature family explain Oracle Capability Drift?
 
-**Partially.** The linear model achieves ρ = 0.4836, but the tree model reaches ρ = 0.5927, leaving a gap of 0.1091.
+**Partially.** The linear model achieves ρ = 0.5779, but the tree model reaches ρ = 0.6774, leaving a gap of 0.0995.
 
 ### Q2: Does a nonlinear model significantly outperform a linear model?
 
-**Yes.** The gap of 0.1091 indicates nonlinear structure beyond linear feature combinations.
+**Yes.** The gap of 0.0995 indicates nonlinear structure beyond linear feature combinations.
 
 ### Q3: Is Experiment 2 scientifically justified?
 
-**Yes.** New features are needed to close the linearization gap.
+**Conditionally.** The gap (0.0995) suggests room for improvement but is not extreme.
 
 ---
 
 ## 7. Final Recommendation
 
-**Outcome B — Existing feature family is insufficient.**
+**Outcome B (Marginal) — Experiment 2 is recommended but not critical.**
 
-Experiment 2 is required. Its objective: discover new pairwise features that shrink the Linearization Gap and enable a simple linear model to approach the nonlinear ceiling.
+The existing feature family captures most of the signal, but a moderate linearization gap suggests some nonlinear interactions remain unexploited. Experiment 2's objective: discover new pairwise features that shrink the Linearization Gap and enable a simple linear model to approach the nonlinear ceiling.
 
 ---
 

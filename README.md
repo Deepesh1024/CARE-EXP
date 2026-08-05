@@ -39,7 +39,7 @@ The **CARE-MoE** research program is dedicated to solving this problem not by pr
   │    • Status: Completed & Published                                    │
   │    • Innovation: Enforced strict disjoint expert split (No Leakage).  │
   │    • Discovery: Purged oracle-grade features (CE_Delta, L2_Drift).    │
-  │    • Findings: Linearization Gap Δ = +0.109; Test R² ≤ 3.7%.          │
+  │    • Findings: Linearization Gap Δ = +0.100; Linear R² = 33.2%.         │
   │    • Decision: Outcome B (Current pre-merge features insufficient).   │
   │    • Documentation: results/exp1_5/report.md                          │
   └───────────────────────────────────────────────────────────────────────┘
@@ -91,7 +91,7 @@ CARE-EXP/
 └── results/                            # Persistent artifacts, raw datasets, & visual output
     ├── exp1/                           # Experiment 1 output storage
     │   ├── report.md                   # Dedicated Exp 1 academic report
-    │   ├── output.json                 # Raw evaluation checkpoints (16,112 expert pairs in OLMoE-1B-7B)
+    │   ├── output.json                 # Raw evaluation checkpoints (18,644 expert pairs in OLMoE-1B-7B)
     │   └── {64,128,256}_segmented/     # Layer-stratified univariate scatterplots
     │
     └── exp1_5/                         # Experiment 1.5 output storage
@@ -114,7 +114,7 @@ pip install scikit-learn xgboost shap pandas numpy scipy matplotlib
 ```
 
 ### 2. Replicating Experiment 1.5 (Multivariate Pipeline)
-To re-verify the **$+0.109$ Linearization Gap** and train all 12 experimental regression models from scratch using the raw checkpoint data in `results/exp1/output.json`:
+To re-verify the **$+0.100$ Linearization Gap** and train all 12 experimental regression models from scratch using the raw checkpoint data in `results/exp1/output.json`:
 
 ```bash
 # Phase 1: Ingest raw data, apply Seq_Len=256 filters, & generate strict disjoint split
@@ -140,7 +140,7 @@ python experiments/experiment1/plot.py
 
 ## 🎯 What Lies Ahead: Experiment 2
 
-With **Outcome B** scientifically established—confirming that linear formulations using conventional pre-merge heuristics suffer from a representations deficit ($\Delta = +0.109$, test $R^2 \le 3.7\%$)—our immediate next focus is **Experiment 2 (Capability-Aware Feature Engineering)**. 
+With **Outcome B** scientifically established—confirming that linear formulations using conventional pre-merge heuristics fall below the required similarity threshold ($\rho_{\text{linear}} = 0.578 < 0.80$, $\Delta = +0.100$)—our immediate next focus is **Experiment 2 (Capability-Aware Feature Engineering)**. 
 
 We will design and test:
 1. **Output Magnitude Asymmetry ($\Delta_{\text{mag}}$)**
