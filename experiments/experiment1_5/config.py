@@ -37,7 +37,7 @@ RANDOM_SEED = 42
 # ──────────────────────────────────────────────
 # Use the largest calibration size — most reliable oracle signal and
 # the only slice with split-sample stability data.
-SEQ_LEN_FILTER = 256
+SEQ_LEN_FILTER = 512
 
 # ──────────────────────────────────────────────
 # Expert Split
