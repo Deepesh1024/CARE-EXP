@@ -1,55 +1,41 @@
 {
   "first": {
-    "k3": {
-      "CARE": {
-        "Density": 0.00496031746031746,
-        "Avg_Degree": 0.3125,
-        "Clustering_Coef": 0.0,
-        "Connected_Components": 54,
-        "Avg_Path_Length": 2.9454545454545453,
-        "Modularity": 0.0
-      },
-      "Random_Mean": {
-        "Density": 0.004960317460317458,
-        "Avg_Degree": 0.3125,
-        "Clustering_Coef": 0.00011979166666666666,
-        "Connected_Components": 54.005,
-        "Avg_Path_Length": 1.5144238095238094,
-        "Modularity": 0.0
-      },
-      "Random_Std": {
-        "Density": 1.734723475976807e-18,
-        "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.0022490775018604845,
-        "Connected_Components": 0.07053367989832943,
-        "Avg_Path_Length": 0.2733321784860289,
-        "Modularity": 0.0
-      }
-    },
     "k5": {
       "CARE": {
         "Density": 0.010912698412698412,
         "Avg_Degree": 0.6875,
         "Clustering_Coef": 0.020833333333333332,
         "Connected_Components": 49,
-        "Avg_Path_Length": 2.5083333333333333,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.02939814814814811,
+        "Transitivity": 0.1935483870967742,
+        "LCC_Size": 16,
+        "LCC_Diameter": 5,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.29721984844623567
       },
       "Random_Mean": {
         "Density": 0.010912698412698409,
         "Avg_Degree": 0.6875,
-        "Clustering_Coef": 0.0013744791666666666,
-        "Connected_Components": 42.075,
-        "Avg_Path_Length": 2.410012911271735,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.0014572916666666666,
+        "Connected_Components": 42.076,
+        "Global_Efficiency": 0.016647822458350732,
+        "Transitivity": 0.008968583726028538,
+        "LCC_Size": 7.469,
+        "LCC_Diameter": 4.834,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.8416600748034458
       },
       "Random_Std": {
         "Density": 3.469446951953614e-18,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.007107088670063806,
-        "Connected_Components": 0.2745450782658469,
-        "Avg_Path_Length": 0.5291378493467479,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.007067138272269405,
+        "Connected_Components": 0.2687452325158532,
+        "Global_Efficiency": 0.002561470478261654,
+        "Transitivity": 0.04334175966443904,
+        "LCC_Size": 2.5161555993221087,
+        "LCC_Diameter": 1.5844380707367516,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.04639474482391987
       }
     },
     "k8": {
@@ -58,78 +44,114 @@
         "Avg_Degree": 1.5,
         "Clustering_Coef": 0.08928571428571429,
         "Connected_Components": 43,
-        "Avg_Path_Length": 2.3896103896103895,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.05954034391534401,
+        "Transitivity": 0.39473684210526316,
+        "LCC_Size": 22,
+        "LCC_Diameter": 5,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.29318249180004124
       },
       "Random_Mean": {
         "Density": 0.02380952380952382,
         "Avg_Degree": 1.5,
-        "Clustering_Coef": 0.010278162202380951,
-        "Connected_Components": 18.89,
-        "Avg_Path_Length": 5.353477222212898,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.010052368551587303,
+        "Connected_Components": 18.984,
+        "Global_Efficiency": 0.0939122221051041,
+        "Transitivity": 0.021873440998656672,
+        "LCC_Size": 35.928,
+        "LCC_Diameter": 12.785,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.7297089247364436
       },
       "Random_Std": {
         "Density": 1.0408340855860843e-17,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.015291400691902652,
-        "Connected_Components": 1.5632977963267267,
-        "Avg_Path_Length": 0.9398567236805947,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.01557977820568345,
+        "Connected_Components": 1.5986694467587728,
+        "Global_Efficiency": 0.014864703052207776,
+        "Transitivity": 0.030791289870875094,
+        "LCC_Size": 6.245063330343416,
+        "LCC_Diameter": 2.802993935063007,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.03658732818959444
+      }
+    },
+    "k10": {
+      "CARE": {
+        "Density": 0.03422619047619048,
+        "Avg_Degree": 2.15625,
+        "Clustering_Coef": 0.09252232142857143,
+        "Connected_Components": 37,
+        "Global_Efficiency": 0.0956018518518516,
+        "Transitivity": 0.4226327944572748,
+        "LCC_Size": 28,
+        "LCC_Diameter": 5,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.2605202501892164
+      },
+      "Random_Mean": {
+        "Density": 0.03422619047619047,
+        "Avg_Degree": 2.15625,
+        "Clustering_Coef": 0.02178927331349206,
+        "Connected_Components": 9.077,
+        "Global_Efficiency": 0.20075496428792408,
+        "Transitivity": 0.03252117672151556,
+        "LCC_Size": 54.199,
+        "LCC_Diameter": 10.873,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.6267756733468756
+      },
+      "Random_Std": {
+        "Density": 6.938893903907228e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.01850012239089572,
+        "Connected_Components": 2.0486754257324415,
+        "Global_Efficiency": 0.011408747526438102,
+        "Transitivity": 0.02475693862962719,
+        "LCC_Size": 2.77261591281591,
+        "LCC_Diameter": 1.6195280176644058,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.028240644999320556
       }
     }
   },
   "middle": {
-    "k3": {
-      "CARE": {
-        "Density": 0.010912698412698412,
-        "Avg_Degree": 0.6875,
-        "Clustering_Coef": 0.0,
-        "Connected_Components": 44,
-        "Avg_Path_Length": 3.0256410256410255,
-        "Modularity": 0.0
-      },
-      "Random_Mean": {
-        "Density": 0.010912698412698409,
-        "Avg_Degree": 0.6875,
-        "Clustering_Coef": 0.0016078125,
-        "Connected_Components": 42.087,
-        "Avg_Path_Length": 2.4343432054873233,
-        "Modularity": 0.0
-      },
-      "Random_Std": {
-        "Density": 3.469446951953614e-18,
-        "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.007671672232978963,
-        "Connected_Components": 0.2990501630161736,
-        "Avg_Path_Length": 0.5567078743900757,
-        "Modularity": 0.0
-      }
-    },
     "k5": {
       "CARE": {
         "Density": 0.0248015873015873,
         "Avg_Degree": 1.5625,
         "Clustering_Coef": 0.020833333333333336,
         "Connected_Components": 31,
-        "Avg_Path_Length": 3.4349376114081998,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.10338010204081587,
+        "Transitivity": 0.08633093525179857,
+        "LCC_Size": 34,
+        "LCC_Diameter": 7,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.4456852150496379
       },
       "Random_Mean": {
         "Density": 0.024801587301587307,
         "Avg_Degree": 1.5625,
-        "Clustering_Coef": 0.011099528769841271,
-        "Connected_Components": 17.584,
-        "Avg_Path_Length": 5.430364680714325,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.010556758432539682,
+        "Connected_Components": 17.612,
+        "Global_Efficiency": 0.10488916466138949,
+        "Transitivity": 0.021823001380111354,
+        "LCC_Size": 38.712,
+        "LCC_Diameter": 12.766,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.7210998755835095
       },
       "Random_Std": {
         "Density": 6.938893903907228e-18,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.015518941213397522,
-        "Connected_Components": 1.6890660141036526,
-        "Avg_Path_Length": 0.9059082579416735,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.015168546568591115,
+        "Connected_Components": 1.6791235809195224,
+        "Global_Efficiency": 0.015343808017274444,
+        "Transitivity": 0.028151464392320243,
+        "LCC_Size": 5.9582762607989235,
+        "LCC_Diameter": 2.7384747579629067,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.03578024244292862
       }
     },
     "k8": {
@@ -138,78 +160,114 @@
         "Avg_Degree": 2.6875,
         "Clustering_Coef": 0.0779389880952381,
         "Connected_Components": 25,
-        "Avg_Path_Length": 2.6450742240215925,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.16527777777777863,
+        "Transitivity": 0.1625615763546798,
+        "LCC_Size": 39,
+        "LCC_Diameter": 5,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.3509483272815786
       },
       "Random_Mean": {
         "Density": 0.04265873015873016,
         "Avg_Degree": 2.6875,
-        "Clustering_Coef": 0.03220962076118326,
-        "Connected_Components": 5.389,
-        "Avg_Path_Length": 3.96205222413027,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.03128830379689755,
+        "Connected_Components": 5.405,
+        "Global_Efficiency": 0.26577792050804,
+        "Transitivity": 0.04137617114100065,
+        "LCC_Size": 59.097,
+        "LCC_Diameter": 8.976,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.5613761638585814
       },
       "Random_Std": {
         "Density": 0.0,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.020583683101186856,
-        "Connected_Components": 1.7583170931319527,
-        "Avg_Path_Length": 0.21978982015246337,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.01996933717647676,
+        "Connected_Components": 1.7569789412511465,
+        "Global_Efficiency": 0.010938638621934052,
+        "Transitivity": 0.022126938471489745,
+        "LCC_Size": 2.0692005702686243,
+        "LCC_Diameter": 1.1372880022228318,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.02268888111367755
+      }
+    },
+    "k10": {
+      "CARE": {
+        "Density": 0.057539682539682536,
+        "Avg_Degree": 3.625,
+        "Clustering_Coef": 0.09386160714285714,
+        "Connected_Components": 22,
+        "Global_Efficiency": 0.21058201058201215,
+        "Transitivity": 0.1771978021978022,
+        "LCC_Size": 43,
+        "LCC_Diameter": 6,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.30817943563765754
+      },
+      "Random_Mean": {
+        "Density": 0.05753968253968255,
+        "Avg_Degree": 3.625,
+        "Clustering_Coef": 0.05095652932137307,
+        "Connected_Components": 2.51,
+        "Global_Efficiency": 0.3457224812610225,
+        "Transitivity": 0.05663796938610768,
+        "LCC_Size": 62.423,
+        "LCC_Diameter": 6.899,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.46939410039602264
+      },
+      "Random_Std": {
+        "Density": 1.3877787807814457e-17,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.021742371469060016,
+        "Connected_Components": 1.1348568191626642,
+        "Global_Efficiency": 0.008753775675420584,
+        "Transitivity": 0.01966638976839591,
+        "LCC_Size": 1.2041889386636966,
+        "LCC_Diameter": 0.7312995282372334,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.01823999690733985
       }
     }
   },
   "last": {
-    "k3": {
-      "CARE": {
-        "Density": 0.011408730158730158,
-        "Avg_Degree": 0.71875,
-        "Clustering_Coef": 0.026041666666666664,
-        "Connected_Components": 43,
-        "Avg_Path_Length": 4.4640522875816995,
-        "Modularity": 0.0
-      },
-      "Random_Mean": {
-        "Density": 0.011408730158730155,
-        "Avg_Degree": 0.71875,
-        "Clustering_Coef": 0.0017015625000000002,
-        "Connected_Components": 41.099,
-        "Avg_Path_Length": 2.535887236095518,
-        "Modularity": 0.0
-      },
-      "Random_Std": {
-        "Density": 3.469446951953614e-18,
-        "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.00788559057973673,
-        "Connected_Components": 0.31176754160752523,
-        "Avg_Path_Length": 0.5895788032802017,
-        "Modularity": 0.0
-      }
-    },
     "k5": {
       "CARE": {
         "Density": 0.020337301587301588,
         "Avg_Degree": 1.28125,
         "Clustering_Coef": 0.05625,
         "Connected_Components": 40,
-        "Avg_Path_Length": 2.8433333333333333,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.06547619047619052,
+        "Transitivity": 0.10256410256410256,
+        "LCC_Size": 25,
+        "LCC_Diameter": 6,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.4359043355613212
       },
       "Random_Mean": {
         "Density": 0.020337301587301588,
         "Avg_Degree": 1.28125,
-        "Clustering_Coef": 0.007611979166666666,
-        "Connected_Components": 24.339,
-        "Avg_Path_Length": 4.748843834748781,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.006476711309523809,
+        "Connected_Components": 24.292,
+        "Global_Efficiency": 0.06250220940378579,
+        "Transitivity": 0.016584368554142963,
+        "LCC_Size": 25.607,
+        "LCC_Diameter": 11.039,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.7622236956804811
       },
       "Random_Std": {
         "Density": 0.0,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.013399101548368523,
-        "Connected_Components": 1.1198566872595797,
-        "Avg_Path_Length": 0.9730583277922573,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.01270703353394378,
+        "Connected_Components": 1.1448737921709975,
+        "Global_Efficiency": 0.012921961358152092,
+        "Transitivity": 0.030148580134238625,
+        "LCC_Size": 7.149024478906196,
+        "LCC_Diameter": 2.726440720059763,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.04146897667594712
       }
     },
     "k8": {
@@ -218,78 +276,114 @@
         "Avg_Degree": 2.25,
         "Clustering_Coef": 0.08348214285714285,
         "Connected_Components": 39,
-        "Avg_Path_Length": 2.12,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.08998015873015854,
+        "Transitivity": 0.19329896907216496,
+        "LCC_Size": 26,
+        "LCC_Diameter": 5,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.2882774572651323
       },
       "Random_Mean": {
         "Density": 0.0357142857142857,
         "Avg_Degree": 2.25,
-        "Clustering_Coef": 0.02277473507395382,
-        "Connected_Components": 8.134,
-        "Avg_Path_Length": 4.514923120711494,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.023813516865079366,
+        "Connected_Components": 8.244,
+        "Global_Efficiency": 0.21298182322462952,
+        "Transitivity": 0.03493823960400774,
+        "LCC_Size": 55.307,
+        "LCC_Diameter": 10.5,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.6117167007159044
       },
       "Random_Std": {
         "Density": 1.3877787807814457e-17,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.01862072260354516,
-        "Connected_Components": 2.1095127399473084,
-        "Avg_Path_Length": 0.38470593768233535,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.018807886251030786,
+        "Connected_Components": 1.9734396367763571,
+        "Global_Efficiency": 0.011405305697570567,
+        "Transitivity": 0.023891796841422584,
+        "LCC_Size": 2.6665991449784876,
+        "LCC_Diameter": 1.5375304875026055,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.027401679782758984
+      }
+    },
+    "k10": {
+      "CARE": {
+        "Density": 0.04712301587301587,
+        "Avg_Degree": 2.96875,
+        "Clustering_Coef": 0.09826388888888889,
+        "Connected_Components": 37,
+        "Global_Efficiency": 0.11049107142857112,
+        "Transitivity": 0.25663716814159293,
+        "LCC_Size": 28,
+        "LCC_Diameter": 4,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.2150629156171846
+      },
+      "Random_Mean": {
+        "Density": 0.04712301587301586,
+        "Avg_Degree": 2.96875,
+        "Clustering_Coef": 0.03848711557539683,
+        "Connected_Components": 4.194,
+        "Global_Efficiency": 0.29345388279049384,
+        "Transitivity": 0.04604104519435847,
+        "LCC_Size": 60.502,
+        "LCC_Diameter": 8.171,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.5246292459748677
+      },
+      "Random_Std": {
+        "Density": 1.3877787807814457e-17,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.020718509787702104,
+        "Connected_Components": 1.5395986489991473,
+        "Global_Efficiency": 0.010330404207033196,
+        "Transitivity": 0.02086774738872856,
+        "LCC_Size": 1.7635180747585206,
+        "LCC_Diameter": 0.9283097543384966,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.021443986688431872
       }
     }
   },
   "aggregated": {
-    "k3": {
-      "CARE": {
-        "Density": 0.006944444444444444,
-        "Avg_Degree": 0.4375,
-        "Clustering_Coef": 0.0,
-        "Connected_Components": 50,
-        "Avg_Path_Length": 4.3076923076923075,
-        "Modularity": 0.0
-      },
-      "Random_Mean": {
-        "Density": 0.006944444444444447,
-        "Avg_Degree": 0.4375,
-        "Clustering_Coef": 0.0004557291666666667,
-        "Connected_Components": 50.015,
-        "Avg_Path_Length": 1.7719348484848485,
-        "Modularity": 0.0
-      },
-      "Random_Std": {
-        "Density": 2.6020852139652106e-18,
-        "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.004044745357437279,
-        "Connected_Components": 0.12155245781143217,
-        "Avg_Path_Length": 0.35225450098155103,
-        "Modularity": 0.0
-      }
-    },
     "k5": {
       "CARE": {
         "Density": 0.015873015873015872,
         "Avg_Degree": 1.0,
         "Clustering_Coef": 0.04791666666666666,
         "Connected_Components": 42,
-        "Avg_Path_Length": 2.965367965367965,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.04957010582010584,
+        "Transitivity": 0.15584415584415584,
+        "LCC_Size": 22,
+        "LCC_Diameter": 6,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.4378000299804532
       },
       "Random_Mean": {
         "Density": 0.015873015873015872,
         "Avg_Degree": 1.0,
-        "Clustering_Coef": 0.004224107142857143,
-        "Connected_Components": 32.391,
-        "Avg_Path_Length": 3.509199066687154,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.003965104166666667,
+        "Connected_Components": 32.421,
+        "Global_Efficiency": 0.03392298184963734,
+        "Transitivity": 0.013858163697194793,
+        "LCC_Size": 14.602,
+        "LCC_Diameter": 7.941,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.8051476643564172
       },
       "Random_Std": {
         "Density": 0.0,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.010724592537611353,
-        "Connected_Components": 0.626194059377762,
-        "Avg_Path_Length": 0.8352150577152054,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.010882166966576779,
+        "Connected_Components": 0.6509677411362256,
+        "Global_Efficiency": 0.0071095423633065966,
+        "Transitivity": 0.035994015803066354,
+        "LCC_Size": 5.061975503694185,
+        "LCC_Diameter": 2.361677158292386,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.04374307018300859
       }
     },
     "k8": {
@@ -298,24 +392,74 @@
         "Avg_Degree": 2.15625,
         "Clustering_Coef": 0.07083333333333333,
         "Connected_Components": 32,
-        "Avg_Path_Length": 2.8617424242424243,
-        "Modularity": 0.0
+        "Global_Efficiency": 0.11490575396825328,
+        "Transitivity": 0.21100917431192662,
+        "LCC_Size": 33,
+        "LCC_Diameter": 6,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.3210326204581566
       },
       "Random_Mean": {
         "Density": 0.03422619047619047,
         "Avg_Degree": 2.15625,
-        "Clustering_Coef": 0.021790575396825395,
-        "Connected_Components": 9.045,
-        "Avg_Path_Length": 4.640296141263838,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.021489732142857144,
+        "Connected_Components": 9.134,
+        "Global_Efficiency": 0.20053349193862852,
+        "Transitivity": 0.032923538515668684,
+        "LCC_Size": 54.143,
+        "LCC_Diameter": 10.879,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.6267530622101438
       },
       "Random_Std": {
         "Density": 6.938893903907228e-18,
         "Avg_Degree": 0.0,
-        "Clustering_Coef": 0.018751431077087523,
-        "Connected_Components": 2.031003446575116,
-        "Avg_Path_Length": 0.4135346686843758,
-        "Modularity": 0.0
+        "Clustering_Coef": 0.018984952137140566,
+        "Connected_Components": 1.9214692295220341,
+        "Global_Efficiency": 0.011892652485231893,
+        "Transitivity": 0.025457606258783804,
+        "LCC_Size": 2.741632907593575,
+        "LCC_Diameter": 1.732731658393763,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.027141607976326795
+      }
+    },
+    "k10": {
+      "CARE": {
+        "Density": 0.04563492063492063,
+        "Avg_Degree": 2.875,
+        "Clustering_Coef": 0.10362103174603174,
+        "Connected_Components": 28,
+        "Global_Efficiency": 0.14845403439153432,
+        "Transitivity": 0.3103448275862069,
+        "LCC_Size": 37,
+        "LCC_Diameter": 6,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.3034666204783914
+      },
+      "Random_Mean": {
+        "Density": 0.04563492063492062,
+        "Avg_Degree": 2.875,
+        "Clustering_Coef": 0.035052146464646466,
+        "Connected_Components": 4.457,
+        "Global_Efficiency": 0.28486775214286786,
+        "Transitivity": 0.042623711758292285,
+        "LCC_Size": 60.179,
+        "LCC_Diameter": 8.438,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.5366349954811674
+      },
+      "Random_Std": {
+        "Density": 1.3877787807814457e-17,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.02062862492838236,
+        "Connected_Components": 1.6840875867958887,
+        "Global_Efficiency": 0.010809391741319173,
+        "Transitivity": 0.021157871154778993,
+        "LCC_Size": 1.965441171849211,
+        "LCC_Diameter": 1.0564828441579162,
+        "Unweighted_Modularity": 0.0,
+        "Weighted_Modularity": 0.021446603231747192
       }
     }
   }

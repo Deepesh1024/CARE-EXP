@@ -25,7 +25,9 @@ def main():
         "phase3_community_detection.py",
         "phase4_validation.py",
         "phase5_robustness.py",
-        "phase6_report.py"
+        "phase7_characterization.py",
+        "phase6_report.py",
+        "export_tables.py"
     ]
     
     for phase in phases:

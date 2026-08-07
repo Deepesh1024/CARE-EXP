@@ -1,0 +1,7 @@
+Layer,Centrality_Metric,Correlation_Algorithm,Coefficient,P_Value
+middle,Degree,Pearson,-0.2170401485748711,0.08494272580139378
+middle,Degree,Spearman,-0.657573823159501,3.5709132474463113e-09
+middle,Degree,Kendall,-0.5436398348809846,9.027137180894705e-09
+middle,Betweenness,Pearson,-0.17822700758660057,0.1588281014561805
+middle,Betweenness,Spearman,-0.6011740862726693,1.4982805066670925e-07
+middle,Betweenness,Kendall,-0.4675475299747346,9.119682992003233e-07

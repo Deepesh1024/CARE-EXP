@@ -91,6 +91,23 @@ def export_tables():
                     "NMI": scores.get("NMI")
                 })
         save_csv(pd.DataFrame(rows), os.path.join(TABLES_DIR, "robustness_table.csv"))
+        
+    # 5. Centrality Correlations
+    for layer in LAYERS + ["aggregated"]:
+        corr_path = os.path.join(VALIDATION_DIR, f"{layer}_centrality_correlations.json")
+        if os.path.exists(corr_path):
+            corr_data = load_json(corr_path)
+            rows = []
+            for metric, algos in corr_data.items():
+                for algo, scores in algos.items():
+                    rows.append({
+                        "Layer": layer,
+                        "Centrality_Metric": metric,
+                        "Correlation_Algorithm": algo,
+                        "Coefficient": scores.get("coef"),
+                        "P_Value": scores.get("p")
+                    })
+            save_csv(pd.DataFrame(rows), os.path.join(TABLES_DIR, f"{layer}_centrality_correlations_table.csv"))
 
 if __name__ == "__main__":
     export_tables()
