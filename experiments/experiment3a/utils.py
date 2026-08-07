@@ -117,27 +117,32 @@ def save_csv(df: pd.DataFrame, path: str) -> None:
 # ──────────────────────────────────────────────
 # Publication-Quality Plotting
 # ──────────────────────────────────────────────
-def set_pub_style() -> None:
+def set_pub_style():
+    """Sets matplotlib style for publication-quality figures."""
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    sns.set_theme(style="whitegrid", context="paper")
+    sns.set_palette("colorblind")
     plt.rcParams.update({
-        "font.family": "serif",
-        "font.size": 11,
+        "font.family": "sans-serif",
+        "font.sans-serif": ["Arial", "DejaVu Sans"],
+        "axes.titlesize": 14,
         "axes.labelsize": 12,
-        "axes.titlesize": 13,
         "xtick.labelsize": 10,
         "ytick.labelsize": 10,
         "legend.fontsize": 10,
-        "figure.dpi": FIGURE_DPI,
-        "savefig.dpi": FIGURE_DPI,
-        "savefig.bbox": "tight",
-        "savefig.pad_inches": 0.1,
-        "axes.spines.top": False,
-        "axes.spines.right": False,
+        "figure.dpi": 300
     })
 
 
 def save_fig(fig, name: str) -> str:
-    path = os.path.join(FIGURES_DIR, f"{name}.{FIGURE_FORMAT}")
-    fig.savefig(path, dpi=FIGURE_DPI, bbox_inches="tight")
+    """Saves a matplotlib figure as 600 dpi PNG and vector PDF."""
+    png_path = os.path.join(FIGURES_DIR, f"{name}.png")
+    pdf_path = os.path.join(FIGURES_DIR, f"{name}.pdf")
+    
+    fig.savefig(png_path, dpi=600, bbox_inches='tight')
+    fig.savefig(pdf_path, format='pdf', bbox_inches='tight')
+    
     plt.close(fig)
-    print(f"[utils] Figure → {path}")
-    return path
+    print(f"[utils] Figure → {png_path} (and .pdf)")
+    return png_path

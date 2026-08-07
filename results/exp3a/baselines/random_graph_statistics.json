@@ -10,8 +10,7 @@
         "Transitivity": 0.1935483870967742,
         "LCC_Size": 16,
         "LCC_Diameter": 5,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.29721984844623567
+        "Unweighted_Modularity": 0.29752066115702475
       },
       "Random_Mean": {
         "Density": 0.010912698412698409,
@@ -22,8 +21,7 @@
         "Transitivity": 0.008968583726028538,
         "LCC_Size": 7.469,
         "LCC_Diameter": 4.834,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.8416600748034458
+        "Unweighted_Modularity": 0.8417076446280993
       },
       "Random_Std": {
         "Density": 3.469446951953614e-18,
@@ -34,8 +32,7 @@
         "Transitivity": 0.04334175966443904,
         "LCC_Size": 2.5161555993221087,
         "LCC_Diameter": 1.5844380707367516,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.04639474482391987
+        "Unweighted_Modularity": 0.046461304211599115
       }
     },
     "k8": {
@@ -48,8 +45,7 @@
         "Transitivity": 0.39473684210526316,
         "LCC_Size": 22,
         "LCC_Diameter": 5,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.29318249180004124
+        "Unweighted_Modularity": 0.2775607638888889
       },
       "Random_Mean": {
         "Density": 0.02380952380952382,
@@ -60,8 +56,7 @@
         "Transitivity": 0.021873440998656672,
         "LCC_Size": 35.928,
         "LCC_Diameter": 12.785,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.7297089247364436
+        "Unweighted_Modularity": 0.7275753038194446
       },
       "Random_Std": {
         "Density": 1.0408340855860843e-17,
@@ -72,8 +67,7 @@
         "Transitivity": 0.030791289870875094,
         "LCC_Size": 6.245063330343416,
         "LCC_Diameter": 2.802993935063007,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.03658732818959444
+        "Unweighted_Modularity": 0.037466492371526425
       }
     },
     "k10": {
@@ -86,8 +80,7 @@
         "Transitivity": 0.4226327944572748,
         "LCC_Size": 28,
         "LCC_Diameter": 5,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.2605202501892164
+        "Unweighted_Modularity": 0.26202478470909474
       },
       "Random_Mean": {
         "Density": 0.03422619047619047,
@@ -98,8 +91,7 @@
         "Transitivity": 0.03252117672151556,
         "LCC_Size": 54.199,
         "LCC_Diameter": 10.873,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.6267756733468756
+        "Unweighted_Modularity": 0.6226561646712876
       },
       "Random_Std": {
         "Density": 6.938893903907228e-18,
@@ -110,8 +102,7 @@
         "Transitivity": 0.02475693862962719,
         "LCC_Size": 2.77261591281591,
         "LCC_Diameter": 1.6195280176644058,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.028240644999320556
+        "Unweighted_Modularity": 0.028172067482985
       }
     }
   },
@@ -126,8 +117,7 @@
         "Transitivity": 0.08633093525179857,
         "LCC_Size": 34,
         "LCC_Diameter": 7,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.4456852150496379
+        "Unweighted_Modularity": 0.4414
       },
       "Random_Mean": {
         "Density": 0.024801587301587307,
@@ -138,8 +128,7 @@
         "Transitivity": 0.021823001380111354,
         "LCC_Size": 38.712,
         "LCC_Diameter": 12.766,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.7210998755835095
+        "Unweighted_Modularity": 0.7162044
       },
       "Random_Std": {
         "Density": 6.938893903907228e-18,
@@ -150,8 +139,7 @@
         "Transitivity": 0.028151464392320243,
         "LCC_Size": 5.9582762607989235,
         "LCC_Diameter": 2.7384747579629067,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.03578024244292862
+        "Unweighted_Modularity": 0.036764562021599
       }
     },
     "k8": {
@@ -164,8 +152,7 @@
         "Transitivity": 0.1625615763546798,
         "LCC_Size": 39,
         "LCC_Diameter": 5,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.3509483272815786
+        "Unweighted_Modularity": 0.3748647917793402
       },
       "Random_Mean": {
         "Density": 0.04265873015873016,
@@ -176,8 +163,7 @@
         "Transitivity": 0.04137617114100065,
         "LCC_Size": 59.097,
         "LCC_Diameter": 8.976,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.5613761638585814
+        "Unweighted_Modularity": 0.5538101676581937
       },
       "Random_Std": {
         "Density": 0.0,
@@ -188,8 +174,7 @@
         "Transitivity": 0.022126938471489745,
         "LCC_Size": 2.0692005702686243,
         "LCC_Diameter": 1.1372880022228318,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.02268888111367755
+        "Unweighted_Modularity": 0.023354314468168574
       }
     },
     "k10": {
@@ -202,8 +187,7 @@
         "Transitivity": 0.1771978021978022,
         "LCC_Size": 43,
         "LCC_Diameter": 6,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.30817943563765754
+        "Unweighted_Modularity": 0.3093043995243757
       },
       "Random_Mean": {
         "Density": 0.05753968253968255,
@@ -214,8 +198,7 @@
         "Transitivity": 0.05663796938610768,
         "LCC_Size": 62.423,
         "LCC_Diameter": 6.899,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.46939410039602264
+        "Unweighted_Modularity": 0.46325784036860873
       },
       "Random_Std": {
         "Density": 1.3877787807814457e-17,
@@ -226,8 +209,7 @@
         "Transitivity": 0.01966638976839591,
         "LCC_Size": 1.2041889386636966,
         "LCC_Diameter": 0.7312995282372334,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.01823999690733985
+        "Unweighted_Modularity": 0.017762590324419663
       }
     }
   },
@@ -242,8 +224,7 @@
         "Transitivity": 0.10256410256410256,
         "LCC_Size": 25,
         "LCC_Diameter": 6,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.4359043355613212
+        "Unweighted_Modularity": 0.41671624033313504
       },
       "Random_Mean": {
         "Density": 0.020337301587301588,
@@ -254,8 +235,7 @@
         "Transitivity": 0.016584368554142963,
         "LCC_Size": 25.607,
         "LCC_Diameter": 11.039,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.7622236956804811
+        "Unweighted_Modularity": 0.7612593694229625
       },
       "Random_Std": {
         "Density": 0.0,
@@ -266,8 +246,7 @@
         "Transitivity": 0.030148580134238625,
         "LCC_Size": 7.149024478906196,
         "LCC_Diameter": 2.726440720059763,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.04146897667594712
+        "Unweighted_Modularity": 0.041893960267283946
       }
     },
     "k8": {
@@ -280,8 +259,7 @@
         "Transitivity": 0.19329896907216496,
         "LCC_Size": 26,
         "LCC_Diameter": 5,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.2882774572651323
+        "Unweighted_Modularity": 0.29986496913580246
       },
       "Random_Mean": {
         "Density": 0.0357142857142857,
@@ -292,8 +270,7 @@
         "Transitivity": 0.03493823960400774,
         "LCC_Size": 55.307,
         "LCC_Diameter": 10.5,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.6117167007159044
+        "Unweighted_Modularity": 0.6102568479938273
       },
       "Random_Std": {
         "Density": 1.3877787807814457e-17,
@@ -304,8 +281,7 @@
         "Transitivity": 0.023891796841422584,
         "LCC_Size": 2.6665991449784876,
         "LCC_Diameter": 1.5375304875026055,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.027401679782758984
+        "Unweighted_Modularity": 0.027624616017185393
       }
     },
     "k10": {
@@ -318,8 +294,7 @@
         "Transitivity": 0.25663716814159293,
         "LCC_Size": 28,
         "LCC_Diameter": 4,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.2150629156171846
+        "Unweighted_Modularity": 0.21883656509695287
       },
       "Random_Mean": {
         "Density": 0.04712301587301586,
@@ -330,8 +305,7 @@
         "Transitivity": 0.04604104519435847,
         "LCC_Size": 60.502,
         "LCC_Diameter": 8.171,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.5246292459748677
+        "Unweighted_Modularity": 0.5237535734072022
       },
       "Random_Std": {
         "Density": 1.3877787807814457e-17,
@@ -342,8 +316,7 @@
         "Transitivity": 0.02086774738872856,
         "LCC_Size": 1.7635180747585206,
         "LCC_Diameter": 0.9283097543384966,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.021443986688431872
+        "Unweighted_Modularity": 0.021701603444720028
       }
     }
   },
@@ -358,8 +331,7 @@
         "Transitivity": 0.15584415584415584,
         "LCC_Size": 22,
         "LCC_Diameter": 6,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.4378000299804532
+        "Unweighted_Modularity": 0.45166015625
       },
       "Random_Mean": {
         "Density": 0.015873015873015872,
@@ -370,8 +342,7 @@
         "Transitivity": 0.013858163697194793,
         "LCC_Size": 14.602,
         "LCC_Diameter": 7.941,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.8051476643564172
+        "Unweighted_Modularity": 0.8046220703125
       },
       "Random_Std": {
         "Density": 0.0,
@@ -382,8 +353,7 @@
         "Transitivity": 0.035994015803066354,
         "LCC_Size": 5.061975503694185,
         "LCC_Diameter": 2.361677158292386,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.04374307018300859
+        "Unweighted_Modularity": 0.04402296753220405
       }
     },
     "k8": {
@@ -396,8 +366,7 @@
         "Transitivity": 0.21100917431192662,
         "LCC_Size": 33,
         "LCC_Diameter": 6,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.3210326204581566
+        "Unweighted_Modularity": 0.33217811384163
       },
       "Random_Mean": {
         "Density": 0.03422619047619047,
@@ -408,8 +377,7 @@
         "Transitivity": 0.032923538515668684,
         "LCC_Size": 54.143,
         "LCC_Diameter": 10.879,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.6267530622101438
+        "Unweighted_Modularity": 0.6227655954631379
       },
       "Random_Std": {
         "Density": 6.938893903907228e-18,
@@ -420,8 +388,7 @@
         "Transitivity": 0.025457606258783804,
         "LCC_Size": 2.741632907593575,
         "LCC_Diameter": 1.732731658393763,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.027141607976326795
+        "Unweighted_Modularity": 0.027157279047038164
       }
     },
     "k10": {
@@ -434,8 +401,7 @@
         "Transitivity": 0.3103448275862069,
         "LCC_Size": 37,
         "LCC_Diameter": 6,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.3034666204783914
+        "Unweighted_Modularity": 0.3126181474480151
       },
       "Random_Mean": {
         "Density": 0.04563492063492062,
@@ -446,8 +412,7 @@
         "Transitivity": 0.042623711758292285,
         "LCC_Size": 60.179,
         "LCC_Diameter": 8.438,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.5366349954811674
+        "Unweighted_Modularity": 0.5342787098298677
       },
       "Random_Std": {
         "Density": 1.3877787807814457e-17,
@@ -458,8 +423,7 @@
         "Transitivity": 0.021157871154778993,
         "LCC_Size": 1.965441171849211,
         "LCC_Diameter": 1.0564828441579162,
-        "Unweighted_Modularity": 0.0,
-        "Weighted_Modularity": 0.021446603231747192
+        "Unweighted_Modularity": 0.021697254757461037
       }
     }
   }

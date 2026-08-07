@@ -87,7 +87,7 @@ ALL_FEATURES = ORIGINAL_FEATURES + NEW_DESCRIPTORS
 # Graph Construction Parameters
 # ──────────────────────────────────────────────
 K_VALUES = [5, 8, 10]          # Mutual-kNN neighbourhood sizes
-K_PRIMARY = 5                  # Primary analysis
+K_PRIMARY = 8                  # Primary analysis
 
 # Random baseline
 N_RANDOM_GRAPHS = 1000         # Number of random graphs per comparison

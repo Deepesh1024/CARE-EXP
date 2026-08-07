@@ -1,9 +1,9 @@
 """
 CARE-MoE Experiment 3A — Phase 3: Community Detection
 ======================================================
-1. Apply Louvain to Capability Graphs.
+1. Apply Louvain to Capability Graphs (using unweighted graph).
 2. Store community assignments.
-3. Compute community stability metrics (weighted and unweighted modularity).
+3. Compute community stability metrics (unweighted modularity).
 """
 
 import os
@@ -52,12 +52,12 @@ def main():
             if G.number_of_edges() == 0:
                 continue
 
-            # 1. Louvain (uses edge weights for partitioning)
-            louvain_partition = community_louvain.best_partition(G, weight='weight')
-            
-            # Compute both modularities for the same partition
-            weighted_mod = community_louvain.modularity(louvain_partition, G, weight='weight')
-            unweighted_mod = community_louvain.modularity(louvain_partition, G, weight=None)
+            # Unweighted partitioning and modularity: create binary copy
+            G_binary = nx.Graph()
+            G_binary.add_nodes_from(G.nodes())
+            G_binary.add_edges_from(G.edges())
+            louvain_partition = community_louvain.best_partition(G_binary)
+            unweighted_mod = community_louvain.modularity(louvain_partition, G_binary)
             
             louvain_communities = {}
             for node, comm in louvain_partition.items():
@@ -66,18 +66,16 @@ def main():
             n_louvain = len(louvain_communities)
             sizes_louvain = [len(c) for c in louvain_communities.values()]
             
-            print(f"    k={k} | Louvain: {n_louvain} communities | W-Mod = {weighted_mod:.4f}, U-Mod = {unweighted_mod:.4f}")
+            print(f"    k={k} | Louvain: {n_louvain} communities | Unweighted-Mod = {unweighted_mod:.4f}")
             
             summary_results[layer][f"k{k}"] = {
                 "Louvain": {
                     "Num_Communities": n_louvain,
-                    "Weighted_Modularity": float(weighted_mod),
                     "Unweighted_Modularity": float(unweighted_mod),
                     "Sizes": sizes_louvain
                 }
             }
 
-            # 3. Store assignments
             for exp_id in range(N_EXPERTS):
                 row = {
                     "Layer": layer,
@@ -87,11 +85,8 @@ def main():
                 }
                 assignments_rows.append(row)
 
-    # Save assignments to CSV
     assignments_df = pd.DataFrame(assignments_rows)
     save_csv(assignments_df, os.path.join(COMMUNITIES_DIR, "community_assignments.csv"))
-    
-    # Save summary to JSON
     save_json(summary_results, os.path.join(COMMUNITIES_DIR, "community_summary.json"))
 
     print("\n" + "=" * 60)

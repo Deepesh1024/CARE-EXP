@@ -4,10 +4,8 @@ CARE-MoE Experiment 3A — Phase 2: Random Graph Baselines
 1. Load CARE capability graphs constructed in Phase 1.
 2. Generate 1000 equivalent Erdős-Rényi random graphs.
 3. Compute unweighted statistics (binary topology).
-4. Assign empirical weights to random graphs.
-5. Compute weighted statistics.
-6. Compare CARE graph against random baseline distributions.
-7. Save true empirical distributions.
+4. Compare CARE graph against random baseline distributions.
+5. Save true empirical distributions.
 """
 
 import os
@@ -64,24 +62,17 @@ def compute_unweighted_statistics(G: nx.Graph) -> dict:
     else:
         stats["LCC_Diameter"] = 0
             
-    # Unweighted Modularity
+    # Strictly Unweighted Modularity: create binary copy to avoid weight=None API issue
     try:
-        partition = community_louvain.best_partition(G, weight=None)
-        stats["Unweighted_Modularity"] = community_louvain.modularity(partition, G, weight=None)
+        G_binary = nx.Graph()
+        G_binary.add_nodes_from(G.nodes())
+        G_binary.add_edges_from(G.edges())
+        partition = community_louvain.best_partition(G_binary)
+        stats["Unweighted_Modularity"] = community_louvain.modularity(partition, G_binary)
     except:
         stats["Unweighted_Modularity"] = 0.0
         
     return stats
-
-def compute_weighted_statistics(G: nx.Graph) -> dict:
-    if G.number_of_edges() == 0:
-        return {"Weighted_Modularity": 0.0}
-    try:
-        partition = community_louvain.best_partition(G, weight='weight')
-        mod = community_louvain.modularity(partition, G, weight='weight')
-        return {"Weighted_Modularity": float(mod)}
-    except:
-        return {"Weighted_Modularity": 0.0}
 
 def main():
     set_global_seed()
@@ -112,40 +103,21 @@ def main():
             if G.number_of_edges() == 0:
                 continue
 
-            # 1. Compute CARE graph statistics
-            unweighted_stats = compute_unweighted_statistics(G)
-            weighted_stats = compute_weighted_statistics(G)
-            care_stats = {**unweighted_stats, **weighted_stats}
+            care_stats = compute_unweighted_statistics(G)
             
-            # Empirical weights from CARE graph
-            empirical_weights = [d['weight'] for u, v, d in G.edges(data=True)]
-            
-            # 2. Generate Random Graphs
             m = G.number_of_edges()
             random_stats_lists = {key: [] for key in care_stats.keys()}
             
             print(f"    Generating {N_RANDOM_GRAPHS} random graphs (N={N_EXPERTS}, M={m})...")
             for _ in range(N_RANDOM_GRAPHS):
-                # Erdős-Rényi unweighted
                 R = nx.gnm_random_graph(N_EXPERTS, m)
-                r_unweighted = compute_unweighted_statistics(R)
-                
-                # Assign random weights from empirical distribution
-                sampled_weights = np.random.choice(empirical_weights, size=m, replace=True)
-                for i, (u, v) in enumerate(R.edges()):
-                    R[u][v]['weight'] = sampled_weights[i]
-                    
-                r_weighted = compute_weighted_statistics(R)
-                
-                for key, val in r_unweighted.items():
-                    random_stats_lists[key].append(val)
-                for key, val in r_weighted.items():
+                r_stats = compute_unweighted_statistics(R)
+                for key, val in r_stats.items():
                     random_stats_lists[key].append(val)
             
             # Save empirical distributions
             empirical_distributions[layer][f"k{k}"] = random_stats_lists
             
-            # 3. Statistical Comparison
             results[layer][f"k{k}"] = {
                 "CARE": care_stats,
                 "Random_Mean": {key: float(np.mean(vals)) for key, vals in random_stats_lists.items()},
@@ -175,10 +147,8 @@ def main():
             
             significance[layer][f"k{k}"] = sig_res
             
-            print(f"    Weighted Modularity   : CARE = {care_stats['Weighted_Modularity']:.4f}, Random = {sig_res['Weighted_Modularity']['Random_Mean']:.4f} (p={sig_res['Weighted_Modularity']['P_Value']:.4e})")
             print(f"    Unweighted Modularity: CARE = {care_stats['Unweighted_Modularity']:.4f}, Random = {sig_res['Unweighted_Modularity']['Random_Mean']:.4f} (p={sig_res['Unweighted_Modularity']['P_Value']:.4e})")
 
-    # Save results
     save_json(results, os.path.join(BASELINES_DIR, "random_graph_statistics.json"))
     save_json(significance, os.path.join(BASELINES_DIR, "significance_tests.json"))
     save_json(empirical_distributions, os.path.join(BASELINES_DIR, "empirical_null_distributions.json"))

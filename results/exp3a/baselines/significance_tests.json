@@ -58,16 +58,9 @@
         "Significant": false
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.29721984844623567,
-        "Random_Mean": 0.8416600748034458,
-        "Z_Score": -11.734954646770932,
+        "CARE_Value": 0.29752066115702475,
+        "Random_Mean": 0.8417076446280993,
+        "Z_Score": -11.71269280329883,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -130,16 +123,9 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.29318249180004124,
-        "Random_Mean": 0.7297089247364436,
-        "Z_Score": -11.93108255061248,
+        "CARE_Value": 0.2775607638888889,
+        "Random_Mean": 0.7275753038194446,
+        "Z_Score": -12.011120108819027,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -202,16 +188,9 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.2605202501892164,
-        "Random_Mean": 0.6267756733468756,
-        "Z_Score": -12.969088459788045,
+        "CARE_Value": 0.26202478470909474,
+        "Random_Mean": 0.6226561646712876,
+        "Z_Score": -12.801026413130748,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -276,17 +255,10 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.4456852150496379,
-        "Random_Mean": 0.7210998755835095,
-        "Z_Score": -7.697395035072012,
-        "P_Value": 1.3988810110276972e-14,
+        "CARE_Value": 0.4414,
+        "Random_Mean": 0.7162044,
+        "Z_Score": -7.474708928629524,
+        "P_Value": 7.72715225139109e-14,
         "Significant": true
       }
     },
@@ -348,17 +320,10 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.3509483272815786,
-        "Random_Mean": 0.5613761638585814,
-        "Z_Score": -9.27449156803728,
-        "P_Value": 0.0,
+        "CARE_Value": 0.3748647917793402,
+        "Random_Mean": 0.5538101676581937,
+        "Z_Score": -7.662197754626974,
+        "P_Value": 1.8207657603852567e-14,
         "Significant": true
       }
     },
@@ -420,16 +385,9 @@
         "Significant": false
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.30817943563765754,
-        "Random_Mean": 0.46939410039602264,
-        "Z_Score": -8.83852478579597,
+        "CARE_Value": 0.3093043995243757,
+        "Random_Mean": 0.46325784036860873,
+        "Z_Score": -8.667285459631461,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -494,17 +452,10 @@
         "Significant": false
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.4359043355613212,
-        "Random_Mean": 0.7622236956804811,
-        "Z_Score": -7.868999581762817,
-        "P_Value": 3.552713678800501e-15,
+        "CARE_Value": 0.41671624033313504,
+        "Random_Mean": 0.7612593694229625,
+        "Z_Score": -8.224171858941917,
+        "P_Value": 2.220446049250313e-16,
         "Significant": true
       }
     },
@@ -566,16 +517,9 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.2882774572651323,
-        "Random_Mean": 0.6117167007159044,
-        "Z_Score": -11.803628318227362,
+        "CARE_Value": 0.29986496913580246,
+        "Random_Mean": 0.6102568479938273,
+        "Z_Score": -11.236061296378878,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -638,16 +582,9 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.2150629156171846,
-        "Random_Mean": 0.5246292459748677,
-        "Z_Score": -14.436043766277896,
+        "CARE_Value": 0.21883656509695287,
+        "Random_Mean": 0.5237535734072022,
+        "Z_Score": -14.050436830023047,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -712,17 +649,10 @@
         "Significant": false
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.4378000299804532,
-        "Random_Mean": 0.8051476643564172,
-        "Z_Score": -8.397847541086753,
-        "P_Value": 0.0,
+        "CARE_Value": 0.45166015625,
+        "Random_Mean": 0.8046220703125,
+        "Z_Score": -8.017676541325805,
+        "P_Value": 1.1102230246251565e-15,
         "Significant": true
       }
     },
@@ -784,16 +714,9 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.3210326204581566,
-        "Random_Mean": 0.6267530622101438,
-        "Z_Score": -11.263903082626493,
+        "CARE_Value": 0.33217811384163,
+        "Random_Mean": 0.6227655954631379,
+        "Z_Score": -10.700169229700501,
         "P_Value": 0.0,
         "Significant": true
       }
@@ -856,16 +779,9 @@
         "Significant": true
       },
       "Unweighted_Modularity": {
-        "CARE_Value": 0.0,
-        "Random_Mean": 0.0,
-        "Z_Score": 0.0,
-        "P_Value": 1.0,
-        "Significant": false
-      },
-      "Weighted_Modularity": {
-        "CARE_Value": 0.3034666204783914,
-        "Random_Mean": 0.5366349954811674,
-        "Z_Score": -10.872042182307883,
+        "CARE_Value": 0.3126181474480151,
+        "Random_Mean": 0.5342787098298677,
+        "Z_Score": -10.216064882845613,
         "P_Value": 0.0,
         "Significant": true
       }
