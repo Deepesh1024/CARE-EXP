@@ -1,0 +1,322 @@
+{
+  "first": {
+    "k3": {
+      "CARE": {
+        "Density": 0.00496031746031746,
+        "Avg_Degree": 0.3125,
+        "Clustering_Coef": 0.0,
+        "Connected_Components": 54,
+        "Avg_Path_Length": 2.9454545454545453,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.004960317460317458,
+        "Avg_Degree": 0.3125,
+        "Clustering_Coef": 0.00011979166666666666,
+        "Connected_Components": 54.005,
+        "Avg_Path_Length": 1.5144238095238094,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 1.734723475976807e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.0022490775018604845,
+        "Connected_Components": 0.07053367989832943,
+        "Avg_Path_Length": 0.2733321784860289,
+        "Modularity": 0.0
+      }
+    },
+    "k5": {
+      "CARE": {
+        "Density": 0.010912698412698412,
+        "Avg_Degree": 0.6875,
+        "Clustering_Coef": 0.020833333333333332,
+        "Connected_Components": 49,
+        "Avg_Path_Length": 2.5083333333333333,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.010912698412698409,
+        "Avg_Degree": 0.6875,
+        "Clustering_Coef": 0.0013744791666666666,
+        "Connected_Components": 42.075,
+        "Avg_Path_Length": 2.410012911271735,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 3.469446951953614e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.007107088670063806,
+        "Connected_Components": 0.2745450782658469,
+        "Avg_Path_Length": 0.5291378493467479,
+        "Modularity": 0.0
+      }
+    },
+    "k8": {
+      "CARE": {
+        "Density": 0.023809523809523808,
+        "Avg_Degree": 1.5,
+        "Clustering_Coef": 0.08928571428571429,
+        "Connected_Components": 43,
+        "Avg_Path_Length": 2.3896103896103895,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.02380952380952382,
+        "Avg_Degree": 1.5,
+        "Clustering_Coef": 0.010278162202380951,
+        "Connected_Components": 18.89,
+        "Avg_Path_Length": 5.353477222212898,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 1.0408340855860843e-17,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.015291400691902652,
+        "Connected_Components": 1.5632977963267267,
+        "Avg_Path_Length": 0.9398567236805947,
+        "Modularity": 0.0
+      }
+    }
+  },
+  "middle": {
+    "k3": {
+      "CARE": {
+        "Density": 0.010912698412698412,
+        "Avg_Degree": 0.6875,
+        "Clustering_Coef": 0.0,
+        "Connected_Components": 44,
+        "Avg_Path_Length": 3.0256410256410255,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.010912698412698409,
+        "Avg_Degree": 0.6875,
+        "Clustering_Coef": 0.0016078125,
+        "Connected_Components": 42.087,
+        "Avg_Path_Length": 2.4343432054873233,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 3.469446951953614e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.007671672232978963,
+        "Connected_Components": 0.2990501630161736,
+        "Avg_Path_Length": 0.5567078743900757,
+        "Modularity": 0.0
+      }
+    },
+    "k5": {
+      "CARE": {
+        "Density": 0.0248015873015873,
+        "Avg_Degree": 1.5625,
+        "Clustering_Coef": 0.020833333333333336,
+        "Connected_Components": 31,
+        "Avg_Path_Length": 3.4349376114081998,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.024801587301587307,
+        "Avg_Degree": 1.5625,
+        "Clustering_Coef": 0.011099528769841271,
+        "Connected_Components": 17.584,
+        "Avg_Path_Length": 5.430364680714325,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 6.938893903907228e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.015518941213397522,
+        "Connected_Components": 1.6890660141036526,
+        "Avg_Path_Length": 0.9059082579416735,
+        "Modularity": 0.0
+      }
+    },
+    "k8": {
+      "CARE": {
+        "Density": 0.04265873015873016,
+        "Avg_Degree": 2.6875,
+        "Clustering_Coef": 0.0779389880952381,
+        "Connected_Components": 25,
+        "Avg_Path_Length": 2.6450742240215925,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.04265873015873016,
+        "Avg_Degree": 2.6875,
+        "Clustering_Coef": 0.03220962076118326,
+        "Connected_Components": 5.389,
+        "Avg_Path_Length": 3.96205222413027,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 0.0,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.020583683101186856,
+        "Connected_Components": 1.7583170931319527,
+        "Avg_Path_Length": 0.21978982015246337,
+        "Modularity": 0.0
+      }
+    }
+  },
+  "last": {
+    "k3": {
+      "CARE": {
+        "Density": 0.011408730158730158,
+        "Avg_Degree": 0.71875,
+        "Clustering_Coef": 0.026041666666666664,
+        "Connected_Components": 43,
+        "Avg_Path_Length": 4.4640522875816995,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.011408730158730155,
+        "Avg_Degree": 0.71875,
+        "Clustering_Coef": 0.0017015625000000002,
+        "Connected_Components": 41.099,
+        "Avg_Path_Length": 2.535887236095518,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 3.469446951953614e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.00788559057973673,
+        "Connected_Components": 0.31176754160752523,
+        "Avg_Path_Length": 0.5895788032802017,
+        "Modularity": 0.0
+      }
+    },
+    "k5": {
+      "CARE": {
+        "Density": 0.020337301587301588,
+        "Avg_Degree": 1.28125,
+        "Clustering_Coef": 0.05625,
+        "Connected_Components": 40,
+        "Avg_Path_Length": 2.8433333333333333,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.020337301587301588,
+        "Avg_Degree": 1.28125,
+        "Clustering_Coef": 0.007611979166666666,
+        "Connected_Components": 24.339,
+        "Avg_Path_Length": 4.748843834748781,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 0.0,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.013399101548368523,
+        "Connected_Components": 1.1198566872595797,
+        "Avg_Path_Length": 0.9730583277922573,
+        "Modularity": 0.0
+      }
+    },
+    "k8": {
+      "CARE": {
+        "Density": 0.03571428571428571,
+        "Avg_Degree": 2.25,
+        "Clustering_Coef": 0.08348214285714285,
+        "Connected_Components": 39,
+        "Avg_Path_Length": 2.12,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.0357142857142857,
+        "Avg_Degree": 2.25,
+        "Clustering_Coef": 0.02277473507395382,
+        "Connected_Components": 8.134,
+        "Avg_Path_Length": 4.514923120711494,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 1.3877787807814457e-17,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.01862072260354516,
+        "Connected_Components": 2.1095127399473084,
+        "Avg_Path_Length": 0.38470593768233535,
+        "Modularity": 0.0
+      }
+    }
+  },
+  "aggregated": {
+    "k3": {
+      "CARE": {
+        "Density": 0.006944444444444444,
+        "Avg_Degree": 0.4375,
+        "Clustering_Coef": 0.0,
+        "Connected_Components": 50,
+        "Avg_Path_Length": 4.3076923076923075,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.006944444444444447,
+        "Avg_Degree": 0.4375,
+        "Clustering_Coef": 0.0004557291666666667,
+        "Connected_Components": 50.015,
+        "Avg_Path_Length": 1.7719348484848485,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 2.6020852139652106e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.004044745357437279,
+        "Connected_Components": 0.12155245781143217,
+        "Avg_Path_Length": 0.35225450098155103,
+        "Modularity": 0.0
+      }
+    },
+    "k5": {
+      "CARE": {
+        "Density": 0.015873015873015872,
+        "Avg_Degree": 1.0,
+        "Clustering_Coef": 0.04791666666666666,
+        "Connected_Components": 42,
+        "Avg_Path_Length": 2.965367965367965,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.015873015873015872,
+        "Avg_Degree": 1.0,
+        "Clustering_Coef": 0.004224107142857143,
+        "Connected_Components": 32.391,
+        "Avg_Path_Length": 3.509199066687154,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 0.0,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.010724592537611353,
+        "Connected_Components": 0.626194059377762,
+        "Avg_Path_Length": 0.8352150577152054,
+        "Modularity": 0.0
+      }
+    },
+    "k8": {
+      "CARE": {
+        "Density": 0.03422619047619048,
+        "Avg_Degree": 2.15625,
+        "Clustering_Coef": 0.07083333333333333,
+        "Connected_Components": 32,
+        "Avg_Path_Length": 2.8617424242424243,
+        "Modularity": 0.0
+      },
+      "Random_Mean": {
+        "Density": 0.03422619047619047,
+        "Avg_Degree": 2.15625,
+        "Clustering_Coef": 0.021790575396825395,
+        "Connected_Components": 9.045,
+        "Avg_Path_Length": 4.640296141263838,
+        "Modularity": 0.0
+      },
+      "Random_Std": {
+        "Density": 6.938893903907228e-18,
+        "Avg_Degree": 0.0,
+        "Clustering_Coef": 0.018751431077087523,
+        "Connected_Components": 2.031003446575116,
+        "Avg_Path_Length": 0.4135346686843758,
+        "Modularity": 0.0
+      }
+    }
+  }
+}

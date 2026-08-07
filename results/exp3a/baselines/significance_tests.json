@@ -1,0 +1,538 @@
+{
+  "first": {
+    "k3": {
+      "Density": {
+        "CARE_Value": 0.00496031746031746,
+        "Random_Mean": 0.004960317460317458,
+        "Z_Score": 1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 0.3125,
+        "Random_Mean": 0.3125,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.00011979166666666666,
+        "Z_Score": -0.05326257835382394,
+        "P_Value": 0.9575226960050642,
+        "Significant": false
+      },
+      "Connected_Components": {
+        "CARE_Value": 54,
+        "Random_Mean": 54.005,
+        "Z_Score": -0.07088812050086984,
+        "P_Value": 0.943486798056778,
+        "Significant": false
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.9454545454545453,
+        "Random_Mean": 1.5144238095238094,
+        "Z_Score": 5.23550042244251,
+        "P_Value": 1.6453844842168053e-07,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k5": {
+      "Density": {
+        "CARE_Value": 0.010912698412698412,
+        "Random_Mean": 0.010912698412698409,
+        "Z_Score": 1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 0.6875,
+        "Random_Mean": 0.6875,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.020833333333333332,
+        "Random_Mean": 0.0013744791666666666,
+        "Z_Score": 2.7379501044682995,
+        "P_Value": 0.006182345490735708,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 49,
+        "Random_Mean": 42.075,
+        "Z_Score": 25.22354450402639,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.5083333333333333,
+        "Random_Mean": 2.410012911271735,
+        "Z_Score": 0.18581249136303649,
+        "P_Value": 0.8525918084350717,
+        "Significant": false
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k8": {
+      "Density": {
+        "CARE_Value": 0.023809523809523808,
+        "Random_Mean": 0.02380952380952382,
+        "Z_Score": -1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 1.5,
+        "Random_Mean": 1.5,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.08928571428571429,
+        "Random_Mean": 0.010278162202380951,
+        "Z_Score": 5.166796271656833,
+        "P_Value": 2.381405896922928e-07,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 43,
+        "Random_Mean": 18.89,
+        "Z_Score": 15.422525418158427,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.3896103896103895,
+        "Random_Mean": 5.353477222212898,
+        "Z_Score": -3.1535304881318935,
+        "P_Value": 0.0016130837784986696,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    }
+  },
+  "middle": {
+    "k3": {
+      "Density": {
+        "CARE_Value": 0.010912698412698412,
+        "Random_Mean": 0.010912698412698409,
+        "Z_Score": 1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 0.6875,
+        "Random_Mean": 0.6875,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0016078125,
+        "Z_Score": -0.2095778405506351,
+        "P_Value": 0.8339971762232237,
+        "Significant": false
+      },
+      "Connected_Components": {
+        "CARE_Value": 44,
+        "Random_Mean": 42.087,
+        "Z_Score": 6.3969201043255595,
+        "P_Value": 1.5854229040712653e-10,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 3.0256410256410255,
+        "Random_Mean": 2.4343432054873233,
+        "Z_Score": 1.0621330276700738,
+        "P_Value": 0.28817529823533294,
+        "Significant": false
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k5": {
+      "Density": {
+        "CARE_Value": 0.0248015873015873,
+        "Random_Mean": 0.024801587301587307,
+        "Z_Score": -1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 1.5625,
+        "Random_Mean": 1.5625,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.020833333333333336,
+        "Random_Mean": 0.011099528769841271,
+        "Z_Score": 0.6272209185951976,
+        "P_Value": 0.5305144328864955,
+        "Significant": false
+      },
+      "Connected_Components": {
+        "CARE_Value": 31,
+        "Random_Mean": 17.584,
+        "Z_Score": 7.942851189933837,
+        "P_Value": 1.9984014443252818e-15,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 3.4349376114081998,
+        "Random_Mean": 5.430364680714325,
+        "Z_Score": -2.2026811785996543,
+        "P_Value": 0.027617227751190132,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k8": {
+      "Density": {
+        "CARE_Value": 0.04265873015873016,
+        "Random_Mean": 0.04265873015873016,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 2.6875,
+        "Random_Mean": 2.6875,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.0779389880952381,
+        "Random_Mean": 0.03220962076118326,
+        "Z_Score": 2.2216319163705975,
+        "P_Value": 0.026308191111726664,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 25,
+        "Random_Mean": 5.389,
+        "Z_Score": 11.153278368618063,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.6450742240215925,
+        "Random_Mean": 3.96205222413027,
+        "Z_Score": -5.991988160302959,
+        "P_Value": 2.0729102878647154e-09,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    }
+  },
+  "last": {
+    "k3": {
+      "Density": {
+        "CARE_Value": 0.011408730158730158,
+        "Random_Mean": 0.011408730158730155,
+        "Z_Score": 1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 0.71875,
+        "Random_Mean": 0.71875,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.026041666666666664,
+        "Random_Mean": 0.0017015625000000002,
+        "Z_Score": 3.086655833896881,
+        "P_Value": 0.0020242181416092464,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 43,
+        "Random_Mean": 41.099,
+        "Z_Score": 6.097491708720323,
+        "P_Value": 1.0774570124993943e-09,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 4.4640522875816995,
+        "Random_Mean": 2.535887236095518,
+        "Z_Score": 3.2704110811965648,
+        "P_Value": 0.0010739129837975536,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k5": {
+      "Density": {
+        "CARE_Value": 0.020337301587301588,
+        "Random_Mean": 0.020337301587301588,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 1.28125,
+        "Random_Mean": 1.28125,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.05625,
+        "Random_Mean": 0.007611979166666666,
+        "Z_Score": 3.6299464301959494,
+        "P_Value": 0.00028348004650302627,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 40,
+        "Random_Mean": 24.339,
+        "Z_Score": 13.984825181804558,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.8433333333333333,
+        "Random_Mean": 4.748843834748781,
+        "Z_Score": -1.9582695579398648,
+        "P_Value": 0.05019839091427336,
+        "Significant": false
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k8": {
+      "Density": {
+        "CARE_Value": 0.03571428571428571,
+        "Random_Mean": 0.0357142857142857,
+        "Z_Score": 1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 2.25,
+        "Random_Mean": 2.25,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.08348214285714285,
+        "Random_Mean": 0.02277473507395382,
+        "Z_Score": 3.2602068714364005,
+        "P_Value": 0.001113309793755013,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 39,
+        "Random_Mean": 8.134,
+        "Z_Score": 14.631814928394778,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.12,
+        "Random_Mean": 4.514923120711494,
+        "Z_Score": -6.225334433722887,
+        "P_Value": 4.805298381427292e-10,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    }
+  },
+  "aggregated": {
+    "k3": {
+      "Density": {
+        "CARE_Value": 0.006944444444444444,
+        "Random_Mean": 0.006944444444444447,
+        "Z_Score": -1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 0.4375,
+        "Random_Mean": 0.4375,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0004557291666666667,
+        "Z_Score": -0.11267190549553244,
+        "P_Value": 0.9102906755510691,
+        "Significant": false
+      },
+      "Connected_Components": {
+        "CARE_Value": 50,
+        "Random_Mean": 50.015,
+        "Z_Score": -0.12340351046846375,
+        "P_Value": 0.9017875773708115,
+        "Significant": false
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 4.3076923076923075,
+        "Random_Mean": 1.7719348484848485,
+        "Z_Score": 7.198651691154024,
+        "P_Value": 6.081801728896608e-13,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k5": {
+      "Density": {
+        "CARE_Value": 0.015873015873015872,
+        "Random_Mean": 0.015873015873015872,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 1.0,
+        "Random_Mean": 1.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.04791666666666666,
+        "Random_Mean": 0.004224107142857143,
+        "Z_Score": 4.074053104635805,
+        "P_Value": 4.620193913207338e-05,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 42,
+        "Random_Mean": 32.391,
+        "Z_Score": 15.345083295022468,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.965367965367965,
+        "Random_Mean": 3.509199066687154,
+        "Z_Score": -0.6511270316496455,
+        "P_Value": 0.5149644882137874,
+        "Significant": false
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    },
+    "k8": {
+      "Density": {
+        "CARE_Value": 0.03422619047619048,
+        "Random_Mean": 0.03422619047619047,
+        "Z_Score": 1.0,
+        "P_Value": 0.31731050786291415,
+        "Significant": false
+      },
+      "Avg_Degree": {
+        "CARE_Value": 2.15625,
+        "Random_Mean": 2.15625,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      },
+      "Clustering_Coef": {
+        "CARE_Value": 0.07083333333333333,
+        "Random_Mean": 0.021790575396825395,
+        "Z_Score": 2.6154141374539432,
+        "P_Value": 0.00891193251070943,
+        "Significant": true
+      },
+      "Connected_Components": {
+        "CARE_Value": 32,
+        "Random_Mean": 9.045,
+        "Z_Score": 11.302294951152863,
+        "P_Value": 0.0,
+        "Significant": true
+      },
+      "Avg_Path_Length": {
+        "CARE_Value": 2.8617424242424243,
+        "Random_Mean": 4.640296141263838,
+        "Z_Score": -4.300857586329403,
+        "P_Value": 1.701383815033708e-05,
+        "Significant": true
+      },
+      "Modularity": {
+        "CARE_Value": 0.0,
+        "Random_Mean": 0.0,
+        "Z_Score": 0.0,
+        "P_Value": 1.0,
+        "Significant": false
+      }
+    }
+  }
+}
