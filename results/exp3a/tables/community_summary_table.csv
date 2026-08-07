@@ -1,0 +1,5 @@
+Layer,Algorithm,Num_Communities,Modularity
+first,Louvain,52,0.29721984844623567
+middle,Louvain,35,0.43654591455992087
+last,Louvain,43,0.4076819687410611
+aggregated,Louvain,46,0.43780002998045314
