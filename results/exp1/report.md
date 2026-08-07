@@ -50,13 +50,15 @@ The terminal layer demonstrates highly distinct mergeability dynamics. Because t
 
 ### Cross-Calibration Stability
 
-A critical validation step was observing metric behavior as calibration size increased from 64 to 512 tokens. The qualitative conclusions—such as the dominance of utilization metrics and the failure of activation similarity—remained entirely consistent from $N=64$ all the way to $N=512$. 
+A critical validation step was observing metric behavior as calibration size increased from 64 to 512 tokens. The qualitative conclusions—such as the dominance of utilization metrics and the failure of activation similarity, remained entirely consistent from $N=64$ all the way to $N=512$. 
 
 The stability of these relationships across an 8x scaling of data volume confirms that these are not sampling artifacts. Instead, they strengthen the statistical validity of the experiment, proving that these behavioral traits are intrinsic organizational properties of the MoE parameter distribution.
 
 ### Metric Behavior
 
-- **Usage Frequency:** This metric unexpectedly proved to be the most consistent and potent signal across the entire network. Heavily utilized experts are systematically intolerant to parameter averaging.
+- **Observation 7: Usage Frequency contains weak but useful information**
+Usage Frequency is consistently one of the strongest predictors across attribution methods, while permutation analysis reveals that Jaccard Overlap contributes the greatest amount of unique predictive information. Heavily utilized "generalist" experts exhibit lower tolerance to merging than rarely triggered domain specialists. This critical behavioral observation served as primary motivation to incorporate utilization statistics inside multi-metric capability models.
+
 - **Output Similarity:** Output Similarity demonstrated weak predictive capability in early and middle layers but became critically important in the final terminal layer, where output space directly maps to vocabulary tokens.
 - **Weight Distance & Weight Cosine:** Parameter space metrics (Euclidean distance and Cosine similarity) showed moderate predictive gradients in early structural layers but completely failed to anticipate catastrophic merge degradation in deeper semantic layers.
 - **Activation Similarity:** Despite intuitive theoretical appeal, measuring internal activation alignment failed consistently across all depths and calibration sizes, producing near-zero correlations.
@@ -69,7 +71,7 @@ The stability of these relationships across an 8x scaling of data volume confirm
 
 Several empirical observations contradicted the initial intuition behind standard model compression techniques. These discoveries reflect fundamental properties of MoE topologies:
 
-1. **Usage Frequency Dominance Deepening with Depth:** Usage Frequency was expected to be a simple baseline. However, its predictive dominance became progressively stronger deeper into the network, ultimately acting as the strongest singular indicator of merge safety.
+1. **Complementary Predictive Signals:** Usage Frequency was expected to be a simple baseline. However, it is consistently one of the strongest predictors across attribution methods, while permutation analysis reveals that Jaccard Overlap contributes the greatest amount of unique predictive information.
 2. **Late-Stage Output Similarity Relevance:** Output Similarity was largely uninformative throughout the transformer backbone but abruptly became critical in the final readout layer, highlighting a sharp phase transition in how representations are processed.
 3. **Persistent Failure of Activation Similarity:** The complete inability of Activation Similarity to predict functional equivalence was consistent and unexpected, proving that experts achieve similar functional ends through highly divergent, incompatible parameter means.
 4. **Absolute Calibration Stability:** The structural and behavioral relationships observed at $N=64$ were near-identical at $N=512$. The variance did not smooth out, implying these relationships are deeply baked into the pre-trained weights.

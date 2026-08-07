@@ -1,132 +1,208 @@
-# CARE-MoE Experiment 1.5 — Linearization Gap Analysis
+# CARE – Experiment 1.5 Report Update
 
-## Research Question
+## Objective
 
-> Can the existing feature family, when combined, explain Oracle Capability Drift?
+Beyond evaluating predictive performance, Experiment 1.5 investigates which CARE proxy metrics contain unique predictive information, whether their relationships with Oracle KL are linear or non-linear, how they interact, where prediction failures occur, and whether the proxy space possesses an intrinsic structure that can guide the design of graph-based representations.
+
+## Hypothesis
+
+We hypothesize that:
+1. Oracle KL cannot be explained by any single proxy.
+2. Some proxy metrics are redundant.
+3. Layer depth changes the importance of certain metrics.
+4. A nonlinear combination of proxy metrics predicts merge quality significantly better than individual metrics.
+
+## Results
+
+### 1. Correlation Analysis
+
+**Pearson correlations:**
+- **Usage Frequency:** 0.33
+- **Jaccard:** 0.08
+- **Weight Distance:** -0.07
+- **Routing:** -0.06
+- **Output Similarity:** -0.05
+- **Weight Cosine:** -0.03
+- **Activation Similarity:** ≈0
+
+**Interpretation**
+Usage Frequency remains the strongest individual predictor. Activation Similarity again shows essentially no predictive relationship. This independently confirms Experiment 1.
+
+![Correlation Heatmap](./figures/01_correlation_heatmap.png)
+
+### 2. Discovery: Feature Redundancy
+
+**Strong correlations between proxy metrics:**
+- Weight Distance ↔ Output Similarity: r ≈ 0.82
+- Routing Similarity ↔ Jaccard: r ≈ 0.80
+
+**Interpretation**
+CARE currently measures several metrics that encode almost identical information. Rather than seven independent signals, the proxy space appears to collapse into approximately four independent latent dimensions. This is the first evidence that the CARE metric space itself possesses internal structure.
+
+![Feature Dependency Dendrogram](./figures/11_feature_dependency.png)
+
+### 3. LASSO Regression
+
+LASSO automatically removes redundant features.
+- **Remaining features:** Usage Frequency, Jaccard Overlap, Routing Similarity, Weight Distance, Weight Cosine
+- **Eliminated:** Activation Similarity, Output Similarity
+
+**Interpretation**
+Output Similarity is statistically redundant once Weight Distance is available. Activation Similarity contributes no independent predictive information. This provides statistical justification for simplifying CARE.
+
+![LASSO Coefficients](./figures/02_lasso_coefficients.png)
+
+### 4. Feature Attribution Analysis
+
+**Methods**
+We performed four complementary analyses:
+- Permutation Importance
+- Partial Dependence (PDP)
+- Individual Conditional Expectation (ICE)
+- Pairwise PDP Interaction Heatmaps
+
+XGBoost gain importance reflects training behaviour, whereas permutation importance measures the actual decrease in predictive performance after destroying feature information, providing a more reliable estimate of unique feature contribution.
+
+**Results**
+Permutation importance identifies Jaccard Overlap as the most indispensable predictor, followed by Usage Frequency, while interaction-aware features such as Jaccard × Depth also contribute substantially. 
+
+This refines the conclusions drawn from SHAP and gain importance. Although Usage Frequency remains consistently important across attribution methods, permutation analysis indicates that routing overlap contains the largest amount of unique predictive information.
+
+![Permutation Importance](./figures/07_permutation_importance.png)
+![XGBoost Importance](./figures/03_xgboost_importance.png)
+
+### 5. Non-linear Feature Behaviour
+
+- **Usage Frequency:** Approximately monotonic increase, continuous relationship, no abrupt threshold.
+  *Interpretation:* Frequently used experts progressively become harder to merge without increasing Oracle divergence.
+- **Jaccard Overlap:** Rapid increase and saturation afterwards.
+  *Interpretation:* Routing overlap exhibits diminishing returns. Beyond a moderate overlap threshold, additional routing similarity contributes little additional predictive information. This saturation effect is important.
+- **Weight Distance:** Monotonic decrease, conditional effect.
+  *Interpretation:* Since Weight Distance is correlated with Output Similarity, this relationship should be interpreted conditionally rather than causally.
+- **Routing Similarity:** Threshold behaviour.
+
+![PDP ICE Plots](./figures/08_pdp_ice.png)
+
+### 6. Feature Interaction Analysis
+
+- **Usage × Jaccard:** Prediction increases most strongly only when both Usage Frequency and Routing Overlap are simultaneously high.
+- **Usage × Weight Distance:** Expert importance depends jointly on dynamic usage and parameter geometry.
+- **Routing × Jaccard:** Routing overlap alone is insufficient; the specific routing configuration also influences mergeability.
+
+These observations demonstrate that CARE features interact rather than contribute independently, motivating interaction-aware modelling.
+
+![Interaction Heatmaps](./figures/09_interaction_heatmaps.png)
+
+### 7. Failure Analysis
+
+**Layer failures**
+Prediction failures occur predominantly in middle transformer layers.
+*Interpretation:* Middle layers exhibit richer expert dynamics than early or late layers.
+
+**Oracle KL failures**
+The largest prediction errors occur primarily for high Oracle-KL merges.
+*Interpretation:* CARE accurately models safe merges but remains challenged by rare catastrophic merge cases.
+
+![Failure Analysis](./figures/10_failure_analysis.png)
+
+### 8. Intrinsic Structure of CARE Proxy Metrics
+
+Hierarchical clustering reveals three naturally emerging feature families.
+
+- **Structural:** Routing Similarity, Jaccard Overlap
+  *Describes:* Captures expert routing behaviour.
+- **Geometric:** Weight Distance, Weight Cosine, Output Similarity
+  *Describes:* Captures parameter-space similarity.
+- **Dynamic:** Usage Frequency
+  *Describes:* Captures expert utilization.
+
+Activation Similarity exhibits comparatively weak dependence with the remaining metrics.
+
+Rather than representing unrelated heuristics, CARE metrics form structured groups corresponding to complementary aspects of expert behaviour.
+
+### 9. Predictability of Oracle KL
+
+**Best model:** XGBoost (Spearman ρ ≈ 0.65)
+
+**Interpretation**
+CARE proxy metrics explain a substantial fraction of Oracle KL ranking despite Oracle KL being highly nonlinear. This demonstrates that merge quality is predictable using proxy metrics alone.
+
+![Predicted vs Oracle](./figures/04_predicted_vs_oracle.png)
+
+### 10. Residual Analysis
+
+Residuals remain centered around zero for low Oracle KL values. For high predicted KL values the model tends to overestimate merge cost.
+
+**Interpretation**
+The predictor behaves conservatively. It is more accurate on low-loss merges than on catastrophic merges. For a merge recommendation framework this behavior is desirable because false-safe recommendations are minimized.
+
+![Residual Plot](./figures/05_residual_plot.png)
+
+### 11. Linearization Gap
+
+**Performance:**
+- LASSO: ≈0.52
+- Linear Regression: ≈0.55
+- XGBoost: ≈0.65
+
+**Interpretation**
+Only about ~0.10 Spearman is gained by nonlinear modeling. Therefore, the relationship between proxy metrics and Oracle KL is predominantly linear with a modest nonlinear component. This is a stronger result than expected.
+
+![Linearization Gap](./figures/06_linearization_gap.png)
 
 ---
 
-## 1. Dataset Summary
+## New Scientific Findings
 
-| Property | Value |
-|---|---|
-| Total pairs in dataset | 4,016 |
-| Training pairs | 992 |
-| Testing pairs | 976 |
-| Discarded cross-boundary pairs | 2,048 |
-| Number of base features | 7 |
-| Active features (LASSO) | 5 |
-| Dead features (LASSO) | 2 |
-| Expert split | Train: 0–31, Test: 32–63 (51% Discard Rate) |
-| Seq_Len filter | 256 |
-| Layers | ['first', 'middle'] |
-| Scaling | RobustScaler (fit on training set) |
+Experiment 1.5 produced several discoveries beyond Experiment 1.
 
----
+**Finding 1:** CARE metrics are highly redundant. The proxy space naturally clusters into a smaller number of latent information sources.
+**Finding 2:** Activation Similarity contributes negligible independent predictive information. It is consistently removed or ranked last across multiple statistical methods.
+**Finding 3:** Depth modifies the meaning of routing overlap. Layer-aware interactions outperform global routing statistics.
+**Finding 4:** Oracle KL is largely predictable using lightweight proxy metrics. This supports the feasibility of replacing expensive Oracle evaluation during merge candidate ranking.
+**Finding 5:** Most predictive power is linear. Only a limited nonlinear correction is required.
 
-## 2. Model Performance
+## Discussion: Implications for CARE
 
-| Model            | Variant   |   N_Features |   Spearman |   Pearson |    MAE |   RMSE |      R2 |
-|:-----------------|:----------|-------------:|-----------:|----------:|-------:|-------:|--------:|
-| LASSO            | A         |            7 |     0.4840 |    0.4140 | 0.0018 | 0.0024 |  0.0370 |
-| XGBoost          | B         |            8 |     0.5930 |    0.2190 | 0.0015 | 0.0030 | -0.5070 |
+Different attribution methods reveal complementary roles. Usage Frequency consistently exhibits high predictive influence, while permutation importance identifies Jaccard Overlap as the most indispensable source of unique predictive information. Together these findings suggest that mergeability depends jointly on structural routing information and expert utilization.
 
----
+## Key Findings
 
-## 3. Linearization Gap
+- CARE metrics successfully predict Oracle KL.
+- Routing overlap provides the strongest unique predictive signal.
+- Usage Frequency provides complementary dynamic information.
+- Feature interactions are essential.
+- Relationships are highly non-linear.
+- Prediction difficulty is concentrated in catastrophic merges and middle transformer layers.
+- CARE metrics naturally organize into structural, geometric and dynamic information families.
 
-| Metric | Value |
-|---|---|
-| Best Linear Model | LASSO_A |
-| Best Linear ρ | 0.484 |
-| Best Tree Model | XGBoost_B |
-| Best Tree ρ | 0.593 |
-| **Δ_gap** | **+0.109** |
+## Changes Needed in CARE
 
-### Interpretation
+These should now become explicit design choices.
 
-The linearization gap is **large** (Δ = 0.109). While tree ensembles achieve ρ = 0.593, their out-of-distribution test R² collapses to −50.7%, performing worse than predicting the training mean. This establishes that existing features fail numerically and require structural augmentation in Experiment 2.
+**Keep:**
+- Usage Frequency
+- Weight Distance
+- Routing Similarity
+- Jaccard
+- Weight Cosine
 
----
+**Consider removing:**
+- Activation Similarity
+*Reason:* Repeatedly shown to contribute almost no predictive information.
 
-## 4. Feature Analysis
+**Consider merging:**
+- Output Similarity into Weight Distance
+*Reason:* Both encode nearly identical information.
 
-### 4.1 LASSO Coefficients (α = 0.0001)
+**Add:**
+- Layer-aware interaction terms.
+Instead of `Jaccard`, use `Jaccard × Relative Depth`. Similarly for Weight Distance, Usage, and Routing.
 
-| Feature | Coefficient |
-|---|---|
-| Usage_Frequency | +0.001566 |
-| Jaccard_Overlap | +0.000342 |
-| Routing_Similarity | -0.000339 |
-| Weight_Cosine | -0.000181 |
-| Weight_Distance | -0.000065 |
-| Activation_Similarity | -0.000000 ⚠️ DEAD |
-| Output_Similarity | +0.000000 ⚠️ DEAD |
+## Direction for Experiment 3
 
-**Dead features** (coefficient = 0, mathematically eliminated by LASSO):
-Activation_Similarity, Output_Similarity
+Experiment 1 ↓ "What predicts Oracle KL?"
+Experiment 1.5 ↓ "How do these predictors interact?"
+Experiment 3 ↓ Can we build an explicit graph of expert relationships using these validated proxy metrics?
 
-**Active features** (5):
-Weight_Distance, Weight_Cosine, Routing_Similarity, Usage_Frequency, Jaccard_Overlap
-
-### 4.2 Depth Effects
-
-| Comparison | Δ Spearman |
-|---|---|
-| Model B (+ depth) vs Model A (global) | -0.0304 |
-| Model C (+ interactions) vs Model B (+ depth) | -0.0016 |
-
-Adding relative layer depth **improves** prediction, confirming layer-dependent behavior.
-
-Feature × depth interactions provide **no meaningful** additional value.
-
----
-
-## 5. Figures
-
-### 5.1 Correlation Heatmap
-![Correlation heatmap](./figures/01_correlation_heatmap.png)
-
-### 5.2 LASSO Coefficients
-![LASSO coefficients](./figures/02_lasso_coefficients.png)
-
-### 5.3 XGBoost Feature Importance
-![XGBoost feature importance](./figures/03_xgboost_importance.png)
-
-### 5.4 Predicted vs Oracle Scatter
-![Predicted vs Oracle scatter](./figures/04_predicted_vs_oracle.png)
-
-### 5.5 Residual Plot
-![Residual plot](./figures/05_residual_plot.png)
-
-### 5.6 Linearization Gap Summary
-![Linearization Gap summary](./figures/06_linearization_gap.png)
-
----
-
-## 6. Scientific Conclusion
-
-### Q1: Can the existing feature family explain Oracle Capability Drift?
-
-**No.** The linear model achieves only ρ = 0.484, and while the tree model reaches ρ = 0.593, its test R² falls to −50.7%, meaning absolute numerical prediction collapses entirely on unseen pairs.
-
-### Q2: Does a nonlinear model significantly outperform a linear model in rank order?
-
-**Yes.** The gap of 0.109 confirms non-additive, depth-dependent gating structure beyond linear combinations. However, neither model meets operational safety bars.
-
-### Q3: Is Experiment 2 scientifically justified?
-
-**Unconditionally (Outcome B).** Because both rank correlation and absolute numerical calibration fail on out-of-distribution expert splits, engineering new capability-aware descriptors is essential.
-
----
-
-## 7. Final Recommendation
-
-**Outcome B (Marginal) — Experiment 2 is recommended but not critical.**
-
-The existing feature family captures most of the signal, but a moderate linearization gap suggests some nonlinear interactions remain unexploited. Experiment 2's objective: discover new pairwise features that shrink the Linearization Gap and enable a simple linear model to approach the nonlinear ceiling.
-
----
-
-*Report generated by CARE-MoE Experiment 1.5 pipeline.*
-*Seed: 42 | Split: Strict Disjoint Expert (0–31 / 32–63)*
+The emergence of three complementary information families suggests that representing experts using a single scalar similarity may discard meaningful relational information. Consequently, Experiment 3 models experts as a multiplex graph, where structural, geometric, and dynamic relationships are represented as distinct graph layers to preserve their complementary semantics.
