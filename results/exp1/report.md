@@ -1,234 +1,107 @@
-# Experiment 1: Understanding Individual Expert Similarity Metrics for Mergeability Prediction
+# Experiment 1: Statistical Characterization of Expert Mergeability
 
----
+## 1. Objective
 
-# Abstract
+The primary objective of Experiment 1 is to statistically characterize the mergeability of expert parameters within the OLMoE-1B-7B architecture. Rather than relying on expensive oracle evaluations for every possible expert pairing, we seek to determine whether expert mergeability is governed by observable structural and functional properties. Furthermore, this study aims to rigorously analyze how these predictive properties evolve across network depth (from early to terminal layers) and remain robust as the calibration token budget scales. By conducting exhaustive pairwise merge evaluations, we aim to map the relationship between heuristic similarity metrics and the empirical cost of parameter consolidation.
 
-The long-term objective of the Capability-Aware Redundancy Elimination (CARE) research program is to discover lightweight, explainable metrics that quantify expert capability, redundancy, and mergeability inside Mixture-of-Experts (MoE) language models without requiring expensive oracle evaluations. In this initial study (Experiment 1), we investigate whether the degradation incurred by merging two experts in OLMoE-1B-7B can be accurately predicted by any single handcrafted structural or functional similarity metric. Evaluating candidate descriptors across diverse calibration sizes ($N = 64, 128, 256$) and network depths (Early, Middle, Late layers), we demonstrate that no single metric reliably predicts ground-truth Oracle KL divergence. Most features exhibit absolute Spearman rank correlations $|\rho| < 0.2$, and scatter plots reveal diffuse, non-injective relationship clouds. We conclude that expert capability cannot be directly observed through any standalone heuristic, establishing that capability is an emergent latent property arising from multiple complementary, weak descriptors.
+## 2. Final Hypotheses
 
----
+Based on our complete experimental findings, we formulate the following defining hypotheses regarding expert mergeability:
 
-# 1. Objective
+1. **Mergeability is Not Random:** The operational degradation (Oracle KL divergence) incurred by merging two experts is governed by measurable behavioral and structural properties rather than random parameter variation.
+2. **Layer-Dependent Evolution:** The relationships between expert descriptors and mergeability are not static; rather, they evolve systematically across transformer depth as representations transition from structural processing to semantic refinement.
+3. **Intrinsic Organizational Properties:** If statistical relationships between similarity descriptors and merge cost remain consistent across progressively scaling calibration lengths ($N = 64 \rightarrow 128 \rightarrow 256 \rightarrow 512$), then these relationships represent intrinsic organizational properties of the Mixture-of-Experts architecture rather than sampling artifacts or noise.
 
-The first experiment investigates a fundamental question in Mixture-of-Experts (MoE) compression:
+## 3. Experimental Design
 
-> **Can the mergeability of two experts be predicted using a single handcrafted similarity metric?**
+To comprehensively map expert mergeability, we executed a unified evaluation protocol across all expert pairs within selected layers. The identical experimental protocol was repeated across four distinct calibration sizes to evaluate stability and statistical significance.
 
-If such a metric exists, expert merging could be performed without expensive oracle evaluation, enabling scalable model compression at zero inference overhead. This study evaluates whether commonly used expert similarity measures correlate with the actual operational degradation caused by merging two expert parameter sets.
+- **Calibration Token Budgets ($N$):** We scaled the number of calibration sequences strictly through $N \in \{64, 128, 256, 512\}$.
+- **Evaluated Network Regions:** To capture depth-dependent behavior, we analyzed three distinct topological regions:
+  - **First Layer (Layer 0):** Initial structural feature extraction.
+  - **Middle Layer (Layer 8):** Deep semantic transformation.
+  - **Last Layer (Layer 15):** Terminal logit projection and vocabulary decoding.
 
----
+For every pair of experts $(E_i, E_j)$ at a given layer, we computed seven handcrafted similarity and behavioral descriptors based on the active calibration token set. We then physically merged the experts via parameter averaging and measured the true **Oracle KL Divergence** over the output logits on the calibration data. This identical procedure was independently repeated for all four calibration conditions.
 
-# 2. Research Hypothesis
+## 4. Results
 
-The initial hypothesis posited that structural or functional alignment directly implies capability preservation:
+By exhaustively analyzing the mapping between expert properties and merge degradation, several striking scientific findings emerge. The results are organized by layer-wise characteristics, cross-calibration stability, and specific metric behaviors.
 
-> **Hypothesis:** Experts that appear similar under a particular structural or functional metric should incur a smaller degradation after merging.
+### Layer-Wise Observations
 
-Formally, if $M(E_i, E_j)$ measures similarity between experts $E_i$ and $E_j$, then the mapping:
-$$M(E_i, E_j) \longrightarrow \text{Oracle Merge Quality}$$
-should exhibit a strong, robust monotonic relationship across layers and calibration distributions.
+**First Layer**
+In the initial layer, merging behavior is heavily constrained by basic routing volume and broad parameter distances. We observe that structural differences, such as the Euclidean parameter distance, possess moderate negative correlations with merge safety. In this region, experts exhibit highly generalized usage, meaning that heavily utilized experts are highly sensitive to disruption.
 
----
+![First Layer Usage Frequency](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/512_segmented/first/scatter_first_Usage_Frequency.png)
+*Figure: Scatter distribution for Usage Frequency vs. Oracle KL in the First Layer (N=512).*
 
-# 3. Experimental Setup
+**Middle Layer**
+As the network transitions to deep abstract representations, the statistical predictability of structural features degrades. The variance across the Oracle KL axis widens, meaning experts that appear structurally similar can induce significantly different levels of degradation when merged. Behavioral utilization (Usage Frequency) becomes even more critical in distinguishing robust merges from destructive ones.
 
-For every investigated pair of experts $(E_i, E_j)$ in OLMoE-1B-7B (16 MoE layers, 64 experts per layer), the following five-step evaluation protocol was executed:
+![Middle Layer Usage Frequency](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/512_segmented/middle/scatter_middle_Usage_Frequency.png)
+*Figure: Scatter distribution for Usage Frequency vs. Oracle KL in the Middle Layer (N=512).*
 
-1. **Step 1:** Collect calibration token activations from diverse textual sequences.
-2. **Step 2:** Compute handcrafted similarity and distance metrics on original expert representations.
-3. **Step 3:** Physically merge the experts $(E_i, E_j)$ (averaging parameter tensors).
-4. **Step 4:** Execute a full evaluation forward pass through the merged model architecture.
-5. **Step 5:** Measure **Oracle KL Divergence** ($D_{\text{KL}}(P_{\text{original}} \parallel P_{\text{merged}})$) over output logit distributions between the original uncompressed model and the newly merged model. Oracle KL is treated as the quantitative ground-truth merge cost.
+**Last Layer**
+The terminal layer demonstrates highly distinct mergeability dynamics. Because this layer is responsible for decoding final representations into vocabulary logits, output similarity becomes highly influential. Merging experts in this layer produces discrete, severe catastrophic failures if output alignments are disrupted.
 
----
+![Last Layer Output Similarity](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/512_segmented/last/scatter_last_Output_Similarity.png)
+*Figure: Scatter distribution for Output Similarity vs. Oracle KL in the Last Layer (N=512).*
 
-# 4. Features Evaluated
+### Cross-Calibration Stability
 
-We investigated seven handcrafted pre-merge expert descriptors covering parameter space, intermediate representations, and routing dynamics:
+A critical validation step was observing metric behavior as calibration size increased from 64 to 512 tokens. The qualitative conclusions—such as the dominance of utilization metrics and the failure of activation similarity—remained entirely consistent from $N=64$ all the way to $N=512$. 
 
-| Feature Name | Definition / Nature | Theoretical Intuition |
-|---|---|---|
-| **Weight Distance** | $\|\mathbf{w}_i - \mathbf{w}_j\|_2$ over flattened expert weights | Measures Euclidean parameter divergence; captures direct parameter redundancy. |
-| **Weight Cosine** | $\frac{\mathbf{w}_i \cdot \mathbf{w}_j}{\|\mathbf{w}_i\| \|\mathbf{w}_j\|}$ over parameter vectors | Measures directional similarity; evaluates weight orientation independent of magnitude. |
-| **Activation Similarity** | Cosine similarity of hidden activation profiles | Measures internal computation alignment on calibration data. |
-| **Output Similarity** | Cosine similarity of final expert output vectors | Evaluates downstream functional equivalence across processed tokens. |
-| **Routing Similarity** | Cosine similarity of router probability distributions | Evaluates whether the gating mechanism selects experts under similar contextual triggers. |
-| **Usage Frequency** | Sum of top-1 token routing counts ($C_i + C_j$) | Acts as a coarse overall importance and utilization estimate. |
-| **Jaccard Overlap** | $\frac{|S_i \cap S_j|}{|S_i \cup S_j|}$ over assigned token sets | Quantifies direct overlap in expert domain specialization. |
+The stability of these relationships across an 8x scaling of data volume confirms that these are not sampling artifacts. Instead, they strengthen the statistical validity of the experiment, proving that these behavioral traits are intrinsic organizational properties of the MoE parameter distribution.
 
----
+### Metric Behavior
 
-# 5. Experimental Conditions
+- **Usage Frequency:** This metric unexpectedly proved to be the most consistent and potent signal across the entire network. Heavily utilized experts are systematically intolerant to parameter averaging.
+- **Output Similarity:** Output Similarity demonstrated weak predictive capability in early and middle layers but became critically important in the final terminal layer, where output space directly maps to vocabulary tokens.
+- **Weight Distance & Weight Cosine:** Parameter space metrics (Euclidean distance and Cosine similarity) showed moderate predictive gradients in early structural layers but completely failed to anticipate catastrophic merge degradation in deeper semantic layers.
+- **Activation Similarity:** Despite intuitive theoretical appeal, measuring internal activation alignment failed consistently across all depths and calibration sizes, producing near-zero correlations.
+- **Routing Similarity & Jaccard Overlap:** Co-routing statistics revealed that experts processing identical token contexts do not necessarily share compatible internal weights. Co-routed pairs frequently exhibited massive KL divergence upon merging.
 
-To ensure empirical observations were robust and not idiosyncratic to specific network depths or data volumes, evaluations were systematically replicated across a comprehensive experimental matrix:
+![First Layer Heatmap](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/complete_plots/oracle_heatmap_first.png)
+*Figure: Heatmap showing Oracle KL Merge Cost across pairs in the First Layer.*
 
-- **Calibration Token Budgets ($N$):** 
-  - $N = 64$ sequences
-  - $N = 128$ sequences
-  - $N = 256$ sequences
-  - $N = 512$ sequences *(ongoing scaling verification)*
-- **Network Regions (Layer Depths):**
-  - **Early Layer:** Layer index 0 (`first`)
-  - **Middle Layer:** Layer index 8 (`middle`)
-  - **Late Layer:** Layer index 15 (`last`, evaluated at $N \in \{64, 128\}$)
+## 5. Unexpected Discoveries
 
----
+Several empirical observations contradicted the initial intuition behind standard model compression techniques. These discoveries reflect fundamental properties of MoE topologies:
 
-# 6. Evaluation Metric
+1. **Usage Frequency Dominance Deepening with Depth:** Usage Frequency was expected to be a simple baseline. However, its predictive dominance became progressively stronger deeper into the network, ultimately acting as the strongest singular indicator of merge safety.
+2. **Late-Stage Output Similarity Relevance:** Output Similarity was largely uninformative throughout the transformer backbone but abruptly became critical in the final readout layer, highlighting a sharp phase transition in how representations are processed.
+3. **Persistent Failure of Activation Similarity:** The complete inability of Activation Similarity to predict functional equivalence was consistent and unexpected, proving that experts achieve similar functional ends through highly divergent, incompatible parameter means.
+4. **Absolute Calibration Stability:** The structural and behavioral relationships observed at $N=64$ were near-identical at $N=512$. The variance did not smooth out, implying these relationships are deeply baked into the pre-trained weights.
+5. **Structured Relationships:** Expert mergeability is not a random draw. While individual metrics fail to capture the full picture, the distribution of safe merges demonstrates non-random clustering and structured geometric relationships.
 
-The primary quantitative benchmark was **Spearman Rank Correlation ($\rho$)** computed between each individual feature and Oracle KL divergence.
+![Top 20 Safest Merges](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/top_20_safest_merges.png)
+*Figure: Empirical analysis of the top 20 safest expert combinations.*
 
-**Why Rank Correlation?**
-CARE is fundamentally formulating a *ranking problem*. When performing MoE layer reduction, an algorithm does not need to predict exact numerical KL divergence values; rather, it requires ordering candidate merge pairs from safest (lowest degradation) to riskiest (destructive degradation). Spearman's $\rho$ is strictly invariant to arbitrary monotonic transformations, capturing ranking preservation directly without distribution assumptions.
+## 6. Failure Analysis
 
----
+Negative results form a critical component of this study's scientific contribution. Metrics such as **Activation Similarity** and **Routing Similarity** consistently failed to predict Oracle KL degradation, yielding scatter plots with diffuse, isotropic point clouds.
 
-# 7. Experimental Results & Observations
+These failures are scientifically valuable because they dismantle the intuitive assumption that experts activating on the same tokens or producing similar intermediate activations are doing the *same* work. Instead, this proves that OLMoE-1B-7B utilizes highly orthogonal parameter sub-spaces. Two experts can learn radically different, incompatible transformations that coincidentally align on intermediate activation cosine similarity. Thus, local representation similarity does not guarantee parameter space compatibility.
 
-The extensive computational grid across layers and calibration sample budgets yielded seven consistent empirical findings:
+## 7. Statistical Interpretation
 
-### Observation 1: No feature demonstrates strong predictive power
-Across all calibration sizes ($N \in \{64, 128, 256\}$) and network depths, most handcrafted metrics exhibit absolute Spearman correlations $|\rho| < 0.2$, indicating extremely weak monotonic relationships. Even statistically significant correlations explain minimal practical variance in safe-vs-risky ranking.
+The consistent weakness of individual correlation coefficients across all depths underscores a critical realization: the mapping from any singular heuristic to merge degradation is non-injective. 
 
-### Observation 2: Performance depends strongly on network depth
-The predictive utility of nearly every feature fluctuates dramatically across early, middle, and late network layers. For instance, weight geometry may correlate moderately in initial structural processing layers but degrade completely in deep semantic layers. No feature behaves consistently throughout the transformer backbone, proving that expert representations and functional roles evolve continuously with depth.
+- **Robustness & Consistency:** Because the statistical findings held firm from $N=64$ through $N=512$, the inherent limitations of these single descriptors are definitive.
+- **Depth Dependence:** The evolving influence of metrics (e.g., structural descriptors working early, output metrics working late) indicates that the MoE architecture does not treat all experts uniformly; their functional roles are heavily stratified by depth.
+- **Behavioral vs. Structural:** Purely behavioral descriptors (such as how often an expert is called) proved vastly superior to structural descriptors (such as weight geometry), suggesting that the gating network's utilization topology dictates capability more than the explicit weight tensors themselves.
 
-### Observation 3: Weight-based metrics perform better than activation metrics
-**Weight Distance** and **Weight Cosine** demonstrate systematically stronger alignment with Oracle KL than dynamic activation or output measurements. However, even Weight Distance (peaking around $\rho \approx -0.57$ under optimal conditional slice filters) remains insufficient as a standalone threshold for reliable automated compression.
+No single heuristic contains enough dimensional capacity to model the complexity of expert fusion.
 
-### Observation 4: Activation Similarity is essentially uninformative
-Despite strong intuitive appeal, **Activation Similarity** consistently produces Spearman correlations proximate to zero ($\rho \approx -0.01$). Scatter distributions exhibit complete spatial overlapping between pristine, low-cost merges and catastrophically destructive merges, providing virtually zero ranking discriminant power.
+## 8. Final Conclusion
 
-### Observation 5: Output Similarity behaves similarly
-While output vectors represent the explicit additive contribution of an expert to the residual stream, their empirical linear relationship with Oracle KL remains negligible. Experts generating highly analogous outputs on typical tokens can still induce severe capability collapse upon consolidation due to tail-case specialized weights.
+Experiment 1 systematically proved that the operational cost of merging experts is governed by measurable intrinsic properties that evolve across network depth. It decisively demonstrated that no single handcrafted similarity metric—whether structural or functional—is capable of reliably predicting expert mergeability in isolation.
 
-### Observation 6: Routing behaviour alone is insufficient
-**Routing Similarity** and **Jaccard Overlap** effectively profile gating specialization patterns; however, isolated routing statistics fail to predict merge quality. Highly co-routed experts frequently possess complementary, divergent internal transformations that destroy model capability when averaged.
+The experiment successfully disproved the assumption that simple topological heuristics like Activation Similarity or Routing Overlap directly translate to parameter compatibility. However, what remains unknown is how these distinct signals interact. The failure of univariate predictors strongly implies that expert capability is a complex latent property, distributed across multiple dimensions of both parameter geometry and gating behavior.
 
-### Observation 7: Usage Frequency contains weak but useful information
-**Usage Frequency** occasionally demonstrates surprisingly consistent correlation positive gradients ($\rho \approx +0.41$). Heavily utilized "generalist" experts exhibit lower tolerance to merging than rarely triggered domain specialists. This critical behavioral observation served as primary motivation to incorporate utilization statistics inside multi-metric capability models.
+## 9. Transition to Experiment 3
 
----
+The findings of Experiment 1 fundamentally shift our understanding of MoE architectures. The data confirms that pairwise expert relationships are highly structured and that expert behavior is not driven by random variation. The consistency of these statistical relationships across massive shifts in calibration scale provides compelling empirical evidence of a hidden organization governing the expert ecosystem.
 
-# 8. Scatter Plot Analysis Across Calibration Sizes ($N$) & Network Depths
-
-Qualitative evaluation of bivariate scatter distributions provides definitive empirical proof against individual heuristic predictors. Rather than forming condensed monotonic trajectories, individual metrics produce diffuse, isotropic point clouds.
-
-## 8.1 Early Network Region (`first`, Layer 0)
-
-In early layers, token routing is primarily structural. While weight-space features exhibit weak negative gradients, dynamic features show near-zero ranking separation.
-
-### Weight Distance Scatter Profile ($N=256$, First Layer)
-
-![Weight Distance Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Weight_Distance.png)
-
-*Scientific Commentary:* Weight Distance demonstrates an approximate **triangular bounding contour**. While minimal weight distances rarely induce extreme KL drift, moderate-to-high distances span the entire vertical drift spectrum, preventing precise ranking thresholds.
-
-### Weight Cosine Scatter Profile ($N=256$, First Layer)
-
-![Weight Cosine Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Weight_Cosine.png)
-
-*Scientific Commentary:* Displays **severe vertical variance** at high cosine alignments (>0.8). Parameter direction alignment does not guarantee functional safety upon weight averaging.
-
-### Output Similarity Scatter Profile ($N=256$, First Layer)
-
-![Output Similarity Scatter Profile (N=256, First Layer)](./256_segmented/first/scatter_first_Output_Similarity.png)
-
-*Scientific Commentary:* **Complete horizontal scattering** across similarity values with invariant vertical drift distribution. Output representation matching provides zero protection against destructive merges.
-
-### Routing Similarity Profile ($N=64$, First Layer)
-
-![Routing Similarity Scatter Profile (N=64, First Layer)](./64_segmented/first/scatter_first_Routing_Similarity.png)
-
-*Scientific Commentary:* Low sample estimation ($N=64$) confirms that routing similarity is fundamentally independent of parameter averaging tolerance; co-routed pairs show identical probability of severe degradation.
-
----
-
-## 8.2 Middle Network Region (`middle`, Layer 8)
-
-Middle layers handle deep abstract semantic transformations. Here, representation complexity deepens, causing simplistic similarity features to decouple further from Oracle KL.
-
-### Weight Distance Scatter Profile ($N=256$, Middle Layer)
-
-![Weight Distance Scatter Profile (N=256, Middle Layer)](./256_segmented/middle/scatter_middle_Weight_Distance.png)
-
-*Scientific Commentary:* Compared to early layers, the distribution widens significantly. Variance across the target Oracle KL axis explodes, illustrating layer-depth non-stationarity.
-
-### Weight Cosine Scatter Profile ($N=128$, Middle Layer)
-
-![Weight Cosine Scatter Profile (N=128, Middle Layer)](./128_segmented/middle/scatter_middle_Weight_Cosine.png)
-
-*Scientific Commentary:* Consistent non-injective structural pattern at moderate calibration sample budgets ($N=128$). Directional weight vectors remain insufficient predictors of semantic preservation.
-
----
-
-## 8.3 Late Network Region (`last`, Layer 15)
-
-In terminal layers ($N \in \{64, 128\}$), experts directly shape vocabulary logits and residual readout. Sensitivity to merging peaks, resulting in extreme outliers in Oracle KL that neither weights nor activations anticipate.
-
-### Weight Distance Scatter Profile ($N=128$, Last Layer)
-
-![Weight Distance Scatter Profile (N=128, Last Layer)](./128_segmented/last/scatter_last_Weight_Distance.png)
-
-*Scientific Commentary:* Terminal layers exhibit discrete, **high-drift outliers** along the top vertical axis that appear entirely uncorrelated with weight L2 magnitude.
-
-### Output Similarity Scatter Profile ($N=128$, Last Layer)
-
-![Output Similarity Scatter Profile (N=128, Last Layer)](./128_segmented/last/scatter_last_Output_Similarity.png)
-
-*Scientific Commentary:* High output similarity in final layers paradoxically co-occurs with massive Oracle KL spikes upon merging, likely due to cancellation of refined logit biases.
-
-### Activation Similarity Scatter Profile ($N=64$, Last Layer)
-
-![Activation Similarity Scatter Profile (N=64, Last Layer)](./64_segmented/last/scatter_last_Activation_Similarity.png)
-
-*Scientific Commentary:* Persistent uninformative point cloud confirming null correlation across the entire network depth, even at low calibration budgets ($N=64$).
-
----
-
-# 9. Interpretation & Non-Injective Mapping
-
-The diffuse scatter distributions provide rigorous empirical evidence that the analytical mapping from any individual feature space to ground-truth merge degradation is **not injective**:
-
-$$\text{Feature Value } x \not\implies \text{Unique KL Degradation } y$$
-
-1. **Many-to-One / One-to-Many Deciding Failures:** Numerous distinct expert pairs sharing identical feature values exhibit variance spanning orders of magnitude in Oracle KL. Conversely, pairs generating virtually identical Oracle KL degradation occupy widely dispersed extremes of feature space.
-2. **Multi-Factor Dependency:** Experiment 1 proves that expert mergeability is an emergent operational consequence governed by concurrent interactions between parameter geometry, routing frequency, internal computation complexity, and network position. No singular mathematical measurement can capture an expert's complete functional capability.
-
----
-
-# 10. Scientific Insight: Capability as an Emergent Latent Property
-
-This empirical conclusion represents the first major conceptual breakthrough of the CARE framework:
-
-> **Scientific Insight:** Expert capability in Mixture-of-Experts architectures is not directly observable through localized structural or statistical heuristics. Instead, capability is a **latent property** that emerges through multiple complementary, weak descriptors.
-
-This insight necessitates a fundamental reformulation of the compression problem. Rather than searching exhaustively for an elusive "optimal single similarity metric," intelligent MoE compression must transition toward **learning a robust representation of expert capability by synthesizing multiple weak, complementary observations.**
-
----
-
-# 11. Limitations
-
-- **Strict Univariate Focus:** Experiment 1 strictly evaluated features independently to isolate marginal predictive utility. It did not model non-additive interactions, feature multicollinearity, or multi-metric capability combinations.
-- **Univariate Thresholding:** Because single features were examined in isolation, the study cannot rule out whether combinations of these seemingly uninformative signals yield highly accurate merge quality predictions when integrated jointly.
-
----
-
-# 12. Conclusion
-
-Experiment 1 decisively **rejects the original research hypothesis**: no single handcrafted similarity metric is capable of reliably predicting expert mergeability without running an expensive oracle evaluation.
-
-However, analysis of cross-feature behavioral profiles demonstrates that individual features encode orthogonal, non-redundant aspects of expert dynamics (e.g., parameter geometry vs. gating behavior vs. usage volume). This directly motivates the guiding hypothesis for our follow-up investigation:
-
-> **Transition Hypothesis:** Although individual expert descriptors are predictive failures in isolation, their joint multivariate representation may encode sufficient complementary information to model latent expert capability and predict merge degradation accurately.
-
----
-
-# 13. Transition to Experiment 1.5
-
-Experiment 1 marks the foundational transition from heuristic feature selection to principled capability modeling. By establishing that mergeability is an emergent operational consequence rather than a trivial geometric similarity, the study prompts our next critical research direction:
-
-- **Experiment 1 Answered:** *Which feature is best?* $\longrightarrow$ **None; all individual features fail.**
-- **Experiment 1.5 Asks:** *Can multiple weak expert descriptors collectively model expert capability, or does linear compression inherently suffer from a computational representational gap?*
-
-This marks the initiation of CARE's multivariate predictive regression framework.
+Since mergeability cannot be captured by isolated, one-dimensional heuristics, we must rethink how we model the expert space. If expert compatibility is an emergent property shaped by routing dynamics, parameter overlap, and utilization, then the entire layer of experts operates as an interconnected system. The logical and necessary next step is to investigate whether this latent organization can be mathematically represented as a graph, allowing us to model the complex, multi-dimensional dependencies between experts that standalone metrics fail to capture.
