@@ -1,15 +1,15 @@
 {
-  "classification": "B",
-  "label": "PARTIAL SUPPORT",
-  "interpretation": "Some low-dimensional structure is present in the Oracle geometry, but it is weak, unstable across layers, or requires relatively high dimensionality to emerge. Further investigation may be warranted but strong claims are not supported.",
-  "n_total_comparisons": 12,
-  "n_significant_vs_null_a": 0,
-  "n_significant_vs_null_b": 0,
-  "fraction_significant_vs_null_a": 0.0,
-  "fraction_significant_vs_null_b": 0.0,
-  "mean_oracle_rho": 0.7030509644018051,
-  "mean_null_a_rho": -0.013265837380706072,
-  "mean_null_b_rho": 0.3383125269465719,
-  "mean_advantage_vs_null_a": 0.7163168017825112,
-  "mean_advantage_vs_null_b": 0.36473843745523327
+  "classification": "A",
+  "label": "STRONG SUPPORT",
+  "interpretation": "Oracle functional geometry shows substantially stronger low-dimensional held-out fidelity than both null models. The evidence supports the existence of a meaningful low-dimensional geometric structure in expert functional relationships.",
+  "n_total_comparisons": 27,
+  "n_significant_vs_null_a": 27,
+  "n_significant_vs_null_b": 27,
+  "fraction_significant_vs_null_a": 1.0,
+  "fraction_significant_vs_null_b": 1.0,
+  "mean_oracle_rho": 0.6511935385814093,
+  "mean_null_a_rho": 0.005824529392512262,
+  "mean_null_b_rho": 0.3181247969655299,
+  "mean_advantage_vs_null_a": 0.6453690091888971,
+  "mean_advantage_vs_null_b": 0.33306874161587935
 }

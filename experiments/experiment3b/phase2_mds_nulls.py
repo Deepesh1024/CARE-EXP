@@ -74,18 +74,31 @@ def run_smacof(D: np.ndarray, q: int, seed: int) -> dict:
         stress : float (raw stress)
         n_iter : int (SMACOF iterations used)
     """
-    mds = MDS(
-        n_components=q,
-        metric_mds=SMACOF_METRIC,
-        metric="precomputed",
-        init="random",
-        max_iter=SMACOF_MAX_ITER,
-        n_init=SMACOF_N_INIT,
-        eps=SMACOF_EPS,
-        random_state=seed,
-        normalized_stress="auto",
-        n_jobs=-1,
-    )
+    try:
+        mds = MDS(
+            n_components=q,
+            metric_mds=SMACOF_METRIC,
+            metric="precomputed",
+            init="random",
+            max_iter=SMACOF_MAX_ITER,
+            n_init=SMACOF_N_INIT,
+            eps=SMACOF_EPS,
+            n_jobs=-1,
+            random_state=seed,
+            normalized_stress="auto",
+        )
+    except TypeError:
+        # Fallback for older scikit-learn versions (e.g. on VM)
+        mds = MDS(
+            n_components=q,
+            metric=SMACOF_METRIC,
+            dissimilarity="precomputed",
+            max_iter=SMACOF_MAX_ITER,
+            n_init=SMACOF_N_INIT,
+            eps=SMACOF_EPS,
+            n_jobs=-1,
+            random_state=seed,
+        )
     Z = mds.fit_transform(D)
     return {
         "embedding": Z,
