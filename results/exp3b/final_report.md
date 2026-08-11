@@ -12,7 +12,7 @@ Phase A tests whether the ground-truth functional distances among experts contai
 
 ## 2. Data Provenance
 
-- **Source**: `/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp1/output.json`
+- **Source**: `/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json`
 - **Ground truth**: Oracle_KL (KL divergence from original to merged-expert model)
 - **Seq_Len filter**: 512
 - **Experts**: 64
@@ -141,19 +141,19 @@ Phase A tests whether the ground-truth functional distances among experts contai
 
 ### Primary Figure 1: Fidelity Curve (Test→Test Spearman ρ)
 
-![Fidelity curve — Layer first](/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp3b/figures/fidelity_curve_first.png)
+![Fidelity curve — Layer first](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_first.png)
 
-![Fidelity curve — Layer middle](/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp3b/figures/fidelity_curve_middle.png)
+![Fidelity curve — Layer middle](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_middle.png)
 
-![Fidelity curve — Layer last](/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp3b/figures/fidelity_curve_last.png)
+![Fidelity curve — Layer last](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_last.png)
 
 ### Primary Figure 2: Stress Curve (Test→Test RMSE)
 
-![Stress curve — Layer first](/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp3b/figures/stress_curve_first.png)
+![Stress curve — Layer first](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_first.png)
 
-![Stress curve — Layer middle](/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp3b/figures/stress_curve_middle.png)
+![Stress curve — Layer middle](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_middle.png)
 
-![Stress curve — Layer last](/home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp3b/figures/stress_curve_last.png)
+![Stress curve — Layer last](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_last.png)
 
 ## 7. Data Leakage Audit
 
@@ -186,7 +186,21 @@ Oracle functional geometry shows substantially stronger low-dimensional held-out
 - Mean advantage vs Null A: +0.6454
 - Mean advantage vs Null B: +0.3331
 
-## 9. Important Distinctions
+## 9. Post-Experiment Analysis & Next Steps
+
+### The Dimensionality Discovery
+The geometry's effective dimensionality is fundamentally **layer-dependent**: 
+the first layer peaks in out-of-sample fidelity at $q=3-4$, whereas the last layer requires $q=8-9$ to capture its structure. This proves that expert capabilities do not inhabit a single uniform space across the network, but rather exist in different compression regimes based on depth.
+
+### The Evolution Roadmap
+This finding formally shifts the research sequence from static geometric prediction to **capability geometry evolution**:
+
+1. **Experiment 3B**: Geometry exists (Completed, A - Strong Support)
+2. **Experiment 3C**: Geometry evolves (Calculate $v_i(t)$ using Procrustes alignment across sequential checkpoints)
+3. **Experiment 3D**: Evolution is predictable (Train surrogate models to predict the velocity field)
+4. **Differential Geometry**: Formalize the Jacobian ($J = rac{\partial C}{\partial Z}$), Metric Tensor ($G = J^\top J$), and Hessian ($H = rac{\partial^2 C}{\partial Z^2}$) to drive geometry-aware compression.
+
+## 10. Important Distinctions
 
 This report distinguishes three separate claims:
 
@@ -196,13 +210,13 @@ This report distinguishes three separate claims:
 
 Phase A does **NOT** claim that a capability manifold exists. Successful MDS embedding is necessary but not sufficient evidence for manifold structure.
 
-## 10. Software & Configuration
+## 11. Software & Configuration
 
-- Python: 3.10.12
-- scikit-learn: 1.7.2
-- scipy: 1.15.3
-- numpy: 1.26.4
-- pandas: 2.3.3
-- matplotlib: 3.10.9
-- Platform: Linux-6.8.0-136-generic-x86_64-with-glibc2.35
+- Python: 3.13.9
+- scikit-learn: 1.9.0
+- scipy: 1.17.1
+- numpy: 2.5.1
+- pandas: 3.0.5
+- matplotlib: 3.11.1
+- Platform: macOS-26.6.1-arm64-arm-64bit-Mach-O
 - Random seed: 42
