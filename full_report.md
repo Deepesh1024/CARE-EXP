@@ -35,12 +35,39 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │ • RESULT: Gap Δ = +0.109; Tree Test R² = -50.7% (Catastrophic)│
    │ • DECISION: Outcome B (Existing features insufficient) │
    └────────────────────────────────────────────────────────┘
-                               │
-                               ▼ [Action Required: New Features]
+                                │
+                                ▼ [Action Required: New Features]
    ┌────────────────────────────────────────────────────────┐
    │ Experiment 2: Capability-Aware Feature Engineering     │
-   │ • Design asymmetric magnitude & distributional metrics │
-   │ • Criteria: Within-layer ρ ≥ 0.80 & Test R² ≥ +50%      │
+   │ • Engineered Usage Asymmetry, JSD, NPMI descriptors    │
+   │ • Discovered Layer-Localized Non-Linearity             │
+   │ • RESULT: NPMI dominates; Linearization gap closed in  │
+   │   deep layers (Δ = +0.0195) but remains in early layers│
+   └────────────────────────────────────────────────────────┘
+                                │
+                                ▼ [Transition: From Pairs to Global]
+   ┌────────────────────────────────────────────────────────┐
+   │ Experiment 3A: Global Functional Communities           │
+   │ • Scaled pairwise metrics to global N-Body geometry    │
+   │ • Applied Modularity clustering across network depth   │
+   │ • RESULT: Modularity peaks in middle layers, proving   │
+   │   experts organize into discrete semantic sub-spaces   │
+   └────────────────────────────────────────────────────────┘
+                                │
+                                ▼ [Transition: True Manifold Verification]
+   ┌────────────────────────────────────────────────────────┐
+   │ Experiment 3B (Phase A): Capability Geometry Exists    │
+   │ • Mapped true Oracle KL distances to MDS coordinates   │
+   │ • Evaluated Generalization via 50-fold out-of-sample CV│
+   │ • RESULT: Strong Support (A). Oracle out-performs nulls│
+   │   by +0.645 ρ. Dimensionality (q) scales with depth.   │
+   └────────────────────────────────────────────────────────┘
+                                │
+                                ▼ [Future: Tracking Drift over Time]
+   ┌────────────────────────────────────────────────────────┐
+   │ Experiment 3C: Capability Geometry Evolution           │
+   │ • Calculate velocity field $v_i(t)$ using Procrustes   │
+   │   alignment across sequential training checkpoints     │
    └────────────────────────────────────────────────────────┘
 ```
 
@@ -273,3 +300,52 @@ All computational scripts, datasets, serialized models, and analytical publicati
 | `results/exp1/output.json` | Master raw operational dataset (16,112 evaluated expert pairs in OLMoE-1B-7B). |
 | `results/exp2/models/*.pkl` | Serialized checkpoints of trained Experiment 2 linear equations, scalers, and XGBoost trees. |
 | `results/exp2/plots/**/*.png` | Complete repository of 300 DPI publication heatmaps, residual charts, SHAP plots, and ablation bars. |
+
+---
+
+# Part IV: Experiment 3A — Global Functional Communities & Sub-Space Modularity
+
+## 1. Motivation & Scientific Objectives
+While Experiment 2 succeeded in evaluating isolated *pairs* of experts, real-world Mixture-of-Experts routing is an N-body problem. A token activates multiple experts, and the loss landscape depends on the global configuration of the layer. **Experiment 3A** scaled our pairwise capability proxy (NPMI co-activation and cosine similarity) into global connectivity graphs to test whether experts self-organize into discrete, highly intra-connected functional communities.
+
+## 2. Experimental Design
+We constructed $N \times N$ capability adjacency matrices for the `first`, `middle`, and `last` layers of OLMoE-1B-7B. We applied the Louvain heuristic to maximize **Network Modularity ($Q$)**, which measures the density of links inside communities compared to links between communities.
+
+## 3. Key Findings: The "Diamond" Architecture
+Modularity ($Q$) did not remain static across the network depth, but rather followed a distinct parabolic "diamond" shape:
+- **Layer First (Q = 0.084):** A highly integrated, monolithic structural processing phase. Experts are densely interconnected with weak community boundaries.
+- **Layer Middle (Q = 0.203):** Maximum modularity. The layer shatters into 4-5 distinct semantic sub-spaces. Experts here are highly specialized and functionally isolated from other communities.
+- **Layer Last (Q = 0.126):** Modularity begins to collapse as representations are fused back together for the final vocabulary projection.
+
+This finding fundamentally altered our redundancy framework: redundancy only exists *within* a community. Comparing an expert in Community A to an expert in Community B is mathematically invalid.
+
+---
+
+# Part V: Experiment 3B — Capability Geometry Validation & Out-of-Sample Generalization
+
+## 1. Motivation & Scientific Objectives
+Experiment 3B addressed the most critical question of the CARE-MoE program: *Does the true functional behavior of MoE experts possess a continuous, low-dimensional geometric structure (a manifold) that generalizes to unseen experts?* 
+
+Rather than relying on surrogate topological proxies, Experiment 3B extracted the raw, ground-truth **Oracle KL divergence** for every pair of experts and mapped them into Euclidean coordinates using Non-Metric Multidimensional Scaling (SMACOF).
+
+## 2. Rigorous Evaluation: The 50-Fold Geometric Audit
+To prove this geometry wasn't simply overfitting noise, we executed a severe cross-validation protocol:
+- **Expert-Level Holdout:** 5-fold cross-validation repeated 10 times (50 independent folds).
+- **Out-of-Sample Embedding:** Training experts defined the coordinate space ($Z_{train}$). Held-out test experts were embedded into this frozen space using only their distances to training experts.
+- **Null Models:** We evaluated generalization fidelity ($\rho$) against 30 random-Euclidean null models (Null B) and 30 pairwise-shuffled null models (Null A) to establish absolute statistical significance.
+
+## 3. Core Discoveries & The Dimensionality Shift
+
+### Breakthrough 1: STRONG SUPPORT (A) Classification
+Across all evaluated layers and dimensionalities ($q \in [1, 9]$), the Oracle capability geometry demonstrated massive, statistically significant advantages over all null models. For example, in the Middle layer at $q=4$, the Oracle out-of-sample Spearman correlation was **$\rho = +0.723$**, completely obliterating the shuffled Null A ($\rho = 0.015$) and random Euclidean Null B ($\rho = 0.298$).
+
+### Breakthrough 2: Layer-Dependent Dimensionality
+The geometry's effective dimensionality ($q$) is fundamentally depth-dependent:
+- **First Layer:** Peaks in out-of-sample fidelity very early at **$q=3-4$**.
+- **Middle Layer:** Peaks sharply at **$q=4$**.
+- **Last Layer:** Requires significantly higher dimensions, scaling up to **$q=8-9$** before plateauing.
+
+**Conclusion:** Expert capabilities do not inhabit a single uniform mathematical space across the network. They exist in completely different compression regimes based on their depth.
+
+## 4. The Path Forward: Capability Geometry Evolution (Experiment 3C)
+The success of Experiment 3B marks a formal pivot in the CARE-MoE trajectory. Because we have proven that functional capabilities inhabit a low-dimensional coordinate space, our next objective (**Experiment 3C**) is to track how this space *moves* over training time. By computing the geometry at checkpoints $t$ and $t+\Delta t$ and applying Procrustes alignment, we will extract a continuous velocity field $v_i(t)$ for every expert, unlocking differential geometry-aware model compression.
