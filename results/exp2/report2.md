@@ -1,6 +1,6 @@
 # CARE-MoE Experiment 2 Research Report: Capability-Aware Descriptor Engineering for Mixture-of-Experts Redundancy Elimination
 
-**Author:** Deepesh Kumar Jha (Principal Research Scientist & Systems ML Engineer)  
+**Author:** Deepesh Kumar Jha
 **Project:** CARE (Capability-Aware Redundancy Elimination for Mixture-of-Experts) — Experiment 2  
 **Target Architecture:** OLMoE-1B-7B (16 MoE Layers, 64 Experts/Layer)  
 **Date:** August 2026  

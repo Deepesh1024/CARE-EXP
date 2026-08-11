@@ -1,0 +1,31 @@
+{
+  "ground_truth_oracle_used": {
+    "status": "PASS",
+    "detail": "Ground truth field: Oracle_KL, Source: /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json"
+  },
+  "xgboost_excluded": {
+    "status": "PASS",
+    "detail": "XGBoost Predicted_KL from Experiment 2 is an approximation of Oracle KL. Using it as ground truth would circularly define the latent space whose existence we are testing."
+  },
+  "test_excluded_from_training": {
+    "status": "PASS",
+    "detail": "run_smacof_train receives D_train (train\u00d7train submatrix only). Test expert indices are never included in the training distance matrix."
+  },
+  "z_train_frozen": {
+    "status": "PASS",
+    "detail": "embed_single_test_expert takes z_train as read-only input. Only the test coordinate z_j is optimized. Z_train is never modified."
+  },
+  "test_test_excluded_from_embedding": {
+    "status": "PASS",
+    "detail": "embed_single_test_expert receives only d_test_to_train (distances to training experts). Test-test distances are used only for evaluation, never for fitting."
+  },
+  "q_not_selected": {
+    "status": "PASS",
+    "detail": "All q values are evaluated and reported. No single q is selected as 'optimal' using test performance. The full curve is presented for scientific interpretation."
+  },
+  "identical_processing": {
+    "status": "PASS",
+    "detail": "run_cv_for_matrix is called identically for Oracle, Null A, and Null B. Same fold splits (matched seeds), same SMACOF parameters, same embedding procedure."
+  },
+  "overall": "ALL PASS \u2014 EXPERIMENT VALID"
+}

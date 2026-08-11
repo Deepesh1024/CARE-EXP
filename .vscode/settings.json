@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./experiments/experiment3b"
+    ],
+    "python.autoComplete.extraPaths": [
+        "./experiments/experiment3b"
+    ]
+}

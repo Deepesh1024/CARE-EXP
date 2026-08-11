@@ -1,0 +1,74 @@
+======================================================================
+CARE-MoE EXPERIMENT 3B — CAPABILITY GEOMETRY VALIDATION PHASE A
+======================================================================
+
+
+######################################################################
+# Phase 1: Distance Matrix Construction
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 1: DISTANCE MATRIX CONSTRUCTION
+======================================================================
+[utils] Loaded 24,192 rows from /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json
+[Phase 1] Filtered to Seq_Len=512: 6,048 rows
+[Phase 1] Verified: 2016 pairs per layer (upper triangle, A < B)
+
+[Phase 1] Processing layer: first
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_first.csv
+  Diagonal all zero:     True
+  Symmetric:             True
+  All finite:            True
+  All non-negative:      True
+  Min distance:          0.001544
+  Max distance:          0.025590
+  Mean distance:         0.005062
+  Median distance:       0.004343
+  Triangle violations:   75 / 124992 checks
+
+[Phase 1] Processing layer: middle
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_middle.csv
+  Diagonal all zero:     True
+  Symmetric:             True
+  All finite:            True
+  All non-negative:      True
+  Min distance:          0.000579
+  Max distance:          0.043282
+  Mean distance:         0.003602
+  Median distance:       0.002374
+  Triangle violations:   1166 / 124992 checks
+
+[Phase 1] Processing layer: last
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_last.csv
+  Diagonal all zero:     True
+  Symmetric:             True
+  All finite:            True
+  All non-negative:      True
+  Min distance:          0.000547
+  Max distance:          0.016362
+  Mean distance:         0.005248
+  Median distance:       0.004978
+  Triangle violations:   943 / 124992 checks
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/distance_metadata.json
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/data_provenance.json
+
+======================================================================
+PHASE 1 — DISTANCE MATRIX CONSTRUCTION COMPLETE
+======================================================================
+
+[TIMING] Phase 1: Distance Matrix Construction: 1.2s (0.0m)
+
+######################################################################
+# Phase 2: SMACOF MDS + Null Models
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 2: SMACOF MDS + NULL MODELS
+======================================================================
+
+────────────────────────────────────────────────────────────
+LAYER: first
+────────────────────────────────────────────────────────────
+[Phase 2] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 2] Running Oracle SMACOF for q ∈ [1, 2, 3, 4, 5, 6, 7, 8, 9]...

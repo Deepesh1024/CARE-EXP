@@ -87,7 +87,7 @@ We describe the result as: *a sparse capability graph with statistically validat
 
 ![H2 Functional Validation](figures/03_h2_within_vs_between_aggregated.png)
 
-**H2 Outcome: Strongly Supported.** $H_{0,2}$ is rejected at every layer with overwhelming statistical significance. The effect is largest in the **last layer** (Cohen's $d = -1.43$), consistent with the known deepening of specialization in later transformer layers.
+**H2 Outcome: Statistically Significant but Geometrically Entangled.** $H_{0,2}$ is rejected at every layer with high statistical significance (via Mann-Whitney U test), and the effect is largest in the **last layer** (Cohen's $d = -1.43$). However, the **Silhouette Scores are consistently negative** (ranging from -0.025 to -0.237). This indicates that while within-community merges are *on average* better than between-community merges, the topological communities do not form distinct, well-separated geometric clusters in the Oracle KL space. The large $N$ of pairwise combinations drives the significance, but the geometric overlap remains high.
 
 **Specialization increases with depth.** The block adjacency matrices visually confirm this: the last layer shows extremely dense diagonal blocks with sparse off-diagonal connections, while the first layer is more diffuse. CARE independently recovers the well-established phenomenon of increasing representational specialization with transformer depth.
 
@@ -183,7 +183,7 @@ NMI remains high across all comparisons (typically 0.85–0.95), indicating that
 
 **H1 (Graph Organization):** The CARE Capability Graph is structurally distinct from Erdős-Rényi baselines. It exhibits significantly higher transitivity and significantly lower global efficiency and LCC size, consistent with a sparse graph with strong local clustering and a fragmented global backbone. This is the signature of emergent, rather than random, topological organization.
 
-**H2 (Functional Organization):** Overwhelmingly supported at every layer. Within-community merges incur significantly lower Oracle KL than between-community merges, with effect sizes ranging from $d = -0.28$ (middle) to $d = -1.43$ (last). The capability topology accurately and robustly maps to functional redundancy.
+**H2 (Functional Organization):** Statistically significant but geometrically entangled. Within-community merges incur significantly lower Oracle KL than between-community merges (large effect size $d = -1.43$ at the last layer). However, negative silhouette scores reveal that these communities are not cleanly isolated clusters in capability space; they are structurally overlapping. The capability topology maps to functional redundancy on average, but individual boundary assignments are fuzzy.
 
 **The core finding:** Routing behavior in Mixture-of-Experts models naturally encodes a capability topology. This topology is not random, not uniform, and not arbitrary. It separates generalist hub experts (high centrality, low usage, low Oracle KL) from specialist peripheral experts (low centrality, high usage, high Oracle KL). Graph topology predicts compression difficulty. This establishes the scientific foundation for graph-aware compression in Experiment 3B.
 
@@ -194,7 +194,7 @@ NMI remains high across all comparisons (typically 0.85–0.95), indicating that
 - Mutual-kNN at $k=8$ leaves some experts as isolated singletons, preventing them from being reliably placed in communities.
 - Louvain community detection is stochastic; reproducibility is enforced via a fixed random seed.
 - The surrogate model predicts Oracle KL with Spearman $\rho \approx 0.65$, introducing prediction error into the graph weights.
-- All analyses are performed on Mistral-7B-Instruct; generalization to other MoE architectures is not yet established.
+- All analyses are performed on OLMoE-1B-7B; generalization to other MoE architectures is not yet established.
 
 ## Threats to Validity
 

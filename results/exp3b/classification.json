@@ -1,0 +1,15 @@
+{
+  "classification": "B",
+  "label": "PARTIAL SUPPORT",
+  "interpretation": "Some low-dimensional structure is present in the Oracle geometry, but it is weak, unstable across layers, or requires relatively high dimensionality to emerge. Further investigation may be warranted but strong claims are not supported.",
+  "n_total_comparisons": 12,
+  "n_significant_vs_null_a": 0,
+  "n_significant_vs_null_b": 0,
+  "fraction_significant_vs_null_a": 0.0,
+  "fraction_significant_vs_null_b": 0.0,
+  "mean_oracle_rho": 0.7030509644018051,
+  "mean_null_a_rho": -0.013265837380706072,
+  "mean_null_b_rho": 0.3383125269465719,
+  "mean_advantage_vs_null_a": 0.7163168017825112,
+  "mean_advantage_vs_null_b": 0.36473843745523327
+}

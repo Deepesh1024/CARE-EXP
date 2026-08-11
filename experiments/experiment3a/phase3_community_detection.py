@@ -10,6 +10,7 @@ import os
 import numpy as np
 import pandas as pd
 import networkx as nx
+# pyrefly: ignore [missing-import]
 import community as community_louvain
 
 from config import (

@@ -1,0 +1,13 @@
+layer,q,oracle_minus_null_a_rho,oracle_minus_null_a_ci_lo,oracle_minus_null_a_ci_hi,oracle_minus_null_b_rho,oracle_minus_null_b_ci_lo,oracle_minus_null_b_ci_hi,ci_excludes_zero_vs_null_a,ci_excludes_zero_vs_null_b
+first,2,0.6322559737636254,,,0.3607668885054111,,,False,False
+first,4,0.6694646974034845,,,0.40070171279693295,,,False,False
+first,6,0.6169142401146935,,,0.22478941047616663,,,False,False
+first,8,0.5649227175620526,,,0.23741382365980895,,,False,False
+middle,2,0.7607357463998311,,,0.48564515401469877,,,False,False
+middle,4,0.795258019894332,,,0.4491321865363052,,,False,False
+middle,6,0.7513158219071688,,,0.33996395442834126,,,False,False
+middle,8,0.7337956583375062,,,0.365407500113716,,,False,False
+last,2,0.8248355913876412,,,0.463399302379087,,,False,False
+last,4,0.800024143625126,,,0.41338619815853894,,,False,False
+last,6,0.767820035622794,,,0.3672008475182479,,,False,False
+last,8,0.6784589753718793,,,0.2690542708755443,,,False,False

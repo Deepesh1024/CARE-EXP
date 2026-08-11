@@ -1,0 +1,339 @@
+======================================================================
+CARE-MoE EXPERIMENT 3B — CAPABILITY GEOMETRY VALIDATION PHASE A
+======================================================================
+
+
+######################################################################
+# Phase 1: Distance Matrix Construction
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 1: DISTANCE MATRIX CONSTRUCTION
+======================================================================
+[utils] Loaded 24,192 rows from /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json
+[Phase 1] Filtered to Seq_Len=512: 6,048 rows
+[Phase 1] Verified: 2016 pairs per layer (upper triangle, A < B)
+
+[Phase 1] Processing layer: first
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_first.csv
+  Diagonal all zero:     True
+  Symmetric:             True
+  All finite:            True
+  All non-negative:      True
+  Min distance:          0.001544
+  Max distance:          0.025590
+  Mean distance:         0.005062
+  Median distance:       0.004343
+  Triangle violations:   75 / 124992 checks
+
+[Phase 1] Processing layer: middle
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_middle.csv
+  Diagonal all zero:     True
+  Symmetric:             True
+  All finite:            True
+  All non-negative:      True
+  Min distance:          0.000579
+  Max distance:          0.043282
+  Mean distance:         0.003602
+  Median distance:       0.002374
+  Triangle violations:   1166 / 124992 checks
+
+[Phase 1] Processing layer: last
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_last.csv
+  Diagonal all zero:     True
+  Symmetric:             True
+  All finite:            True
+  All non-negative:      True
+  Min distance:          0.000547
+  Max distance:          0.016362
+  Mean distance:         0.005248
+  Median distance:       0.004978
+  Triangle violations:   943 / 124992 checks
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/distance_metadata.json
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/data_provenance.json
+
+======================================================================
+PHASE 1 — DISTANCE MATRIX CONSTRUCTION COMPLETE
+======================================================================
+
+[TIMING] Phase 1: Distance Matrix Construction: 1.2s (0.0m)
+
+######################################################################
+# Phase 2: SMACOF MDS + Null Models
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 2: SMACOF MDS + NULL MODELS
+======================================================================
+
+────────────────────────────────────────────────────────────
+LAYER: first
+────────────────────────────────────────────────────────────
+[Phase 2] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 2] Running Oracle SMACOF for q ∈ [2, 4, 6, 8]...
+/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/venv/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/venv/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+  q= 2: stress=0.004892, norm_stress=0.268465, n_iter=16
+  q= 4: stress=0.002251, norm_stress=0.182107, n_iter=19
+  q= 6: stress=0.001452, norm_stress=0.146235, n_iter=17
+  q= 8: stress=0.001077, norm_stress=0.125983, n_iter=16
+
+[Phase 2] Generating 1 Null A (pairwise-shuffled) realizations...
+  q= 2: mean_norm_stress=0.520897 ± 0.000000
+  q= 4: mean_norm_stress=0.449319 ± 0.000000
+  q= 6: mean_norm_stress=0.432420 ± 0.000000
+  q= 8: mean_norm_stress=0.421139 ± 0.000000
+
+[Phase 2] Generating 1 Null B (random Euclidean) realizations...
+  q= 2: mean_norm_stress=0.390037 ± 0.000000
+  q= 4: mean_norm_stress=0.257746 ± 0.000000
+  q= 6: mean_norm_stress=0.192402 ± 0.000000
+  q= 8: mean_norm_stress=0.163082 ± 0.000000
+
+────────────────────────────────────────────────────────────
+LAYER: middle
+────────────────────────────────────────────────────────────
+[Phase 2] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 2] Running Oracle SMACOF for q ∈ [2, 4, 6, 8]...
+  q= 2: stress=0.001803, norm_stress=0.136301, n_iter=13
+  q= 4: stress=0.001053, norm_stress=0.104160, n_iter=11
+  q= 6: stress=0.000853, norm_stress=0.093738, n_iter=17
+  q= 8: stress=0.000752, norm_stress=0.088035, n_iter=13
+
+[Phase 2] Generating 1 Null A (pairwise-shuffled) realizations...
+  q= 2: mean_norm_stress=0.817681 ± 0.000000
+  q= 4: mean_norm_stress=0.803468 ± 0.000000
+  q= 6: mean_norm_stress=0.808131 ± 0.000000
+  q= 8: mean_norm_stress=0.802575 ± 0.000000
+
+[Phase 2] Generating 1 Null B (random Euclidean) realizations...
+  q= 2: mean_norm_stress=0.390037 ± 0.000000
+  q= 4: mean_norm_stress=0.257746 ± 0.000000
+  q= 6: mean_norm_stress=0.192402 ± 0.000000
+  q= 8: mean_norm_stress=0.163082 ± 0.000000
+
+────────────────────────────────────────────────────────────
+LAYER: last
+────────────────────────────────────────────────────────────
+[Phase 2] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 2] Running Oracle SMACOF for q ∈ [2, 4, 6, 8]...
+  q= 2: stress=0.005973, norm_stress=0.292878, n_iter=18
+  q= 4: stress=0.002911, norm_stress=0.204446, n_iter=24
+  q= 6: stress=0.002029, norm_stress=0.170679, n_iter=18
+  q= 8: stress=0.001649, norm_stress=0.153901, n_iter=18
+
+[Phase 2] Generating 1 Null A (pairwise-shuffled) realizations...
+  q= 2: mean_norm_stress=0.492720 ± 0.000000
+  q= 4: mean_norm_stress=0.411442 ± 0.000000
+  q= 6: mean_norm_stress=0.391864 ± 0.000000
+  q= 8: mean_norm_stress=0.376784 ± 0.000000
+
+[Phase 2] Generating 1 Null B (random Euclidean) realizations...
+  q= 2: mean_norm_stress=0.390037 ± 0.000000
+  q= 4: mean_norm_stress=0.257746 ± 0.000000
+  q= 6: mean_norm_stress=0.192402 ± 0.000000
+  q= 8: mean_norm_stress=0.163082 ± 0.000000
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/phase2_mds_results.json
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/phase2_stress_summary.csv
+
+======================================================================
+PHASE 2 — SMACOF MDS + NULL MODELS COMPLETE
+======================================================================
+
+[TIMING] Phase 2: SMACOF MDS + Null Models: 8.1s (0.1m)
+
+######################################################################
+# Phase 3: Expert-Level Cross-Validation
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 3: EXPERT-LEVEL CROSS-VALIDATION
+======================================================================
+
+════════════════════════════════════════════════════════════
+LAYER: first
+════════════════════════════════════════════════════════════
+[Phase 3] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 3] Running Oracle CV (5 folds × 2 reps)...
+  Completed 40 fold-q evaluations
+  Oracle q= 2: test→test ρ = 0.6241 ± 0.1544
+  Oracle q= 4: test→test ρ = 0.6762 ± 0.2054
+  Oracle q= 6: test→test ρ = 0.5735 ± 0.1859
+  Oracle q= 8: test→test ρ = 0.6117 ± 0.1420
+
+[Phase 3] Running Null A CV (1 realizations)...
+
+[Phase 3] Running Null B CV (1 realizations)...
+
+════════════════════════════════════════════════════════════
+LAYER: middle
+════════════════════════════════════════════════════════════
+[Phase 3] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 3] Running Oracle CV (5 folds × 2 reps)...
+  Completed 40 fold-q evaluations
+  Oracle q= 2: test→test ρ = 0.7668 ± 0.1120
+  Oracle q= 4: test→test ρ = 0.7805 ± 0.1140
+  Oracle q= 6: test→test ρ = 0.7261 ± 0.1814
+  Oracle q= 8: test→test ρ = 0.7195 ± 0.1005
+
+[Phase 3] Running Null A CV (1 realizations)...
+
+[Phase 3] Running Null B CV (1 realizations)...
+
+════════════════════════════════════════════════════════════
+LAYER: last
+════════════════════════════════════════════════════════════
+[Phase 3] Loaded Oracle distance matrix: (64, 64)
+
+[Phase 3] Running Oracle CV (5 folds × 2 reps)...
+  Completed 40 fold-q evaluations
+  Oracle q= 2: test→test ρ = 0.7788 ± 0.0792
+  Oracle q= 4: test→test ρ = 0.7577 ± 0.1363
+  Oracle q= 6: test→test ρ = 0.7387 ± 0.0878
+  Oracle q= 8: test→test ρ = 0.6829 ± 0.1437
+
+[Phase 3] Running Null A CV (1 realizations)...
+
+[Phase 3] Running Null B CV (1 realizations)...
+
+[Phase 3] Saving results...
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_cv_results.csv
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_a_cv_results.csv
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_b_cv_results.csv
+
+  Oracle CV results: 120 rows
+  Null A CV results: 60 rows
+  Null B CV results: 60 rows
+
+======================================================================
+PHASE 3 — EXPERT-LEVEL CROSS-VALIDATION COMPLETE
+======================================================================
+
+[TIMING] Phase 3: Expert-Level Cross-Validation: 8.3s (0.1m)
+
+######################################################################
+# Phase 4: Statistical Analysis & Figures
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 4: STATISTICAL ANALYSIS & FIGURES
+======================================================================
+[Phase 4] Loaded Oracle CV: 120 rows
+[Phase 4] Loaded Null A CV: 60 rows
+[Phase 4] Loaded Null B CV: 60 rows
+
+[Phase 4] Aggregating Oracle results...
+[Phase 4] Aggregating Null A results (realization-level)...
+[Phase 4] Aggregating Null B results (realization-level)...
+
+[Phase 4] Generating figures...
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_first.png (and .pdf)
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_first.png (and .pdf)
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_middle.png (and .pdf)
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_middle.png (and .pdf)
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_last.png (and .pdf)
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_last.png (and .pdf)
+[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve.png (and .pdf)
+
+[Phase 4] Building summary tables...
+
+  Summary for layer: first
+layer  q              Oracle_rho          NullA_rho         NullB_rho             Oracle_RMSE        NullA_RMSE        NullB_RMSE           Oracle_Stress      NullA_Stress      NullB_Stress
+first  2 0.6241 [0.5284, 0.7198] -0.0081 [nan, nan] 0.2634 [nan, nan] 0.0019 [0.0017, 0.0020] 0.0036 [nan, nan] 4.9514 [nan, nan] 0.3416 [0.3043, 0.3788] 0.6245 [nan, nan] 0.4377 [nan, nan]
+first  4 0.6762 [0.5489, 0.8035]  0.0067 [nan, nan] 0.2755 [nan, nan] 0.0015 [0.0013, 0.0017] 0.0032 [nan, nan] 3.5203 [nan, nan] 0.2736 [0.2219, 0.3253] 0.5604 [nan, nan] 0.3120 [nan, nan]
+first  6 0.5735 [0.4583, 0.6888] -0.0434 [nan, nan] 0.3488 [nan, nan] 0.0016 [0.0013, 0.0020] 0.0031 [nan, nan] 2.8708 [nan, nan] 0.2891 [0.2517, 0.3265] 0.5411 [nan, nan] 0.2544 [nan, nan]
+first  8 0.6117 [0.5237, 0.6997]  0.0468 [nan, nan] 0.3743 [nan, nan] 0.0017 [0.0014, 0.0019] 0.0030 [nan, nan] 2.4309 [nan, nan] 0.3060 [0.2539, 0.3581] 0.5250 [nan, nan] 0.2156 [nan, nan]
+
+  Summary for layer: middle
+ layer  q              Oracle_rho          NullA_rho         NullB_rho             Oracle_RMSE        NullA_RMSE        NullB_RMSE           Oracle_Stress      NullA_Stress      NullB_Stress
+middle  2 0.7668 [0.6974, 0.8362]  0.0061 [nan, nan] 0.2812 [nan, nan] 0.0011 [0.0009, 0.0014] 0.0061 [nan, nan] 4.8881 [nan, nan] 0.3047 [0.2387, 0.3707] 0.8887 [nan, nan] 0.4333 [nan, nan]
+middle  4 0.7805 [0.7099, 0.8512] -0.0147 [nan, nan] 0.3314 [nan, nan] 0.0010 [0.0008, 0.0013] 0.0059 [nan, nan] 3.3896 [nan, nan] 0.2724 [0.2151, 0.3297] 0.8598 [nan, nan] 0.3010 [nan, nan]
+middle  6 0.7261 [0.6137, 0.8386] -0.0252 [nan, nan] 0.3861 [nan, nan] 0.0010 [0.0008, 0.0013] 0.0059 [nan, nan] 2.6865 [nan, nan] 0.2724 [0.2092, 0.3356] 0.8646 [nan, nan] 0.2392 [nan, nan]
+middle  8 0.7195 [0.6572, 0.7817] -0.0143 [nan, nan] 0.3541 [nan, nan] 0.0011 [0.0008, 0.0013] 0.0059 [nan, nan] 3.0024 [nan, nan] 0.2832 [0.2261, 0.3403] 0.8619 [nan, nan] 0.2666 [nan, nan]
+
+  Summary for layer: last
+layer  q              Oracle_rho          NullA_rho         NullB_rho             Oracle_RMSE        NullA_RMSE        NullB_RMSE           Oracle_Stress      NullA_Stress      NullB_Stress
+ last  2 0.7788 [0.7297, 0.8279] -0.0461 [nan, nan] 0.3154 [nan, nan] 0.0019 [0.0017, 0.0021] 0.0033 [nan, nan] 4.7633 [nan, nan] 0.3233 [0.2984, 0.3482] 0.6026 [nan, nan] 0.4205 [nan, nan]
+ last  4 0.7577 [0.6733, 0.8422] -0.0423 [nan, nan] 0.3443 [nan, nan] 0.0019 [0.0014, 0.0023] 0.0029 [nan, nan] 3.5720 [nan, nan] 0.3144 [0.2642, 0.3645] 0.5268 [nan, nan] 0.3156 [nan, nan]
+ last  6 0.7387 [0.6842, 0.7931] -0.0291 [nan, nan] 0.3715 [nan, nan] 0.0020 [0.0017, 0.0023] 0.0028 [nan, nan] 2.7625 [nan, nan] 0.3364 [0.3020, 0.3708] 0.5014 [nan, nan] 0.2435 [nan, nan]
+ last  8 0.6829 [0.5938, 0.7719]  0.0044 [nan, nan] 0.4138 [nan, nan] 0.0021 [0.0017, 0.0025] 0.0026 [nan, nan] 2.4503 [nan, nan] 0.3520 [0.3009, 0.4031] 0.4783 [nan, nan] 0.2167 [nan, nan]
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/dimension_summary.csv
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_agg_stats.csv
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_a_agg_stats.csv
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_b_agg_stats.csv
+
+[Phase 4] Computing statistical comparisons...
+[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/statistical_comparisons.csv
+
+  Oracle vs Null comparisons:
+  Layer=first, q= 2: Δρ(A)=+0.6323 [CI excl 0: False], Δρ(B)=+0.3608 [CI excl 0: False]
+  Layer=first, q= 4: Δρ(A)=+0.6695 [CI excl 0: False], Δρ(B)=+0.4007 [CI excl 0: False]
+  Layer=first, q= 6: Δρ(A)=+0.6169 [CI excl 0: False], Δρ(B)=+0.2248 [CI excl 0: False]
+  Layer=first, q= 8: Δρ(A)=+0.5649 [CI excl 0: False], Δρ(B)=+0.2374 [CI excl 0: False]
+  Layer=middle, q= 2: Δρ(A)=+0.7607 [CI excl 0: False], Δρ(B)=+0.4856 [CI excl 0: False]
+  Layer=middle, q= 4: Δρ(A)=+0.7953 [CI excl 0: False], Δρ(B)=+0.4491 [CI excl 0: False]
+  Layer=middle, q= 6: Δρ(A)=+0.7513 [CI excl 0: False], Δρ(B)=+0.3400 [CI excl 0: False]
+  Layer=middle, q= 8: Δρ(A)=+0.7338 [CI excl 0: False], Δρ(B)=+0.3654 [CI excl 0: False]
+  Layer=last, q= 2: Δρ(A)=+0.8248 [CI excl 0: False], Δρ(B)=+0.4634 [CI excl 0: False]
+  Layer=last, q= 4: Δρ(A)=+0.8000 [CI excl 0: False], Δρ(B)=+0.4134 [CI excl 0: False]
+  Layer=last, q= 6: Δρ(A)=+0.7678 [CI excl 0: False], Δρ(B)=+0.3672 [CI excl 0: False]
+  Layer=last, q= 8: Δρ(A)=+0.6785 [CI excl 0: False], Δρ(B)=+0.2691 [CI excl 0: False]
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/dimension_summary.json
+
+======================================================================
+PHASE 4 — STATISTICAL ANALYSIS & FIGURES COMPLETE
+======================================================================
+
+[TIMING] Phase 4: Statistical Analysis & Figures: 1.4s (0.0m)
+
+######################################################################
+# Phase 5: Final Report & Audit
+######################################################################
+
+======================================================================
+EXPERIMENT 3B — PHASE 5: FINAL REPORT & AUDIT
+======================================================================
+
+[Phase 5] Running data leakage audit...
+
+DATA LEAKAGE AUDIT
+──────────────────────────────────────────────────
+  [✅ PASS] ground_truth_oracle_used
+  [✅ PASS] xgboost_excluded
+  [✅ PASS] test_excluded_from_training
+  [✅ PASS] z_train_frozen
+  [✅ PASS] test_test_excluded_from_embedding
+  [✅ PASS] q_not_selected
+  [✅ PASS] identical_processing
+
+  OVERALL: ALL PASS — EXPERIMENT VALID
+
+[Phase 5] Computing scientific classification...
+
+  Classification: B. PARTIAL SUPPORT
+  Some low-dimensional structure is present in the Oracle geometry, but it is weak, unstable across layers, or requires relatively high dimensionality to emerge. Further investigation may be warranted but strong claims are not supported.
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/classification.json
+[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/leakage_audit.json
+
+[Phase 5] Generating final report...
+[Phase 5] Final report → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/final_report.md
+
+======================================================================
+PHASE 5 — FINAL REPORT & AUDIT COMPLETE
+======================================================================
+
+  CLASSIFICATION: B. PARTIAL SUPPORT
+  AUDIT: ALL PASS — EXPERIMENT VALID
+
+[TIMING] Phase 5: Final Report & Audit: 0.0s (0.0m)
+
+======================================================================
+EXPERIMENT 3B COMPLETE — Total time: 19.0s (0.3m)
+======================================================================

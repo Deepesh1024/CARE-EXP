@@ -1,0 +1,273 @@
+{
+  "layers_analyzed": [
+    "first",
+    "middle",
+    "last"
+  ],
+  "q_values": [
+    2,
+    4,
+    6,
+    8
+  ],
+  "per_layer": {
+    "first": {
+      "2": {
+        "oracle_test_test_spearman": {
+          "mean": 0.6241232638512064,
+          "ci_lo": 0.5284341268144623,
+          "ci_hi": 0.7198124008879505
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.00813270991241896,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.2633563753457953,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.6322559737636254,
+        "oracle_minus_null_b": 0.3607668885054111,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "4": {
+        "oracle_test_test_spearman": {
+          "mean": 0.6762032828309043,
+          "ci_lo": 0.5488899734368629,
+          "ci_hi": 0.8035165922249456
+        },
+        "null_a_test_test_spearman": {
+          "mean": 0.006738585427419763,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.2755015700339713,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.6694646974034845,
+        "oracle_minus_null_b": 0.40070171279693295,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "6": {
+        "oracle_test_test_spearman": {
+          "mean": 0.5735477067802781,
+          "ci_lo": 0.45833699915619264,
+          "ci_hi": 0.6887584144043636
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.04336653333441544,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.3487582963041115,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.6169142401146935,
+        "oracle_minus_null_b": 0.22478941047616663,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "8": {
+        "oracle_test_test_spearman": {
+          "mean": 0.6117017311047162,
+          "ci_lo": 0.5236897455750529,
+          "ci_hi": 0.6997137166343794
+        },
+        "null_a_test_test_spearman": {
+          "mean": 0.0467790135426636,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.3742879074449072,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.5649227175620526,
+        "oracle_minus_null_b": 0.23741382365980895,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      }
+    },
+    "middle": {
+      "2": {
+        "oracle_test_test_spearman": {
+          "mean": 0.7668281312490646,
+          "ci_lo": 0.6974261128946755,
+          "ci_hi": 0.8362301496034537
+        },
+        "null_a_test_test_spearman": {
+          "mean": 0.0060923848492335005,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.2811829772343658,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.7607357463998311,
+        "oracle_minus_null_b": 0.48564515401469877,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "4": {
+        "oracle_test_test_spearman": {
+          "mean": 0.7805430390505017,
+          "ci_lo": 0.7098621724954404,
+          "ci_hi": 0.851223905605563
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.014714980843830262,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.3314108525141965,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.795258019894332,
+        "oracle_minus_null_b": 0.4491321865363052,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "6": {
+        "oracle_test_test_spearman": {
+          "mean": 0.7261083145080877,
+          "ci_lo": 0.6136523894365848,
+          "ci_hi": 0.8385642395795905
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.025207507399081158,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.3861443600797464,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.7513158219071688,
+        "oracle_minus_null_b": 0.33996395442834126,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "8": {
+        "oracle_test_test_spearman": {
+          "mean": 0.7194870725344937,
+          "ci_lo": 0.6572256325667027,
+          "ci_hi": 0.7817485125022847
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.014308585803012419,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.35407957242077776,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.7337956583375062,
+        "oracle_minus_null_b": 0.365407500113716,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      }
+    },
+    "last": {
+      "2": {
+        "oracle_test_test_spearman": {
+          "mean": 0.7787614690240799,
+          "ci_lo": 0.7296676727715096,
+          "ci_hi": 0.8278552652766503
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.046074122363561246,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.31536216664499295,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.8248355913876412,
+        "oracle_minus_null_b": 0.463399302379087,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "4": {
+        "oracle_test_test_spearman": {
+          "mean": 0.757726437552623,
+          "ci_lo": 0.6732762285871375,
+          "ci_hi": 0.8421766465181085
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.042297706072502925,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.3443402393940841,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.800024143625126,
+        "oracle_minus_null_b": 0.41338619815853894,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "6": {
+        "oracle_test_test_spearman": {
+          "mean": 0.7386924430189119,
+          "ci_lo": 0.684247179096964,
+          "ci_hi": 0.7931377069408598
+        },
+        "null_a_test_test_spearman": {
+          "mean": -0.029127592603882042,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.371491595500664,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.767820035622794,
+        "oracle_minus_null_b": 0.3672008475182479,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      },
+      "8": {
+        "oracle_test_test_spearman": {
+          "mean": 0.6828886813167939,
+          "ci_lo": 0.5938437897993307,
+          "ci_hi": 0.7719335728342571
+        },
+        "null_a_test_test_spearman": {
+          "mean": 0.004429705944914699,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "null_b_test_test_spearman": {
+          "mean": 0.41383441044124963,
+          "ci_lo": NaN,
+          "ci_hi": NaN
+        },
+        "oracle_minus_null_a": 0.6784589753718793,
+        "oracle_minus_null_b": 0.2690542708755443,
+        "ci_excludes_zero_vs_null_a": false,
+        "ci_excludes_zero_vs_null_b": false
+      }
+    }
+  }
+}

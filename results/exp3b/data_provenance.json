@@ -1,0 +1,18 @@
+{
+  "experiment": "3B \u2014 Capability Geometry Validation Phase A",
+  "ground_truth_source": "/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json",
+  "ground_truth_field": "Oracle_KL",
+  "ground_truth_description": "Per-token mean KL divergence from original model output to merged-expert model output, computed on calibration data. Measured by Experiment 1 Oracle benchmark (CARE-Oracle-v1.0).",
+  "seq_len_filter": 512,
+  "n_experts": 64,
+  "layers_analyzed": [
+    "first",
+    "middle",
+    "last"
+  ],
+  "pairs_per_layer": 2016,
+  "total_oracle_measurements_used": 6048,
+  "surrogate_predictions_excluded": true,
+  "exclusion_justification": "XGBoost Predicted_KL from Experiment 2 is an approximation of Oracle KL. Using it as ground truth would circularly define the latent space whose existence we are testing.",
+  "random_seed": 42
+}
