@@ -63,6 +63,15 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │   by +0.645 ρ. Dimensionality (q) scales with depth.   │
    └────────────────────────────────────────────────────────┘
                                 │
+                                ▼ [Transition: Combining Local & Geometric Signals]
+   ┌────────────────────────────────────────────────────────┐
+   │ Experiment 4: The Functional Merge Landscape           │
+   │ • Evaluated Geometry vs Local Pre-Merge Features       │
+   │ • Enforced Strict 5-Partition x 3-Fold Cross-Validation│
+   │ • RESULT: Geometry dominates local features (ρ=0.75 vs │
+   │   ρ=0.48). CARE Model (Local+Geometry) achieves ρ=0.81.│
+   └────────────────────────────────────────────────────────┘
+                                │
                                 ▼ [Future: Tracking Drift over Time]
    ┌────────────────────────────────────────────────────────┐
    │ Experiment 3C: Capability Geometry Evolution           │
@@ -349,3 +358,47 @@ The geometry's effective dimensionality ($q$) is fundamentally depth-dependent:
 
 ## 4. The Path Forward: Capability Geometry Evolution (Experiment 3C)
 The success of Experiment 3B marks a formal pivot in the CARE-MoE trajectory. Because we have proven that functional capabilities inhabit a low-dimensional coordinate space, our next objective (**Experiment 3C**) is to track how this space *moves* over training time. By computing the geometry at checkpoints $t$ and $t+\Delta t$ and applying Procrustes alignment, we will extract a continuous velocity field $v_i(t)$ for every expert, unlocking differential geometry-aware model compression.
+
+---
+
+# Part VI: Experiment 4 — The Functional Merge Landscape & Geometric Complementarity
+
+## 1. Motivation & Hypothesis
+Following the discovery that Oracle capability geometry exists (Experiment 3B), **Experiment 4** investigated whether this geometric space contains actionable predictive information regarding functional merge damage that is missing from existing *local* pre-merge descriptors (e.g., token usage, weight distance).
+**Hypothesis:** Capability geometry adds predictive value (H10 Survives) and potentially dominates standard local heuristics in predicting actual merge degradation (Oracle KL).
+
+## 2. Experimental Design & Model Definitions
+To rigorously prevent data leakage, we implemented a **5-partition × 3-fold expert-disjoint cross-validation** protocol (15 folds total). We evaluated three approaches on the **middle layer** of OLMoE-1B-7B:
+- **Model A (Local Baseline):** XGBoost trained on 11 local pre-merge features.
+- **Model B (Geometry Only):** Non-learned Euclidean distance ($||z_i - z_j||_2$) in a $q=4$ MDS capability space (derived strictly from training pairs).
+- **Model C (CARE - Local + Geometry):** XGBoost trained on all 11 local features plus the geometry distance.
+
+## 3. Key Findings & Statistics
+
+### Breakdown of Model Performance
+Across the 5 independent partitions, the mean Spearman rank correlation ($\rho$) revealed a stark hierarchy:
+- **Mean $\rho_A$ (Local features):** $+0.4797$ (95% CI: $[+0.446, +0.505]$)
+- **Mean $\rho_B$ (Geometry only):** $+0.7504$ (95% CI: $[+0.713, +0.787]$)
+- **Mean $\rho_C$ (Local + Geometry):** $+0.8146$ (95% CI: $[+0.784, +0.843]$)
+
+### The Dominance of Geometry
+Model B (pure un-learned geometry) massively outperformed the heavily parameterized Model A ($\Delta\rho_{BA} = +0.2707$). By simply measuring the distance between two experts in our $q=4$ geometric manifold, we can predict functional merge damage far more accurately than by feeding 11 complex token/weight heuristics into a gradient-boosted tree.
+
+### CARE (Model C) Achieves Best-in-Class Predictive Power
+When geometric distance is added as a feature to Model C, performance jumps to $\rho = 0.8146$ ($\Delta\rho_{CA} = +0.3349$ over the local baseline). **H10 survives:** Geometry provides highly complementary and non-redundant predictive information.
+
+## 4. Visual Evidence
+
+### Spearman Correlation by Model
+![Spearman Correlation by Model](./results/exp4/plots/01_spearman_by_model.png)
+*Analytical Conclusion:* The transition from Model A to B to C yields a step-function improvement in rank correlation, completely closing the predictive gap left by purely local features.
+
+### Distribution of $\Delta\rho$ Advantage
+![Delta Rho Distribution](./results/exp4/plots/03_delta_rho_distribution.png)
+*Analytical Conclusion:* The advantage of adding geometry is stable and consistently positive across all folds. 
+
+### Precision at K Analysis
+![Precision at K](./results/exp4/plots/05_precision_at_k.png)
+*Analytical Conclusion:* Model C (CARE) excels at identifying the most dangerous/destructive pairs in the top-K ranking, protecting the model from catastrophic degradation during expert compression.
+
+> **Scope Limitation:** All Experiment 4 findings are explicitly bounded to the **middle layer** only and must not be generalized to initial/terminal layers without independent validation.

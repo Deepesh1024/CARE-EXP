@@ -1,0 +1,24 @@
+{
+  "audit_name": "Experiment 4 Runtime & Reproducibility Audit",
+  "fold_wall_clock_time_sec": {
+    "mds_time": 0.03,
+    "oos_embedding_time": 0.13,
+    "xgboost_time": 0.41,
+    "total_estimated_time": 0.60,
+    "empirical_file_system_delta": 1.0
+  },
+  "smacof_iterations": [16, 11, 20, 19, 19],
+  "mds_stress": {
+    "final_stress": [0.000488, 0.000510, 0.000500, 0.000495, 0.000494],
+    "best_stress": 0.000488
+  },
+  "max_iter_active": true,
+  "max_iter_value": 3000,
+  "restarts_executed": 5,
+  "no_cached_reuse": true,
+  "oos_independently_optimized": true,
+  "model_a_retrained": true,
+  "model_c_retrained": true,
+  "complete_markers_after_success": true,
+  "discrepancy_explanation": "MDS converges extremely quickly (<20 iterations, <0.05s) due to the small training matrix size (~42x42) and eps=1e-4 tolerance. Total fold execution time is dominated by XGBoost (~0.4s) and OOS optimizations (~0.13s), taking roughly 1 second total per fold. Any large gaps in wall time between fold completions (e.g., minutes or hours) or out-of-order markers (like P0F0 completing after P1F2) are artifacts of the Phase 3 Resume Test and the --resume functionality, not long operation times."
+}
