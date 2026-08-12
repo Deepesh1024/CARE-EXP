@@ -157,10 +157,10 @@ def validate_and_save_matrix(matrix, output_path, expected_pairs, is_full):
         assert np.all(np.isfinite(measured_vals)), "Measured values contain Inf"
 
     # Atomic save: write to tmp, then rename
-    tmp_npy = output_path + ".tmp"
+    tmp_npy = output_path.replace(".npy", "_tmp.npy")
     np.save(tmp_npy, matrix)
 
-    tmp_csv = output_path.replace(".npy", ".csv") + ".tmp"
+    tmp_csv = output_path.replace(".npy", "_tmp.csv")
     # Save CSV with NaN preserved
     import pandas as pd
     pd.DataFrame(matrix).to_csv(tmp_csv, index=False, header=False, na_rep="NaN")
