@@ -33,19 +33,19 @@ By exhaustively analyzing the mapping between expert properties and merge degrad
 **First Layer**
 In the initial layer, merging behavior is heavily constrained by basic routing volume and broad parameter distances. We observe that structural differences, such as the Euclidean parameter distance, possess moderate negative correlations with merge safety. In this region, experts exhibit highly generalized usage, meaning that heavily utilized experts are highly sensitive to disruption.
 
-![First Layer Usage Frequency](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/512_segmented/first/scatter_first_Usage_Frequency.png)
+![First Layer Usage Frequency](./512_segmented/first/scatter_first_Usage_Frequency.png)
 *Figure: Scatter distribution for Usage Frequency vs. Oracle KL in the First Layer (N=512).*
 
 **Middle Layer**
 As the network transitions to deep abstract representations, the statistical predictability of structural features degrades. The variance across the Oracle KL axis widens, meaning experts that appear structurally similar can induce significantly different levels of degradation when merged. Behavioral utilization (Usage Frequency) becomes even more critical in distinguishing robust merges from destructive ones.
 
-![Middle Layer Usage Frequency](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/512_segmented/middle/scatter_middle_Usage_Frequency.png)
+![Middle Layer Usage Frequency](./512_segmented/middle/scatter_middle_Usage_Frequency.png)
 *Figure: Scatter distribution for Usage Frequency vs. Oracle KL in the Middle Layer (N=512).*
 
 **Last Layer**
 The terminal layer demonstrates highly distinct mergeability dynamics. Because this layer is responsible for decoding final representations into vocabulary logits, output similarity becomes highly influential. Merging experts in this layer produces discrete, severe catastrophic failures if output alignments are disrupted.
 
-![Last Layer Output Similarity](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/512_segmented/last/scatter_last_Output_Similarity.png)
+![Last Layer Output Similarity](./512_segmented/last/scatter_last_Output_Similarity.png)
 *Figure: Scatter distribution for Output Similarity vs. Oracle KL in the Last Layer (N=512).*
 
 ### Cross-Calibration Stability
@@ -64,7 +64,7 @@ Usage Frequency is consistently one of the strongest predictors across attributi
 - **Activation Similarity:** Despite intuitive theoretical appeal, measuring internal activation alignment failed consistently across all depths and calibration sizes, producing near-zero correlations.
 - **Routing Similarity & Jaccard Overlap:** Co-routing statistics revealed that experts processing identical token contexts do not necessarily share compatible internal weights. Co-routed pairs frequently exhibited massive KL divergence upon merging.
 
-![First Layer Heatmap](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/complete_plots/oracle_heatmap_first.png)
+![First Layer Heatmap](./complete_plots/oracle_heatmap_first.png)
 *Figure: Heatmap showing Oracle KL Merge Cost across pairs in the First Layer.*
 
 ## 5. Unexpected Discoveries
@@ -77,7 +77,7 @@ Several empirical observations contradicted the initial intuition behind standar
 4. **Absolute Calibration Stability:** The structural and behavioral relationships observed at $N=64$ were near-identical at $N=512$. The variance did not smooth out, implying these relationships are deeply baked into the pre-trained weights.
 5. **Structured Relationships:** Expert mergeability is not a random draw. While individual metrics fail to capture the full picture, the distribution of safe merges demonstrates non-random clustering and structured geometric relationships.
 
-![Top 20 Safest Merges](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/top_20_safest_merges.png)
+![Top 20 Safest Merges](./top_20_safest_merges.png)
 *Figure: Empirical analysis of the top 20 safest expert combinations.*
 
 ## 6. Failure Analysis

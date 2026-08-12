@@ -141,19 +141,19 @@ Phase A tests whether the ground-truth functional distances among experts contai
 
 ### Primary Figure 1: Fidelity Curve (Test→Test Spearman ρ)
 
-![Fidelity curve — Layer first](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_first.png)
+![Fidelity curve — Layer first](./figures/fidelity_curve_first.png)
 
-![Fidelity curve — Layer middle](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_middle.png)
+![Fidelity curve — Layer middle](./figures/fidelity_curve_middle.png)
 
-![Fidelity curve — Layer last](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_last.png)
+![Fidelity curve — Layer last](./figures/fidelity_curve_last.png)
 
 ### Primary Figure 2: Stress Curve (Test→Test RMSE)
 
-![Stress curve — Layer first](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_first.png)
+![Stress curve — Layer first](./figures/stress_curve_first.png)
 
-![Stress curve — Layer middle](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_middle.png)
+![Stress curve — Layer middle](./figures/stress_curve_middle.png)
 
-![Stress curve — Layer last](/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_last.png)
+![Stress curve — Layer last](./figures/stress_curve_last.png)
 
 ## 7. Data Leakage Audit
 
