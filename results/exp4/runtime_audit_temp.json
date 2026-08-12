@@ -1,0 +1,37 @@
+{
+  "SMACOF_restarts": [
+    {
+      "restart": 1,
+      "iterations": 16,
+      "final_stress": 0.00048817105113203846,
+      "time_sec": 0.025084257125854492
+    },
+    {
+      "restart": 2,
+      "iterations": 11,
+      "final_stress": 0.0005097471012074661,
+      "time_sec": 0.001070261001586914
+    },
+    {
+      "restart": 3,
+      "iterations": 20,
+      "final_stress": 0.0005001402616613263,
+      "time_sec": 0.0014069080352783203
+    },
+    {
+      "restart": 4,
+      "iterations": 19,
+      "final_stress": 0.0004949315163946499,
+      "time_sec": 0.0013108253479003906
+    },
+    {
+      "restart": 5,
+      "iterations": 19,
+      "final_stress": 0.0004941448687978342,
+      "time_sec": 0.00130462646484375
+    }
+  ],
+  "total_smacof_time": 0.03022003173828125,
+  "total_oos_time": 0.13475418090820312,
+  "total_xgboost_time": 0.4115109443664551
+}
