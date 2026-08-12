@@ -25,6 +25,20 @@ import torch.nn.functional as F
 import transformers
 from tqdm.auto import tqdm
 from datasets import load_dataset
+
+
+# HOTFIX: PyTorch 2.1.1 compatibility for newer Transformers (OLMoE)
+if not hasattr(torch, "library"):
+    class DummyLibrary:
+        pass
+    torch.library = DummyLibrary()
+if not hasattr(torch.library, "register_fake"):
+    def dummy_register_fake(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+    torch.library.register_fake = dummy_register_fake
+
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from scipy.stats import pearsonr, spearmanr
 import matplotlib
@@ -47,7 +61,7 @@ CALIB_BATCH_SIZE = 2
 EVAL_TOKENS_FOR_EXPERT_METRICS = 4096
 
 GPU_ID = int(os.environ.get("CARE_MOE_GPU_ID", 0))
-DEVICE = f"cuda:{GPU_ID}"
+DEVICE = f"cuda:{GPU_ID}" if torch.cuda.is_available() else "cpu"
 DTYPE = torch.bfloat16
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -336,7 +350,7 @@ def run_oracle_pair(model, moe_block, i, j, input_ids, attention_mask, batch_siz
         "_Entropy_Merged_Sum": entropy_merged_sum,
         "Oracle_KL": kl_sum / max(total_tokens, 1),
         "Runtime_Sec": time.time() - start_time,
-        "Max_VRAM_MB": torch.cuda.max_memory_allocated(DEVICE) / (1024 ** 2)
+        "Max_VRAM_MB": torch.cuda.max_memory_allocated(DEVICE) / (1024 ** 2) if torch.cuda.is_available() else 0.0
     }
 
 def aggregate_oracle_stats(stats_A, stats_B):

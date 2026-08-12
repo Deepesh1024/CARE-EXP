@@ -1,5 +1,5 @@
-torch
-transformers>=4.40.0        # first release with qwen2_moe support — anything older will KeyError: 'qwen2_moe'
+torch==2.1.1
+transformers==4.46.0        # Pinned to support OLMoE while maintaining PyTorch 2.1.1 compatibility
 accelerate>=0.29.0          # required by device_map="auto"/{"":0}
 datasets>=2.18.0
 tokenizers>=0.19.0

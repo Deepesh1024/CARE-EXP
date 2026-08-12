@@ -1,0 +1,38 @@
+{
+    "first": {
+        "Real_Modularity": 0.30056423611111105,
+        "Real_Num_Communities": 45,
+        "Null_Modularity_Mean": 0.2739587673611111,
+        "Null_Modularity_Std": 0.022190015974620947,
+        "Null_Num_Communities_Mean": 46.084,
+        "Z_Score": 1.198983752897279,
+        "p_value": 0.118
+    },
+    "middle": {
+        "Real_Modularity": 0.37216062736614386,
+        "Real_Num_Communities": 28,
+        "Null_Modularity_Mean": 0.37118090859924285,
+        "Null_Modularity_Std": 0.017383352110852596,
+        "Null_Num_Communities_Mean": 28.493,
+        "Z_Score": 0.0563595994039261,
+        "p_value": 0.464
+    },
+    "last": {
+        "Real_Modularity": 0.29427083333333337,
+        "Real_Num_Communities": 41,
+        "Null_Modularity_Mean": 0.26643296682098766,
+        "Null_Modularity_Std": 0.020216878783720273,
+        "Null_Num_Communities_Mean": 42.24,
+        "Z_Score": 1.3769616305493262,
+        "p_value": 0.09
+    },
+    "aggregated": {
+        "Real_Modularity": 0.33721907162360854,
+        "Real_Num_Communities": 35,
+        "Null_Modularity_Mean": 0.3436107960512497,
+        "Null_Modularity_Std": 0.019574400101174727,
+        "Null_Num_Communities_Mean": 35.986,
+        "Z_Score": -0.3265348803514091,
+        "p_value": 0.619
+    }
+}
