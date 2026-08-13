@@ -1,0 +1,14 @@
+{
+  "checkpoint_name": "checkpoint_40",
+  "hf_revision": "step490000-tokens2055B",
+  "actual_step": 490000,
+  "actual_tokens_B": 2055,
+  "actual_pct": 40.2,
+  "target_pct": 40,
+  "coverage": "sampled",
+  "calibration_sha256": "c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1",
+  "n_moe_layers": 16,
+  "n_experts": 64,
+  "device": "cuda:0",
+  "timestamp_start": "2026-08-13T02:52:32.858527"
+}

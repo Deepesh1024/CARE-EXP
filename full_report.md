@@ -72,11 +72,12 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │   ρ=0.48). CARE Model (Local+Geometry) achieves ρ=0.81.│
    └────────────────────────────────────────────────────────┘
                                 │
-                                ▼ [Future: Tracking Drift over Time]
+                                ▼ [Transition: Tracking Drift over Time]
    ┌────────────────────────────────────────────────────────┐
    │ Experiment 3C: Capability Geometry Evolution           │
-   │ • Calculate velocity field $v_i(t)$ using Procrustes   │
-   │   alignment across sequential training checkpoints     │
+   │ • Evaluated sparse geometry across 10/40/70/100% ckpts │
+   │ • RESULT: Discovered U-shaped redundancy trajectory in │
+   │   middle layer & persistent low-dimensional structure  │
    └────────────────────────────────────────────────────────┘
 ```
 
@@ -402,3 +403,37 @@ When geometric distance is added as a feature to Model C, performance jumps to $
 *Analytical Conclusion:* Model C (CARE) excels at identifying the most dangerous/destructive pairs in the top-K ranking, protecting the model from catastrophic degradation during expert compression.
 
 > **Scope Limitation:** All Experiment 4 findings are explicitly bounded to the **middle layer** only and must not be generalized to initial/terminal layers without independent validation.
+
+---
+
+# Part VIII: Experiment 3C — Capability Geometry Evolution
+
+## 1. Motivation & Scientific Objectives
+Following the validation that expert capabilities inhabit a low-dimensional space (Experiment 3B), **Experiment 3C** aimed to track how this structure evolves longitudinally over the course of training. By computing the geometry at the 10%, 40%, 70%, and 100% checkpoints, we sought to determine if the functional relationships between experts are stable, or if they undergo massive reorganization as the model learns.
+
+## 2. Methodology
+Generating $O(N^2)$ Oracle forward passes for all checkpoints was computationally prohibitive. Instead, we leveraged the **sparse 3C pair manifest**:
+- **10%, 40%, 70% Checkpoints:** Only 384 sampled pairs (~19% density) were evaluated.
+- **100% Checkpoint:** The full dense 2016 pairwise matrix was evaluated.
+- **Weighted SMACOF Mapping:** A custom weighted metric MDS algorithm was deployed to robustly generate the $q=4$ capability geometry on the 19%-sparse early checkpoints.
+- **Procrustes Alignment:** Extracted geometries were rigidly aligned to track coordinate trajectories.
+
+## 3. Key Empirical Findings
+
+### Discovery 1: Layer-Dependent Trajectories (The U-Shape)
+Training does not change all layers in the same way. The most significant finding is the stark difference in evolutionary paths across network depth:
+- **First & Last Layers:** Demonstrate steady, monotonic separation. Mean Oracle KL steadily increases (e.g. `last` layer ~0.0036 at 10% $\rightarrow$ ~0.0051 at 100%), indicating experts continuously differentiate and solidify unique roles.
+- **Middle Layer:** Exhibits a massive **U-shaped trajectory**. Functional distances drop mid-training (~0.0036 at 10% $\rightarrow$ ~0.0024 at 70%) before rising again at 100%. This indicates that experts temporarily become *more mergeable* (higher redundancy) during a "redundancy bottleneck" before hardening their boundaries.
+
+### Discovery 2: Persistent Low-Dimensional Representation
+Despite the massive drift in individual pairwise distances (and the variance inflation as experts differentiate), Procrustes alignment validates that the gross global topology of the functional capability map is incredibly conserved from 10% all the way to 100%. The structure is not random; there is a highly persistent low-dimensional geometric representation of capabilities that emerges almost immediately in training.
+
+*(Note: While the geometric representation is empirically robust, formal topological classification as a "manifold" requires stronger structural evidence that 3C was not designed to test.)*
+
+### Discovery 3: Functional Differentiation Over Communities
+The persistence of high-damage pairs successfully falsifies the hypothesis that experts are strictly independent or interchangeable (H1). However, rather than proving the existence of hard, discrete "communities," the data supports a model of continuous, aggressive *functional differentiation*. 
+
+## 4. The Path Forward: Implications for Experiment 5
+The discovery of layer-dependent evolutionary trajectories implies that one-shot, static model compression assumptions may be fatally flawed if applied blindly across all layers. 
+
+Moving into **Experiment 5**, our compression algorithms (e.g., cascaded selection or dynamic routing) must be explicitly layer-aware. However, because the geometric representation is stable, these algorithms can operate confidently on the geometric prior without needing to computationally re-evaluate the entire distance matrix at every step.

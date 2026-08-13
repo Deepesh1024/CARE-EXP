@@ -1,0 +1,101 @@
+{
+  "generated_at": "2026-08-13T07:06:17.318305",
+  "entries": [
+    {
+      "checkpoint": "checkpoint_100",
+      "layer": "first",
+      "n_pairs": "2016",
+      "time_seconds": "0.0",
+      "sec_per_pair": "0.00",
+      "timestamp": "2026-08-12T17:22:52.274454"
+    },
+    {
+      "checkpoint": "checkpoint_100",
+      "layer": "middle",
+      "n_pairs": "2016",
+      "time_seconds": "13276.3",
+      "sec_per_pair": "6.59",
+      "timestamp": "2026-08-12T21:04:08.606573"
+    },
+    {
+      "checkpoint": "checkpoint_100",
+      "layer": "last",
+      "n_pairs": "2016",
+      "time_seconds": "13269.3",
+      "sec_per_pair": "6.58",
+      "timestamp": "2026-08-13T00:45:18.033165"
+    },
+    {
+      "checkpoint": "checkpoint_10",
+      "layer": "first",
+      "n_pairs": "384",
+      "time_seconds": "2535.9",
+      "sec_per_pair": "6.60",
+      "timestamp": "2026-08-13T01:27:38.076935"
+    },
+    {
+      "checkpoint": "checkpoint_10",
+      "layer": "middle",
+      "n_pairs": "384",
+      "time_seconds": "2540.2",
+      "sec_per_pair": "6.62",
+      "timestamp": "2026-08-13T02:09:58.360520"
+    },
+    {
+      "checkpoint": "checkpoint_10",
+      "layer": "last",
+      "n_pairs": "384",
+      "time_seconds": "2538.8",
+      "sec_per_pair": "6.61",
+      "timestamp": "2026-08-13T02:52:17.223104"
+    },
+    {
+      "checkpoint": "checkpoint_40",
+      "layer": "first",
+      "n_pairs": "384",
+      "time_seconds": "2532.3",
+      "sec_per_pair": "6.59",
+      "timestamp": "2026-08-13T03:34:45.186411"
+    },
+    {
+      "checkpoint": "checkpoint_40",
+      "layer": "middle",
+      "n_pairs": "384",
+      "time_seconds": "2533.8",
+      "sec_per_pair": "6.60",
+      "timestamp": "2026-08-13T04:16:59.139410"
+    },
+    {
+      "checkpoint": "checkpoint_40",
+      "layer": "last",
+      "n_pairs": "384",
+      "time_seconds": "2533.2",
+      "sec_per_pair": "6.60",
+      "timestamp": "2026-08-13T04:59:12.490676"
+    },
+    {
+      "checkpoint": "checkpoint_70",
+      "layer": "first",
+      "n_pairs": "384",
+      "time_seconds": "2534.9",
+      "sec_per_pair": "6.60",
+      "timestamp": "2026-08-13T05:41:43.349221"
+    },
+    {
+      "checkpoint": "checkpoint_70",
+      "layer": "middle",
+      "n_pairs": "384",
+      "time_seconds": "2537.4",
+      "sec_per_pair": "6.61",
+      "timestamp": "2026-08-13T06:24:00.832244"
+    },
+    {
+      "checkpoint": "checkpoint_70",
+      "layer": "last",
+      "n_pairs": "384",
+      "time_seconds": "2536.2",
+      "sec_per_pair": "6.60",
+      "timestamp": "2026-08-13T07:06:17.118207"
+    }
+  ]
+}

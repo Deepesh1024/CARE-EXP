@@ -1,0 +1,58 @@
+{
+  "checkpoint_10": {
+    "checkpoint_name": "checkpoint_10",
+    "hf_revision": "step120000-tokens503B",
+    "actual_step": 120000,
+    "actual_tokens_B": 503,
+    "actual_pct": 9.8,
+    "target_pct": 10,
+    "coverage": "sampled",
+    "calibration_sha256": "c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1",
+    "n_moe_layers": 16,
+    "n_experts": 64,
+    "device": "cuda:0",
+    "timestamp_start": "2026-08-13T00:45:22.141841"
+  },
+  "checkpoint_40": {
+    "checkpoint_name": "checkpoint_40",
+    "hf_revision": "step490000-tokens2055B",
+    "actual_step": 490000,
+    "actual_tokens_B": 2055,
+    "actual_pct": 40.2,
+    "target_pct": 40,
+    "coverage": "sampled",
+    "calibration_sha256": "c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1",
+    "n_moe_layers": 16,
+    "n_experts": 64,
+    "device": "cuda:0",
+    "timestamp_start": "2026-08-13T02:52:32.858527"
+  },
+  "checkpoint_70": {
+    "checkpoint_name": "checkpoint_70",
+    "hf_revision": "step795000-tokens3334B",
+    "actual_step": 795000,
+    "actual_tokens_B": 3334,
+    "actual_pct": 65.2,
+    "target_pct": 70,
+    "coverage": "sampled",
+    "calibration_sha256": "c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1",
+    "n_moe_layers": 16,
+    "n_experts": 64,
+    "device": "cuda:0",
+    "timestamp_start": "2026-08-13T04:59:28.455782"
+  },
+  "checkpoint_100": {
+    "checkpoint_name": "checkpoint_100",
+    "hf_revision": "main",
+    "actual_step": 1220000,
+    "actual_tokens_B": 5138,
+    "actual_pct": 100.0,
+    "target_pct": 100,
+    "coverage": "full",
+    "calibration_sha256": "c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1",
+    "n_moe_layers": 16,
+    "n_experts": 64,
+    "device": "cuda:0",
+    "timestamp_start": "2026-08-12T17:22:52.269937"
+  }
+}

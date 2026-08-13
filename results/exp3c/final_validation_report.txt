@@ -1,0 +1,43 @@
+======================================================================
+EXPERIMENT 3C — FINAL VALIDATION REPORT
+Generated: 2026-08-13T07:06:18.407586
+======================================================================
+
+OVERALL STATUS: PASS
+  Passed:  12
+  Failed:  0
+  Missing: 0
+  Total:   12 / 12
+
+Pair Manifest: LOADED
+Manifest Consistency (10/40/70): PASS
+Calibration Hash Consistency: PASS
+  Hash(es): c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1
+
+----------------------------------------------------------------------
+PER-CHECKPOINT RESULTS
+----------------------------------------------------------------------
+
+[checkpoint_100] (coverage: full)
+  first: PASS (2016 pairs, KL=[0.001407, 0.021649], mean=0.004789)
+  middle: PASS (2016 pairs, KL=[0.000512, 0.039483], mean=0.003316)
+  last: PASS (2016 pairs, KL=[0.000260, 0.019233], mean=0.005091)
+
+[checkpoint_10] (coverage: sampled)
+  first: PASS (384 pairs, KL=[0.001009, 0.004979], mean=0.002038)
+  middle: PASS (384 pairs, KL=[0.000401, 0.038828], mean=0.003584)
+  last: PASS (384 pairs, KL=[0.000192, 0.014165], mean=0.003575)
+
+[checkpoint_40] (coverage: sampled)
+  first: PASS (384 pairs, KL=[0.001290, 0.008070], mean=0.003308)
+  middle: PASS (384 pairs, KL=[0.000435, 0.024381], mean=0.002707)
+  last: PASS (384 pairs, KL=[0.000254, 0.016216], mean=0.003972)
+
+[checkpoint_70] (coverage: sampled)
+  first: PASS (384 pairs, KL=[0.001384, 0.010956], mean=0.003782)
+  middle: PASS (384 pairs, KL=[0.000524, 0.014361], mean=0.002353)
+  last: PASS (384 pairs, KL=[0.000217, 0.014999], mean=0.004367)
+
+======================================================================
+VERDICT: PASS — Dataset is frozen and ready for analysis.
+======================================================================

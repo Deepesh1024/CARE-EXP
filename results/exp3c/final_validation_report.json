@@ -1,0 +1,131 @@
+{
+  "overall_pass": true,
+  "total_pass": 12,
+  "total_fail": 0,
+  "total_missing": 0,
+  "manifest_status": "LOADED",
+  "manifest_consistency": "PASS",
+  "calibration_consistent": true,
+  "calibration_hashes": [
+    "c7b221ffbd2d00340ae3795639176369eb7c918ef8cf7fbc9cd1416812c139c1"
+  ],
+  "results": {
+    "checkpoint_100": {
+      "coverage": "full",
+      "layers": {
+        "first": {
+          "status": "PASS",
+          "measured_pairs": 2016,
+          "kl_min": 0.0014071153141236024,
+          "kl_max": 0.02164928899513184,
+          "kl_mean": 0.004788705715037256,
+          "issues": []
+        },
+        "middle": {
+          "status": "PASS",
+          "measured_pairs": 2016,
+          "kl_min": 0.0005123792651247306,
+          "kl_max": 0.03948316619157515,
+          "kl_mean": 0.003316089488314103,
+          "issues": []
+        },
+        "last": {
+          "status": "PASS",
+          "measured_pairs": 2016,
+          "kl_min": 0.00025957927115781643,
+          "kl_max": 0.01923262256107048,
+          "kl_mean": 0.0050911374058889205,
+          "issues": []
+        }
+      }
+    },
+    "checkpoint_10": {
+      "coverage": "sampled",
+      "layers": {
+        "first": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0010091210793933948,
+          "kl_max": 0.00497850120795584,
+          "kl_mean": 0.0020382276007016187,
+          "issues": []
+        },
+        "middle": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0004006313239602447,
+          "kl_max": 0.03882750005042732,
+          "kl_mean": 0.003584439509054918,
+          "issues": []
+        },
+        "last": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.00019230969201880014,
+          "kl_max": 0.014165296330961663,
+          "kl_mean": 0.003574977763619471,
+          "issues": []
+        }
+      }
+    },
+    "checkpoint_40": {
+      "coverage": "sampled",
+      "layers": {
+        "first": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0012902868743077567,
+          "kl_max": 0.008070265693100015,
+          "kl_mean": 0.0033075087241900805,
+          "issues": []
+        },
+        "middle": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0004351500748393741,
+          "kl_max": 0.024380519894489982,
+          "kl_mean": 0.002707140602641238,
+          "issues": []
+        },
+        "last": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.00025387240120100074,
+          "kl_max": 0.01621585275741719,
+          "kl_mean": 0.003971978085381656,
+          "issues": []
+        }
+      }
+    },
+    "checkpoint_70": {
+      "coverage": "sampled",
+      "layers": {
+        "first": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0013839305584654618,
+          "kl_max": 0.010956334294062986,
+          "kl_mean": 0.0037824714590930443,
+          "issues": []
+        },
+        "middle": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0005243715973868348,
+          "kl_max": 0.014361295745134077,
+          "kl_mean": 0.002352791216582836,
+          "issues": []
+        },
+        "last": {
+          "status": "PASS",
+          "measured_pairs": 384,
+          "kl_min": 0.0002169332951092255,
+          "kl_max": 0.014998508031603975,
+          "kl_mean": 0.004367320808083548,
+          "issues": []
+        }
+      }
+    }
+  },
+  "generated_at": "2026-08-13T07:06:18.407688"
+}
