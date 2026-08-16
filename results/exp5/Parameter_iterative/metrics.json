@@ -1,0 +1,91 @@
+[
+    {
+        "level": 64,
+        "tier1": {
+            "wikitext_2_ppl": 7.348050117492676,
+            "latency_mean_ms": 85.4836355720181,
+            "throughput_mean_tps": 5989.564995851057,
+            "active_experts": 64,
+            "expert_params": 402653184
+        },
+        "tier2": {
+            "arc_challenge_acc": 0.46757679180887374,
+            "mmlu_acc": 0.5059820538384845
+        }
+    },
+    {
+        "level": 56,
+        "tier1": {
+            "wikitext_2_ppl": 11.384401321411133,
+            "latency_mean_ms": 77.34575930284336,
+            "throughput_mean_tps": 6620.063619200456,
+            "active_experts": 56,
+            "expert_params": 352321536
+        },
+        "tier2": {}
+    },
+    {
+        "level": 48,
+        "tier1": {
+            "wikitext_2_ppl": 16.0115966796875,
+            "latency_mean_ms": 68.95171587821096,
+            "throughput_mean_tps": 7425.76148663993,
+            "active_experts": 48,
+            "expert_params": 301989888
+        },
+        "tier2": {
+            "arc_challenge_acc": 0.2960750853242321,
+            "mmlu_acc": 0.271969804871101
+        }
+    },
+    {
+        "level": 40,
+        "tier1": {
+            "wikitext_2_ppl": 33.998252868652344,
+            "latency_mean_ms": 59.29658944485709,
+            "throughput_mean_tps": 8635.21368075325,
+            "active_experts": 40,
+            "expert_params": 251658240
+        },
+        "tier2": {}
+    },
+    {
+        "level": 32,
+        "tier1": {
+            "wikitext_2_ppl": 195.70220947265625,
+            "latency_mean_ms": 49.83499795082025,
+            "throughput_mean_tps": 10274.885532519074,
+            "active_experts": 32,
+            "expert_params": 201326592
+        },
+        "tier2": {
+            "arc_challenge_acc": 0.22013651877133106,
+            "mmlu_acc": 0.23935336846603048
+        }
+    },
+    {
+        "level": 24,
+        "tier1": {
+            "wikitext_2_ppl": 1454.70849609375,
+            "latency_mean_ms": 40.740447354037315,
+            "throughput_mean_tps": 12567.920829275285,
+            "active_experts": 24,
+            "expert_params": 150994944
+        },
+        "tier2": {}
+    },
+    {
+        "level": 16,
+        "tier1": {
+            "wikitext_2_ppl": 4440.5048828125,
+            "latency_mean_ms": 30.640910686925054,
+            "throughput_mean_tps": 16710.877432884266,
+            "active_experts": 16,
+            "expert_params": 100663296
+        },
+        "tier2": {
+            "arc_challenge_acc": 0.2175767918088737,
+            "mmlu_acc": 0.24227318045862412
+        }
+    }
+]

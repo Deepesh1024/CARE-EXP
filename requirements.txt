@@ -16,3 +16,10 @@ tqdm>=4.66.0
 ipywidgets>=8.1.0           # silences the tqdm.auto "IProgress not found" warning you saw in Jupyter
 jupyterlab>=4.1.0           # or notebook>=7.1.0 if you prefer classic Notebook
  
+
+
+# Experiment 5 Dependencies
+lm-eval>=0.4.0
+xgboost>=2.0.3
+scikit-learn>=1.3.2
+joblib>=1.3.2

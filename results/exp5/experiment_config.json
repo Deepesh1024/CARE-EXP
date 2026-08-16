@@ -1,0 +1,22 @@
+{
+    "experiment": "CARE-MoE Experiment 5 - Real Compression",
+    "version": "experiment5-v1.0",
+    "model": "allenai/OLMoE-1B-7B-0924",
+    "calibration_dataset": "Salesforce/wikitext",
+    "calibration_subset": "wikitext-2-raw-v1",
+    "calibration_split": "train",
+    "calibration_seq_len": 512,
+    "evaluation_dataset_ppl": "Salesforce/wikitext",
+    "evaluation_subset_ppl": "wikitext-2-raw-v1",
+    "evaluation_split_ppl": "validation",
+    "benchmarks": ["arc_challenge", "mmlu"],
+    "compression_levels": [64, 56, 48, 40, 32, 24, 16],
+    "baselines": ["Random", "Parameter", "Usage", "Local"],
+    "care_variants": ["CARE_GEO", "CARE_COM"],
+    "modes": ["one_shot", "iterative"],
+    "parameter_similarity_metric": "L2",
+    "router_update_rule": "average_weights",
+    "expert_merge_rule": "average_weights",
+    "conflict_resolution": "greedy_score_order",
+    "statistical_significance_alpha": 0.05
+}

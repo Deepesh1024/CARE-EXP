@@ -1,0 +1,322 @@
+{
+    "E0": {
+        "routed_tokens": 8563,
+        "mean_routing_weight": 0.03801090270280838,
+        "routing_frequency": 0.1427333188872035
+    },
+    "E1": {
+        "routed_tokens": 6279,
+        "mean_routing_weight": 0.04151694104075432,
+        "routing_frequency": 0.10466221059123565
+    },
+    "E2": {
+        "routed_tokens": 6595,
+        "mean_routing_weight": 0.05450098589062691,
+        "routing_frequency": 0.10992949177404031
+    },
+    "E3": {
+        "routed_tokens": 889,
+        "mean_routing_weight": 0.036893006414175034,
+        "routing_frequency": 0.014818395479472606
+    },
+    "E4": {
+        "routed_tokens": 3067,
+        "mean_routing_weight": 0.035511091351509094,
+        "routing_frequency": 0.05112263097361359
+    },
+    "E5": {
+        "routed_tokens": 14859,
+        "mean_routing_weight": 0.040540702641010284,
+        "routing_frequency": 0.24767889587118497
+    },
+    "E6": {
+        "routed_tokens": 7699,
+        "mean_routing_weight": 0.05380361154675484,
+        "routing_frequency": 0.12833163869118064
+    },
+    "E7": {
+        "routed_tokens": 1554,
+        "mean_routing_weight": 0.028975704684853554,
+        "routing_frequency": 0.025903022019235576
+    },
+    "E8": {
+        "routed_tokens": 2224,
+        "mean_routing_weight": 0.02991502732038498,
+        "routing_frequency": 0.0370709916156885
+    },
+    "E9": {
+        "routed_tokens": 6327,
+        "mean_routing_weight": 0.039864640682935715,
+        "routing_frequency": 0.10546230393545913
+    },
+    "E10": {
+        "routed_tokens": 8757,
+        "mean_routing_weight": 0.0467296727001667,
+        "routing_frequency": 0.14596702948677345
+    },
+    "E11": {
+        "routed_tokens": 8241,
+        "mean_routing_weight": 0.04677003249526024,
+        "routing_frequency": 0.1373660260363709
+    },
+    "E12": {
+        "routed_tokens": 13382,
+        "mean_routing_weight": 0.050878025591373444,
+        "routing_frequency": 0.22305935692497458
+    },
+    "E13": {
+        "routed_tokens": 4536,
+        "mean_routing_weight": 0.04210137575864792,
+        "routing_frequency": 0.07560882102912006
+    },
+    "E14": {
+        "routed_tokens": 8813,
+        "mean_routing_weight": 0.05250724032521248,
+        "routing_frequency": 0.14690047172170087
+    },
+    "E15": {
+        "routed_tokens": 16558,
+        "mean_routing_weight": 0.046921033412218094,
+        "routing_frequency": 0.275998866534429
+    },
+    "E16": {
+        "routed_tokens": 5227,
+        "mean_routing_weight": 0.047103095799684525,
+        "routing_frequency": 0.08712683146367076
+    },
+    "E17": {
+        "routed_tokens": 10826,
+        "mean_routing_weight": 0.04376345872879028,
+        "routing_frequency": 0.1804543863450736
+    },
+    "E18": {
+        "routed_tokens": 21244,
+        "mean_routing_weight": 0.05225102975964546,
+        "routing_frequency": 0.3541079792642475
+    },
+    "E19": {
+        "routed_tokens": 6065,
+        "mean_routing_weight": 0.03886176645755768,
+        "routing_frequency": 0.10109512776490591
+    },
+    "E20": {
+        "routed_tokens": 9956,
+        "mean_routing_weight": 0.04074207693338394,
+        "routing_frequency": 0.1659526944810228
+    },
+    "E21": {
+        "routed_tokens": 6959,
+        "mean_routing_weight": 0.05152500048279762,
+        "routing_frequency": 0.11599686630106845
+    },
+    "E22": {
+        "routed_tokens": 4063,
+        "mean_routing_weight": 0.14341849088668823,
+        "routing_frequency": 0.06772456786625106
+    },
+    "E23": {
+        "routed_tokens": 7636,
+        "mean_routing_weight": 0.060652732849121094,
+        "routing_frequency": 0.1272815161768873
+    },
+    "E24": {
+        "routed_tokens": 8201,
+        "mean_routing_weight": 0.052978433668613434,
+        "routing_frequency": 0.13669928158285133
+    },
+    "E25": {
+        "routed_tokens": 6248,
+        "mean_routing_weight": 0.04093349352478981,
+        "routing_frequency": 0.10414548363975797
+    },
+    "E26": {
+        "routed_tokens": 12374,
+        "mean_routing_weight": 0.06271182745695114,
+        "routing_frequency": 0.20625739669628124
+    },
+    "E27": {
+        "routed_tokens": 3258,
+        "mean_routing_weight": 0.0382884182035923,
+        "routing_frequency": 0.05430633573916957
+    },
+    "E28": {
+        "routed_tokens": 8856,
+        "mean_routing_weight": 0.045064304023981094,
+        "routing_frequency": 0.1476172220092344
+    },
+    "E29": {
+        "routed_tokens": 4251,
+        "mean_routing_weight": 0.03972560912370682,
+        "routing_frequency": 0.07085826679779307
+    },
+    "E30": {
+        "routed_tokens": 6933,
+        "mean_routing_weight": 0.04607684910297394,
+        "routing_frequency": 0.11556348240628073
+    },
+    "E31": {
+        "routed_tokens": 4736,
+        "mean_routing_weight": 0.04323505982756615,
+        "routing_frequency": 0.07894254329671795
+    },
+    "E32": {
+        "routed_tokens": 5699,
+        "mean_routing_weight": 0.03984709829092026,
+        "routing_frequency": 0.09499441601520177
+    },
+    "E33": {
+        "routed_tokens": 13350,
+        "mean_routing_weight": 0.04276198148727417,
+        "routing_frequency": 0.2225259613621589
+    },
+    "E34": {
+        "routed_tokens": 9863,
+        "mean_routing_weight": 0.045520178973674774,
+        "routing_frequency": 0.16440251362658978
+    },
+    "E35": {
+        "routed_tokens": 7782,
+        "mean_routing_weight": 0.04415329545736313,
+        "routing_frequency": 0.12971513343223376
+    },
+    "E36": {
+        "routed_tokens": 5778,
+        "mean_routing_weight": 0.04456925392150879,
+        "routing_frequency": 0.09631123631090294
+    },
+    "E37": {
+        "routed_tokens": 9854,
+        "mean_routing_weight": 0.06146189942955971,
+        "routing_frequency": 0.16425249612454787
+    },
+    "E38": {
+        "routed_tokens": 2258,
+        "mean_routing_weight": 0.03564533591270447,
+        "routing_frequency": 0.037637724401180135
+    },
+    "E39": {
+        "routed_tokens": 3032,
+        "mean_routing_weight": 0.03833351656794548,
+        "routing_frequency": 0.05053922957678396
+    },
+    "E40": {
+        "routed_tokens": 7029,
+        "mean_routing_weight": 0.04357362166047096,
+        "routing_frequency": 0.11716366909472772
+    },
+    "E41": {
+        "routed_tokens": 4668,
+        "mean_routing_weight": 0.05396106094121933,
+        "routing_frequency": 0.07780907772573467
+    },
+    "E42": {
+        "routed_tokens": 3739,
+        "mean_routing_weight": 0.037527650594711304,
+        "routing_frequency": 0.062323937792742486
+    },
+    "E43": {
+        "routed_tokens": 2600,
+        "mean_routing_weight": 0.03657884523272514,
+        "routing_frequency": 0.04333838947877253
+    },
+    "E44": {
+        "routed_tokens": 9726,
+        "mean_routing_weight": 0.06618093699216843,
+        "routing_frequency": 0.16211891387328523
+    },
+    "E45": {
+        "routed_tokens": 10787,
+        "mean_routing_weight": 0.06417839229106903,
+        "routing_frequency": 0.179804310502892
+    },
+    "E46": {
+        "routed_tokens": 3487,
+        "mean_routing_weight": 0.03794116526842117,
+        "routing_frequency": 0.05812344773556915
+    },
+    "E47": {
+        "routed_tokens": 3196,
+        "mean_routing_weight": 0.0398358553647995,
+        "routing_frequency": 0.053272881836214224
+    },
+    "E48": {
+        "routed_tokens": 7570,
+        "mean_routing_weight": 0.06668145209550858,
+        "routing_frequency": 0.12618138782858
+    },
+    "E49": {
+        "routed_tokens": 6222,
+        "mean_routing_weight": 0.05459986999630928,
+        "routing_frequency": 0.10371209974497024
+    },
+    "E50": {
+        "routed_tokens": 6976,
+        "mean_routing_weight": 0.04402008280158043,
+        "routing_frequency": 0.11628023269381428
+    },
+    "E51": {
+        "routed_tokens": 8481,
+        "mean_routing_weight": 0.04448292404413223,
+        "routing_frequency": 0.14136649275748836
+    },
+    "E52": {
+        "routed_tokens": 10437,
+        "mean_routing_weight": 0.05157826095819473,
+        "routing_frequency": 0.1739702965345957
+    },
+    "E53": {
+        "routed_tokens": 7603,
+        "mean_routing_weight": 0.0600053071975708,
+        "routing_frequency": 0.12673145200273364
+    },
+    "E54": {
+        "routed_tokens": 3602,
+        "mean_routing_weight": 0.03711988776922226,
+        "routing_frequency": 0.06004033803943794
+    },
+    "E55": {
+        "routed_tokens": 11744,
+        "mean_routing_weight": 0.05272705852985382,
+        "routing_frequency": 0.1957561715533479
+    },
+    "E56": {
+        "routed_tokens": 10934,
+        "mean_routing_weight": 0.050401922315359116,
+        "routing_frequency": 0.18225459636957644
+    },
+    "E57": {
+        "routed_tokens": 9044,
+        "mean_routing_weight": 0.0482436902821064,
+        "routing_frequency": 0.1507509209407764
+    },
+    "E58": {
+        "routed_tokens": 13653,
+        "mean_routing_weight": 0.04528569057583809,
+        "routing_frequency": 0.2275765505975697
+    },
+    "E59": {
+        "routed_tokens": 3120,
+        "mean_routing_weight": 0.03254557028412819,
+        "routing_frequency": 0.05200606737452703
+    },
+    "E60": {
+        "routed_tokens": 2673,
+        "mean_routing_weight": 0.030319707468152046,
+        "routing_frequency": 0.04455519810644575
+    },
+    "E61": {
+        "routed_tokens": 10831,
+        "mean_routing_weight": 0.048558201640844345,
+        "routing_frequency": 0.18053772940176355
+    },
+    "E62": {
+        "routed_tokens": 7564,
+        "mean_routing_weight": 0.042389627546072006,
+        "routing_frequency": 0.12608137616055207
+    },
+    "E63": {
+        "routed_tokens": 11466,
+        "mean_routing_weight": 0.04846559837460518,
+        "routing_frequency": 0.19112229760138683
+    }
+}
