@@ -27,8 +27,8 @@ ALPHAS = [0.01, 0.025, 0.05, 0.10, 0.20, 0.40, 0.60, 0.80, 1.00, 1.50, 2.00]
 TARGET_ANGLES_DEG = [0, 15, 30, 45, 60] # plus theta_max_i generated dynamically
 
 # Intervention Hyperparameters
-UPDATE_STEPS = 5
-LR = 1e-4
+UPDATE_STEPS = 50
+LR = 5e-4
 BATCH_SIZE = 128
 MICRO_BATCH_SIZE = 2
 SEEDS = [42, 100, 2024] # For Control E (Variance)
