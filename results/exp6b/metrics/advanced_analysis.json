@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-08-16T15:32:35.500950",
+  "q_robustness": {
+    "primary_q": 4,
+    "secondary_q": 6,
+    "is_robust": true,
+    "notes": "MDS geometry is stable across q; predictive results usually hold."
+  },
+  "empirical_law_candidates": {
+    "first": {
+      "R2_M3": -0.033155481020609535,
+      "R2_M4": -0.030368248621622723,
+      "Candidate_Law": "No compact law found"
+    },
+    "middle": {
+      "R2_M3": -0.05803175767262777,
+      "R2_M4": -0.06110501289367676,
+      "Candidate_Law": "No compact law found"
+    },
+    "last": {
+      "R2_M3": -0.03187719980875651,
+      "R2_M4": -0.0302887757619222,
+      "Candidate_Law": "No compact law found"
+    }
+  },
+  "field_structure_hypothesis": "Evaluated during law generation"
+}

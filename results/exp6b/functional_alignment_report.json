@@ -1,0 +1,319 @@
+{
+  "timestamp": "2026-08-16T15:31:59.923053",
+  "reference_checkpoint": "checkpoint_100",
+  "method": "Orthogonal Procrustes (no scaling)",
+  "results": {
+    "first": {
+      "q4": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.0036793868433182752,
+            "is_reference": false,
+            "spearman_preservation": 0.9445328659591062,
+            "pearson_preservation": 0.9795956134515892,
+            "stress": 2.2638767871633207e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.0038131274914639185,
+            "is_reference": false,
+            "spearman_preservation": 0.9730205825506087,
+            "pearson_preservation": 0.9826240994855557,
+            "stress": 4.2089939623160525e-05
+          },
+          "checkpoint_70": {
+            "disparity": 0.0039003484686589503,
+            "is_reference": false,
+            "spearman_preservation": 0.9774855040520837,
+            "pearson_preservation": 0.9907623210832979,
+            "stress": 4.243485547046945e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.8738106540978603,
+            "pearson_preservation": 0.9565183880061927,
+            "stress": 0.002004183403591076
+          }
+        }
+      },
+      "q6": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.003561448037647237,
+            "is_reference": false,
+            "spearman_preservation": 0.9657433623817435,
+            "pearson_preservation": 0.9894614582496166,
+            "stress": 1.1197430886263979e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.0036178409493811845,
+            "is_reference": false,
+            "spearman_preservation": 0.9881574039537486,
+            "pearson_preservation": 0.992667729959405,
+            "stress": 1.7017838260284604e-05
+          },
+          "checkpoint_70": {
+            "disparity": 0.0036032726270896977,
+            "is_reference": false,
+            "spearman_preservation": 0.9884259180767013,
+            "pearson_preservation": 0.9958210202999559,
+            "stress": 1.8827120478407413e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.8895063324404054,
+            "pearson_preservation": 0.9654034666831292,
+            "stress": 0.0012963017906811821
+          }
+        }
+      },
+      "q3": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.003704584450057023,
+            "is_reference": false,
+            "spearman_preservation": 0.913606693567529,
+            "pearson_preservation": 0.9624955261689349,
+            "stress": 4.4463550449129444e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.003634884761131035,
+            "is_reference": false,
+            "spearman_preservation": 0.9488797429724323,
+            "pearson_preservation": 0.9649263711667921,
+            "stress": 9.118536690057397e-05
+          },
+          "checkpoint_70": {
+            "disparity": 0.00356596280778631,
+            "is_reference": false,
+            "spearman_preservation": 0.9452924197212709,
+            "pearson_preservation": 0.977332722125454,
+            "stress": 0.00011071031112985653
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.8245263385439625,
+            "pearson_preservation": 0.9372831629314206,
+            "stress": 0.002723880587893521
+          }
+        }
+      }
+    },
+    "middle": {
+      "q4": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.0020575076908857745,
+            "is_reference": false,
+            "spearman_preservation": 0.9762535604082602,
+            "pearson_preservation": 0.9995864197522972,
+            "stress": 3.8131570295294615e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.0026029416646973775,
+            "is_reference": false,
+            "spearman_preservation": 0.9672410650706996,
+            "pearson_preservation": 0.9954935441153889,
+            "stress": 0.0001128146970213885
+          },
+          "checkpoint_70": {
+            "disparity": 0.0034740805445028222,
+            "is_reference": false,
+            "spearman_preservation": 0.9761509867417177,
+            "pearson_preservation": 0.9883892554538725,
+            "stress": 9.133158644031915e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.9251485622732359,
+            "pearson_preservation": 0.9933278074465018,
+            "stress": 0.0008651683509854768
+          }
+        }
+      },
+      "q6": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.0020705530098759943,
+            "is_reference": false,
+            "spearman_preservation": 0.9861262758129599,
+            "pearson_preservation": 0.9996863969855654,
+            "stress": 2.901394368654593e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.002569999503931814,
+            "is_reference": false,
+            "spearman_preservation": 0.9756328201824286,
+            "pearson_preservation": 0.9958705098096812,
+            "stress": 0.00010419785225776498
+          },
+          "checkpoint_70": {
+            "disparity": 0.003403957874579221,
+            "is_reference": false,
+            "spearman_preservation": 0.9817764317927502,
+            "pearson_preservation": 0.9894188577688066,
+            "stress": 8.392342230101053e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.9516248601268184,
+            "pearson_preservation": 0.99428525658039,
+            "stress": 0.0007033918275249114
+          }
+        }
+      },
+      "q3": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.002191275552585289,
+            "is_reference": false,
+            "spearman_preservation": 0.9701572089790106,
+            "pearson_preservation": 0.999508551865041,
+            "stress": 4.537447957261271e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.0027621024294674865,
+            "is_reference": false,
+            "spearman_preservation": 0.9568190295344342,
+            "pearson_preservation": 0.9949301125323342,
+            "stress": 0.00012641699169390545
+          },
+          "checkpoint_70": {
+            "disparity": 0.003484733090276775,
+            "is_reference": false,
+            "spearman_preservation": 0.9676981960598148,
+            "pearson_preservation": 0.9872831705907104,
+            "stress": 9.968368967827582e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.9130599165847207,
+            "pearson_preservation": 0.9916311733445291,
+            "stress": 0.0010431353250128833
+          }
+        }
+      }
+    },
+    "last": {
+      "q4": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.003871781075020328,
+            "is_reference": false,
+            "spearman_preservation": 0.9917118782001288,
+            "pearson_preservation": 0.9941473458541704,
+            "stress": 6.812510461901755e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.00426068388875753,
+            "is_reference": false,
+            "spearman_preservation": 0.9903604065647147,
+            "pearson_preservation": 0.9928958180245583,
+            "stress": 7.739788367469463e-05
+          },
+          "checkpoint_70": {
+            "disparity": 0.004301510549446154,
+            "is_reference": false,
+            "spearman_preservation": 0.9910445135804143,
+            "pearson_preservation": 0.9915591142060594,
+            "stress": 9.944006000501833e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.9352713539723984,
+            "pearson_preservation": 0.9233883692568585,
+            "stress": 0.002810713682443681
+          }
+        }
+      },
+      "q6": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.0036926257538818182,
+            "is_reference": false,
+            "spearman_preservation": 0.9941543606524024,
+            "pearson_preservation": 0.9960820870102474,
+            "stress": 4.7316082597107585e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.003837254546543298,
+            "is_reference": false,
+            "spearman_preservation": 0.9932195415550508,
+            "pearson_preservation": 0.994999696828976,
+            "stress": 5.634607276320222e-05
+          },
+          "checkpoint_70": {
+            "disparity": 0.00393325060322742,
+            "is_reference": false,
+            "spearman_preservation": 0.9927607151334306,
+            "pearson_preservation": 0.993821296431904,
+            "stress": 7.477296189430085e-05
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.9460125546776983,
+            "pearson_preservation": 0.9376194481231832,
+            "stress": 0.0020481439648841553
+          }
+        }
+      },
+      "q3": {
+        "common_pairs": 384,
+        "common_experts": 64,
+        "checkpoints": {
+          "checkpoint_10": {
+            "disparity": 0.0039301409632480615,
+            "is_reference": false,
+            "spearman_preservation": 0.9902383354243667,
+            "pearson_preservation": 0.9932191891343987,
+            "stress": 7.724918719381163e-05
+          },
+          "checkpoint_40": {
+            "disparity": 0.00437225614023332,
+            "is_reference": false,
+            "spearman_preservation": 0.9852429554779425,
+            "pearson_preservation": 0.9881752582710758,
+            "stress": 0.00012618162086870004
+          },
+          "checkpoint_70": {
+            "disparity": 0.004815676642496525,
+            "is_reference": false,
+            "spearman_preservation": 0.9862602149808417,
+            "pearson_preservation": 0.9858181254246773,
+            "stress": 0.00016097729701196697
+          },
+          "checkpoint_100": {
+            "disparity": 0.0,
+            "is_reference": true,
+            "spearman_preservation": 0.9061588705028653,
+            "pearson_preservation": 0.8962301530384079,
+            "stress": 0.0037245482630884627
+          }
+        }
+      }
+    }
+  }
+}

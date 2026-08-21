@@ -23,3 +23,7 @@ lm-eval>=0.4.0
 xgboost>=2.0.3
 scikit-learn>=1.3.2
 joblib>=1.3.2
+
+# Experiment 6C Dependencies
+statsmodels>=0.14.0
+pyarrow>=14.0.0

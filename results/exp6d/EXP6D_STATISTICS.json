@@ -1,0 +1,24 @@
+{
+    "Primary_Test": {
+        "Y_vs_X1_mag_tau": {
+            "linear_r2": 0.019589109840007835
+        },
+        "Y_vs_X2_mag_tau_perp": {
+            "linear_r2": 0.0293398315906801
+        },
+        "Y_vs_X3_susceptibility_ratio": {
+            "linear_r2": 0.019008237875392964
+        }
+    },
+    "Secondary_Test_DeltaC_perp": {
+        "linear_r2": 0.8500196139345444
+    },
+    "Secondary_Test_DeltaC_par": {
+        "linear_r2": 0.1663408239203118
+    },
+    "Angles": {
+        "Mean_Angle_C_tau": 42.12504839211989,
+        "Mean_Angle_tau_DeltaC": 134.30567036809705,
+        "Mean_Angle_C_DeltaC": 167.18667282446714
+    }
+}

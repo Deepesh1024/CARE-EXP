@@ -79,6 +79,15 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │ • RESULT: Discovered U-shaped redundancy trajectory in │
    │   middle layer & persistent low-dimensional structure  │
    └────────────────────────────────────────────────────────┘
+                                │
+                                ▼ [Transition: Controlled Causal Intervention]
+   ┌────────────────────────────────────────────────────────┐
+   │ Experiment 6D: Controlled Capability Susceptibility    │
+   │ • Controlled SGD intervention isolated to single expert│
+   │ • Rigorous calibration phase validating measurement noise│
+   │ • RESULT: (Pending GPU execution of the calibration    │
+   │   and final 1,980-condition sweep).                    │
+   └────────────────────────────────────────────────────────┘
 ```
 
 ---

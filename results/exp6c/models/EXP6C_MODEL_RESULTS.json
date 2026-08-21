@@ -1,0 +1,152 @@
+{
+    "checkpoint_10->checkpoint_40": {
+        "Mean_Cos_DeltaC_Tau": -0.6729002590235669,
+        "Mean_Cos_DeltaC_C": -0.8753959815275677,
+        "Mean_Cos_DeltaC_I": -0.6751499341822877,
+        "Mean_Cos_DeltaC_Perp_I_Perp": 0.2804849013420394,
+        "R2_Tau_Only": 0.0001908840780561194,
+        "R2_C_Only": 0.8272234879652842,
+        "R2_C_plus_Tau": 0.8272659073993142,
+        "R2_I_Only": 0.3422502416547676,
+        "R2_C_plus_Tau_plus_I": 0.8274634951761366,
+        "R2_I_Perp_predicting_DeltaC_Perp": 0.005910731447307582,
+        "Angular_Susceptibility_Sensitivity": {
+            "pct_5": {
+                "threshold_used": "5%",
+                "experts_retained": 960,
+                "r2": 0.13741286359884852,
+                "pvalues": {
+                    "const": 1.5510090350611289e-31,
+                    "mag_C": 0.09514885205497058,
+                    "mag_tau": 2.274505102802952e-09,
+                    "layer_group_middle": 2.087844371303345e-21,
+                    "layer_group_late": 9.95915828059167e-08
+                }
+            },
+            "pct_10": {
+                "threshold_used": "10%",
+                "experts_retained": 912,
+                "r2": 0.1357369984434985,
+                "pvalues": {
+                    "const": 6.698119258679718e-30,
+                    "mag_C": 0.13415172650734355,
+                    "mag_tau": 6.28116436493835e-09,
+                    "layer_group_middle": 6.620441010175167e-20,
+                    "layer_group_late": 7.151139945002584e-07
+                }
+            },
+            "pct_20": {
+                "threshold_used": "20%",
+                "experts_retained": 816,
+                "r2": 0.13541423112991013,
+                "pvalues": {
+                    "const": 7.759235929273343e-27,
+                    "mag_C": 0.19607156644184812,
+                    "mag_tau": 4.983277694592715e-08,
+                    "layer_group_middle": 7.348033326570108e-18,
+                    "layer_group_late": 1.0683908573778909e-05
+                }
+            }
+        }
+    },
+    "checkpoint_40->checkpoint_70": {
+        "Mean_Cos_DeltaC_Tau": -0.7858126471375829,
+        "Mean_Cos_DeltaC_C": -0.9997539817413146,
+        "Mean_Cos_DeltaC_I": -0.786234734240243,
+        "Mean_Cos_DeltaC_Perp_I_Perp": -0.03899220286839392,
+        "R2_Tau_Only": 0.0010262961961098327,
+        "R2_C_Only": 0.9829158207274696,
+        "R2_C_plus_Tau": 0.9829843538088981,
+        "R2_I_Only": 0.4231944769352338,
+        "R2_C_plus_Tau_plus_I": 0.9831795732000559,
+        "R2_I_Perp_predicting_DeltaC_Perp": 0.06395069112192664,
+        "Angular_Susceptibility_Sensitivity": {
+            "pct_5": {
+                "threshold_used": "5%",
+                "experts_retained": 960,
+                "r2": 0.15518354751511154,
+                "pvalues": {
+                    "const": 7.345798159780177e-38,
+                    "mag_C": 4.3914240689339896e-23,
+                    "mag_tau": 4.105084915348836e-11,
+                    "layer_group_middle": 2.7033207924650687e-13,
+                    "layer_group_late": 2.619895564924815e-18
+                }
+            },
+            "pct_10": {
+                "threshold_used": "10%",
+                "experts_retained": 912,
+                "r2": 0.15663862303604603,
+                "pvalues": {
+                    "const": 1.824125854923688e-37,
+                    "mag_C": 2.7062344301875606e-21,
+                    "mag_tau": 2.523075378260658e-11,
+                    "layer_group_middle": 8.067196425995969e-13,
+                    "layer_group_late": 2.990097826337365e-17
+                }
+            },
+            "pct_20": {
+                "threshold_used": "20%",
+                "experts_retained": 816,
+                "r2": 0.16325909141776496,
+                "pvalues": {
+                    "const": 1.4323558963780863e-33,
+                    "mag_C": 1.0437676691627308e-20,
+                    "mag_tau": 1.5363774030910213e-10,
+                    "layer_group_middle": 2.7836274446218625e-11,
+                    "layer_group_late": 1.0020562875359318e-16
+                }
+            }
+        }
+    },
+    "checkpoint_70->checkpoint_100": {
+        "Mean_Cos_DeltaC_Tau": -0.785701647891694,
+        "Mean_Cos_DeltaC_C": -0.9999675877368552,
+        "Mean_Cos_DeltaC_I": -0.78559341726759,
+        "Mean_Cos_DeltaC_Perp_I_Perp": -0.20429159563978305,
+        "R2_Tau_Only": 0.0006575772371700817,
+        "R2_C_Only": 0.9925884119699397,
+        "R2_C_plus_Tau": 0.9926335918694794,
+        "R2_I_Only": 0.430556352252512,
+        "R2_C_plus_Tau_plus_I": 0.9927751492760951,
+        "R2_I_Perp_predicting_DeltaC_Perp": 0.2542117144284419,
+        "Angular_Susceptibility_Sensitivity": {
+            "pct_5": {
+                "threshold_used": "5%",
+                "experts_retained": 960,
+                "r2": 0.18000385910154781,
+                "pvalues": {
+                    "const": 5.795079119469653e-23,
+                    "mag_C": 1.555640703710742e-38,
+                    "mag_tau": 0.0017481485898827554,
+                    "layer_group_middle": 1.2770414743689433e-08,
+                    "layer_group_late": 7.297484621728187e-20
+                }
+            },
+            "pct_10": {
+                "threshold_used": "10%",
+                "experts_retained": 912,
+                "r2": 0.17551414537512855,
+                "pvalues": {
+                    "const": 1.7500374622144013e-22,
+                    "mag_C": 2.228231659138246e-35,
+                    "mag_tau": 0.0016935730267014027,
+                    "layer_group_middle": 5.2055582221481664e-08,
+                    "layer_group_late": 3.1322622822471445e-18
+                }
+            },
+            "pct_20": {
+                "threshold_used": "20%",
+                "experts_retained": 816,
+                "r2": 0.17328837273140518,
+                "pvalues": {
+                    "const": 1.9719972690250514e-19,
+                    "mag_C": 2.1781489426697772e-31,
+                    "mag_tau": 0.0046247200531928,
+                    "layer_group_middle": 2.0632730525487178e-07,
+                    "layer_group_late": 1.184664021438398e-16
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "checkpoint_10->checkpoint_40": {
+        "Observed_Mean_Cos_I": -0.6751499341822877,
+        "Observed_Mean_Cos_I_Perp": 0.2804849013420394,
+        "Random_Null_Mean": 0.011231906101097497,
+        "Random_Null_Z_Score": -70.57672478852712,
+        "Random_Null_Z_Score_Perp": 28.49147044441041,
+        "Permutation_Null_Mean": -0.6718477267141422,
+        "Permutation_Null_Z_Score": -0.28904292664823017,
+        "Permutation_Null_Z_Score_Perp": 0.4967580124739466,
+        "Significant_vs_Random": true,
+        "Significant_vs_Permutation": false,
+        "Perp_Significant_vs_Random": true,
+        "Perp_Significant_vs_Permutation": false,
+        "Observed_Overlap_DeltaD_Rho": 0.3572267125090722,
+        "Z_Score": 62.715181676531834,
+        "Significant": true
+    },
+    "checkpoint_40->checkpoint_70": {
+        "Observed_Mean_Cos_I": -0.786234734240243,
+        "Observed_Mean_Cos_I_Perp": -0.03899220286839392,
+        "Random_Null_Mean": 0.0025655390281651585,
+        "Random_Null_Z_Score": -80.62155284429771,
+        "Random_Null_Z_Score_Perp": -3.7502947403846867,
+        "Permutation_Null_Mean": -0.7819269451594884,
+        "Permutation_Null_Z_Score": -2.020339864894853,
+        "Permutation_Null_Z_Score_Perp": -1.5430266123905536,
+        "Significant_vs_Random": true,
+        "Significant_vs_Permutation": false,
+        "Perp_Significant_vs_Random": true,
+        "Perp_Significant_vs_Permutation": false,
+        "Observed_Overlap_DeltaD_Rho": 0.5206387852965229,
+        "Z_Score": 98.85562998248693,
+        "Significant": true
+    },
+    "checkpoint_70->checkpoint_100": {
+        "Observed_Mean_Cos_I": -0.78559341726759,
+        "Observed_Mean_Cos_I_Perp": -0.20429159563978305,
+        "Random_Null_Mean": -0.0093064905334303,
+        "Random_Null_Z_Score": -78.49174105847949,
+        "Random_Null_Z_Score_Perp": -20.988118659575274,
+        "Permutation_Null_Mean": -0.7814413403835094,
+        "Permutation_Null_Z_Score": -1.8997565256437006,
+        "Permutation_Null_Z_Score_Perp": -3.807821810296291,
+        "Significant_vs_Random": true,
+        "Significant_vs_Permutation": false,
+        "Perp_Significant_vs_Random": true,
+        "Perp_Significant_vs_Permutation": true,
+        "Observed_Overlap_DeltaD_Rho": 0.49371746042138925,
+        "Z_Score": 96.27583444938647,
+        "Significant": true
+    }
+}
