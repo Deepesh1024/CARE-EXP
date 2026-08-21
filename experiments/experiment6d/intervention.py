@@ -102,7 +102,20 @@ def main(mode="full"):
     print("Loading 6D Tau Environments...")
     df_targets = pd.read_parquet(os.path.join(DIRS["results"], "EXP6D_TAU_ACTUAL.parquet"))
     
-    if mode == "calibrate" or mode == "pilot":
+    if mode == "magnitude_pilot":
+        print(f"\n=== MAGNITUDE PILOT MODE ACTIVE ===")
+        unique_experts = df_targets.drop_duplicates(subset=["layer_idx", "expert_idx"])
+        expert = unique_experts.iloc[len(unique_experts)//2] # pick a middle expert
+        
+        mask = (
+            (df_targets["layer_idx"] == expert["layer_idx"]) & 
+            (df_targets["expert_idx"] == expert["expert_idx"]) &
+            (df_targets["target_angle_deg"] == 30.0) &
+            (df_targets["alpha"].isin([0.01, 0.05, 0.20, 0.80, 2.00]))
+        )
+        df_targets = df_targets[mask].copy()
+        print(f"Reduced conditions to {len(df_targets)}.")
+    elif mode == "calibrate" or mode == "pilot":
         print(f"\n=== {mode.upper()} MODE ACTIVE ===")
         # 3 experts: low, middle, high ||C||
         unique_experts = df_targets.drop_duplicates(subset=["layer_idx", "expert_idx"])
@@ -216,7 +229,7 @@ def main(mode="full"):
                 labels[attention_mask == 0] = -100
                 
                 outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
-                loss = outputs.loss / (BATCH_SIZE // MICRO_BATCH_SIZE)
+                loss = (outputs.loss / (BATCH_SIZE // MICRO_BATCH_SIZE)) * row["alpha"]
                 loss.backward()
                 
             optimizer.step()
@@ -268,7 +281,11 @@ def main(mode="full"):
                 if param.requires_grad:
                     param.copy_(initial_state[name].to(DEVICE))
                     
-    if mode == "calibrate":
+    if mode == "magnitude_pilot":
+        print(f"\n--- Running Magnitude Pilot ---")
+        for idx, row in tqdm(df_targets.iterrows(), total=len(df_targets), desc="Magnitude Pilot"):
+            run_condition(row, SEEDS[0])
+    elif mode == "calibrate":
         for cal_config in CALIBRATION_CONFIGS:
             c_name = cal_config["name"]
             c_steps = cal_config["steps"]
@@ -309,7 +326,9 @@ def main(mode="full"):
             
     df_res = pd.DataFrame(results)
     
-    if mode == "calibrate":
+    if mode == "magnitude_pilot":
+        out_path = os.path.join(DIRS["results"], "EXP6D_MAGNITUDE_PILOT_RESULTS.parquet")
+    elif mode == "calibrate":
         out_path = os.path.join(DIRS["results"], "EXP6D_CALIBRATION_RESULTS.parquet")
     elif mode == "pilot":
         out_path = os.path.join(DIRS["results"], "EXP6D_PILOT_RESULTS.parquet")
@@ -320,7 +339,9 @@ def main(mode="full"):
     print(f"Saved {len(results)} intervention results to {out_path}")
 
 if __name__ == "__main__":
-    if "--calibrate" in sys.argv:
+    if "--magnitude-pilot" in sys.argv:
+        main(mode="magnitude_pilot")
+    elif "--calibrate" in sys.argv:
         main(mode="calibrate")
     elif "--pilot" in sys.argv:
         main(mode="pilot")

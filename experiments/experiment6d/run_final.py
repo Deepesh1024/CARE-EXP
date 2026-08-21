@@ -145,6 +145,26 @@ def generate_pilot_report():
 
     print(f"Saved pilot report to {out_path}")
 
+def generate_magnitude_pilot_report():
+    print("Generating EXP6D_MAGNITUDE_PILOT_REPORT.md...")
+    out_path = os.path.join(DIRS["results"], "EXP6D_MAGNITUDE_PILOT_REPORT.md")
+    
+    df = pd.read_parquet(os.path.join(DIRS["results"], "EXP6D_MAGNITUDE_PILOT_RESULTS.parquet"))
+    
+    with open(out_path, "w") as f:
+        f.write("# EXPERIMENT 6D: MAGNITUDE PILOT REPORT\n\n")
+        f.write("This pilot tests if Mechanism C (Loss Scaling) effectively isolates and scales the physical intervention strength (Delta Theta) along with Alpha, without confounding the target direction.\n\n")
+        
+        f.write("## 1. SIGNAL SCALING\n")
+        for alpha, group in df.groupby("alpha"):
+            mean_theta = group["delta_theta"].mean()
+            mean_tau_err = group["err_tau"].mean()
+            f.write(f"- **Alpha {alpha}**: Delta_theta = {mean_theta:.6f} degrees | Tau_target Fidelity Error = {mean_tau_err:.6f}\n")
+            
+        f.write("\n## 2. CONCLUSION\n")
+        f.write("If `Delta_theta` scales predictably with `Alpha` while the Tau target fidelity error remains low and constant, Mechanism C is mathematically pristine. The full sweep can proceed.\n")
+    print(f"Saved magnitude pilot report to {out_path}")
+
 def generate_full_report():
     # Implementation deferred
     pass
@@ -152,7 +172,12 @@ def generate_full_report():
 def main():
     ensure_dirs()
     
-    if "--calibrate" in sys.argv:
+    if "--magnitude-pilot" in sys.argv:
+        print("\n=== RUNNING 6D MAGNITUDE PILOT ===")
+        run_script("intervention.py")
+        generate_magnitude_pilot_report()
+        print("\n[SUCCESS] Magnitude Pilot Completed. Check EXP6D_MAGNITUDE_PILOT_REPORT.md.")
+    elif "--calibrate" in sys.argv:
         print("\n=== RUNNING 6D GPU CALIBRATION MATRIX ===")
         run_script("intervention.py")
         generate_calibration_report()
