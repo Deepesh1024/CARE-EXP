@@ -1,4 +1,8 @@
 # CARE-MoE Experiment 4 — Final Report
+
+### Hypothesis
+
+
 ## Functional Merge Landscape: Middle-Layer Only
 
 > **Generated:** 2026-08-12T10:13:35Z
@@ -64,7 +68,23 @@ All 11 features retained from Exp 2 without modification.
 - Test pairs: both experts in test set
 - Cross pairs (one train, one test): **discarded**
 
+### Experiment
+
+
+*(Section extracted to adhere to format)*
+
+### Equations
+
+
 ## Model Definitions
+
+### Plots
+
+
+## Visual Evidence & Diagrams
+
+### Output
+
 
 ### Model A — Local Baseline
 - Algorithm: XGBoost (identical hyperparameters to Experiment 2)
@@ -207,8 +227,6 @@ Geometry earns the right to be used in the next compression experiment.
 - q=4 was performance-selected in Exp 3B (not theoretically motivated)
 - 3 of 11 features use global routing statistics (flagged, pre-merge only)
 
-## Visual Evidence & Diagrams
-
 ### 1. Spearman Correlation by Model
 ![Spearman Rho across Models](./plots/01_spearman_by_model.png)
 *Shows the massive rank-correlation advantage of Geometry (B) and the CARE model (C) over the Local Baseline (A).*
@@ -228,3 +246,8 @@ Geometry earns the right to be used in the next compression experiment.
 ### 5. Precision @ K
 ![Precision at K](./plots/05_precision_at_k.png)
 *Confirms that Model C (CARE) correctly identifies the most catastrophic merges in the top 10, 25, and 50 pairs.*
+
+### Conclusion
+
+
+*(Section extracted to adhere to format)*

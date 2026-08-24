@@ -1,5 +1,27 @@
 # EXPERIMENT 6C FINAL REPORT
+
+### Hypothesis
+
+
 **Generated:** 2026-08-19T11:58:08.959465
+
+
+### 1. Research Question
+How does an MoE expert's functional state move through an empirical capability space as it encounters different token/task environments, and how is that movement related to the expert's existing functional state and its neighboring experts?
+Specifically, does the incoming environment $\tau$ induce a directional angular shift determined by the capability-conditioned interaction vector $I_i = C_i \odot \tau_i$?
+
+### Experiment
+
+
+### 2. Common Vector-Space Construction
+We constructed a 10-dimensional empirical capability space using audited ARC and MMLU subset categories.
+The functional vectors $C_i$ were extracted as the capability-probe response strength (the mean output activation norm of expert $i$ when fed tokens from axis $k$), bypassing the router entirely.
+
+> [!WARNING]
+> **Probing Bug & Corrupted Initial Results**
+> An initial pre-release version of this experiment contained a probing normalization bug that artificially inflated global variance explained, yielding an invalid claim that environmental susceptibility deterministically explains all functional drift ($R^2 \approx 0.99$). Those conclusions have been fully discarded. The analysis below reflects the rigorously audited, corrected dataset, which demonstrates that while the global $R^2$ remains very high ($>0.98$) due to overwhelming radial magnitude contraction, the task-specific *tangential* signal ($I_\perp \to \Delta C_\perp$) is far more modest ($R^2 \approx 0.25$) but mathematically verifiable.
+
+### Equations
 
 
 ## Core Framework Definitions
@@ -13,17 +35,13 @@ To ensure clarity and distinguish observed facts from testable predictions, we e
 
 ## Capability-Space Vector Movement and Expert Interaction
 
-### 1. Research Question
-How does an MoE expert's functional state move through an empirical capability space as it encounters different token/task environments, and how is that movement related to the expert's existing functional state and its neighboring experts?
-Specifically, does the incoming environment $\tau$ induce a directional angular shift determined by the capability-conditioned interaction vector $I_i = C_i \odot \tau_i$?
+### Plots
 
-### 2. Common Vector-Space Construction
-We constructed a 10-dimensional empirical capability space using audited ARC and MMLU subset categories.
-The functional vectors $C_i$ were extracted as the capability-probe response strength (the mean output activation norm of expert $i$ when fed tokens from axis $k$), bypassing the router entirely.
 
-> [!WARNING]
-> **Probing Bug & Corrupted Initial Results**
-> An initial pre-release version of this experiment contained a probing normalization bug that artificially inflated global variance explained, yielding an invalid claim that environmental susceptibility deterministically explains all functional drift ($R^2 \approx 0.99$). Those conclusions have been fully discarded. The analysis below reflects the rigorously audited, corrected dataset, which demonstrates that while the global $R^2$ remains very high ($>0.98$) due to overwhelming radial magnitude contraction, the task-specific *tangential* signal ($I_\perp \to \Delta C_\perp$) is far more modest ($R^2 \approx 0.25$) but mathematically verifiable.
+*(Section extracted to adhere to format)*
+
+### Output
+
 
 ### 3. Directional Alignments and Interaction (10D)
 Does the interaction vector $C \odot \tau$ better explain the functional displacement $\Delta C$ than $\tau$ alone?
@@ -120,6 +138,9 @@ Are the directional alignments and spatial convergences statistically significan
 
 - **Observed Task-Overlap vs $\Delta D$ (Spearman $\rho$)**: 0.4937
   - Pair-Matched Null Z-Score: 96.28 (Significant: True)
+
+### Conclusion
+
 
 ### 5. Conclusions
 (This section to be filled by researcher after reviewing the generated outputs and plots).

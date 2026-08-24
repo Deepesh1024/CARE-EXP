@@ -1,5 +1,8 @@
 # Experiment 3B: Capability Geometry Validation — Phase A
 
+### Hypothesis
+
+
 ## Final Report
 
 ---
@@ -20,6 +23,9 @@ Phase A tests whether the ground-truth functional distances among experts contai
 - **Pairs per layer**: C(64,2) = 2016
 - **XGBoost surrogate**: EXCLUDED from geometry (used only in Exp 2/3A)
 - **Raw distributions**: NOT available (only scalar Oracle_KL)
+
+### Experiment
+
 
 ### Distance Construction
 
@@ -51,6 +57,57 @@ Phase A tests whether the ground-truth functional distances among experts contai
   - Method: L-BFGS-B
   - Restarts: 5
   - Objective: argmin_z Σ_i (||z - z_i||₂ - d_ji)²
+
+## 9. Post-Experiment Analysis & Next Steps
+
+### Equations
+
+
+*(Section extracted to adhere to format)*
+
+### Plots
+
+
+## 6. Figures
+
+### Primary Figure 1: Fidelity Curve (Test→Test Spearman ρ)
+
+![Fidelity curve — Layer first](./figures/fidelity_curve_first.png)
+
+![Fidelity curve — Layer middle](./figures/fidelity_curve_middle.png)
+
+![Fidelity curve — Layer last](./figures/fidelity_curve_last.png)
+
+### Primary Figure 2: Stress Curve (Test→Test RMSE)
+
+![Stress curve — Layer first](./figures/stress_curve_first.png)
+
+![Stress curve — Layer middle](./figures/stress_curve_middle.png)
+
+![Stress curve — Layer last](./figures/stress_curve_last.png)
+
+## 7. Data Leakage Audit
+
+| Check | Status | Detail |
+|-------|--------|--------|
+| Ground-truth Oracle data used | ✅ **PASS** | Ground truth field: Oracle_KL, Source: /home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp1/ou |
+| XGBoost predictions excluded from geometry | ✅ **PASS** | XGBoost Predicted_KL from Experiment 2 is an approximation of Oracle KL. Using it as ground truth wo |
+| Test experts excluded from Z_train fitting | ✅ **PASS** | run_smacof_train receives D_train (train×train submatrix only). Test expert indices are never includ |
+| Z_train frozen during test embedding | ✅ **PASS** | embed_single_test_expert takes z_train as read-only input. Only the test coordinate z_j is optimized |
+| Test-test distances excluded from test embedding | ✅ **PASS** | embed_single_test_expert receives only d_test_to_train (distances to training experts). Test-test di |
+| q selected without using test performance | ✅ **PASS** | All q values are evaluated and reported. No single q is selected as 'optimal' using test performance |
+| Oracle and null processed identically | ✅ **PASS** | run_cv_for_matrix is called identically for Oracle, Null A, and Null B. Same fold splits (matched se |
+
+**Overall**: ALL PASS — EXPERIMENT VALID
+
+## 8. Scientific Classification
+
+### Classification: **A. STRONG SUPPORT**
+
+Oracle functional geometry shows substantially stronger low-dimensional held-out fidelity than both null models. The evidence supports the existence of a meaningful low-dimensional geometric structure in expert functional relationships.
+
+### Output
+
 
 ### Null Models
 
@@ -137,57 +194,6 @@ Phase A tests whether the ground-truth functional distances among experts contai
 | last | 8 | +0.7206 | Yes | +0.3755 | Yes |
 | last | 9 | +0.7397 | Yes | +0.3614 | Yes |
 
-## 6. Figures
-
-### Primary Figure 1: Fidelity Curve (Test→Test Spearman ρ)
-
-![Fidelity curve — Layer first](./figures/fidelity_curve_first.png)
-
-![Fidelity curve — Layer middle](./figures/fidelity_curve_middle.png)
-
-![Fidelity curve — Layer last](./figures/fidelity_curve_last.png)
-
-### Primary Figure 2: Stress Curve (Test→Test RMSE)
-
-![Stress curve — Layer first](./figures/stress_curve_first.png)
-
-![Stress curve — Layer middle](./figures/stress_curve_middle.png)
-
-![Stress curve — Layer last](./figures/stress_curve_last.png)
-
-## 7. Data Leakage Audit
-
-| Check | Status | Detail |
-|-------|--------|--------|
-| Ground-truth Oracle data used | ✅ **PASS** | Ground truth field: Oracle_KL, Source: /home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp1/ou |
-| XGBoost predictions excluded from geometry | ✅ **PASS** | XGBoost Predicted_KL from Experiment 2 is an approximation of Oracle KL. Using it as ground truth wo |
-| Test experts excluded from Z_train fitting | ✅ **PASS** | run_smacof_train receives D_train (train×train submatrix only). Test expert indices are never includ |
-| Z_train frozen during test embedding | ✅ **PASS** | embed_single_test_expert takes z_train as read-only input. Only the test coordinate z_j is optimized |
-| Test-test distances excluded from test embedding | ✅ **PASS** | embed_single_test_expert receives only d_test_to_train (distances to training experts). Test-test di |
-| q selected without using test performance | ✅ **PASS** | All q values are evaluated and reported. No single q is selected as 'optimal' using test performance |
-| Oracle and null processed identically | ✅ **PASS** | run_cv_for_matrix is called identically for Oracle, Null A, and Null B. Same fold splits (matched se |
-
-**Overall**: ALL PASS — EXPERIMENT VALID
-
-## 8. Scientific Classification
-
-### Classification: **A. STRONG SUPPORT**
-
-Oracle functional geometry shows substantially stronger low-dimensional held-out fidelity than both null models. The evidence supports the existence of a meaningful low-dimensional geometric structure in expert functional relationships.
-
-### Evidence Summary
-
-- Total (layer, q) comparisons: 27
-- Significant vs Null A: 27 (100.0%)
-- Significant vs Null B: 27 (100.0%)
-- Mean Oracle ρ: 0.6512
-- Mean Null A ρ: 0.0058
-- Mean Null B ρ: 0.3181
-- Mean advantage vs Null A: +0.6454
-- Mean advantage vs Null B: +0.3331
-
-## 9. Post-Experiment Analysis & Next Steps
-
 ### The Dimensionality Discovery
 The geometry's effective dimensionality is fundamentally **layer-dependent**: 
 the first layer peaks in out-of-sample fidelity at $q=3-4$, whereas the last layer requires $q=8-9$ to capture its structure. This supports the hypothesis that expert capabilities do not inhabit a single uniform space across the network, but rather exist in different compression regimes based on depth.
@@ -220,3 +226,17 @@ Phase A does **NOT** claim that a capability structured geometry exists. Success
 - matplotlib: 3.11.1
 - Platform: macOS-26.6.1-arm64-arm-64bit-Mach-O
 - Random seed: 42
+
+### Conclusion
+
+
+### Evidence Summary
+
+- Total (layer, q) comparisons: 27
+- Significant vs Null A: 27 (100.0%)
+- Significant vs Null B: 27 (100.0%)
+- Mean Oracle ρ: 0.6512
+- Mean Null A ρ: 0.0058
+- Mean Null B ρ: 0.3181
+- Mean advantage vs Null A: +0.6454
+- Mean advantage vs Null B: +0.3331

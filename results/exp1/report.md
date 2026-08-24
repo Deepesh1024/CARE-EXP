@@ -1,5 +1,8 @@
 # Experiment 1: Statistical Characterization of Expert Mergeability
 
+### Hypothesis
+
+
 ## 1. Objective
 
 The primary objective of Experiment 1 is to statistically characterize the mergeability of expert parameters within the OLMoE-1B-7B architecture. Rather than relying on expensive oracle evaluations for every possible expert pairing, we seek to determine whether expert mergeability is governed by observable structural and functional properties. Furthermore, this study aims to rigorously analyze how these predictive properties evolve across network depth (from early to terminal layers) and remain robust as the calibration token budget scales. By conducting exhaustive pairwise merge evaluations, we aim to map the relationship between heuristic similarity metrics and the empirical cost of parameter consolidation.
@@ -12,6 +15,9 @@ Based on our complete experimental findings, we formulate the following defining
 2. **Layer-Dependent Evolution:** The relationships between expert descriptors and mergeability are not static; rather, they evolve systematically across transformer depth as representations transition from structural processing to semantic refinement.
 3. **Intrinsic Organizational Properties:** If statistical relationships between similarity descriptors and merge cost remain consistent across progressively scaling calibration lengths ($N = 64 \rightarrow 128 \rightarrow 256 \rightarrow 512$), then these relationships represent intrinsic organizational properties of the Mixture-of-Experts architecture rather than sampling artifacts or noise.
 
+### Experiment
+
+
 ## 3. Experimental Design
 
 To comprehensively map expert mergeability, we executed a unified evaluation protocol across all expert pairs within selected layers. The identical experimental protocol was repeated across four distinct calibration sizes to evaluate stability and statistical significance.
@@ -23,6 +29,25 @@ To comprehensively map expert mergeability, we executed a unified evaluation pro
   - **Last Layer (Layer 15):** Terminal logit projection and vocabulary decoding.
 
 For every pair of experts $(E_i, E_j)$ at a given layer, we computed seven handcrafted similarity and behavioral descriptors based on the active calibration token set. We then physically merged the experts via parameter averaging and measured the true **Oracle KL Divergence** over the output logits on the calibration data. This identical procedure was independently repeated for all four calibration conditions.
+
+## 9. Transition to Experiment 3
+
+The findings of Experiment 1 fundamentally shift our understanding of MoE architectures. The data confirms that pairwise expert relationships are highly structured and that expert behavior is not driven by random variation. The consistency of these statistical relationships across massive shifts in calibration scale provides compelling empirical evidence of a hidden organization governing the expert ecosystem.
+
+Since mergeability cannot be captured by isolated, one-dimensional heuristics, we must rethink how we model the expert space. If expert compatibility is an emergent property shaped by routing dynamics, parameter overlap, and utilization, then the entire layer of experts operates as an interconnected system. The logical and necessary next step is to investigate whether this latent organization can be mathematically represented as a graph, allowing us to model the complex, multi-dimensional dependencies between experts that standalone metrics fail to capture.
+
+### Equations
+
+
+*(Section extracted to adhere to format)*
+
+### Plots
+
+
+*(Section extracted to adhere to format)*
+
+### Output
+
 
 ## 4. Results
 
@@ -96,14 +121,11 @@ The consistent weakness of individual correlation coefficients across all depths
 
 No single heuristic contains enough dimensional capacity to model the complexity of expert fusion.
 
+### Conclusion
+
+
 ## 8. Final Conclusion
 
 Experiment 1 systematically supported the hypothesis that the operational cost of merging experts is governed by measurable intrinsic properties that evolve across network depth. It decisively demonstrated that no single handcrafted similarity metric—whether structural or functional—is capable of reliably predicting expert mergeability in isolation.
 
 The experiment successfully disproved the assumption that simple topological heuristics like Activation Similarity or Routing Overlap directly translate to parameter compatibility. However, what remains unknown is how these distinct signals interact. The failure of univariate predictors strongly implies that expert capability is a complex latent property, distributed across multiple dimensions of both parameter geometry and gating behavior.
-
-## 9. Transition to Experiment 3
-
-The findings of Experiment 1 fundamentally shift our understanding of MoE architectures. The data confirms that pairwise expert relationships are highly structured and that expert behavior is not driven by random variation. The consistency of these statistical relationships across massive shifts in calibration scale provides compelling empirical evidence of a hidden organization governing the expert ecosystem.
-
-Since mergeability cannot be captured by isolated, one-dimensional heuristics, we must rethink how we model the expert space. If expert compatibility is an emergent property shaped by routing dynamics, parameter overlap, and utilization, then the entire layer of experts operates as an interconnected system. The logical and necessary next step is to investigate whether this latent organization can be mathematically represented as a graph, allowing us to model the complex, multi-dimensional dependencies between experts that standalone metrics fail to capture.

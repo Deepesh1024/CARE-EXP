@@ -1,5 +1,8 @@
 # Experiment 5 Compression Results
 
+### Hypothesis
+
+
 | Experts | Random Baseline | Iterative Parameter Baseline | CARE-COM (Ours) |
 |---|---|---|---|
 | 64 | 7.35 | 7.35 | 7.35 |
@@ -9,3 +12,28 @@
 | 32 | 453.37 | 195.70 | 65.89 |
 | 24 | 3896.17 | 1454.71 | 386.59 |
 | 16 | 5605.55 | 4440.50 | 3288.88 |
+
+### Experiment
+
+
+*(Section extracted to adhere to format)*
+
+### Equations
+
+
+*(Section extracted to adhere to format)*
+
+### Plots
+
+
+*(Section extracted to adhere to format)*
+
+### Output
+
+
+*(Section extracted to adhere to format)*
+
+### Conclusion
+
+
+*(Section extracted to adhere to format)*

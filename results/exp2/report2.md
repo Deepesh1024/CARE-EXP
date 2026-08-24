@@ -1,5 +1,8 @@
 # CARE-MoE Experiment 2 Research Report: Capability-Aware Descriptor Engineering for Mixture-of-Experts Redundancy Elimination
 
+### Hypothesis
+
+
 **Author:** Deepesh Kumar Jha
 **Project:** CARE (Capability-Aware Redundancy Elimination for Mixture-of-Experts) — Experiment 2  
 **Target Architecture:** OLMoE-1B-7B (16 MoE Layers, 64 Experts/Layer)  
@@ -8,56 +11,18 @@
 
 ---
 
-## 1. Executive Summary & Abstract
+### Empirical Resolution of Open Question 1 (`Router_Entropy_Orig`)
+During our Phase 0 investigation, we audited `Router_Entropy_Orig`, previously excluded as oracle-dependent in Experiment 1.5. Because this parameter records the mean Shannon entropy of the original, unmerged gating network distributions across tokens, it conceptually satisfies pre-merge theoretical requirements. 
 
-A critical roadblock in deploying Mixture-of-Experts (MoE) Large Language Models is high inference memory consumption driven by parameter-heavy specialist experts. Merging redundant experts offers a scalable post-training compression paradigm; however, predicting post-merge capability destruction without expensive forward evaluations remains open. In Experiment 1.5 of the CARE project, we identified the **Linearization Gap** ($\Delta = +0.0995$ Spearman $\rho$), demonstrating that simple linear predictive models dramatically underperform non-linear gradient boosting ensembles when ranking expert merge pairs by capability retention.
+However, empirical evaluation of the dataset revealed that `Router_Entropy_Orig` is evaluated as a global average per layer:
+* **Layer `first`:** $\mu = 3.857411, \sigma = 0.000000$ (Constant across all pairs)
+* **Layer `middle`:** $\mu = 3.815063, \sigma = 0.000000$ (Constant across all pairs)
+* **Layer `last`:** $\mu = 3.467931, \sigma = 0.000000$ (Constant across all pairs)
 
-In **Experiment 2**, our primary scientific mandate was to test whether **new lightweight, pre-merge capability-aware pairwise descriptors** could capture the missing semantic capability signals responsible for this gap. We designed, formulated, and evaluated four computationally efficient descriptors: **Usage Asymmetry ($\Delta_{\text{usage}}$)**, **Routing Jensen-Shannon Divergence Proxy ($\text{JSD}_{\text{routing}}$)**, **Routing Normalized Pointwise Mutual Information Proxy ($\text{NPMI}_{\text{routing}}$)**, and **Specialization Entropy Difference ($\Delta_{\text{spec}}$)**.
+Because its variance across pairwise permutations within any layer is zero ($\sigma = 0$), `Router_Entropy_Orig` carries zero pairwise ranking capability. Accordingly, it remains permanently excluded from the CARE predictor suite.
 
-Our multi-phase empirical investigation across 2,976 disjoint validation evaluations on OLMoE-1B-7B yields three foundational contributions to the Systems ML literature:
-1. **Dominant Predictive Explanatory Power:** Our newly engineered **$\text{NPMI}_{\text{routing}}$** descriptor emerges as the **#1 most informative feature** in gradient-boosted decision trees, achieving **0.1598 gain importance** (outperforming traditional usage frequency and cosine similarities) and dominating LASSO feature selection.
-2. **Layer-Localized Non-Linearity Discovery:** Contrary to previous assumptions that predictive non-linearity is globally required, our within-layer degradation analysis reveals that linear models and tree ensembles converge to virtually identical ranking accuracy in **middle ($\Delta_{\rho} = +0.0185$) and last ($\Delta_{\rho} = +0.0195$, reaching $\rho > 0.83$) layers**. The entire Linearization Gap is structurally concentrated in the **first gating layer ($\Delta_{\rho} = +0.3399$)**, where routing structured geometries exhibit severe non-linear thresholding.
-3. **Strict Disjoint Generalization Dynamics:** While our engineered descriptors systematically improve marginal tree-ensemble accuracy during leave-one-out ablation, linear regression models trained across out-of-distribution expert splits experience regularization friction when confronted with uncalibrated multi-layer feature interactions. Consequently, the global pooled Linearization Gap shifts from $+0.0995$ to $+0.1909$, prompting a precise algorithmic prescription: deploy fast linear predictors for late-layer compression while preserving localized gradient-boosted evaluators solely for early routing boundaries.
+### Experiment
 
----
-
-## 2. Introduction & Background
-
-Mixture-of-Experts (MoE) architectures, such as OLMoE-1B-7B and Mixtral-8x7B, decouple computational scaling from parameter capacity through dynamic sparse routing. However, deploying multi-billion parameter MoE models requires loading dozens or hundreds of specialized parameter blocks into device memory (VRAM), inducing severe bandwidth saturation during autoregressive decoding. 
-
-To ameliorate inference latency and memory footprints without costly end-to-end retraining, post-training expert merging attempts to amalgamate functionally similar experts within individual layers using operators such as task vector averaging or spherical linear interpolation (SLERP). The central efficiency prerequisite of real-time MoE pruning is the definition of a **surrogate loss function** capable of ranking candidate expert pairs $(E_i, E_j)$ by their induced post-merge **Oracle KL Divergence** ($D_{\text{KL}}(P_{\text{orig}} \parallel P_{\text{merged}})$) *without* actually assembling the merged weight tensor or running secondary calibration forward passes.
-
-In our foundational investigations (Experiments 1 and 1.5), we observed that standard structural weight metrics (e.g., Euclidean distance, weight cosine similarity) exhibit severe degradation in predictive fidelity beyond initial transformer layers. While augmenting features with relative layer depth and token usage statistics allowed non-linear models (XGBoost) to achieve Spearman rank correlation of $\rho = 0.6774$, classical linear formulations peaked at $\rho = 0.5779$. This variance defines the **Linearization Gap**.
-
----
-
-## 3. Problem Statement: The Linearization Gap in Expert Merging
-
-The persistence of the Linearization Gap implies one of two fundamental physical properties of transformer expert spaces:
-1. **Hypothesis 1 (Missing Linear Descriptors):** Existing pre-merge metrics ignore crucial interaction physics—such as functional co-activation, asymmetrical token distributions, and specialization sharpness. Injecting linear capability descriptors should directly empower simple hyperplanes to match ensemble performance, thereby shrinking the gap.
-2. **Hypothesis 2 (Intrinsic Topological Non-Linearity):** The relationship between pre-merge expert properties and output capability collapse involves hard thresholds, multiplicative cross-layer interactions, and non-linear routing phase transitions that no linear combination of descriptors can resolve across diverse layers.
-
-Experiment 2 rigorously tests Hypothesis 1 under a rigorous scientific protocol, evaluating whether engineered capability descriptors can reduce the Linearization Gap under strict out-of-distribution evaluation.
-
----
-
-## 4. Mathematical Foundations of Capability Drift & Pre-Merge Constraints
-
-Let an MoE layer consist of $N$ experts $\{E_1, E_2, \dots, E_N\}$ governed by a routing gating network $\mathcal{G}(x) = \text{Softmax}(W_g x)$. For a calibration corpus $\mathcal{X}$, let $h_{\text{orig}}(x)$ and $h_{\text{merged}}(x)$ represent the final output probability distributions of the language model before and after replacing experts $E_i$ and $E_j$ with a unified merged expert $E_{i+j}$.
-
-### The Ground-Truth Target
-The definitive metric for capability drift is the expectation of the Oracle KL Divergence over all tokens $T$:
-
-$$\mathcal{L}_{\text{oracle}}(i, j) = \frac{1}{|T|} \sum_{t=1}^{|T|} D_{\text{KL}} \left( h_{\text{orig}}(x_t) \parallel h_{\text{merged}}^{(i,j)}(x_t) \right) = \frac{1}{|T|} \sum_{t=1}^{|T|} \sum_{v \in \mathcal{V}} P_{\text{orig}}(v \mid x_t) \log \left( \frac{P_{\text{orig}}(v \mid x_t)}{P_{\text{merged}}^{(i,j)}(v \mid x_t)} \right)$$
-
-### Strict Pre-Merge Engineering Constraints
-For any surrogate predictive function $f_{\theta}(\Phi(i, j)) \approx \mathcal{L}_{\text{oracle}}(i, j)$, the feature representation vector $\Phi(i, j)$ MUST adhere to four architectural constraints to remain deployable:
-1. **Zero Merged Forward Passes:** $\Phi(i, j)$ cannot require constructing $W_{E_{i+j}}$ or propagating activations through a modified graph.
-2. **Zero-Oracle Dependency:** Features cannot utilize true loss deltas, perplexity shifts, or hidden state L2 drift across merged evaluations.
-3. **O(1) Evaluation Latency:** Once calibration embeddings or token frequencies are aggregated during a single unmerged diagnostic sweep, evaluating pair descriptors must execute in constant algorithmic time relative to model dimensionality.
-4. **Transparent Interpretability:** Descriptors must derive from explicit statistical or mathematical properties of neural computation rather than opaque latent projections.
-
----
 
 ## 5. Experimental Setup & Disjoint Validation Strategy (Leakage-Free)
 
@@ -79,65 +44,31 @@ To prevent data leakage and guarantee that models evaluate generalizable semanti
 
 A vital precursor to descriptor engineering is an exhaustive audit of all available attributes within the raw experimental records (`output.json`). Every column was subjected to strict computational scrutiny to segregate genuine pre-merge features from illegal oracle-dependent variables.
 
-### Empirical Resolution of Open Question 1 (`Router_Entropy_Orig`)
-During our Phase 0 investigation, we audited `Router_Entropy_Orig`, previously excluded as oracle-dependent in Experiment 1.5. Because this parameter records the mean Shannon entropy of the original, unmerged gating network distributions across tokens, it conceptually satisfies pre-merge theoretical requirements. 
+## 12. Phase 3: Regression Suite & Model Evaluation
 
-However, empirical evaluation of the dataset revealed that `Router_Entropy_Orig` is evaluated as a global average per layer:
-* **Layer `first`:** $\mu = 3.857411, \sigma = 0.000000$ (Constant across all pairs)
-* **Layer `middle`:** $\mu = 3.815063, \sigma = 0.000000$ (Constant across all pairs)
-* **Layer `last`:** $\mu = 3.467931, \sigma = 0.000000$ (Constant across all pairs)
+We executed a comprehensive benchmark comparing four hypothesis classes across three progressive feature formulations:
+* **Variant A (11 Features):** The 7 original features + 4 new CARE descriptors.
+* **Variant B (12 Features):** Variant A + `Relative_Depth` ($0.0 \rightarrow 1.0$ network position).
+* **Variant C (23 Features):** Variant B + 11 linear multiplicative interaction terms ($\text{Feature}_k \times \text{Relative\_Depth}$).
 
-Because its variance across pairwise permutations within any layer is zero ($\sigma = 0$), `Router_Entropy_Orig` carries zero pairwise ranking capability. Accordingly, it remains permanently excluded from the CARE predictor suite.
+### Equations
 
-### Official Feature Eligibility Classification Table
 
-| Column Identifier | Classification | CARE-Eligible? | Verification Rationale |
-| :--- | :--- | :---: | :--- |
-| `Weight_Distance` | Pre-Merge Feature | **✓ YES** | Euclidean L2 norm between unmerged weight matrices; zero forward evaluation. |
-| `Weight_Cosine` | Pre-Merge Feature | **✓ YES** | Cosine similarity of flattened unmerged weights; zero forward evaluation. |
-| `Activation_Similarity` | Pre-Merge Feature | **✓ YES** | Cosine alignment of intermediate expert activations during diagnostic forward sweep. |
-| `Output_Similarity` | Pre-Merge Feature | **✓ YES** | Cosine alignment of unmerged expert projection outputs during diagnostic sweep. |
-| `Routing_Similarity` | Pre-Merge Feature | **✓ YES** | Pearson correlation between router gating probabilities across calibration tokens. |
-| `Usage_Frequency` | Pre-Merge Feature | **✓ YES** | Fraction of calibration tokens routed to either expert in pair ($\|A \cup B\| / N$). |
-| `Jaccard_Overlap` | Pre-Merge Feature | **✓ YES** | Intersection over union of token allocations between two experts ($\|A \cap B\| / \|A \cup B\|$). |
-| `CrossEntropy_Delta` | Oracle-Dependent | **✗ NO** | Requires computing loss over merged network architecture. |
-| `Hidden_L2_Drift` | Oracle-Dependent | **✗ NO** | Requires computing L2 state drift across original vs. merged graph executions. |
-| `Router_Entropy_Orig` | Oracle-Dependent | **✗ NO** | Empirically constant per layer ($\sigma=0$); entangled within oracle evaluation loop. |
-| `Router_Entropy_Merged` | Oracle-Dependent | **✗ NO** | Requires executing forward gating passes inside merged network structure. |
-| `Top1_Routing_Agreement`| Oracle-Dependent | **✗ NO** | Measures token gating divergence between original and merged models. |
-| `TopK_Routing_Agreement`| Oracle-Dependent | **✗ NO** | Measures top-k token gating divergence between original and merged models. |
-| `Oracle_KL` | Ground-Truth Target | **✗ NO** | True KL divergence; target predictand of experimental loop. |
+## 4. Mathematical Foundations of Capability Drift & Pre-Merge Constraints
 
----
+Let an MoE layer consist of $N$ experts $\{E_1, E_2, \dots, E_N\}$ governed by a routing gating network $\mathcal{G}(x) = \text{Softmax}(W_g x)$. For a calibration corpus $\mathcal{X}$, let $h_{\text{orig}}(x)$ and $h_{\text{merged}}(x)$ represent the final output probability distributions of the language model before and after replacing experts $E_i$ and $E_j$ with a unified merged expert $E_{i+j}$.
 
-## 7. Phase 0.5: Residual Failure Analysis of Existing Baselines
+### The Ground-Truth Target
+The definitive metric for capability drift is the expectation of the Oracle KL Divergence over all tokens $T$:
 
-To design high-leverage descriptors, we performed an exhaustive residual failure analysis on the frozen Experiment 1.5 baseline predictions (`XGBoost_B`, $\rho=0.6774$). By computing raw prediction errors $r = y_i - \hat{y}_i$, we mapped the diagnostic blind spots of existing pre-merge metrics.
+$$\mathcal{L}_{\text{oracle}}(i, j) = \frac{1}{|T|} \sum_{t=1}^{|T|} D_{\text{KL}} \left( h_{\text{orig}}(x_t) \parallel h_{\text{merged}}^{(i,j)}(x_t) \right) = \frac{1}{|T|} \sum_{t=1}^{|T|} \sum_{v \in \mathcal{V}} P_{\text{orig}}(v \mid x_t) \log \left( \frac{P_{\text{orig}}(v \mid x_t)}{P_{\text{merged}}^{(i,j)}(v \mid x_t)} \right)$$
 
-### Key Residual Observations
-1. **Severe Early-Layer Underestimation:** In Layer `first`, when merging frequently selected generalist experts with rarely utilized specialists, existing models systematically fail to predict catastrophic capability drift. The mean error in top-10% failure regimes spikes to $\mu = 0.00512$, indicating that symmetric metrics fail to capture asymmetric dominance.
-2. **Co-Activation Blindness:** Pairs with moderate `Jaccard_Overlap` but low `Routing_Similarity` exhibited extreme residual spikes. When two experts act in a complementary manner (co-activating on shared token structures to serve non-overlapping geometric sub-spaces), merging them collapses the joint representation—a phenomenon overlooked by standard correlation coefficients.
-
----
-
-## 8. Phase 0.75: Multicollinearity and VIF Diagnostics of Existing Pre-Merge Features
-
-To establish baseline conditioning before injecting new descriptors, we evaluated the Pearson correlation, Spearman correlation, and Variance Inflation Factors (VIF) across the 7 original pre-merge features on the complete dataset ($N=2,976$).
-
-### Empirical VIF & Multicollinearity Profile
-A feature exhibiting VIF $> 5.0$ indicates moderate multicollinearity, whereas VIF $> 10.0$ signifies severe structural redundancy that inflates variance in unregularized linear regressions.
-
-| Feature Identifier | Pearson $r$ w/ Target | Spearman $\rho$ w/ Target | Variance Inflation Factor (VIF) | Multicollinearity Status |
-| :--- | :---: | :---: | :---: | :--- |
-| `Usage_Frequency` | **+0.4006** | **+0.5573** | **1.218** | Healthy (Orthogonal & Predictive) |
-| `Output_Similarity` | +0.0538 | +0.3429 | **1.354** | Healthy |
-| `Jaccard_Overlap` | +0.1020 | +0.2041 | **1.812** | Healthy |
-| `Weight_Cosine` | +0.0299 | +0.0964 | **1.944** | Healthy |
-| `Routing_Similarity` | -0.0565 | -0.1049 | **1.642** | Healthy |
-| `Activation_Similarity` | -0.0120 | -0.0053 | **1.320** | Healthy |
-| `Weight_Distance` | -0.0014 | -0.0104 | **1.115** | Healthy |
-
-**Diagnostic Takeaway:** All 7 original features register VIF values comfortably below the threshold ($1.115 \le \text{VIF} \le 1.944$). Consequently, any predictive limitations in linear baselines cannot be attributed to covariance matrix instability or numerical collinearity; rather, they stem directly from feature insufficiency and structural non-linearity.
+### Strict Pre-Merge Engineering Constraints
+For any surrogate predictive function $f_{\theta}(\Phi(i, j)) \approx \mathcal{L}_{\text{oracle}}(i, j)$, the feature representation vector $\Phi(i, j)$ MUST adhere to four architectural constraints to remain deployable:
+1. **Zero Merged Forward Passes:** $\Phi(i, j)$ cannot require constructing $W_{E_{i+j}}$ or propagating activations through a modified graph.
+2. **Zero-Oracle Dependency:** Features cannot utilize true loss deltas, perplexity shifts, or hidden state L2 drift across merged evaluations.
+3. **O(1) Evaluation Latency:** Once calibration embeddings or token frequencies are aggregated during a single unmerged diagnostic sweep, evaluating pair descriptors must execute in constant algorithmic time relative to model dimensionality.
+4. **Transparent Interpretability:** Descriptors must derive from explicit statistical or mathematical properties of neural computation rather than opaque latent projections.
 
 ---
 
@@ -192,6 +123,168 @@ To ensure realistic deployability during runtime MoE pruning algorithms, every d
 
 Following descriptor generation, we evaluated univariate statistical distributions, Pearson correlation ($r$), and Spearman ranking coefficient ($\rho$) against ground-truth Oracle KL on scaled validation partitions.
 
+## 23. Appendix A: Full Mathematical Notations & Derivations
+
+| Mathematical Notation | Formal Algorithmic Definition |
+| :---: | :--- |
+| $\mathcal{L}_{\text{oracle}}(i, j)$ | Ground-truth empirical Oracle KL divergence target between original model and merged pair $(i,j)$ across tokens $T$. |
+| $\bar{u}_i$ | Marginal per-expert utilization frequency, estimated via empirical mean across all valid diagnostic pairs containing $i$. |
+| $\text{NPMI}_{\text{routing}}(i, j)$ | Normalized Pointwise Mutual Information co-activation proxy bounding functional pairing dependence inside $[-1, +1]$. |
+| $\text{JSD}_{\text{routing}}(i, j)$ | Multiplicative distributional gating divergence proxy capturing geometric tail divergence across $[0, 4]$. |
+| $\Delta_{\text{spec}}(i, j)$ | Specialization sharpness difference deriving from inverted marginal token allocation frequencies. |
+| $\rho_{\text{tree}}, \rho_{\text{linear}}$ | Out-of-distribution Spearman ranking correlation coefficients evaluated across disjoint validation splits ($N=1,488$). |
+
+---
+
+## 24. Appendix B: Comprehensive Feature Correlation Matrices
+
+### Pearson Correlation Matrix ($r$)
+*Values computed over the complete empirical sequence dataset ($N=2,976$).*
+
+| Feature Identifier | W_Dist | W_Cos | Act_Sim | Out_Sim | Rout_Sim | Usage | Jaccard | Usg_Asym | JSD_Prx | NPMI_Prx | Spec_Diff | Oracle_KL |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Weight_Dist** | 1.000 | -0.612| +0.104 | -0.142 | -0.054 | -0.012| -0.019 | -0.005 | +0.024 | -0.018 | -0.008 | -0.001 |
+| **Weight_Cos** | -0.612| 1.000 | -0.048 | +0.189 | +0.035 | +0.004| +0.012 | +0.009 | -0.019 | +0.015 | +0.003 | +0.030 |
+| **Act_Sim** | +0.104| -0.048| 1.000 | -0.012 | -0.004 | -0.008| -0.009 | +0.001 | -0.002 | -0.007 | -0.005 | -0.012 |
+| **Out_Sim** | -0.142| +0.189| -0.012 | 1.000 | +0.118 | +0.084| +0.134 | +0.012 | -0.088 | +0.112 | +0.019 | +0.054 |
+| **Rout_Sim** | -0.054| +0.035| -0.004 | +0.118 | 1.000 | -0.184| +0.342 | -0.092 | -0.618 | +0.419 | -0.042 | -0.057 |
+| **Usage_Freq** | -0.012| +0.004| -0.008 | +0.084 | -0.184 | 1.000 | +0.042 | +0.312 | +0.112 | +0.284 | +0.118 | **+0.401**|
+| **Jaccard_Over** | -0.019| +0.012| -0.009 | +0.134 | +0.342 | +0.042| 1.000 | -0.015 | -0.684 | +0.782 | -0.024 | +0.102 |
+| **Usage_Asym** | -0.005| +0.009| +0.001 | +0.012 | -0.092 | +0.312| -0.015 | 1.000 | +0.048 | -0.008 | +0.412 | **+0.277**|
+| **JSD_Proxy** | +0.024| -0.019| -0.002 | -0.088 | -0.618 | +0.112| -0.684 | +0.048 | 1.000 | -0.694 | +0.028 | +0.012 |
+| **NPMI_Proxy** | -0.018| +0.015| -0.007 | +0.112 | +0.419 | +0.284| +0.782 | -0.008 | -0.694 | 1.000 | -0.014 | +0.041 |
+| **Spec_Diff** | -0.008| +0.003| -0.005 | +0.019 | -0.042 | +0.118| -0.024 | +0.412 | +0.028 | -0.014 | 1.000 | +0.058 |
+
+---
+
+## 25. Appendix C: Detailed Regression Artifact & Directory Reference
+
+All computational scripts, analytical deliverables, serialized binary models, and diagnostic visualization figures generated throughout Experiment 2 are housed within a structured hierarchy inside the canonical project tree:
+
+```
+results/exp2/
+├── metrics.json                     # Primary machine-readable repository of all model predictions, gap bounds, and bootstrap loops
+├── feature_statistics.csv           # Complete univariate statistical tables and distribution descriptors
+├── feature_importance.csv           # Merged LASSO weights, XGBoost gain metrics, and permutation importance bounds
+├── correlation_matrix.csv           # Full bivariate Pearson/Spearman matrices with Variance Inflation Factors
+├── residual_analysis.csv            # Diagnosed baseline XGBoost_B error tracking tables
+├── report.md                        # Current exhaustive publication-quality scientific report document
+├── train_df.parquet                 # Scaled disjoint training dataset partition (N=1,488)
+├── test_df.parquet                  # Scaled disjoint testing validation partition (N=1,488)
+├── plots/
+│   ├── ablation/
+│   │   └── ablation_results.png     # Leave-one-out feature rank impact horizontal chart
+│   ├── correlations/
+│   │   ├── pearson_heatmap.png      # High-resolution bivariate Pearson correlation visual heatmap
+│   │   ├── spearman_heatmap.png     # High-resolution Spearman rank correlation visual heatmap
+│   │   └── vif_bar.png              # Multicollinearity Variance Inflation Factor diagnostic bar graph
+│   ├── descriptor_scatter/
+│   │   ├── full_correlation_heatmap.png
+│   │   └── [scatter_*.png / dist_*.png] # 8 stratified scatter distributions of new descriptors against Oracle KL
+│   ├── regression/
+│   │   ├── gap_comparison.png       # Side-by-side comparative visualization of Exp 1.5 vs Exp 2 gaps
+│   │   └── predicted_vs_actual.png    # Scatter prediction accuracy tracking for best Linear and Tree families
+│   ├── residuals/
+│   │   ├── residual_by_layer.png    # Exp 1.5 error stratification across first/middle/last layers
+│   │   ├── residual_vs_oracle.png     # Heteroscedasticity diagnostic scatter analysis
+│   │   └── top_failures.png         # Bar plot of top-20 residual failure expert combinations
+│   └── shap/
+│       ├── lasso_coefficients.png   # L1 linear weights showing dominance of NPMI_routing and Usage Asymmetry
+│       ├── xgboost_importance.png     # Decision-tree split gain importance showing NPMI_routing as #1 global leader
+│       ├── shap_summary.png         # SHAP beeswarm summary plot across test validation samples
+│       └── permutation_importance.png# Monte Carlo out-of-distribution feature removal ranking graph
+├── tables/
+│   └── oracle_audit.csv             # Official analytical classification registry of all output.json variables
+└── models/
+    ├── scaler.pkl                   # Fitted RobustScaler normalization artifact
+    └── [Model_Variant].pkl          # 12 serialized model binaries (LinearRegression, Ridge, LASSO, XGBoost over A, B, C)
+```
+
+---
+
+## 26. References & Acknowledgments
+
+1. **Jha, D. K.** (2026). *CARE-MoE: Capability-Aware Redundancy Elimination for Mixture-of-Experts*. Project Repository, Advanced Agentic Coding / DeepMind Labs.
+2. **Exp 1.5 Canonical Freeze** (2026). *Evaluating Pre-Merge Surrogates and the Linearization Gap in Sparse Gating Architectures*. Internal Evaluation Memorandum (`results/exp1_5/report.md`).
+3. **Jiang, A. Q., et al.** (2024). *Mixtral 8x7B: A High-Quality Sparse Mixture-of-Experts*. arXiv:2401.04088.
+4. **Lundberg, S. M., & Lee, S.-I.** (2017). *A Unified Approach to Interpreting Model Predictions*. In Advances in Neural Information Processing Systems (NeurIPS 2017).
+5. **Chen, T., & Guestrin, C.** (2016). *XGBoost: A Scalable Tree Boosting System*. In ACM SIGKDD 2016.
+6. **Tibshirani, R.** (1996). *Regression Shrinkage and Selection via the Lasso*. Journal of the Royal Statistical Society: Series B (Methodological).
+
+---
+
+*End of Experiment 2 Research Report.*
+
+### Plots
+
+
+*(Section extracted to adhere to format)*
+
+### Output
+
+
+## 3. Problem Statement: The Linearization Gap in Expert Merging
+
+The persistence of the Linearization Gap implies one of two fundamental physical properties of transformer expert spaces:
+1. **Hypothesis 1 (Missing Linear Descriptors):** Existing pre-merge metrics ignore crucial interaction physics—such as functional co-activation, asymmetrical token distributions, and specialization sharpness. Injecting linear capability descriptors should directly empower simple hyperplanes to match ensemble performance, thereby shrinking the gap.
+2. **Hypothesis 2 (Intrinsic Topological Non-Linearity):** The relationship between pre-merge expert properties and output capability collapse involves hard thresholds, multiplicative cross-layer interactions, and non-linear routing phase transitions that no linear combination of descriptors can resolve across diverse layers.
+
+Experiment 2 rigorously tests Hypothesis 1 under a rigorous scientific protocol, evaluating whether engineered capability descriptors can reduce the Linearization Gap under strict out-of-distribution evaluation.
+
+---
+
+### Official Feature Eligibility Classification Table
+
+| Column Identifier | Classification | CARE-Eligible? | Verification Rationale |
+| :--- | :--- | :---: | :--- |
+| `Weight_Distance` | Pre-Merge Feature | **✓ YES** | Euclidean L2 norm between unmerged weight matrices; zero forward evaluation. |
+| `Weight_Cosine` | Pre-Merge Feature | **✓ YES** | Cosine similarity of flattened unmerged weights; zero forward evaluation. |
+| `Activation_Similarity` | Pre-Merge Feature | **✓ YES** | Cosine alignment of intermediate expert activations during diagnostic forward sweep. |
+| `Output_Similarity` | Pre-Merge Feature | **✓ YES** | Cosine alignment of unmerged expert projection outputs during diagnostic sweep. |
+| `Routing_Similarity` | Pre-Merge Feature | **✓ YES** | Pearson correlation between router gating probabilities across calibration tokens. |
+| `Usage_Frequency` | Pre-Merge Feature | **✓ YES** | Fraction of calibration tokens routed to either expert in pair ($\|A \cup B\| / N$). |
+| `Jaccard_Overlap` | Pre-Merge Feature | **✓ YES** | Intersection over union of token allocations between two experts ($\|A \cap B\| / \|A \cup B\|$). |
+| `CrossEntropy_Delta` | Oracle-Dependent | **✗ NO** | Requires computing loss over merged network architecture. |
+| `Hidden_L2_Drift` | Oracle-Dependent | **✗ NO** | Requires computing L2 state drift across original vs. merged graph executions. |
+| `Router_Entropy_Orig` | Oracle-Dependent | **✗ NO** | Empirically constant per layer ($\sigma=0$); entangled within oracle evaluation loop. |
+| `Router_Entropy_Merged` | Oracle-Dependent | **✗ NO** | Requires executing forward gating passes inside merged network structure. |
+| `Top1_Routing_Agreement`| Oracle-Dependent | **✗ NO** | Measures token gating divergence between original and merged models. |
+| `TopK_Routing_Agreement`| Oracle-Dependent | **✗ NO** | Measures top-k token gating divergence between original and merged models. |
+| `Oracle_KL` | Ground-Truth Target | **✗ NO** | True KL divergence; target predictand of experimental loop. |
+
+---
+
+## 7. Phase 0.5: Residual Failure Analysis of Existing Baselines
+
+To design high-leverage descriptors, we performed an exhaustive residual failure analysis on the frozen Experiment 1.5 baseline predictions (`XGBoost_B`, $\rho=0.6774$). By computing raw prediction errors $r = y_i - \hat{y}_i$, we mapped the diagnostic blind spots of existing pre-merge metrics.
+
+### Key Residual Observations
+1. **Severe Early-Layer Underestimation:** In Layer `first`, when merging frequently selected generalist experts with rarely utilized specialists, existing models systematically fail to predict catastrophic capability drift. The mean error in top-10% failure regimes spikes to $\mu = 0.00512$, indicating that symmetric metrics fail to capture asymmetric dominance.
+2. **Co-Activation Blindness:** Pairs with moderate `Jaccard_Overlap` but low `Routing_Similarity` exhibited extreme residual spikes. When two experts act in a complementary manner (co-activating on shared token structures to serve non-overlapping geometric sub-spaces), merging them collapses the joint representation—a phenomenon overlooked by standard correlation coefficients.
+
+---
+
+## 8. Phase 0.75: Multicollinearity and VIF Diagnostics of Existing Pre-Merge Features
+
+To establish baseline conditioning before injecting new descriptors, we evaluated the Pearson correlation, Spearman correlation, and Variance Inflation Factors (VIF) across the 7 original pre-merge features on the complete dataset ($N=2,976$).
+
+### Empirical VIF & Multicollinearity Profile
+A feature exhibiting VIF $> 5.0$ indicates moderate multicollinearity, whereas VIF $> 10.0$ signifies severe structural redundancy that inflates variance in unregularized linear regressions.
+
+| Feature Identifier | Pearson $r$ w/ Target | Spearman $\rho$ w/ Target | Variance Inflation Factor (VIF) | Multicollinearity Status |
+| :--- | :---: | :---: | :---: | :--- |
+| `Usage_Frequency` | **+0.4006** | **+0.5573** | **1.218** | Healthy (Orthogonal & Predictive) |
+| `Output_Similarity` | +0.0538 | +0.3429 | **1.354** | Healthy |
+| `Jaccard_Overlap` | +0.1020 | +0.2041 | **1.812** | Healthy |
+| `Weight_Cosine` | +0.0299 | +0.0964 | **1.944** | Healthy |
+| `Routing_Similarity` | -0.0565 | -0.1049 | **1.642** | Healthy |
+| `Activation_Similarity` | -0.0120 | -0.0053 | **1.320** | Healthy |
+| `Weight_Distance` | -0.0014 | -0.0104 | **1.115** | Healthy |
+
+**Diagnostic Takeaway:** All 7 original features register VIF values comfortably below the threshold ($1.115 \le \text{VIF} \le 1.944$). Consequently, any predictive limitations in linear baselines cannot be attributed to covariance matrix instability or numerical collinearity; rather, they stem directly from feature insufficiency and structural non-linearity.
+
+---
+
 ### Comprehensive Feature Statistical Profile (All 11 Features, Scaled)
 
 | Feature Identifier | Origin | Spearman $\rho$ w/ Oracle | Pearson $r$ w/ Oracle | Dataset Mean | Dataset Std Dev |
@@ -213,13 +306,6 @@ Following descriptor generation, we evaluated univariate statistical distributio
 2. **Non-Linear Subspace Coding:** Descriptors like `Routing_NPMI_Proxy` display modest univariate Pearson correlation ($+0.0408$) because their predictive potency unlocks when conditioned on network depth and token frequency—an interacting signal that tree ensembles uniquely leverage.
 
 ---
-
-## 12. Phase 3: Regression Suite & Model Evaluation
-
-We executed a comprehensive benchmark comparing four hypothesis classes across three progressive feature formulations:
-* **Variant A (11 Features):** The 7 original features + 4 new CARE descriptors.
-* **Variant B (12 Features):** Variant A + `Relative_Depth` ($0.0 \rightarrow 1.0$ network position).
-* **Variant C (23 Features):** Variant B + 11 linear multiplicative interaction terms ($\text{Feature}_k \times \text{Relative\_Depth}$).
 
 ### Exhaustive Regression Performance Suite (Out-of-Distribution Test Splits, $N=1,488$)
 
@@ -453,6 +539,32 @@ To definitively dissolve the remaining $+0.3399$ linear rank gap within initial 
 
 ---
 
+### Conclusion
+
+
+## 1. Executive Summary & Abstract
+
+A critical roadblock in deploying Mixture-of-Experts (MoE) Large Language Models is high inference memory consumption driven by parameter-heavy specialist experts. Merging redundant experts offers a scalable post-training compression paradigm; however, predicting post-merge capability destruction without expensive forward evaluations remains open. In Experiment 1.5 of the CARE project, we identified the **Linearization Gap** ($\Delta = +0.0995$ Spearman $\rho$), demonstrating that simple linear predictive models dramatically underperform non-linear gradient boosting ensembles when ranking expert merge pairs by capability retention.
+
+In **Experiment 2**, our primary scientific mandate was to test whether **new lightweight, pre-merge capability-aware pairwise descriptors** could capture the missing semantic capability signals responsible for this gap. We designed, formulated, and evaluated four computationally efficient descriptors: **Usage Asymmetry ($\Delta_{\text{usage}}$)**, **Routing Jensen-Shannon Divergence Proxy ($\text{JSD}_{\text{routing}}$)**, **Routing Normalized Pointwise Mutual Information Proxy ($\text{NPMI}_{\text{routing}}$)**, and **Specialization Entropy Difference ($\Delta_{\text{spec}}$)**.
+
+Our multi-phase empirical investigation across 2,976 disjoint validation evaluations on OLMoE-1B-7B yields three foundational contributions to the Systems ML literature:
+1. **Dominant Predictive Explanatory Power:** Our newly engineered **$\text{NPMI}_{\text{routing}}$** descriptor emerges as the **#1 most informative feature** in gradient-boosted decision trees, achieving **0.1598 gain importance** (outperforming traditional usage frequency and cosine similarities) and dominating LASSO feature selection.
+2. **Layer-Localized Non-Linearity Discovery:** Contrary to previous assumptions that predictive non-linearity is globally required, our within-layer degradation analysis reveals that linear models and tree ensembles converge to virtually identical ranking accuracy in **middle ($\Delta_{\rho} = +0.0185$) and last ($\Delta_{\rho} = +0.0195$, reaching $\rho > 0.83$) layers**. The entire Linearization Gap is structurally concentrated in the **first gating layer ($\Delta_{\rho} = +0.3399$)**, where routing structured geometries exhibit severe non-linear thresholding.
+3. **Strict Disjoint Generalization Dynamics:** While our engineered descriptors systematically improve marginal tree-ensemble accuracy during leave-one-out ablation, linear regression models trained across out-of-distribution expert splits experience regularization friction when confronted with uncalibrated multi-layer feature interactions. Consequently, the global pooled Linearization Gap shifts from $+0.0995$ to $+0.1909$, prompting a precise algorithmic prescription: deploy fast linear predictors for late-layer compression while preserving localized gradient-boosted evaluators solely for early routing boundaries.
+
+---
+
+## 2. Introduction & Background
+
+Mixture-of-Experts (MoE) architectures, such as OLMoE-1B-7B and Mixtral-8x7B, decouple computational scaling from parameter capacity through dynamic sparse routing. However, deploying multi-billion parameter MoE models requires loading dozens or hundreds of specialized parameter blocks into device memory (VRAM), inducing severe bandwidth saturation during autoregressive decoding. 
+
+To ameliorate inference latency and memory footprints without costly end-to-end retraining, post-training expert merging attempts to amalgamate functionally similar experts within individual layers using operators such as task vector averaging or spherical linear interpolation (SLERP). The central efficiency prerequisite of real-time MoE pruning is the definition of a **surrogate loss function** capable of ranking candidate expert pairs $(E_i, E_j)$ by their induced post-merge **Oracle KL Divergence** ($D_{\text{KL}}(P_{\text{orig}} \parallel P_{\text{merged}})$) *without* actually assembling the merged weight tensor or running secondary calibration forward passes.
+
+In our foundational investigations (Experiments 1 and 1.5), we observed that standard structural weight metrics (e.g., Euclidean distance, weight cosine similarity) exhibit severe degradation in predictive fidelity beyond initial transformer layers. While augmenting features with relative layer depth and token usage statistics allowed non-linear models (XGBoost) to achieve Spearman rank correlation of $\rho = 0.6774$, classical linear formulations peaked at $\rho = 0.5779$. This variance defines the **Linearization Gap**.
+
+---
+
 ## 22. Conclusion & Summary of Contributions
 
 Experiment 2 successfully advanced the state-of-the-art in predictive Mixture-of-Experts compression through rigorous experimentation, leak-free validation, and theoretical modeling. We demonstrated that:
@@ -461,95 +573,3 @@ Experiment 2 successfully advanced the state-of-the-art in predictive Mixture-of
 3. The famous **Linearization Gap is layered and structurally localized**: while non-linear evaluation remains essential for initial gating blocks ($\Delta_{\text{first}} = +0.3399$), inexpensive linear models achieve near-perfect parity with complex tree ensembles throughout deeper transformer network layers ($\Delta < 0.02, \rho > 0.83$).
 
 ---
-
-## 23. Appendix A: Full Mathematical Notations & Derivations
-
-| Mathematical Notation | Formal Algorithmic Definition |
-| :---: | :--- |
-| $\mathcal{L}_{\text{oracle}}(i, j)$ | Ground-truth empirical Oracle KL divergence target between original model and merged pair $(i,j)$ across tokens $T$. |
-| $\bar{u}_i$ | Marginal per-expert utilization frequency, estimated via empirical mean across all valid diagnostic pairs containing $i$. |
-| $\text{NPMI}_{\text{routing}}(i, j)$ | Normalized Pointwise Mutual Information co-activation proxy bounding functional pairing dependence inside $[-1, +1]$. |
-| $\text{JSD}_{\text{routing}}(i, j)$ | Multiplicative distributional gating divergence proxy capturing geometric tail divergence across $[0, 4]$. |
-| $\Delta_{\text{spec}}(i, j)$ | Specialization sharpness difference deriving from inverted marginal token allocation frequencies. |
-| $\rho_{\text{tree}}, \rho_{\text{linear}}$ | Out-of-distribution Spearman ranking correlation coefficients evaluated across disjoint validation splits ($N=1,488$). |
-
----
-
-## 24. Appendix B: Comprehensive Feature Correlation Matrices
-
-### Pearson Correlation Matrix ($r$)
-*Values computed over the complete empirical sequence dataset ($N=2,976$).*
-
-| Feature Identifier | W_Dist | W_Cos | Act_Sim | Out_Sim | Rout_Sim | Usage | Jaccard | Usg_Asym | JSD_Prx | NPMI_Prx | Spec_Diff | Oracle_KL |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Weight_Dist** | 1.000 | -0.612| +0.104 | -0.142 | -0.054 | -0.012| -0.019 | -0.005 | +0.024 | -0.018 | -0.008 | -0.001 |
-| **Weight_Cos** | -0.612| 1.000 | -0.048 | +0.189 | +0.035 | +0.004| +0.012 | +0.009 | -0.019 | +0.015 | +0.003 | +0.030 |
-| **Act_Sim** | +0.104| -0.048| 1.000 | -0.012 | -0.004 | -0.008| -0.009 | +0.001 | -0.002 | -0.007 | -0.005 | -0.012 |
-| **Out_Sim** | -0.142| +0.189| -0.012 | 1.000 | +0.118 | +0.084| +0.134 | +0.012 | -0.088 | +0.112 | +0.019 | +0.054 |
-| **Rout_Sim** | -0.054| +0.035| -0.004 | +0.118 | 1.000 | -0.184| +0.342 | -0.092 | -0.618 | +0.419 | -0.042 | -0.057 |
-| **Usage_Freq** | -0.012| +0.004| -0.008 | +0.084 | -0.184 | 1.000 | +0.042 | +0.312 | +0.112 | +0.284 | +0.118 | **+0.401**|
-| **Jaccard_Over** | -0.019| +0.012| -0.009 | +0.134 | +0.342 | +0.042| 1.000 | -0.015 | -0.684 | +0.782 | -0.024 | +0.102 |
-| **Usage_Asym** | -0.005| +0.009| +0.001 | +0.012 | -0.092 | +0.312| -0.015 | 1.000 | +0.048 | -0.008 | +0.412 | **+0.277**|
-| **JSD_Proxy** | +0.024| -0.019| -0.002 | -0.088 | -0.618 | +0.112| -0.684 | +0.048 | 1.000 | -0.694 | +0.028 | +0.012 |
-| **NPMI_Proxy** | -0.018| +0.015| -0.007 | +0.112 | +0.419 | +0.284| +0.782 | -0.008 | -0.694 | 1.000 | -0.014 | +0.041 |
-| **Spec_Diff** | -0.008| +0.003| -0.005 | +0.019 | -0.042 | +0.118| -0.024 | +0.412 | +0.028 | -0.014 | 1.000 | +0.058 |
-
----
-
-## 25. Appendix C: Detailed Regression Artifact & Directory Reference
-
-All computational scripts, analytical deliverables, serialized binary models, and diagnostic visualization figures generated throughout Experiment 2 are housed within a structured hierarchy inside the canonical project tree:
-
-```
-results/exp2/
-├── metrics.json                     # Primary machine-readable repository of all model predictions, gap bounds, and bootstrap loops
-├── feature_statistics.csv           # Complete univariate statistical tables and distribution descriptors
-├── feature_importance.csv           # Merged LASSO weights, XGBoost gain metrics, and permutation importance bounds
-├── correlation_matrix.csv           # Full bivariate Pearson/Spearman matrices with Variance Inflation Factors
-├── residual_analysis.csv            # Diagnosed baseline XGBoost_B error tracking tables
-├── report.md                        # Current exhaustive publication-quality scientific report document
-├── train_df.parquet                 # Scaled disjoint training dataset partition (N=1,488)
-├── test_df.parquet                  # Scaled disjoint testing validation partition (N=1,488)
-├── plots/
-│   ├── ablation/
-│   │   └── ablation_results.png     # Leave-one-out feature rank impact horizontal chart
-│   ├── correlations/
-│   │   ├── pearson_heatmap.png      # High-resolution bivariate Pearson correlation visual heatmap
-│   │   ├── spearman_heatmap.png     # High-resolution Spearman rank correlation visual heatmap
-│   │   └── vif_bar.png              # Multicollinearity Variance Inflation Factor diagnostic bar graph
-│   ├── descriptor_scatter/
-│   │   ├── full_correlation_heatmap.png
-│   │   └── [scatter_*.png / dist_*.png] # 8 stratified scatter distributions of new descriptors against Oracle KL
-│   ├── regression/
-│   │   ├── gap_comparison.png       # Side-by-side comparative visualization of Exp 1.5 vs Exp 2 gaps
-│   │   └── predicted_vs_actual.png    # Scatter prediction accuracy tracking for best Linear and Tree families
-│   ├── residuals/
-│   │   ├── residual_by_layer.png    # Exp 1.5 error stratification across first/middle/last layers
-│   │   ├── residual_vs_oracle.png     # Heteroscedasticity diagnostic scatter analysis
-│   │   └── top_failures.png         # Bar plot of top-20 residual failure expert combinations
-│   └── shap/
-│       ├── lasso_coefficients.png   # L1 linear weights showing dominance of NPMI_routing and Usage Asymmetry
-│       ├── xgboost_importance.png     # Decision-tree split gain importance showing NPMI_routing as #1 global leader
-│       ├── shap_summary.png         # SHAP beeswarm summary plot across test validation samples
-│       └── permutation_importance.png# Monte Carlo out-of-distribution feature removal ranking graph
-├── tables/
-│   └── oracle_audit.csv             # Official analytical classification registry of all output.json variables
-└── models/
-    ├── scaler.pkl                   # Fitted RobustScaler normalization artifact
-    └── [Model_Variant].pkl          # 12 serialized model binaries (LinearRegression, Ridge, LASSO, XGBoost over A, B, C)
-```
-
----
-
-## 26. References & Acknowledgments
-
-1. **Jha, D. K.** (2026). *CARE-MoE: Capability-Aware Redundancy Elimination for Mixture-of-Experts*. Project Repository, Advanced Agentic Coding / DeepMind Labs.
-2. **Exp 1.5 Canonical Freeze** (2026). *Evaluating Pre-Merge Surrogates and the Linearization Gap in Sparse Gating Architectures*. Internal Evaluation Memorandum (`results/exp1_5/report.md`).
-3. **Jiang, A. Q., et al.** (2024). *Mixtral 8x7B: A High-Quality Sparse Mixture-of-Experts*. arXiv:2401.04088.
-4. **Lundberg, S. M., & Lee, S.-I.** (2017). *A Unified Approach to Interpreting Model Predictions*. In Advances in Neural Information Processing Systems (NeurIPS 2017).
-5. **Chen, T., & Guestrin, C.** (2016). *XGBoost: A Scalable Tree Boosting System*. In ACM SIGKDD 2016.
-6. **Tibshirani, R.** (1996). *Regression Shrinkage and Selection via the Lasso*. Journal of the Royal Statistical Society: Series B (Methodological).
-
----
-
-*End of Experiment 2 Research Report.*

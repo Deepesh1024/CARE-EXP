@@ -1,61 +1,12 @@
 # EXPERIMENT 6B — FINAL REPORT
+
+### Hypothesis
+
+
 **Compiled:** 2026-08-16T15:32:35.639074
 
+### Experiment
 
-## Core Framework Definitions
-To ensure clarity and distinguish observed facts from testable predictions, we establish the following framework:
-
-- **Definition ($C_i$)**: $C_i \in \mathbb{R}^{10}$ represents the empirical capability response of expert $i$.
-- **Definition ($	au_i$)**: $	au_i \in \mathbb{R}_+^{10}$ represents the local token environment presented to expert $i$.
-- **Definition ($\Delta C_i$)**: $\Delta C_i = C_i(t+1) - C_i(t)$ represents the functional displacement over training interval $t 	o t+1$.
-- **Definition (Decomposition)**: $\Delta C_i = \Delta C_{i, \parallel} + \Delta C_{i, \perp}$, decomposing displacement into radial (magnitude contraction/expansion) and tangential (angular/task-specific steering) components.
-- **Hypothesis (Geometric Susceptibility)**: The tangential movement $\Delta C_{i, \perp}$ is directionally guided by the orthogonal component of the interaction vector $I = C_i \odot 	au_i$.
-
-## Token/Routing Environment → Functional Evolution of MoE Experts
-
-This report aggregates the findings from all phases of Experiment 6B, tracing how the routing environment (exposure) dictates the movement of experts through functional space across the training lifecycle.
-
-
----
-# Experiment 6B  Data Audit
-**Generated:** 2026-08-16T15:26:42.458694
-**Model:** allenai/OLMoE-1B-7B-0924
-**Device:** cuda:0
-
-## 1. Exp3C Checkpoint Oracle Distance Matrices
-
-| Checkpoint | Layer | Pairs | CSV Hash (first 12) |
-|---|---|---|---|
-| checkpoint_10 | first | 384 | 23ad593c2950 |
-| checkpoint_10 | middle | 384 | fd058a8c2fcb |
-| checkpoint_10 | last | 384 | 0389308607ce |
-| checkpoint_40 | first | 384 | 7ad733300f86 |
-| checkpoint_40 | middle | 384 | 58a08a613e9e |
-| checkpoint_40 | last | 384 | 00e122e0b465 |
-| checkpoint_70 | first | 384 | ccf79630e0e0 |
-| checkpoint_70 | middle | 384 | 48cd122fde32 |
-| checkpoint_70 | last | 384 | 173c64b25c9e |
-| checkpoint_100 | first | 2016 | 4f3bd7ec8949 |
-| checkpoint_100 | middle | 2016 | 8a1d41593f26 |
-| checkpoint_100 | last | 2016 | d99521a015c3 |
-
-## 2. Exp3B q-Value Ranking
-
-- Primary q: **4** (selected in Exp3B, fixed in Exp4)
-- Secondary q: **6** (second-best across middle+last layers)
-- Tertiary q: **3** (second-best for first layer)
-
-## 3. Router Telemetry Availability
-
-- Historical telemetry exists: **False**
-- Can reconstruct from checkpoint + calibration: **True**
-- Method: Forward pass of calibration dataset through each checkpoint revision. Router hooks capture logits, Top-k indices, probabilities, and input hidden states. This is highly structured and exactly reproducible because the calibration dataset is frozen (SHA256 verified) and inference is in eval mode with no dropout.
-
-## 4. Calibration Dataset
-
-- Path: `/home/sandlogic/LINGO/PROJECTS/Experiments-V3/experiments/experiment3c/data/calibration/calibration_3c_wikitext.pt`
-- Exists: True
-- SHA256 match: **True**
 
 ## 5. Upstream Experiments
 
@@ -167,6 +118,77 @@ This report aggregates the findings from all phases of Experiment 6B, tracing ho
 
 ---
 # Experiment 6B — Checkpoint Trajectory Analysis
+
+### Equations
+
+
+## Core Framework Definitions
+To ensure clarity and distinguish observed facts from testable predictions, we establish the following framework:
+
+- **Definition ($C_i$)**: $C_i \in \mathbb{R}^{10}$ represents the empirical capability response of expert $i$.
+- **Definition ($	au_i$)**: $	au_i \in \mathbb{R}_+^{10}$ represents the local token environment presented to expert $i$.
+- **Definition ($\Delta C_i$)**: $\Delta C_i = C_i(t+1) - C_i(t)$ represents the functional displacement over training interval $t 	o t+1$.
+- **Definition (Decomposition)**: $\Delta C_i = \Delta C_{i, \parallel} + \Delta C_{i, \perp}$, decomposing displacement into radial (magnitude contraction/expansion) and tangential (angular/task-specific steering) components.
+- **Hypothesis (Geometric Susceptibility)**: The tangential movement $\Delta C_{i, \perp}$ is directionally guided by the orthogonal component of the interaction vector $I = C_i \odot 	au_i$.
+
+## Token/Routing Environment → Functional Evolution of MoE Experts
+
+This report aggregates the findings from all phases of Experiment 6B, tracing how the routing environment (exposure) dictates the movement of experts through functional space across the training lifecycle.
+
+
+---
+# Experiment 6B  Data Audit
+**Generated:** 2026-08-16T15:26:42.458694
+**Model:** allenai/OLMoE-1B-7B-0924
+**Device:** cuda:0
+
+## 1. Exp3C Checkpoint Oracle Distance Matrices
+
+| Checkpoint | Layer | Pairs | CSV Hash (first 12) |
+|---|---|---|---|
+| checkpoint_10 | first | 384 | 23ad593c2950 |
+| checkpoint_10 | middle | 384 | fd058a8c2fcb |
+| checkpoint_10 | last | 384 | 0389308607ce |
+| checkpoint_40 | first | 384 | 7ad733300f86 |
+| checkpoint_40 | middle | 384 | 58a08a613e9e |
+| checkpoint_40 | last | 384 | 00e122e0b465 |
+| checkpoint_70 | first | 384 | ccf79630e0e0 |
+| checkpoint_70 | middle | 384 | 48cd122fde32 |
+| checkpoint_70 | last | 384 | 173c64b25c9e |
+| checkpoint_100 | first | 2016 | 4f3bd7ec8949 |
+| checkpoint_100 | middle | 2016 | 8a1d41593f26 |
+| checkpoint_100 | last | 2016 | d99521a015c3 |
+
+## 2. Exp3B q-Value Ranking
+
+- Primary q: **4** (selected in Exp3B, fixed in Exp4)
+- Secondary q: **6** (second-best across middle+last layers)
+- Tertiary q: **3** (second-best for first layer)
+
+## 3. Router Telemetry Availability
+
+- Historical telemetry exists: **False**
+- Can reconstruct from checkpoint + calibration: **True**
+- Method: Forward pass of calibration dataset through each checkpoint revision. Router hooks capture logits, Top-k indices, probabilities, and input hidden states. This is highly structured and exactly reproducible because the calibration dataset is frozen (SHA256 verified) and inference is in eval mode with no dropout.
+
+## 4. Calibration Dataset
+
+- Path: `/home/sandlogic/LINGO/PROJECTS/Experiments-V3/experiments/experiment3c/data/calibration/calibration_3c_wikitext.pt`
+- Exists: True
+- SHA256 match: **True**
+
+### Plots
+
+
+*(Section extracted to adhere to format)*
+
+### Output
+
+
+*(Section extracted to adhere to format)*
+
+### Conclusion
+
 
 ## Functional Displacement Magnitude Summary
 
@@ -319,4 +341,3 @@ Is Robust: True
 | first | -0.0332 | -0.0304 | No compact law found |
 | middle | -0.0580 | -0.0611 | No compact law found |
 | last | -0.0319 | -0.0303 | No compact law found |
-

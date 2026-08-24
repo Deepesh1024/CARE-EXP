@@ -1,5 +1,8 @@
 # CARE Experiment 3A: Capability Graph Discovery — Final Report
 
+### Hypothesis
+
+
 > **Framing:** This experiment establishes that *capability topology emerges from routing behavior* in Mixture-of-Experts models. We do not claim to have discovered a "true" graph inside the transformer. We claim that the CARE surrogate, applied zero-shot, recovers a statistically meaningful topological structure whose local communities correspond to functionally redundant expert groups.
 
 ---
@@ -32,6 +35,9 @@ We split the investigation into two **independent** hypotheses:
 6. **Topological Correlates** — Correlate 6 centrality metrics against Oracle KL merge sensitivity using Pearson, Spearman, and Kendall-$\tau$.
 7. **Robustness** — Evaluate community stability across $k \in \{5, 8, 10\}$ using ARI and NMI.
 
+### Experiment
+
+
 ## 3. Graph Construction Protocol
 
 - **Input:** `output.json` filtered to `Seq_Len=512`.
@@ -46,6 +52,19 @@ We split the investigation into two **independent** hypotheses:
 **Failure:** No significant Oracle KL difference within/between communities, or ARI $\approx 0$ across $k$ values.
 
 ---
+
+### Equations
+
+
+*(Section extracted to adhere to format)*
+
+### Plots
+
+
+*(Section extracted to adhere to format)*
+
+### Output
+
 
 ## Results
 
@@ -178,6 +197,9 @@ Community assignments were evaluated across $k \in \{5, 8, 10\}$ using Adjusted 
 NMI remains high across all comparisons (typically 0.85–0.95), indicating that the community boundaries discovered at $k=8$ are stable intrinsic properties of the capability space, not artifacts of the graph construction parameter.
 
 ---
+
+### Conclusion
+
 
 ## Scientific Conclusions
 

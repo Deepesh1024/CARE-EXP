@@ -1,5 +1,8 @@
 # Linearization Gap Analysis of Pre-Merge Expert Similarity Features for Mergeability Prediction in Mixture-of-Experts Language Models
 
+### Hypothesis
+
+
 ---
 
 # Abstract
@@ -100,6 +103,69 @@ Four regression families are trained across three feature variants, yielding 12 
 | **C (+Interactions)** | Variant B + all pairwise feature × depth interactions | 15 | Tests whether feature-depth interactions capture layer-conditional effects |
 
 Relative_Depth is computed as layer_index / (total_layers − 1), mapping `first → 0.0`, `middle → 0.533`, `last → 1.0`.
+
+### Research Question
+Can newly designed capability-aware features reduce the linearization gap, enabling a simple linear model to approach the nonlinear prediction ceiling?
+
+### Motivation
+Experiment 1.5 established that:
+1. The current 7 features achieve only ρ_linear = 0.484.
+2. XGBoost reaches ρ = 0.593, revealing a gap of +0.109.
+3. Depth-feature interactions are the primary source of nonlinear signal.
+4. High-drift pairs are systematically mispredicted.
+
+New features should target these specific deficiencies.
+
+### Hypothesis
+Augmenting the feature set with capability-aware descriptors will raise ρ_linear to within 0.03 of ρ_tree, closing the linearization gap without requiring complex nonlinear models.
+
+### Candidate Features
+
+| Feature | Definition | Rationale |
+|---|---|---|
+| **Output Magnitude Asymmetry (Δ_mag)** | $\|\ \|\mathbf{o}_i\| - \|\mathbf{o}_j\|\ \|$ | Asymmetric magnitude may predict asymmetric merge damage |
+| **Routing Jensen-Shannon Divergence** | $\text{JSD}(p_i \| p_j)$ over token routing distributions | Distributional difference captures more than cosine similarity |
+| **Routing NPMI** | Normalized pointwise mutual information of co-routing events | Measures whether tokens routed to expert i are also routed to expert j beyond chance |
+| **Capability Drift Descriptors** | Per-token statistics of output magnitude change | Captures distributional properties of capability preservation |
+| **Expert Specialization Index** | Entropy of routing distribution for individual experts | Measures whether experts are generalists or specialists |
+
+### Expected Outcome
+A linear model using the augmented feature set achieves ρ ≥ 0.70, and the linearization gap shrinks to Δ ≤ 0.03.
+
+### Success Criteria (Dual Requirement: Rank & Calibration)
+An acceptable capability-aware pre-merge predictor must satisfy two strict verification thresholds simultaneously:
+
+1. **Within-Layer Rank Precision:** $\rho_{\text{linear}}(\text{within-layer}) \ge 0.80$. Because expert merging occurs within individual transformer layers, ranking accuracy must be evaluated independently within each layer rather than pooled across depths.
+2. **Absolute Numerical Calibration:** $\text{Test } R^2 \ge 0.50$ with homoscedastic residual bounds on held-out disjoint expert sets. A model that ranks adequately but exhibits negative test R² (worse than predicting the training mean, as seen in Exp 1.5 where XGBoost_B hit $R^2 = -50.7\%$) cannot safely guide automated compression thresholds.
+
+If an interpretable linear equation using the new features achieves positive calibration ($R^2 \ge 0.50$) and high within-layer Spearman ranking ($\rho \ge 0.80$), the new descriptors have successfully formalized latent neural capability.
+
+### Potential Risks
+- New features may be correlated with existing features, providing minimal incremental information.
+- The irreducible noise floor may be higher than ρ = 0.70, limiting achievable performance regardless of features.
+- Distributional features may require more calibration data than currently available (N=256).
+
+---
+
+# Appendix
+
+### Experiment
+
+
+## Experiment 2: Capability-Aware Feature Engineering
+
+### Equations
+
+
+*(Section extracted to adhere to format)*
+
+### Plots
+
+
+*(Section extracted to adhere to format)*
+
+### Output
+
 
 ## 5.2 Models
 
@@ -523,53 +589,6 @@ A critical methodological finding is the distinction between pre-merge proxy fea
 
 # 17. Next Experiment
 
-## Experiment 2: Capability-Aware Feature Engineering
-
-### Research Question
-Can newly designed capability-aware features reduce the linearization gap, enabling a simple linear model to approach the nonlinear prediction ceiling?
-
-### Motivation
-Experiment 1.5 established that:
-1. The current 7 features achieve only ρ_linear = 0.484.
-2. XGBoost reaches ρ = 0.593, revealing a gap of +0.109.
-3. Depth-feature interactions are the primary source of nonlinear signal.
-4. High-drift pairs are systematically mispredicted.
-
-New features should target these specific deficiencies.
-
-### Hypothesis
-Augmenting the feature set with capability-aware descriptors will raise ρ_linear to within 0.03 of ρ_tree, closing the linearization gap without requiring complex nonlinear models.
-
-### Candidate Features
-
-| Feature | Definition | Rationale |
-|---|---|---|
-| **Output Magnitude Asymmetry (Δ_mag)** | $\|\ \|\mathbf{o}_i\| - \|\mathbf{o}_j\|\ \|$ | Asymmetric magnitude may predict asymmetric merge damage |
-| **Routing Jensen-Shannon Divergence** | $\text{JSD}(p_i \| p_j)$ over token routing distributions | Distributional difference captures more than cosine similarity |
-| **Routing NPMI** | Normalized pointwise mutual information of co-routing events | Measures whether tokens routed to expert i are also routed to expert j beyond chance |
-| **Capability Drift Descriptors** | Per-token statistics of output magnitude change | Captures distributional properties of capability preservation |
-| **Expert Specialization Index** | Entropy of routing distribution for individual experts | Measures whether experts are generalists or specialists |
-
-### Expected Outcome
-A linear model using the augmented feature set achieves ρ ≥ 0.70, and the linearization gap shrinks to Δ ≤ 0.03.
-
-### Success Criteria (Dual Requirement: Rank & Calibration)
-An acceptable capability-aware pre-merge predictor must satisfy two strict verification thresholds simultaneously:
-
-1. **Within-Layer Rank Precision:** $\rho_{\text{linear}}(\text{within-layer}) \ge 0.80$. Because expert merging occurs within individual transformer layers, ranking accuracy must be evaluated independently within each layer rather than pooled across depths.
-2. **Absolute Numerical Calibration:** $\text{Test } R^2 \ge 0.50$ with homoscedastic residual bounds on held-out disjoint expert sets. A model that ranks adequately but exhibits negative test R² (worse than predicting the training mean, as seen in Exp 1.5 where XGBoost_B hit $R^2 = -50.7\%$) cannot safely guide automated compression thresholds.
-
-If an interpretable linear equation using the new features achieves positive calibration ($R^2 \ge 0.50$) and high within-layer Spearman ranking ($\rho \ge 0.80$), the new descriptors have successfully formalized latent neural capability.
-
-### Potential Risks
-- New features may be correlated with existing features, providing minimal incremental information.
-- The irreducible noise floor may be higher than ρ = 0.70, limiting achievable performance regardless of features.
-- Distributional features may require more calibration data than currently available (N=256).
-
----
-
-# Appendix
-
 ## A.1 Model Hyperparameters
 
 | Parameter | Value |
@@ -642,3 +661,8 @@ CrossEntropy_Delta, Hidden_L2_Drift, Router_Entropy_Orig, Router_Entropy_Merged,
 | phase2_regression.py | Regression models |
 | phase3_analysis.py | Analysis and reporting |
 | CARE_MoE_V3_E1.py | Experiment 1 data generation |
+
+### Conclusion
+
+
+*(Section extracted to adhere to format)*
