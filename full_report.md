@@ -54,7 +54,7 @@ This document unifies our initial investigative phases—**Experiment 1** and **
    │   experts organize into discrete semantic sub-spaces   │
    └────────────────────────────────────────────────────────┘
                                 │
-                                ▼ [Transition: True Manifold Verification]
+                                ▼ [Transition: True Structured geometry Verification]
    ┌────────────────────────────────────────────────────────┐
    │ Experiment 3B (Phase A): Capability Geometry Exists    │
    │ • Mapped true Oracle KL distances to MDS coordinates   │
@@ -343,7 +343,7 @@ This finding fundamentally altered our redundancy framework: redundancy only exi
 # Part V: Experiment 3B — Capability Geometry Validation & Out-of-Sample Generalization
 
 ## 1. Motivation & Scientific Objectives
-Experiment 3B addressed the most critical question of the CARE-MoE program: *Does the true functional behavior of MoE experts possess a continuous, low-dimensional geometric structure (a manifold) that generalizes to unseen experts?* 
+Experiment 3B addressed the most critical question of the CARE-MoE program: *Does the true functional behavior of MoE experts possess a continuous, low-dimensional geometric structure (a structured geometry) that generalizes to unseen experts?* 
 
 Rather than relying on surrogate topological proxies, Experiment 3B extracted the raw, ground-truth **Oracle KL divergence** for every pair of experts and mapped them into Euclidean coordinates using Non-Metric Multidimensional Scaling (SMACOF).
 
@@ -392,7 +392,7 @@ Across the 5 independent partitions, the mean Spearman rank correlation ($\rho$)
 - **Mean $\rho_C$ (Local + Geometry):** $+0.8146$ (95% CI: $[+0.784, +0.843]$)
 
 ### The Dominance of Geometry
-Model B (pure un-learned geometry) massively outperformed the heavily parameterized Model A ($\Delta\rho_{BA} = +0.2707$). By simply measuring the distance between two experts in our $q=4$ geometric manifold, we can predict functional merge damage far more accurately than by feeding 11 complex token/weight heuristics into a gradient-boosted tree.
+Model B (pure un-learned geometry) massively outperformed the heavily parameterized Model A ($\Delta\rho_{BA} = +0.2707$). By simply measuring the distance between two experts in our $q=4$ geometric structured geometry, we can predict functional merge damage far more accurately than by feeding 11 complex token/weight heuristics into a gradient-boosted tree.
 
 ### CARE (Model C) Achieves Best-in-Class Predictive Power
 When geometric distance is added as a feature to Model C, performance jumps to $\rho = 0.8146$ ($\Delta\rho_{CA} = +0.3349$ over the local baseline). **H10 survives:** Geometry provides highly complementary and non-redundant predictive information.
@@ -437,7 +437,7 @@ Training does not change all layers in the same way. The most significant findin
 ### Discovery 2: Persistent Low-Dimensional Representation
 Despite the massive drift in individual pairwise distances (and the variance inflation as experts differentiate), Procrustes alignment validates that the gross global topology of the functional capability map is incredibly conserved from 10% all the way to 100%. The structure is not random; there is a highly persistent low-dimensional geometric representation of capabilities that emerges almost immediately in training.
 
-*(Note: While the geometric representation is empirically robust, formal topological classification as a "manifold" requires stronger structural evidence that 3C was not designed to test.)*
+*(Note: While the geometric representation is empirically robust, formal topological classification as a "structured geometry" requires stronger structural evidence that 3C was not designed to test.)*
 
 ### Discovery 3: Functional Differentiation Over Communities
 The persistence of high-damage pairs successfully falsifies the hypothesis that experts are strictly independent or interchangeable (H1). However, rather than proving the existence of hard, discrete "communities," the data supports a model of continuous, aggressive *functional differentiation*. 
@@ -446,3 +446,44 @@ The persistence of high-damage pairs successfully falsifies the hypothesis that 
 The discovery of layer-dependent evolutionary trajectories implies that one-shot, static model compression assumptions may be fatally flawed if applied blindly across all layers. 
 
 Moving into **Experiment 5**, our compression algorithms (e.g., cascaded selection or dynamic routing) must be explicitly layer-aware. However, because the geometric representation is stable, these algorithms can operate confidently on the geometric prior without needing to computationally re-evaluate the entire distance matrix at every step.
+
+---
+
+# Part IX: Experiment 5 — Functional Merge Execution & Component Reuse
+
+## 1. Motivation & Scientific Objectives
+With the capability geometry established, **Experiment 5** transitioned from observational metrics to actual model compression. The objective was to merge redundant experts defined by our predictive capability models and evaluate the resulting degradation and computational performance compared to randomized or naive merging strategies.
+
+## 2. Key Empirical Findings
+- **Structured Compression Advantage:** Merging experts prioritized by the CARE geometric metric resulted in significantly lower capability degradation compared to standard L2 weight distance or naive usage frequency merging.
+- **Component Reuse Limits:** We evaluated how aggressively experts could be merged before catastrophic failure. Deep layers exhibited significantly higher tolerance for parameter consolidation than initial structural gating layers, aligning with the "linearization gap" discoveries from Experiment 2.
+
+---
+
+# Part X: Experiment 6B, 6C, and 6D — Interventional Functional Dynamics
+
+## 1. Motivation & Scientific Objectives
+The final phase of the CARE-MoE initiative transitioned from passive observation (mapping geometry) to active, controlled causal intervention. We sought to determine if we could predictably *steer* an expert's functional capability by explicitly manipulating its token environment $\tau$, and whether the resulting functional drift $\Delta C$ could be modeled geometrically.
+
+## 2. Core Framework Definitions
+To ensure clarity and distinguish observed facts from testable predictions, we establish the following framework:
+- **Definition ($C_i$)**: $C_i \in \mathbb{R}^{10}$ represents the empirical capability response of expert $i$.
+- **Definition ($\tau_i$)**: $\tau_i \in \mathbb{R}_+^{10}$ represents the local token environment presented to expert $i$.
+- **Definition ($\Delta C_i$)**: $\Delta C_i = C_i(t+1) - C_i(t)$ represents the functional displacement over training interval $t \to t+1$.
+- **Definition (Decomposition)**: $\Delta C_i = \Delta C_{i, \parallel} + \Delta C_{i, \perp}$, decomposing displacement into radial (magnitude contraction) and tangential (task-specific steering) components.
+
+## 3. Key Discoveries (Exp 6B & 6C)
+- **Radial Magnitude Contraction Dominates:** The overwhelming majority of functional movement across training is simple radial magnitude contraction, not task-specific steering. Global predictive $R^2$ scores ($>0.98$) are driven almost entirely by this contraction.
+- **Task-Overlap Divergence:** Experts processing highly overlapping token environments experience diverging capability states ($\Delta D > 0$). They move further apart to differentiate.
+- **Late-Stage Tangential Interaction:** While the environment vector $\tau$ alone holds negligible predictive power over an expert's tangential displacement, the *interaction* vector $I = C \odot \tau$ is significantly associated with tangential displacement ($R^2 \approx 0.25$, $Z = -3.81$) during late training.
+- **Important Note (Probing Bug Correction):** An initial iteration of Exp 6C contained a probing normalization bug that artificially inflated the tangential predictability to $R^2 \approx 0.99$. Those findings were formally discarded, and the corrected analysis reveals the true modest but highly significant association.
+
+## 4. Controlled Interventions (Exp 6D)
+By systematically perturbing the training environment $\tau$ along controlled target angles with precise magnitudes $\alpha$, we mapped the network's structural resistance to functional drift:
+- **Linearity in Low-Alpha Regime:** Angular displacement ($\Delta\theta$) scales perfectly linearly with intervention strength up to $\alpha = 1.0$.
+- **Direction-Dependent Response:** Pushing an expert structurally orthogonal to its functional capability axis causes nearly **2.3x more parameter displacement** than reinforcing its existing capability at the exact same magnitude! The model actively resists moving structurally into unaligned functional regions.
+- **Capability Magnitude Robustness:** Entrenched experts (high $||C||$) strongly resist structural drift, whereas experts with smaller initial capability magnitudes experience much steeper response curves to the same interventions.
+
+## 5. Final Scientific Conclusion
+The comprehensive CARE-MoE experiments support the central claim: **MoE experts exhibit structured, functional, state- and direction-dependent geometry and dynamics that cannot be adequately explained by conventional parameter similarity, activation similarity, or routing statistics alone.**
+
