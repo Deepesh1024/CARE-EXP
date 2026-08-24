@@ -28,7 +28,7 @@ As requested, I extracted the numerical results and performed an additional anal
 
 ![10. Linearity in Low Alpha Regime](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/10_low_alpha_linearity.png)
 
-**Analysis**: The regression confirms that the initial response is incredibly well-behaved and affine linear. The angular displacement ($\Delta\theta$) scales precisely with $\alpha$ up to $\alpha=1.0$, indicating a highly stable, controllable parameter manifold in the local neighborhood.
+**Analysis**: The regression confirms that the initial response is incredibly well-behaved and affine linear. The angular displacement ($\Delta\theta$) scales precisely with $\alpha$ up to $\alpha=1.0$, indicating a highly stable, controllable parameter structured functional geometry in the local neighborhood.
 
 ---
 
@@ -41,7 +41,7 @@ One of the central questions of this experiment was whether the functional respo
 **Numerical Analysis of the Susceptibility Ratio:**
 We ran a correlation analysis on the numerical data for the susceptibility ratio $\frac{||\tau_{\perp}||}{||C||}$ vs $\Delta\theta$.
 - **Correlation**: `r = 0.407`
-While not a perfect deterministic collapse (`r = 1.0`), a correlation of `~0.41` on an unconstrained billion-parameter manifold is highly significant. It demonstrates that the orthogonal component of the intervention relative to the original capability magnitude is a major determining factor in how much the expert actually "moves" functionally.
+While not a perfect deterministic collapse (`r = 1.0`), a correlation of `~0.41` on an unconstrained billion-parameter structured functional geometry is highly significant. It demonstrates that the orthogonal component of the intervention relative to the original capability magnitude is a major determining factor in how much the expert actually "moves" functionally.
 
 ---
 
@@ -80,7 +80,9 @@ The data confirms our hypothesis. Experts with a smaller initial capability magn
 ### Conclusion
 
 ## Conclusion
-The 6D Sweep is fully complete and immensely successful. We proved:
-1. Interventions behave linearly at low $\alpha$.
-2. The network actively resists orthogonal interventions far more than aligned ones (2.3x more drift).
-3. Entrenched experts (high $||C||$) are robust, while weaker experts are fragile to targeted tau vectors.
+Controlled interventions provide interventional evidence that functional responses are:
+1. **Magnitude-dependent and approximately linear** in the tested low-$\alpha$ regime ($\alpha \le 1.0$).
+2. **Direction-dependent**: the network actively resists orthogonal interventions far more than aligned ones (~2.3x more drift).
+3. **State-dependent**: entrenched experts (high $||C||$) are robust, while weaker experts are fragile to targeted $\tau$ vectors.
+
+Note: These observations support a local geometric model; they do not establish a globally valid continuous manifold.

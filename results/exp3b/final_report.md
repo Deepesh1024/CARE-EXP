@@ -214,7 +214,7 @@ This report distinguishes three separate claims:
 2. **Low-dimensional structure**: SMACOF stress curves indicate whether pairwise distances can be represented in fewer dimensions than the ambient space.
 3. **Out-of-sample generalization**: Expert-level holdout tests whether the geometric structure extends to experts not used in embedding.
 
-Phase A does **NOT** claim that a capability structured geometry exists. Successful MDS embedding is necessary but not sufficient evidence for structured geometry structure.
+Phase A does **NOT** claim that a true continuous manifold exists. Successful MDS embedding is necessary but not sufficient evidence for a continuous functional geometry.
 
 ## 11. Software & Configuration
 

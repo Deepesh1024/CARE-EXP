@@ -245,9 +245,8 @@ Geometry earns the right to be used in the next compression experiment.
 
 ### 5. Precision @ K
 ![Precision at K](./plots/05_precision_at_k.png)
-*Confirms that Model C (CARE) correctly identifies the most catastrophic merges in the top 10, 25, and 50 pairs.*
+*Shows the inversion in performance: Model B (Geometry) dominates at K=10 and K=25, while Model C (CARE) becomes strongest at K=50. This confirms that local descriptors are budget-dependent.*
 
 ### Conclusion
 
-
-*(Section extracted to adhere to format)*
+**Hypothesis Supported (with bounds).** Geometric distance provides substantial predictive information about functional merge damage. In the selective top-K regime, the geometry-only model outperforms the combined descriptor ($K=10$ and $K=25$), whereas the combined CARE model becomes strongest at larger $K$ ($K=50$). This indicates that the utility of local descriptors is budget-dependent rather than uniformly additive. The geometry-only model serves as an extremely potent baseline for highly selective merge decisions.

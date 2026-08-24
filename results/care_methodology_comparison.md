@@ -44,7 +44,7 @@ The two approaches are not independent. Experiment 3A is entirely dependent on t
 The graph constructed in Experiment 3A does *not* represent the true functional topology of the model. It represents the topology of the *XGBoost surrogate's feature space*.
 - Because the XGBoost model heavily weights features like `Weight_Distance` and `Routing_Similarity`, the resulting graph communities are essentially clusters of experts that have similar weights and routing patterns.
 - When Experiment 3A validates these communities using the true Oracle KL, it is effectively just proving that "experts with similar weights and routing patterns have lower Oracle KL when merged."
-- This was already proven by the Feature-Regression track (which showed these features are predictive of Oracle KL).
+- This was already supported by the Feature-Regression track (which showed these features are predictive of Oracle KL).
 
 ### Synergies and Next Steps (Experiment 4)
 Rather than competing, the two approaches should be combined.

@@ -203,7 +203,7 @@ NMI remains high across all comparisons (typically 0.85–0.95), indicating that
 
 ## Scientific Conclusions
 
-**H1 (Graph Organization):** The CARE Capability Graph is structurally distinct from Erdős-Rényi baselines. It exhibits significantly higher transitivity and significantly lower global efficiency and LCC size, consistent with a sparse graph with strong local clustering and a fragmented global backbone. This is the signature of emergent, rather than random, topological organization.
+**H1 (Graph Organization):** Observational Finding. Expert relationships exhibit non-uniform community structure, with the strongest modular organization appearing in the middle layer. Note: Statistical significance relative to a null distribution was not established in the current analysis; this remains an exploratory topological observation.
 
 **H2 (Functional Organization):** Statistically significant but geometrically entangled. Within-community merges incur significantly lower Oracle KL than between-community merges (large effect size $d = -1.43$ at the last layer). However, negative silhouette scores reveal that these communities are not cleanly isolated clusters in capability space; they are structurally overlapping. The capability topology maps to functional redundancy on average, but individual boundary assignments are fuzzy.
 

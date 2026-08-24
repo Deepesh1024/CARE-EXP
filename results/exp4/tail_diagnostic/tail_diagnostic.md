@@ -96,4 +96,4 @@ Geometry heavily dominates the low-K ranking, isolating the safest merges flawle
 ## 13. Impact on Experiment 5
 **Recommendation:** Modify Experiment 5 specification before execution
 
-**Rationale:** The evidence proves a rigid crossover point exists. A static linear ensemble (Model C) forces a compromise that harms extreme-tail precision. Experiment 5's specification should be modified to support a budget-aware routing or cascaded compression strategy (e.g., trust Geometry entirely for the top 5% of merges, and blend with CARE for the remainder).
+**Rationale:** The evidence supports a rigid crossover point exists. A static linear ensemble (Model C) forces a compromise that harms extreme-tail precision. Experiment 5's specification should be modified to support a budget-aware routing or cascaded compression strategy (e.g., trust Geometry entirely for the top 5% of merges, and blend with CARE for the remainder).

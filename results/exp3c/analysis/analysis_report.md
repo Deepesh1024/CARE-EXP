@@ -20,14 +20,14 @@
 | H8 (Evolution/Drift) | Expert coordinates shift significantly | SUPPORTED | Functional trajectories are measurable and layer-dependent |
 | H1 (Independent Experts) | High-damage pairs persist | UNSUPPORTED | Strong functional differentiation observed, refuting strict interchangeability |
 
-## L. WHAT 3C ACTUALLY PROVES
+## L. WHAT 3C ACTUALLY DEMONSTRATES
 - MoE functional organization is not simply becoming increasingly specialized throughout training. Different layers pass through completely different phases of redundancy and differentiation.
 - There is a persistent low-dimensional representation of functional distances.
 
-## M. WHAT 3C DOES NOT PROVE
-- Does not prove the geometric structure constitutes a formal mathematical structured geometry.
-- Does not prove causality (i.e., whether structural routing forces this geometry, or whether data statistics do).
-- Does not prove the existence of strict discrete communities, only functional differentiation.
+## M. WHAT 3C DOES NOT DEMONSTRATE
+- Does not demonstrate that the geometric structure constitutes a formal mathematical continuous manifold.
+- Does not demonstrate causality (i.e., whether structural routing forces this geometry, or whether data statistics do).
+- Does not demonstrate the existence of strict discrete communities, only functional differentiation.
 
 ### Experiment
 
@@ -94,5 +94,4 @@
 
 ### Conclusion
 
-
-*(Section extracted to adhere to format)*
+**Observational Finding.** Functional relationships remain structured across checkpoints as experts undergo continuous differentiation. Layer-dependent trajectories are observed: the first and last layers expand monotonically, while the middle layer shows an initial redundancy bottleneck (U-shaped trajectory).

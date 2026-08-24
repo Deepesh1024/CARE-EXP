@@ -75,7 +75,7 @@ All experimental phases are comprehensively documented with mathematical rigor, 
 |---|---|
 | [**Unified Master Research Report**](./full_report.md) | **Recommended starting point.** Covers the complete scientific journey spanning Experiments 1, 1.5, and the newly completed Experiment 2 descriptor engineering findings. |
 | [**Experiment 2: Capability-Aware Descriptors**](./results/exp2/report.md) | Exhaustive 26-section scientific publication documenting the formulation, complexity, and dominance of our new pre-merge capability descriptors (including `Routing_NPMI_Proxy`, the #1 predictive feature), layer-localized non-linearity, and deployment protocols. |
-| [**Experiment 1.5: Linearization Gap**](./results/exp1_5/report.md) | Exhaustive publication on multivariate capability modeling, disjoint expert partitioning, the disqualification of oracle-grade features, heteroscedastic error analysis, and proof of **Outcome B**. |
+| [**Experiment 1.5: Linearization Gap**](./results/exp1_5/report.md) | Exhaustive publication on multivariate capability modeling, disjoint expert partitioning, the disqualification of oracle-grade features, heteroscedastic error analysis, and evidence for **Outcome B**. |
 | [**Experiment 1: Univariate Study**](./results/exp1/report.md) | Detailed empirical evaluation of 7 standalone heuristics across calibration sequence budgets ($N=64, 128, 256$) and network layer depths. |
 
 ---

@@ -67,5 +67,5 @@ The layer-wise relationship with angular susceptibility ($S_\theta$) is highly s
 1. **Early-Stage Interaction:** Early and middle training stages (10 $\to$ 70) show absolutely no significant association between the interaction vector and tangential displacement. The experts' angles are effectively decoupled from this specific interaction geometry during these phases.
 
 ### UNRESOLVED (Limitations)
-1. **Mechanism of Divergence:** The data definitively establishes that experts with similar tasks diverge, but does not provide a causal mechanism (e.g., whether this is due to explicit local orthogonalization gradients or capacity saturation).
+1. **Mechanism of Divergence:** The data definitively establishes that experts with similar tasks diverge, but does not provide a interventional mechanism (e.g., whether this is due to explicit local orthogonalization gradients or capacity saturation).
 2. **The Remaining 75% Variance:** While $I_\perp$ predicts $25.4\%$ of late-stage tangential movement, $74.6\%$ remains unexplained by our selected 10D capability basis and first-order linear interaction model.

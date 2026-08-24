@@ -115,7 +115,7 @@ These failures are scientifically valuable because they dismantle the intuitive 
 
 The consistent weakness of individual correlation coefficients across all depths underscores a critical realization: the mapping from any singular heuristic to merge degradation is non-injective. 
 
-- **Robustness & Consistency:** Because the statistical findings held firm from $N=64$ through $N=512$, the inherent limitations of these single descriptors are definitive.
+- **Robustness & Consistency:** Because the statistical findings held firm from $N=64$ through $N=512$, the inherent limitations of these single descriptors are strong.
 - **Depth Dependence:** The evolving influence of metrics (e.g., structural descriptors working early, output metrics working late) indicates that the MoE architecture does not treat all experts uniformly; their functional roles are heavily stratified by depth.
 - **Behavioral vs. Structural:** Purely behavioral descriptors (such as how often an expert is called) proved vastly superior to structural descriptors (such as weight geometry), suggesting that the gating network's utilization topology dictates capability more than the explicit weight tensors themselves.
 

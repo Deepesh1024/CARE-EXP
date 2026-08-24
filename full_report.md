@@ -111,7 +111,7 @@ Experts organize globally into discrete, highly intra-connected functional commu
 
 ### Equations
 - **Definition (Modularity):** $Q = \frac{1}{2m} \sum_{i,j} \left[ A_{i,j} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)$
-- **Prediction:** Network Modularity $Q$ will be significantly greater than random chance and will vary by layer depth.
+- **Prediction:** Network Modularity $Q$ will vary by layer depth, indicating non-uniform community structure.
 
 ### Plots
 - (Plots available in the dedicated Exp 3A report directory).
@@ -122,7 +122,7 @@ Experts organize globally into discrete, highly intra-connected functional commu
 - **Layer Last:** $Q = 0.126$ (Collapsing modularity)
 
 ### Conclusion
-**Hypothesis Supported.** Experts self-organize into a "diamond" architectural topology, with maximum functional isolation (distinct semantic sub-spaces) occurring strictly in the middle layers.
+**Observational Finding.** Expert relationships exhibit non-uniform community structure, with the strongest modular organization appearing in the middle layer. Note: Statistical significance relative to a null distribution was not established in the current analysis; this remains an exploratory topological observation.
 
 ---
 
@@ -143,14 +143,11 @@ The true functional behavior of MoE experts possesses a continuous, low-dimensio
 - (Plots available in the dedicated Exp 3B report directory).
 
 ### Output
-- **Middle Layer ($q=4$):** Oracle out-of-sample $
-ho = +0.723$, obliterating Null A ($
-ho = 0.015$) and Null B ($
-ho = 0.298$).
+- **Middle Layer ($q=4$):** Oracle out-of-sample $\rho = +0.723$, outperforming Null A ($\rho = 0.015$) and Null B ($\rho = 0.298$).
 - **Dimensionality:** `first` requires $q=3-4$, `middle` requires $q=4$, `last` requires $q=8-9$.
 
 ### Conclusion
-**Hypothesis Supported.** Expert capabilities inhabit a highly structured, low-dimensional continuous coordinate space, and this dimensionality scales structurally with network depth.
+**Predictive Finding.** Expert capabilities exhibit a low-dimensional, continuously structured functional geometry. Note: The evidence supports predictive geometric organization, but does not establish a globally smooth manifold in the strict mathematical sense.
 
 ---
 
@@ -165,7 +162,7 @@ The functional geometric relationships between experts evolve continuously over 
 
 ### Equations
 - **Definition (Procrustes Alignment):** $Z_{aligned} = Z \cdot Q + t$ minimizing squared differences.
-- **Prediction:** Expert geometries will show non-random topological conservation over time, alongside expanding pairwise distances.
+- **Prediction:** Expert geometries will show structured consistency over time, alongside expanding pairwise distances.
 
 ### Plots
 - (Plots available in the dedicated Exp 3C report directory).
@@ -175,24 +172,20 @@ The functional geometric relationships between experts evolve continuously over 
 - **Middle Layer:** U-shaped trajectory (distances drop from 10% to 70%, then expand).
 
 ### Conclusion
-**Hypothesis Supported.** The gross global topology is incredibly conserved throughout training, but experts undergo continuous functional differentiation. Middle layers experience a temporary "redundancy bottleneck" before hardening their boundaries.
+**Observational Finding.** Functional relationships remain structured across checkpoints as experts undergo continuous differentiation. Layer-dependent trajectories are observed: the first and last layers expand monotonically, while the middle layer shows an initial redundancy bottleneck (U-shaped trajectory).
 
 ---
 
 ## Experiment 4: The Functional Merge Landscape
 
 ### Hypothesis
-Geometric distance extracted from the capability space provides highly complementary predictive information that dominates traditional local pre-merge features in identifying destructive merges.
+Geometric distance extracted from the capability space provides complementary predictive information regarding functional merge damage, and combining local features with geometry (CARE) alters predictive behavior relative to local or geometric models alone.
 
 ### Experiment
 - **Design:** 5-partition $\times$ 3-fold cross-validation. Compared XGBoost on local features (Model A), pure Geometry distance (Model B), and CARE (Model C: Local + Geometry).
 
 ### Equations
-- **Prediction:** $
-ho_B > 
-ho_A$, and $
-ho_C > 
-ho_A$, confirming geometry provides non-redundant predictive gain.
+- **Prediction:** $\rho_C$ and $\rho_B$ will diverge from $\rho_A$, confirming geometry provides non-redundant predictive gain.
 
 ### Plots
 - ![Spearman Correlation by Model](./results/exp4/plots/01_spearman_by_model.png)
@@ -200,15 +193,15 @@ ho_A$, confirming geometry provides non-redundant predictive gain.
 - ![Precision at K](./results/exp4/plots/05_precision_at_k.png)
 
 ### Output
-- **Model A (Local):** $
-ho = 0.4797$
-- **Model B (Geometry):** $
-ho = 0.7504$
-- **Model C (Local+Geometry):** $
-ho = 0.8146$
+- **Model A (Local):** $\rho = 0.4797$
+- **Model B (Geometry):** $\rho = 0.7504$
+- **Model C (Local+Geometry):** $\rho = 0.8146$
+- **Precision@10:** A=0.17, B=0.37, C=0.23
+- **Precision@25:** A=0.36, B=0.50, C=0.41
+- **Precision@50:** A=0.52, B=0.63, C=0.69
 
 ### Conclusion
-**Hypothesis Supported.** Geometry massively dominates standard local heuristics. Combining local features with the geometric prior (Model C) creates a highly robust engine for identifying destructive merge pairs.
+**Hypothesis Supported.** Geometric distance provides substantial predictive information about functional merge damage. However, in the highly selective top-$K$ regime ($K=10$, $K=25$), the pure geometry model outperforms the combined CARE descriptor, whereas the combined model only becomes strongest at larger $K$ ($K=50$). This indicates that the utility of local descriptors is budget-dependent rather than uniformly additive.
 
 ---
 
@@ -271,12 +264,12 @@ ho pprox 0.50$).
 Actively perturbing an expert's training environment $\tau$ along controlled structural angles will induce predictable, magnitude- and direction-dependent functional drift.
 
 ### Experiment
-- **Design:** 900-condition GPU sweep. Intervened during training by scaling target expert loss ($loss' = lpha \times loss$) while keeping token subsets constant.
-- **Parameters:** $lpha \in [0.01, 5.0]$, controlled orthogonal target angles $\theta$.
+- **Design:** 900-condition GPU sweep. Intervened during training by scaling target expert loss ($loss' = \alpha \times loss$) while keeping token subsets constant.
+- **Parameters:** $\alpha \in [0.01, 5.0]$, controlled orthogonal target angles $\theta$.
 
 ### Equations
-- **Definition (Intervention):** $loss' = lpha \times loss$
-- **Prediction:** The angular functional drift $\Delta\theta$ will scale with intervention strength $lpha$, and the model will resist orthogonal shifts more than aligned shifts.
+- **Definition (Intervention):** $loss' = \alpha \times loss$
+- **Prediction:** The angular functional drift $\Delta\theta$ will scale with intervention strength $\alpha$, and the model will resist orthogonal shifts more than aligned shifts.
 
 ### Plots
 - ![Linearity in Low Alpha](./results/exp6d_rerun/exp6d/plots/10_low_alpha_linearity.png)
@@ -284,9 +277,24 @@ Actively perturbing an expert's training environment $\tau$ along controlled str
 - ![Directional Response by Quantile](./results/exp6d_rerun/exp6d/plots/09_directional_response_by_quantile.png)
 
 ### Output
-- **Low-Alpha:** $\Delta\theta$ scales perfectly linearly with $lpha \le 1.0$.
-- **Directional Resistance:** Intervening at maximum orthogonal angles causes 2.3x more functional drift than aligned interventions at the exact same $lpha$ magnitude.
+- **Low-Alpha:** $\Delta\theta$ scales approximately linearly in the tested low-$\alpha$ regime ($\alpha \le 1.0$).
+- **Directional Resistance:** Intervening at maximum orthogonal angles causes ~2.3x more functional drift than aligned interventions at the exact same $\alpha$ magnitude.
 - **State-Dependence:** High $||C||$ experts strongly resist structural drift.
 
 ### Conclusion
-**Hypothesis Supported.** MoE experts exhibit highly structured, functional, state- and direction-dependent geometry. They predictably resist orthogonal interventions far more than aligned ones, proving that structural evolution is functionally constrained by the existing capability geometry.
+**Interventional Evidence.** Controlled interventions provide evidence that functional responses are direction-dependent, magnitude-dependent, and state-dependent on initial capability magnitude. Note: These observations support a local geometric model but do not establish a globally valid continuous manifold.
+
+---
+
+## Overarching Final Conclusion
+
+The empirical evidence from Experiments 1 through 6 demonstrates that MoE expert capabilities exhibit a structured, functional geometry that is layer-dependent and evolves predictably over time. 
+
+- **Observational:** We observe clear topological patterns, including low-dimensional geometric structure (Exp 3B) and varying modularity (Exp 3A) that peaks in the middle layers.
+- **Predictive:** Geometric features extracted from this space are highly predictive of functional merge damage, providing a robust baseline for budget-constrained compression (Exp 4). 
+- **Interventional:** Controlled structural interventions reveal that the network's functional responses are highly direction- and magnitude-dependent, confirming the presence of local geometric constraints (Exp 6D).
+
+Together, these findings advance the understanding of MoE internal representation from unstructured sets of parameters to organized functional geometries, laying the foundation for "Interpretability as a Science."
+
+> [!WARNING]
+> **Limitation:** All experiments were conducted on a single open-source model architecture (`OLMoE-1B-7B-0924`). While the internal statistics are highly robust across random seeds and cross-validation folds, we do not claim that these specific geometric properties generalize to all MoE architectures. Future work is required to determine whether these topological phenomena are broad features of MoE training or specific to this model's routing mechanism.

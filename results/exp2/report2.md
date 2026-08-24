@@ -59,7 +59,7 @@ We executed a comprehensive benchmark comparing four hypothesis classes across t
 Let an MoE layer consist of $N$ experts $\{E_1, E_2, \dots, E_N\}$ governed by a routing gating network $\mathcal{G}(x) = \text{Softmax}(W_g x)$. For a calibration corpus $\mathcal{X}$, let $h_{\text{orig}}(x)$ and $h_{\text{merged}}(x)$ represent the final output probability distributions of the language model before and after replacing experts $E_i$ and $E_j$ with a unified merged expert $E_{i+j}$.
 
 ### The Ground-Truth Target
-The definitive metric for capability drift is the expectation of the Oracle KL Divergence over all tokens $T$:
+The strong metric for capability drift is the expectation of the Oracle KL Divergence over all tokens $T$:
 
 $$\mathcal{L}_{\text{oracle}}(i, j) = \frac{1}{|T|} \sum_{t=1}^{|T|} D_{\text{KL}} \left( h_{\text{orig}}(x_t) \parallel h_{\text{merged}}^{(i,j)}(x_t) \right) = \frac{1}{|T|} \sum_{t=1}^{|T|} \sum_{v \in \mathcal{V}} P_{\text{orig}}(v \mid x_t) \log \left( \frac{P_{\text{orig}}(v \mid x_t)}{P_{\text{merged}}^{(i,j)}(v \mid x_t)} \right)$$
 
