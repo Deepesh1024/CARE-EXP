@@ -79,7 +79,7 @@ Engineered pre-merge descriptors that capture asymmetric dominance, functional c
 
 ### Equations
 - **Definition (Usage Asymmetry):** $\Delta_{	ext{usage}} = |ar{u}_i - ar{u}_j|$
-- **Definition (NPMI Proxy):** $	ext{NPMI} = 	ext{clip}\left( rac{\log(P(i, j) / (P(i)P(j)))}{-\log P(i, j)}, -1, +1 
+- **Definition (NPMI Proxy):** $	ext{NPMI} = 	ext{clip}\left( \frac{\log(P(i, j) / (P(i)P(j)))}{-\log P(i, j)}, -1, +1 
 ight)$
 - **Prediction:** Engineered functional co-activation will outrank classical weight geometry in splitting gain.
 
@@ -107,11 +107,10 @@ ho > 0.83$)
 Experts organize globally into discrete, highly intra-connected functional communities rather than operating as uniform, independent sub-networks.
 
 ### Experiment
-- **Design:** Scaled pairwise NPMI capability proxies to an $N 	imes N$ adjacency matrix. Applied Louvain Modularity clustering across `first`, `middle`, and `last` layers.
+- **Design:** Scaled pairwise NPMI capability proxies to an $N \times N$ adjacency matrix. Applied Louvain Modularity clustering across `first`, `middle`, and `last` layers.
 
 ### Equations
-- **Definition (Modularity):** $Q = rac{1}{2m} \sum_{i,j} \left[ A_{i,j} - rac{k_i k_j}{2m} 
-ight] \delta(c_i, c_j)$
+- **Definition (Modularity):** $Q = \frac{1}{2m} \sum_{i,j} \left[ A_{i,j} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)$
 - **Prediction:** Network Modularity $Q$ will be significantly greater than random chance and will vary by layer depth.
 
 ### Plots
@@ -186,7 +185,7 @@ The functional geometric relationships between experts evolve continuously over 
 Geometric distance extracted from the capability space provides highly complementary predictive information that dominates traditional local pre-merge features in identifying destructive merges.
 
 ### Experiment
-- **Design:** 5-partition $	imes$ 3-fold cross-validation. Compared XGBoost on local features (Model A), pure Geometry distance (Model B), and CARE (Model C: Local + Geometry).
+- **Design:** 5-partition $\times$ 3-fold cross-validation. Compared XGBoost on local features (Model A), pure Geometry distance (Model B), and CARE (Model C: Local + Geometry).
 
 ### Equations
 - **Prediction:** $
@@ -222,7 +221,7 @@ Merging redundant experts guided by the CARE geometric metric will result in sig
 - **Design:** Executed actual parameter consolidation on the model. Evaluated degradation across layers using different heuristic ranking strategies.
 
 ### Equations
-- **Definition (Merge):** $W_{merged} = rac{W_i + W_j}{2}$
+- **Definition (Merge):** $W_{merged} = \frac{W_i + W_j}{2}$
 - **Prediction:** CARE-guided merges will maintain lower overall network perplexity and benchmark degradation than naive merges.
 
 ### Plots
@@ -272,11 +271,11 @@ ho pprox 0.50$).
 Actively perturbing an expert's training environment $\tau$ along controlled structural angles will induce predictable, magnitude- and direction-dependent functional drift.
 
 ### Experiment
-- **Design:** 900-condition GPU sweep. Intervened during training by scaling target expert loss ($loss' = lpha 	imes loss$) while keeping token subsets constant.
+- **Design:** 900-condition GPU sweep. Intervened during training by scaling target expert loss ($loss' = lpha \times loss$) while keeping token subsets constant.
 - **Parameters:** $lpha \in [0.01, 5.0]$, controlled orthogonal target angles $\theta$.
 
 ### Equations
-- **Definition (Intervention):** $loss' = lpha 	imes loss$
+- **Definition (Intervention):** $loss' = lpha \times loss$
 - **Prediction:** The angular functional drift $\Delta\theta$ will scale with intervention strength $lpha$, and the model will resist orthogonal shifts more than aligned shifts.
 
 ### Plots

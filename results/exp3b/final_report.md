@@ -204,7 +204,7 @@ This finding formally shifts the research sequence from static geometric predict
 1. **Experiment 3B**: Geometry exists (Completed, A - Strong Support)
 2. **Experiment 3C**: Geometry evolves (Calculate $v_i(t)$ using Procrustes alignment across sequential checkpoints)
 3. **Experiment 3D**: Evolution is predictable (Train surrogate models to predict the velocity field)
-4. **Differential Geometry**: Formalize the Jacobian ($J = rac{\partial C}{\partial Z}$), Metric Tensor ($G = J^\top J$), and Hessian ($H = rac{\partial^2 C}{\partial Z^2}$) to drive geometry-aware compression.
+4. **Differential Geometry**: Formalize the Jacobian ($J = \frac{\partial C}{\partial Z}$), Metric Tensor ($G = J^\top J$), and Hessian ($H = \frac{\partial^2 C}{\partial Z^2}$) to drive geometry-aware compression.
 
 ## 10. Important Distinctions
 
