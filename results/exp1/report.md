@@ -84,7 +84,7 @@ Several empirical observations contradicted the initial intuition behind standar
 
 Negative results form a critical component of this study's scientific contribution. Metrics such as **Activation Similarity** and **Routing Similarity** consistently failed to predict Oracle KL degradation, yielding scatter plots with diffuse, isotropic point clouds.
 
-These failures are scientifically valuable because they dismantle the intuitive assumption that experts activating on the same tokens or producing similar intermediate activations are doing the *same* work. Instead, this proves that OLMoE-1B-7B utilizes highly orthogonal parameter sub-spaces. Two experts can learn radically different, incompatible transformations that coincidentally align on intermediate activation cosine similarity. Thus, local representation similarity does not guarantee parameter space compatibility.
+These failures are scientifically valuable because they dismantle the intuitive assumption that experts activating on the same tokens or producing similar intermediate activations are doing the *same* work. Instead, this supports the hypothesis that OLMoE-1B-7B utilizes highly orthogonal parameter sub-spaces. Two experts can learn radically different, incompatible transformations that coincidentally align on intermediate activation cosine similarity. Thus, local representation similarity does not guarantee parameter space compatibility.
 
 ## 7. Statistical Interpretation
 
@@ -98,7 +98,7 @@ No single heuristic contains enough dimensional capacity to model the complexity
 
 ## 8. Final Conclusion
 
-Experiment 1 systematically proved that the operational cost of merging experts is governed by measurable intrinsic properties that evolve across network depth. It decisively demonstrated that no single handcrafted similarity metric—whether structural or functional—is capable of reliably predicting expert mergeability in isolation.
+Experiment 1 systematically supported the hypothesis that the operational cost of merging experts is governed by measurable intrinsic properties that evolve across network depth. It decisively demonstrated that no single handcrafted similarity metric—whether structural or functional—is capable of reliably predicting expert mergeability in isolation.
 
 The experiment successfully disproved the assumption that simple topological heuristics like Activation Similarity or Routing Overlap directly translate to parameter compatibility. However, what remains unknown is how these distinct signals interact. The failure of univariate predictors strongly implies that expert capability is a complex latent property, distributed across multiple dimensions of both parameter geometry and gating behavior.
 

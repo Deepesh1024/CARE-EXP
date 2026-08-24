@@ -31,7 +31,7 @@
 ## I. GEOMETRY / REPRESENTATION
 - MDS (Weighted SMACOF) successfully embedded the 19%-sparse early checkpoints. 
 - Procrustes alignment validates that the gross topology of the functional capability map is conserved.
-- **Note:** While there is a persistent low-dimensional representation, formal mathematical "manifold" properties require substantially stronger structural evidence.
+- **Note:** While there is a persistent low-dimensional representation, formal mathematical "structured geometry" properties require substantially stronger structural evidence.
 
 ## J. 3B vs 3C CONSISTENCY
 - Highly consistent structurally (Pearson 0.9981), but absolute values shifted due to independent inference environments.
@@ -48,7 +48,7 @@
 - There is a persistent low-dimensional representation of functional distances.
 
 ## M. WHAT 3C DOES NOT PROVE
-- Does not prove the geometric structure constitutes a formal mathematical manifold.
+- Does not prove the geometric structure constitutes a formal mathematical structured geometry.
 - Does not prove causality (i.e., whether structural routing forces this geometry, or whether data statistics do).
 - Does not prove the existence of strict discrete communities, only functional differentiation.
 
@@ -63,7 +63,7 @@
 
 ## Q. LIMITATIONS
 - 19% density for early checkpoints means the early MDS embeddings have higher uncertainty.
-- Procrustes alignment handles rigid transformations, but non-rigid manifold stretching might be occurring.
+- Procrustes alignment handles rigid transformations, but non-rigid structured geometry stretching might be occurring.
 
 ## R. NEXT EXPERIMENTS
 - Proceed to Experiment 5, but modify expectations around static layer behavior.

@@ -44,7 +44,7 @@
 - **Resolution Parameter:** Default (1.0).
 - **Random Seed:** Set globally via `utils.set_global_seed()` (Seed = 42).
 - **Number of Communities:** Dynamically discovered. (e.g., 7 communities at $k=8$ for the aggregated layer).
-- **Multiple Runs:** No, a single deterministic run was used.
+- **Multiple Runs:** No, a single highly structured run was used.
 
 ## 7. Report Lineage
 ```

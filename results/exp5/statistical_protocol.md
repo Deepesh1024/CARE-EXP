@@ -18,7 +18,7 @@ The unit of analysis is the **compressed model checkpoint** at a specific compre
 For stochastic baselines (e.g., Random), multiple runs with different random seeds will be executed. We report the mean and standard deviation of the metric across seeds.
 
 ## 6. Treatment of Benchmark Repetitions
-For benchmarks involving generation (e.g., GSM8K) or stochastic sampling, evaluations will be run $N=5$ times with varying random seeds for the generation process to estimate benchmark variance (noise floor). For deterministic loglikelihood-based benchmarks (MMLU, ARC, Perplexity), a single run is sufficient unless hardware/driver non-determinism is detected.
+For benchmarks involving generation (e.g., GSM8K) or stochastic sampling, evaluations will be run $N=5$ times with varying random seeds for the generation process to estimate benchmark variance (noise floor). For highly structured loglikelihood-based benchmarks (MMLU, ARC, Perplexity), a single run is sufficient unless hardware/driver non-determinism is detected.
 
 ## 7. Treatment of Latency Repetitions
 Latency and throughput will be measured by running $N=100$ forward passes after $N=10$ warmup passes. The mean, median, p95, and standard deviation will be reported.

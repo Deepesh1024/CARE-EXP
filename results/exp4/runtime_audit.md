@@ -11,7 +11,7 @@ Based on real-time execution sampling (P0F0) and file-system `mtime` deltas:
 - **Total Fold Time**: ~0.6s – 1.0s
 
 ## 2. SMACOF Iterations
-For every restart, `sklearn.manifold.MDS` converges rapidly:
+For every restart, `sklearn.structured geometry.MDS` converges rapidly:
 - Restart 1: 16 iterations
 - Restart 2: 11 iterations
 - Restart 3: 20 iterations

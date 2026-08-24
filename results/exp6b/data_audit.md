@@ -30,7 +30,7 @@
 
 - Historical telemetry exists: **False**
 - Can reconstruct from checkpoint + calibration: **True**
-- Method: Forward pass of calibration dataset through each checkpoint revision. Router hooks capture logits, Top-k indices, probabilities, and input hidden states. This is deterministic and exactly reproducible because the calibration dataset is frozen (SHA256 verified) and inference is in eval mode with no dropout.
+- Method: Forward pass of calibration dataset through each checkpoint revision. Router hooks capture logits, Top-k indices, probabilities, and input hidden states. This is highly structured and exactly reproducible because the calibration dataset is frozen (SHA256 verified) and inference is in eval mode with no dropout.
 
 ## 4. Calibration Dataset
 

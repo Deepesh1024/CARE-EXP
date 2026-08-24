@@ -11,7 +11,7 @@ The project lacks an established benchmark suite suitable for evaluating the fin
 ## Candidate Benchmarks (Requires Decision)
 Since we must evaluate the quality of the compressed OLMoE model against the original, we need to select standard benchmarks that the model is expected to perform reasonably well on. Since OLMoE-1B-7B is a general-purpose language model, standard reasoning and knowledge benchmarks are appropriate.
 
-| Benchmark | Task | Metric | Dataset | Number of Examples | Evaluation Method | Deterministic | Suitability for Compressed OLMoE | Classification |
+| Benchmark | Task | Metric | Dataset | Number of Examples | Evaluation Method | Highly structured | Suitability for Compressed OLMoE | Classification |
 |---|---|---|---|---|---|---|---|---|
 | **Wikitext Perplexity** | Language Modeling | Perplexity | `Salesforce/wikitext` | 98 seqs x 512 | CrossEntropy Loss | Yes | Direct measurement of generative degradation. | **REQUIRED** |
 | **MMLU** | Knowledge | Accuracy | `cais/mmlu` | ~14k | Loglikelihood Choice | Yes | Standard baseline for world knowledge. | **RECOMMENDED** |

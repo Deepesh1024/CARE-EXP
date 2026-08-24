@@ -190,7 +190,7 @@ Oracle functional geometry shows substantially stronger low-dimensional held-out
 
 ### The Dimensionality Discovery
 The geometry's effective dimensionality is fundamentally **layer-dependent**: 
-the first layer peaks in out-of-sample fidelity at $q=3-4$, whereas the last layer requires $q=8-9$ to capture its structure. This proves that expert capabilities do not inhabit a single uniform space across the network, but rather exist in different compression regimes based on depth.
+the first layer peaks in out-of-sample fidelity at $q=3-4$, whereas the last layer requires $q=8-9$ to capture its structure. This supports the hypothesis that expert capabilities do not inhabit a single uniform space across the network, but rather exist in different compression regimes based on depth.
 
 ### The Evolution Roadmap
 This finding formally shifts the research sequence from static geometric prediction to **capability geometry evolution**:
@@ -208,7 +208,7 @@ This report distinguishes three separate claims:
 2. **Low-dimensional structure**: SMACOF stress curves indicate whether pairwise distances can be represented in fewer dimensions than the ambient space.
 3. **Out-of-sample generalization**: Expert-level holdout tests whether the geometric structure extends to experts not used in embedding.
 
-Phase A does **NOT** claim that a capability manifold exists. Successful MDS embedding is necessary but not sufficient evidence for manifold structure.
+Phase A does **NOT** claim that a capability structured geometry exists. Successful MDS embedding is necessary but not sufficient evidence for structured geometry structure.
 
 ## 11. Software & Configuration
 

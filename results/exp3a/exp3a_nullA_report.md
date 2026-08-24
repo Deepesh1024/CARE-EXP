@@ -1,6 +1,6 @@
 # EXPERIMENT 3A: NULL A AUDIT (GRAPH SANITY CHECK)
 
-> **WARNING:** This is ONLY a structural sanity check. It determines if the observed graph has more community structure than a random graph with the same degree sequence. **It does NOT prove that the graph or its communities are functionally meaningful.**
+> **WARNING:** This is ONLY a structural sanity check. It determines if the observed graph has more community structure than a random graph with the same degree sequence. **It does NOT demonstrate that the graph or its communities are functionally meaningful.**
 
 ## Methodology
 We took the $k=8$ Mutual-kNN unweighted graph and applied `nx.double_edge_swap` 500 times per realization to randomize topology while strictly preserving the degree of every node.

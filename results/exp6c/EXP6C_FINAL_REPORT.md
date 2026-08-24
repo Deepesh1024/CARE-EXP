@@ -1,6 +1,16 @@
 # EXPERIMENT 6C FINAL REPORT
 **Generated:** 2026-08-19T11:58:08.959465
 
+
+## Core Framework Definitions
+To ensure clarity and distinguish observed facts from testable predictions, we establish the following framework:
+
+- **Definition ($C_i$)**: $C_i \in \mathbb{R}^{10}$ represents the empirical capability response of expert $i$.
+- **Definition ($	au_i$)**: $	au_i \in \mathbb{R}_+^{10}$ represents the local token environment presented to expert $i$.
+- **Definition ($\Delta C_i$)**: $\Delta C_i = C_i(t+1) - C_i(t)$ represents the functional displacement over training interval $t 	o t+1$.
+- **Definition (Decomposition)**: $\Delta C_i = \Delta C_{i, \parallel} + \Delta C_{i, \perp}$, decomposing displacement into radial (magnitude contraction/expansion) and tangential (angular/task-specific steering) components.
+- **Hypothesis (Geometric Susceptibility)**: The tangential movement $\Delta C_{i, \perp}$ is directionally guided by the orthogonal component of the interaction vector $I = C_i \odot 	au_i$.
+
 ## Capability-Space Vector Movement and Expert Interaction
 
 ### 1. Research Question
@@ -10,6 +20,10 @@ Specifically, does the incoming environment $\tau$ induce a directional angular 
 ### 2. Common Vector-Space Construction
 We constructed a 10-dimensional empirical capability space using audited ARC and MMLU subset categories.
 The functional vectors $C_i$ were extracted as the capability-probe response strength (the mean output activation norm of expert $i$ when fed tokens from axis $k$), bypassing the router entirely.
+
+> [!WARNING]
+> **Probing Bug & Corrupted Initial Results**
+> An initial pre-release version of this experiment contained a probing normalization bug that artificially inflated global variance explained, yielding an invalid claim that environmental susceptibility deterministically explains all functional drift ($R^2 \approx 0.99$). Those conclusions have been fully discarded. The analysis below reflects the rigorously audited, corrected dataset, which demonstrates that while the global $R^2$ remains very high ($>0.98$) due to overwhelming radial magnitude contraction, the task-specific *tangential* signal ($I_\perp \to \Delta C_\perp$) is far more modest ($R^2 \approx 0.25$) but mathematically verifiable.
 
 ### 3. Directional Alignments and Interaction (10D)
 Does the interaction vector $C \odot \tau$ better explain the functional displacement $\Delta C$ than $\tau$ alone?

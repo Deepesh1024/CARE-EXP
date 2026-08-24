@@ -49,7 +49,7 @@ Applying `double_edge_swap` to randomize the graph while preserving degree seque
 **Conclusion**: The graph's macroscopic modularity is an artifact of its degree distribution (a known property of kNN graphs), not an exceptionally strong modular community structure.
 
 ## 8. Circularity Analysis
-The most critical flaw in 3A is that the Surrogate (used to build the graph) was trained to predict the True Oracle KL (used to validate the graph) using features like Weight Distance and Routing Similarity. The discovery of communities simply proves that experts with similar weights/routing form clusters that, predictably, have lower Oracle KL. 
+The most critical flaw in 3A is that the Surrogate (used to build the graph) was trained to predict the True Oracle KL (used to validate the graph) using features like Weight Distance and Routing Similarity. The discovery of communities simply supports the hypothesis that experts with similar weights/routing form clusters that, predictably, have lower Oracle KL. 
 
 ## 9. Existing Feature-Regression Comparison
 - **Regression Track (Exp 2)**: Predicts Oracle KL perfectly for a *single pair* using local features (Weights, Routing, Usage).

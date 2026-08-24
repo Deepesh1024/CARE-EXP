@@ -23,13 +23,13 @@ NUM_EXPERTS = 64
 CHECKPOINT_NAME = "checkpoint_70"
 
 # Target Geometry Construction
-ALPHAS = [0.01, 0.025, 0.05, 0.10, 0.20, 0.40, 0.60, 0.80, 1.00, 1.50, 2.00]
+ALPHAS = [0.01, 0.10, 1.00, 2.00, 5.00]
 TARGET_ANGLES_DEG = [0, 15, 30, 45, 60] # plus theta_max_i generated dynamically
 
 # Intervention Hyperparameters
-UPDATE_STEPS = 50
+UPDATE_STEPS = 25
 LR = 5e-4
-BATCH_SIZE = 128
+BATCH_SIZE = 32
 MICRO_BATCH_SIZE = 2
 SEEDS = [42, 100, 2024] # For Control E (Variance)
 

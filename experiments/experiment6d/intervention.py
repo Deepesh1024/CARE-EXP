@@ -144,6 +144,14 @@ def main(mode="full"):
     token_path = os.path.join(DIRS["exp6c_root"], "token_vectors", "EXP6C_TOKEN_CAPABILITY_VECTORS.parquet")
     df_tokens = pd.read_parquet(token_path)
     
+    print("Pre-fetching token pools into memory for fast sampling...")
+    token_pools_ids = {}
+    token_pools_masks = {}
+    for k in range(10):
+        pool = df_tokens[df_tokens["axis_idx"] == k]
+        token_pools_ids[k] = np.stack([np.array(x) for x in pool["input_ids"].values])
+        token_pools_masks[k] = np.stack([np.array(x) for x in pool["attention_mask"].values])
+    
     print("Loading Model...")
     model = AutoModelForCausalLM.from_pretrained(MODEL_ID, revision=REVISION, torch_dtype=DTYPE, device_map=DEVICE if DEVICE == "cuda:0" else None)
     if DEVICE == "mps":
@@ -200,30 +208,43 @@ def main(mode="full"):
         
         assert BATCH_SIZE % MICRO_BATCH_SIZE == 0
         
+        total_tokens_needed = active_steps * BATCH_SIZE
+        if is_baseline:
+            sampled_axes = np.random.choice(10, size=total_tokens_needed)
+        else:
+            sampled_axes = np.random.choice(10, size=total_tokens_needed, p=p_axis)
+            
+        for k in range(10):
+            count_k = np.sum(sampled_axes == k)
+            empirical_axis_counts[k] += count_k
+            total_tokens_sampled += count_k
+            
+        rng = np.random.RandomState(seed_val)
+        
+        seq_len = token_pools_ids[0].shape[1]
+        prefetched_input_ids = np.zeros((total_tokens_needed, seq_len), dtype=np.int64)
+        prefetched_attention_mask = np.zeros((total_tokens_needed, seq_len), dtype=np.int64)
+        
+        for k in range(10):
+            mask_k = (sampled_axes == k)
+            count_k = np.sum(mask_k)
+            if count_k > 0:
+                pool_size = len(token_pools_ids[k])
+                chosen_idx = rng.choice(pool_size, size=count_k, replace=True)
+                prefetched_input_ids[mask_k] = token_pools_ids[k][chosen_idx]
+                prefetched_attention_mask[mask_k] = token_pools_masks[k][chosen_idx]
+                
+        token_idx = 0
         for step in range(active_steps):
             optimizer.zero_grad()
             
             for micro_step in range(BATCH_SIZE // MICRO_BATCH_SIZE):
-                batch_input_ids = []
-                batch_attention_mask = []
+                start_idx = token_idx
+                end_idx = token_idx + MICRO_BATCH_SIZE
+                token_idx += MICRO_BATCH_SIZE
                 
-                for _ in range(MICRO_BATCH_SIZE):
-                    if is_baseline:
-                        axis_k = np.random.choice(10)
-                    else:
-                        axis_k = np.random.choice(10, p=p_axis)
-                        
-                    empirical_axis_counts[axis_k] += 1
-                    total_tokens_sampled += 1
-                    
-                    axis_pool = df_tokens[df_tokens["axis_idx"] == axis_k]
-                    token_seed = seed_val + step * BATCH_SIZE + micro_step * MICRO_BATCH_SIZE + _
-                    sample = axis_pool.sample(1, random_state=np.random.RandomState(token_seed)).iloc[0]
-                    batch_input_ids.append(sample["input_ids"])
-                    batch_attention_mask.append(sample["attention_mask"])
-                    
-                input_ids = torch.tensor(np.array(batch_input_ids)).to(DEVICE)
-                attention_mask = torch.tensor(np.array(batch_attention_mask)).to(DEVICE)
+                input_ids = torch.tensor(prefetched_input_ids[start_idx:end_idx]).to(DEVICE)
+                attention_mask = torch.tensor(prefetched_attention_mask[start_idx:end_idx]).to(DEVICE)
                 
                 labels = input_ids.clone()
                 labels[attention_mask == 0] = -100

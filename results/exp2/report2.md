@@ -16,7 +16,7 @@ In **Experiment 2**, our primary scientific mandate was to test whether **new li
 
 Our multi-phase empirical investigation across 2,976 disjoint validation evaluations on OLMoE-1B-7B yields three foundational contributions to the Systems ML literature:
 1. **Dominant Predictive Explanatory Power:** Our newly engineered **$\text{NPMI}_{\text{routing}}$** descriptor emerges as the **#1 most informative feature** in gradient-boosted decision trees, achieving **0.1598 gain importance** (outperforming traditional usage frequency and cosine similarities) and dominating LASSO feature selection.
-2. **Layer-Localized Non-Linearity Discovery:** Contrary to previous assumptions that predictive non-linearity is globally required, our within-layer degradation analysis reveals that linear models and tree ensembles converge to virtually identical ranking accuracy in **middle ($\Delta_{\rho} = +0.0185$) and last ($\Delta_{\rho} = +0.0195$, reaching $\rho > 0.83$) layers**. The entire Linearization Gap is structurally concentrated in the **first gating layer ($\Delta_{\rho} = +0.3399$)**, where routing manifolds exhibit severe non-linear thresholding.
+2. **Layer-Localized Non-Linearity Discovery:** Contrary to previous assumptions that predictive non-linearity is globally required, our within-layer degradation analysis reveals that linear models and tree ensembles converge to virtually identical ranking accuracy in **middle ($\Delta_{\rho} = +0.0185$) and last ($\Delta_{\rho} = +0.0195$, reaching $\rho > 0.83$) layers**. The entire Linearization Gap is structurally concentrated in the **first gating layer ($\Delta_{\rho} = +0.3399$)**, where routing structured geometries exhibit severe non-linear thresholding.
 3. **Strict Disjoint Generalization Dynamics:** While our engineered descriptors systematically improve marginal tree-ensemble accuracy during leave-one-out ablation, linear regression models trained across out-of-distribution expert splits experience regularization friction when confronted with uncalibrated multi-layer feature interactions. Consequently, the global pooled Linearization Gap shifts from $+0.0995$ to $+0.1909$, prompting a precise algorithmic prescription: deploy fast linear predictors for late-layer compression while preserving localized gradient-boosted evaluators solely for early routing boundaries.
 
 ---
@@ -361,7 +361,7 @@ To conclude our core quantitative assessment, Phase 6 contrasted the frozen Expe
 
 ## 17. Discovery of Layer-Localized Non-Linearity: The Within-Layer Gap Phenomenon
 
-While the global pooled metrics apparently rejected Hypothesis 1, our stratified Phase 6 within-layer investigation uncovered a deeper scientific insight: **The Linearization Gap is not a static global architecture property; it is highly localized within network depth manifolds.**
+While the global pooled metrics apparently rejected Hypothesis 1, our stratified Phase 6 within-layer investigation uncovered a deeper scientific insight: **The Linearization Gap is not a static global architecture property; it is highly localized within network depth structured geometries.**
 
 ### Within-Layer Linear vs. Tree Spearman $\rho$ Comparison
 
@@ -374,7 +374,7 @@ While the global pooled metrics apparently rejected Hypothesis 1, our stratified
 ```mermaid
 graph TD
     subgraph Layer 1: First MoE Block
-        A[Token Representations] -->|Complex Gating Manifold| B(Non-Linear Routing Thresholds)
+        A[Token Representations] -->|Complex Gating Structured geometry| B(Non-Linear Routing Thresholds)
         B -->|High Sensitivity| C[Tree Ensembles: ρ = 0.7630]
         B -->|Severe Failure| D[Linear Models: ρ = 0.4230]
         C -.-|Gap = +0.3399| D

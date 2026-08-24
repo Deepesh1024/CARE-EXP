@@ -1,0 +1,49 @@
+{
+    "MODEL_ID": "allenai/OLMoE-1B-7B-0924",
+    "CHECKPOINT_NAME": "checkpoint_70",
+    "ALPHAS": [
+        0.01,
+        0.1,
+        1.0,
+        2.0,
+        5.0
+    ],
+    "TARGET_ANGLES_DEG": [
+        0,
+        15,
+        30,
+        45,
+        60
+    ],
+    "UPDATE_STEPS": 25,
+    "LR": 0.0005,
+    "BATCH_SIZE": 32,
+    "MICRO_BATCH_SIZE": 2,
+    "SEEDS": [
+        42,
+        100,
+        2024
+    ],
+    "CALIBRATION_CONFIGS": [
+        {
+            "name": "A",
+            "steps": 5,
+            "lr": 0.0001
+        },
+        {
+            "name": "B",
+            "steps": 25,
+            "lr": 0.0001
+        },
+        {
+            "name": "C",
+            "steps": 50,
+            "lr": 0.0001
+        },
+        {
+            "name": "D",
+            "steps": 50,
+            "lr": 0.0005
+        }
+    ]
+}
