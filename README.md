@@ -144,7 +144,7 @@ This project is licensed under the MIT License. If you reference our findings, d
 
 ```bibtex
 @misc{care_moe_2026,
-  title  = {CARE-MoE: Capability-Aware Redundancy Elimination in Mixture-of-Experts Language Models},
+  title  = {Capability in Mixture-of-Experts: Functional State, Geometry, and Evolution},
   author = {Anonymous and Contributors},
   year   = {2026},
   url    = {https://github.com/anonymous/CARE-EXP}
