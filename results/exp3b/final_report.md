@@ -15,7 +15,7 @@ Phase A tests whether the ground-truth functional distances among experts contai
 
 ## 2. Data Provenance
 
-- **Source**: `/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json`
+- **Source**: `/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json`
 - **Ground truth**: Oracle_KL (KL divergence from original to merged-expert model)
 - **Seq_Len filter**: 512
 - **Experts**: 64
@@ -90,7 +90,7 @@ Phase A tests whether the ground-truth functional distances among experts contai
 
 | Check | Status | Detail |
 |-------|--------|--------|
-| Ground-truth Oracle data used | ✅ **PASS** | Ground truth field: Oracle_KL, Source: /home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp1/ou |
+| Ground-truth Oracle data used | ✅ **PASS** | Ground truth field: Oracle_KL, Source: /home/org/WORKSPACE/PROJECTS/Experiments-V3/results/exp1/ou |
 | XGBoost predictions excluded from geometry | ✅ **PASS** | XGBoost Predicted_KL from Experiment 2 is an approximation of Oracle KL. Using it as ground truth wo |
 | Test experts excluded from Z_train fitting | ✅ **PASS** | run_smacof_train receives D_train (train×train submatrix only). Test expert indices are never includ |
 | Z_train frozen during test embedding | ✅ **PASS** | embed_single_test_expert takes z_train as read-only input. Only the test coordinate z_j is optimized |

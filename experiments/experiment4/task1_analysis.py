@@ -2,8 +2,8 @@ import os
 import json
 import numpy as np
 
-base_dir = "/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp4"
-out_file = "/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/experiments/exp4/cumulative_damage_diagnostic.md"
+base_dir = "/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp4"
+out_file = "/Users/user/Desktop/CARE-MoE/Experiments-V3/experiments/exp4/cumulative_damage_diagnostic.md"
 os.makedirs(os.path.dirname(out_file), exist_ok=True)
 
 all_CG = []

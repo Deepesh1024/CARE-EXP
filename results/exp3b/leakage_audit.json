@@ -1,7 +1,7 @@
 {
   "ground_truth_oracle_used": {
     "status": "PASS",
-    "detail": "Ground truth field: Oracle_KL, Source: /home/sandlogic/LINGO/PROJECTS/Experiments-V3/results/exp1/output.json"
+    "detail": "Ground truth field: Oracle_KL, Source: /home/org/WORKSPACE/PROJECTS/Experiments-V3/results/exp1/output.json"
   },
   "xgboost_excluded": {
     "status": "PASS",

@@ -11,8 +11,8 @@ from scipy.spatial import procrustes
 # =============================================================================
 
 # Paths
-RESULTS_DIR = "/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3c"
-EXP3B_MIDDLE = "/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_middle.csv"
+RESULTS_DIR = "/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3c"
+EXP3B_MIDDLE = "/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_middle.csv"
 OUT_DIR = os.path.join(RESULTS_DIR, "analysis")
 PLOTS_DIR = os.path.join(OUT_DIR, "plots")
 for d in [OUT_DIR, PLOTS_DIR]:

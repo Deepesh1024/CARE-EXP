@@ -10,12 +10,12 @@ CARE-MoE EXPERIMENT 3B — CAPABILITY GEOMETRY VALIDATION PHASE A
 ======================================================================
 EXPERIMENT 3B — PHASE 1: DISTANCE MATRIX CONSTRUCTION
 ======================================================================
-[utils] Loaded 24,192 rows from /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json
+[utils] Loaded 24,192 rows from /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp1/output.json
 [Phase 1] Filtered to Seq_Len=512: 6,048 rows
 [Phase 1] Verified: 2016 pairs per layer (upper triangle, A < B)
 
 [Phase 1] Processing layer: first
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_first.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_first.csv
   Diagonal all zero:     True
   Symmetric:             True
   All finite:            True
@@ -27,7 +27,7 @@ EXPERIMENT 3B — PHASE 1: DISTANCE MATRIX CONSTRUCTION
   Triangle violations:   75 / 124992 checks
 
 [Phase 1] Processing layer: middle
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_middle.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_middle.csv
   Diagonal all zero:     True
   Symmetric:             True
   All finite:            True
@@ -39,7 +39,7 @@ EXPERIMENT 3B — PHASE 1: DISTANCE MATRIX CONSTRUCTION
   Triangle violations:   1166 / 124992 checks
 
 [Phase 1] Processing layer: last
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_last.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_distance_matrix_last.csv
   Diagonal all zero:     True
   Symmetric:             True
   All finite:            True
@@ -49,8 +49,8 @@ EXPERIMENT 3B — PHASE 1: DISTANCE MATRIX CONSTRUCTION
   Mean distance:         0.005248
   Median distance:       0.004978
   Triangle violations:   943 / 124992 checks
-[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/distance_metadata.json
-[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/data_provenance.json
+[utils] Saved JSON → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/distance_metadata.json
+[utils] Saved JSON → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/data_provenance.json
 
 ======================================================================
 PHASE 1 — DISTANCE MATRIX CONSTRUCTION COMPLETE
@@ -72,9 +72,9 @@ LAYER: first
 [Phase 2] Loaded Oracle distance matrix: (64, 64)
 
 [Phase 2] Running Oracle SMACOF for q ∈ [2, 4, 6, 8]...
-/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/venv/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+/Users/user/Desktop/CARE-MoE/Experiments-V3/venv/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
   var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
-/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/venv/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
+/Users/user/Desktop/CARE-MoE/Experiments-V3/venv/lib/python3.13/site-packages/numpy/lib/_nanfunctions_impl.py:1997: RuntimeWarning: Degrees of freedom <= 0 for slice.
   var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
   q= 2: stress=0.004892, norm_stress=0.268465, n_iter=16
   q= 4: stress=0.002251, norm_stress=0.182107, n_iter=19
@@ -138,8 +138,8 @@ LAYER: last
   q= 4: mean_norm_stress=0.257746 ± 0.000000
   q= 6: mean_norm_stress=0.192402 ± 0.000000
   q= 8: mean_norm_stress=0.163082 ± 0.000000
-[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/phase2_mds_results.json
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/phase2_stress_summary.csv
+[utils] Saved JSON → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/phase2_mds_results.json
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/phase2_stress_summary.csv
 
 ======================================================================
 PHASE 2 — SMACOF MDS + NULL MODELS COMPLETE
@@ -204,9 +204,9 @@ LAYER: last
 [Phase 3] Running Null B CV (1 realizations)...
 
 [Phase 3] Saving results...
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_cv_results.csv
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_a_cv_results.csv
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_b_cv_results.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_cv_results.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_a_cv_results.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_b_cv_results.csv
 
   Oracle CV results: 120 rows
   Null A CV results: 60 rows
@@ -234,13 +234,13 @@ EXPERIMENT 3B — PHASE 4: STATISTICAL ANALYSIS & FIGURES
 [Phase 4] Aggregating Null B results (realization-level)...
 
 [Phase 4] Generating figures...
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_first.png (and .pdf)
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_first.png (and .pdf)
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_middle.png (and .pdf)
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_middle.png (and .pdf)
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_last.png (and .pdf)
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_last.png (and .pdf)
-[utils] Figure → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_first.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_first.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_middle.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_middle.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve_last.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/stress_curve_last.png (and .pdf)
+[utils] Figure → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/figures/fidelity_curve.png (and .pdf)
 
 [Phase 4] Building summary tables...
 
@@ -264,13 +264,13 @@ layer  q              Oracle_rho          NullA_rho         NullB_rho           
  last  4 0.7577 [0.6733, 0.8422] -0.0423 [nan, nan] 0.3443 [nan, nan] 0.0019 [0.0014, 0.0023] 0.0029 [nan, nan] 3.5720 [nan, nan] 0.3144 [0.2642, 0.3645] 0.5268 [nan, nan] 0.3156 [nan, nan]
  last  6 0.7387 [0.6842, 0.7931] -0.0291 [nan, nan] 0.3715 [nan, nan] 0.0020 [0.0017, 0.0023] 0.0028 [nan, nan] 2.7625 [nan, nan] 0.3364 [0.3020, 0.3708] 0.5014 [nan, nan] 0.2435 [nan, nan]
  last  8 0.6829 [0.5938, 0.7719]  0.0044 [nan, nan] 0.4138 [nan, nan] 0.0021 [0.0017, 0.0025] 0.0026 [nan, nan] 2.4503 [nan, nan] 0.3520 [0.3009, 0.4031] 0.4783 [nan, nan] 0.2167 [nan, nan]
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/dimension_summary.csv
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_agg_stats.csv
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_a_agg_stats.csv
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_b_agg_stats.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/dimension_summary.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/oracle_agg_stats.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_a_agg_stats.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/null_b_agg_stats.csv
 
 [Phase 4] Computing statistical comparisons...
-[utils] Saved CSV → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/statistical_comparisons.csv
+[utils] Saved CSV → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/statistical_comparisons.csv
 
   Oracle vs Null comparisons:
   Layer=first, q= 2: Δρ(A)=+0.6323 [CI excl 0: False], Δρ(B)=+0.3608 [CI excl 0: False]
@@ -285,7 +285,7 @@ layer  q              Oracle_rho          NullA_rho         NullB_rho           
   Layer=last, q= 4: Δρ(A)=+0.8000 [CI excl 0: False], Δρ(B)=+0.4134 [CI excl 0: False]
   Layer=last, q= 6: Δρ(A)=+0.7678 [CI excl 0: False], Δρ(B)=+0.3672 [CI excl 0: False]
   Layer=last, q= 8: Δρ(A)=+0.6785 [CI excl 0: False], Δρ(B)=+0.2691 [CI excl 0: False]
-[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/dimension_summary.json
+[utils] Saved JSON → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/dimension_summary.json
 
 ======================================================================
 PHASE 4 — STATISTICAL ANALYSIS & FIGURES COMPLETE
@@ -319,11 +319,11 @@ DATA LEAKAGE AUDIT
 
   Classification: B. PARTIAL SUPPORT
   Some low-dimensional structure is present in the Oracle geometry, but it is weak, unstable across layers, or requires relatively high dimensionality to emerge. Further investigation may be warranted but strong claims are not supported.
-[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/classification.json
-[utils] Saved JSON → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/leakage_audit.json
+[utils] Saved JSON → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/classification.json
+[utils] Saved JSON → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/leakage_audit.json
 
 [Phase 5] Generating final report...
-[Phase 5] Final report → /Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp3b/final_report.md
+[Phase 5] Final report → /Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp3b/final_report.md
 
 ======================================================================
 PHASE 5 — FINAL REPORT & AUDIT COMPLETE

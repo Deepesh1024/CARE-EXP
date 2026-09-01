@@ -5,7 +5,7 @@ import warnings
 # Suppress sklearn warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
-sys.path.insert(0, '/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/experiments/experiment4')
+sys.path.insert(0, '/Users/user/Desktop/CARE-MoE/Experiments-V3/experiments/experiment4')
 from data_loader import load_all
 from cv_splits import get_fold_data, generate_and_freeze_splits
 from config import Q, SMACOF_N_INIT, SMACOF_MAX_ITER, SMACOF_EPS, SMACOF_METRIC, OOS_N_RESTARTS
@@ -95,7 +95,7 @@ def run_audit():
     audit_data["total_xgboost_time"] = total_xgboost
     print(f"Total XGBoost time: {total_xgboost:.4f}s")
     
-    with open('/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp4/runtime_audit_temp.json', 'w') as f:
+    with open('/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp4/runtime_audit_temp.json', 'w') as f:
         json.dump(audit_data, f, indent=2)
 
 if __name__ == "__main__":

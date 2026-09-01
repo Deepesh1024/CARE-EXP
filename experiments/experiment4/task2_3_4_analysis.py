@@ -75,8 +75,8 @@ if router is not None:
         })
 
 import os
-os.makedirs("/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp5", exist_ok=True)
-with open("/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp5/architecture_inspection.json", "w") as f:
+os.makedirs("/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp5", exist_ok=True)
+with open("/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp5/architecture_inspection.json", "w") as f:
     json.dump(info, f, indent=4)
 
 # Create architecture_inspection.md
@@ -105,7 +105,7 @@ md += f"""
 for t in info['router_tensors']:
     md += f"| Router | `{t['name']}` | `{t['shape']}` | Determines routing probabilities |\n"
 
-with open("/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp5/architecture_inspection.md", "w") as f:
+with open("/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp5/architecture_inspection.md", "w") as f:
     f.write(md)
 
 # Create merge operator spec
@@ -128,7 +128,7 @@ def merge_experts(expert_i, expert_j):
 ```
 No expert-specific biases or normalization states were observed that prevent direct averaging.
 """
-with open("/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp5/merge_operator_spec.md", "w") as f:
+with open("/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp5/merge_operator_spec.md", "w") as f:
     f.write(mo_md)
 
 # Create router merge spec
@@ -157,7 +157,7 @@ def update_router(router, expert_i_idx, expert_j_idx):
 ```
 This correctly assigns the averaged logit propensity for the merged expert.
 """
-with open("/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp5/router_merge_spec.md", "w") as f:
+with open("/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp5/router_merge_spec.md", "w") as f:
     f.write(rm_md)
 
 print("Done generating architecture files.")

@@ -13,6 +13,6 @@ We executed a comprehensive search across all markdown (`.md`) and text (`.txt`)
 The conflicting references mentioned (NeurIPS workshop, ICLR, ICML 2027, Interspeech 2027) **do not exist in the current committed research-plan documents** (such as `README.md`, `full_report.md`, or `research_roadmap.md`). 
 
 ## 4. Conclusion
-It appears that the venue targets are either in a different repository, an uncommitted draft, or external documentation (e.g., Google Docs, Notion, Slack).
+It appears that the venue targets are either in a different repository, an uncommitted draft, or external documentation (e.g., shared documents, Notion, Slack).
 - **Stale/Missing**: The repository itself contains *no* active venue targeting information.
 - **Action Required**: The user must manually confirm the target venue, as the codebase itself is agnostic and lacks any venue-specific formatting or stated objectives.

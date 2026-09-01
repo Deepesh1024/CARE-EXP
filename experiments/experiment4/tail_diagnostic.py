@@ -5,12 +5,12 @@ from scipy.stats import spearmanr
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-sys.path.insert(0, '/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/experiments/experiment4')
+sys.path.insert(0, '/Users/user/Desktop/CARE-MoE/Experiments-V3/experiments/experiment4')
 from data_loader import load_all
 from config import LOCAL_FEATURES
 
 # Directories
-EXP4_DIR = "/Users/deepeshkumarjha/Desktop/CARE-MoE/Experiments-V3/results/exp4"
+EXP4_DIR = "/Users/user/Desktop/CARE-MoE/Experiments-V3/results/exp4"
 OUTPUT_DIR = os.path.join(EXP4_DIR, "tail_diagnostic")
 PLOTS_DIR = os.path.join(OUTPUT_DIR, "plots")
 

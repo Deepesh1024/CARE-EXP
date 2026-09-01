@@ -26,7 +26,7 @@ The terminal output printed `Saved 10 plots`, but only 9 images were in your dir
 
 As requested, I extracted the numerical results and performed an additional analysis to generate a true 10th plot. I investigated the **Linearity of the Response in the Low-Alpha Regime** ($\alpha \le 1.0$), analyzing if the angular response scales perfectly linearly with intervention strength before breaking down.
 
-![10. Linearity in Low Alpha Regime](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/10_low_alpha_linearity.png)
+![10. Linearity in Low Alpha Regime](/Users/user/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/10_low_alpha_linearity.png)
 
 **Analysis**: The regression confirms that the initial response is incredibly well-behaved and affine linear. The angular displacement ($\Delta\theta$) scales precisely with $\alpha$ up to $\alpha=1.0$, indicating a highly stable, controllable parameter structured functional geometry in the local neighborhood.
 
@@ -36,7 +36,7 @@ As requested, I extracted the numerical results and performed an additional anal
 
 One of the central questions of this experiment was whether the functional response to interventions could be predicted geometrically by examining the orthogonal susceptibility.
 
-![3/10. Collapse Plot: Susceptibility Ratio](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/03_10_collapse_plot.png)
+![3/10. Collapse Plot: Susceptibility Ratio](/Users/user/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/03_10_collapse_plot.png)
 
 **Numerical Analysis of the Susceptibility Ratio:**
 We ran a correlation analysis on the numerical data for the susceptibility ratio $\frac{||\tau_{\perp}||}{||C||}$ vs $\Delta\theta$.
@@ -50,9 +50,9 @@ While not a perfect deterministic collapse (`r = 1.0`), a correlation of `~0.41`
 How does pushing an expert along different angles ($\theta = 0^\circ, 15^\circ, 30^\circ, 45^\circ, 60^\circ, \theta_{max}$) affect the rate at which its parameters displace?
 
 ````carousel
-![8. Delta Theta Curves by Target Angle](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/08_delta_theta_curves_by_angle.png)
+![8. Delta Theta Curves by Target Angle](/Users/user/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/08_delta_theta_curves_by_angle.png)
 <!-- slide -->
-![5. Angle(C, tau) vs Delta Theta](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/05_angle_vs_delta_theta.png)
+![5. Angle(C, tau) vs Delta Theta](/Users/user/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/05_angle_vs_delta_theta.png)
 ````
 
 **Analysis**: 
@@ -68,7 +68,7 @@ Pushing an expert structurally orthogonal to its functional capability axis caus
 
 Does a "strong" expert resist intervention better than a "weak" expert?
 
-![9. Directional Response Grouped by ||C|| Quantile](/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/09_directional_response_by_quantile.png)
+![9. Directional Response Grouped by ||C|| Quantile](/Users/user/.gemini/antigravity-ide/brain/7b1fa1ab-ed8b-44f2-aeff-ba7fc0ded465/09_directional_response_by_quantile.png)
 
 **Analysis**: 
 The data confirms our hypothesis. Experts with a smaller initial capability magnitude $||C||$ (the lower quantiles) experience much steeper response curves when subjected to the same structural $\tau$. High-magnitude experts (top 90th percentile) are deeply entrenched in the loss landscape and strongly resist structural drift.

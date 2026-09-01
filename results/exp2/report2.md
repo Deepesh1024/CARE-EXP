@@ -3,7 +3,7 @@
 ### Hypothesis
 
 
-**Author:** Deepesh Kumar Jha
+**Author:** Anonymous
 **Project:** CARE (Capability-Aware Redundancy Elimination for Mixture-of-Experts) — Experiment 2  
 **Target Architecture:** OLMoE-1B-7B (16 MoE Layers, 64 Experts/Layer)  
 **Date:** August 2026  
@@ -204,7 +204,7 @@ results/exp2/
 
 ## 26. References & Acknowledgments
 
-1. **Jha, D. K.** (2026). *CARE-MoE: Capability-Aware Redundancy Elimination for Mixture-of-Experts*. Project Repository, Advanced Agentic Coding / DeepMind Labs.
+1. **Anonymous** (2026). *CARE-MoE: Capability-Aware Redundancy Elimination for Mixture-of-Experts*. Project Repository, Independent Research.
 2. **Exp 1.5 Canonical Freeze** (2026). *Evaluating Pre-Merge Surrogates and the Linearization Gap in Sparse Gating Architectures*. Internal Evaluation Memorandum (`results/exp1_5/report.md`).
 3. **Jiang, A. Q., et al.** (2024). *Mixtral 8x7B: A High-Quality Sparse Mixture-of-Experts*. arXiv:2401.04088.
 4. **Lundberg, S. M., & Lee, S.-I.** (2017). *A Unified Approach to Interpreting Model Predictions*. In Advances in Neural Information Processing Systems (NeurIPS 2017).
