@@ -1,10 +1,5 @@
 # CARE-MoE: Capability-Aware Redundancy Elimination in Mixture-of-Experts
 
-![Research Stage](https://img.shields.io/badge/Research_Stage-Exp_2_Complete_%7C_Canonical_Release-blue.svg)
-![Target Architecture](https://img.shields.io/badge/Model-OLMoE--1B--7B-purple.svg)
-![Python](https://img.shields.io/badge/Python-3.9+-green.svg)
-![License](https://img.shields.io/badge/License-MIT-orange.svg)
-
 > **An explainable, lightweight research framework for quantifying **expert capability**, redundancy, and mergeability in Mixture-of-Experts (MoE) language models without expensive oracle forward-pass evaluations.**
 
 ---
