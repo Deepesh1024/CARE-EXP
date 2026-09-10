@@ -1,0 +1,9 @@
+{
+    "sample_size": 50,
+    "spearman_rho": 0.03990396158463385,
+    "p_value": 0.7832113995200589,
+    "bootstrap_ci_lower": -0.22361683453285983,
+    "bootstrap_ci_upper": 0.28748353378375935,
+    "random_seed": 7051,
+    "experiment_version": "7A.51 Replication"
+}

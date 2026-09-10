@@ -1,0 +1,83 @@
+{
+    "spearman_T_K_acc": {
+        "rho": 0.044836526990135815,
+        "scipy_p_value": 0.757185561270628,
+        "bootstrap_ci_95": [
+            -0.23134153546728273,
+            0.3368126547095123
+        ],
+        "permutation_p_value": 0.733
+    },
+    "spearman_T_K_loss": {
+        "rho": -0.2321359971942836,
+        "scipy_p_value": 0.10476535025289394,
+        "bootstrap_ci_95": [
+            -0.48600511107010097,
+            0.06967173078717384
+        ],
+        "permutation_p_value": 0.099
+    },
+    "spearman_T_K_logit_margin": {
+        "rho": -0.4168547418967587,
+        "scipy_p_value": 0.002600081323792744,
+        "bootstrap_ci_95": [
+            -0.6435085127358752,
+            -0.1372819630516997
+        ],
+        "permutation_p_value": 0.005
+    },
+    "spearman_A_n_acc": {
+        "rho": 0.008369485038158686,
+        "scipy_p_value": 0.9539992996580888,
+        "bootstrap_ci_95": [
+            -0.2583754337935613,
+            0.29730068184366937
+        ],
+        "permutation_p_value": 0.958
+    },
+    "spearman_A_n_loss": {
+        "rho": -0.0664137534380832,
+        "scipy_p_value": 0.646776629200792,
+        "bootstrap_ci_95": [
+            -0.36303566821198247,
+            0.2239631389414519
+        ],
+        "permutation_p_value": 0.635
+    },
+    "spearman_A_n_logit_margin": {
+        "rho": -0.29536614645858345,
+        "scipy_p_value": 0.03730228405300705,
+        "bootstrap_ci_95": [
+            -0.5277642118292403,
+            -0.0009188988160984831
+        ],
+        "permutation_p_value": 0.029
+    },
+    "spearman_W_n_acc": {
+        "rho": 0.0239128143947391,
+        "scipy_p_value": 0.8690731674220653,
+        "bootstrap_ci_95": [
+            -0.2385197558857103,
+            0.2935730079695951
+        ],
+        "permutation_p_value": 0.858
+    },
+    "spearman_W_n_loss": {
+        "rho": -0.13249135628031203,
+        "scipy_p_value": 0.3590315513466108,
+        "bootstrap_ci_95": [
+            -0.4099934765403541,
+            0.14619804448081067
+        ],
+        "permutation_p_value": 0.355
+    },
+    "spearman_W_n_logit_margin": {
+        "rho": 0.045954381752701084,
+        "scipy_p_value": 0.7513231301724004,
+        "bootstrap_ci_95": [
+            -0.22224184498453217,
+            0.3177619159704274
+        ],
+        "permutation_p_value": 0.726
+    }
+}

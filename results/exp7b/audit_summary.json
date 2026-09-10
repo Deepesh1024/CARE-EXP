@@ -1,0 +1,19 @@
+{
+  "device": "cpu",
+  "dtype": "bfloat16",
+  "target_model": "allenai/OLMoE-1B-7B-0924",
+  "target_layer": 8,
+  "checks": {
+    "exp1_middle_pairs": 2016,
+    "care_com_model_loaded": true,
+    "care_com_features": 11,
+    "sample_prediction": {
+      "pred": 0.0032141245901584625,
+      "actual": 0.0018130203141493114,
+      "diff": 0.001401104276009151
+    },
+    "cuda_available": false,
+    "gpu_name": "None (Torch not installed on local development machine)",
+    "torch_version": "Not installed (GPU VM execution required for Stage A/B)"
+  }
+}
