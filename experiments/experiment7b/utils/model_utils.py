@@ -83,7 +83,6 @@ def apply_in_place_merge(moe_block, expert_i: int, expert_j: int):
                 experts_mod.gate_up_proj.data[expert_j].copy_(orig_gate_j)
                 experts_mod.down_proj.data[expert_i].copy_(orig_down_i)
                 experts_mod.down_proj.data[expert_j].copy_(orig_down_j)
-            del orig_gate_i, orig_gate_j, orig_down_i, orig_down_j, merged_gate, merged_down
             cleanup_vram()
             
         return restore
@@ -107,7 +106,6 @@ def apply_in_place_merge(moe_block, expert_i: int, expert_j: int):
             with torch.no_grad():
                 expert_mod_i.load_state_dict(orig_state_i)
                 expert_mod_j.load_state_dict(orig_state_j)
-            del orig_state_i, orig_state_j, merged_state
             cleanup_vram()
             
         return restore

@@ -1,11 +1,11 @@
-torch==2.1.1
-transformers==4.46.0        # Pinned to support OLMoE while maintaining PyTorch 2.1.1 compatibility
+torch
+transformers        # Unpinned to support current Python version
 accelerate>=0.29.0          # required by device_map="auto"/{"":0}
 datasets>=2.18.0
 tokenizers>=0.19.0
 safetensors>=0.4.2
  
-numpy>=1.26,<2.0            # pin <2.0 — some transformers/datasets versions still assume NumPy 1.x ABI
+numpy>=1.26
 pandas>=2.2.0
 scipy>=1.12.0
  
