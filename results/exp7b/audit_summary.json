@@ -1,6 +1,6 @@
 {
-  "device": "cpu",
-  "dtype": "bfloat16",
+  "device": "cuda:0",
+  "dtype": "torch.bfloat16",
   "target_model": "allenai/OLMoE-1B-7B-0924",
   "target_layer": 8,
   "checks": {
@@ -12,8 +12,8 @@
       "actual": 0.0018130203141493114,
       "diff": 0.001401104276009151
     },
-    "cuda_available": false,
-    "gpu_name": "None (Torch not installed on local development machine)",
-    "torch_version": "Not installed (GPU VM execution required for Stage A/B)"
+    "cuda_available": true,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "torch_version": "2.1.1+cu121"
   }
 }

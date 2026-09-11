@@ -1,0 +1,6 @@
+{
+  "arc_accuracy": 0.478,
+  "arc_avg_loss": 14.2642890625,
+  "arc_avg_margin": -0.016902506371043274,
+  "arc_avg_logit_margin": -0.8849765625
+}

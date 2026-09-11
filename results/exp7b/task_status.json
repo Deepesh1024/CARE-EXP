@@ -2,11 +2,31 @@
   "phase0_audit": {
     "state": "completed",
     "details": "All dependencies and artifacts verified.",
-    "timestamp": "2026-09-11T00:53:46.836782"
+    "timestamp": "2026-09-11T13:09:26.086521"
   },
   "phase1_candidate_selection": {
     "state": "completed",
     "details": "Sampled 18 pairs across 3 strata.",
     "timestamp": "2026-09-09T18:00:22.107031"
+  },
+  "phase2_actual_merges": {
+    "state": "completed",
+    "details": "Evaluated 18 merged pairs.",
+    "timestamp": "2026-09-11T14:08:16.238420"
+  },
+  "phase3_individual_interventions": {
+    "state": "completed",
+    "details": "Evaluated 29 individual expert ablations.",
+    "timestamp": "2026-09-11T15:47:16.619081"
+  },
+  "phase4_joint_interventions": {
+    "state": "completed",
+    "details": "Evaluated 18 joint expert pairs.",
+    "timestamp": "2026-09-11T16:49:06.199101"
+  },
+  "phase5_analysis": {
+    "state": "completed",
+    "details": "Decision: KILL",
+    "timestamp": "2026-09-11T16:49:11.129832"
   }
 }
