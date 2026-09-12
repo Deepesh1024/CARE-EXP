@@ -1,0 +1,364 @@
+{
+    "seed": 7051,
+    "total_population": 65486,
+    "total_sampled": 50,
+    "strata_counts": {
+        "Q1": 10,
+        "Q2": 10,
+        "Q3": 10,
+        "Q4": 10,
+        "Q5": 10
+    },
+    "neurons": [
+        {
+            "layer": 8,
+            "expert_idx": 38,
+            "neuron_idx": 737,
+            "T_K": 2.538805165386293e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 15,
+            "neuron_idx": 443,
+            "T_K": 2.4697712433408014e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 33,
+            "neuron_idx": 162,
+            "T_K": 6.641199888690608e-06,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 58,
+            "neuron_idx": 651,
+            "T_K": 2.16813223232748e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 22,
+            "neuron_idx": 391,
+            "T_K": 1.2166156921011861e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 7,
+            "neuron_idx": 407,
+            "T_K": 1.7481537724961527e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 59,
+            "neuron_idx": 279,
+            "T_K": 9.741717803990468e-06,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 38,
+            "neuron_idx": 192,
+            "T_K": 3.1725656299386173e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 19,
+            "neuron_idx": 135,
+            "T_K": 2.9116590667399578e-05,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 33,
+            "neuron_idx": 837,
+            "T_K": 6.333844794426113e-06,
+            "stratum": "Q1"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 45,
+            "neuron_idx": 826,
+            "T_K": 4.7109282604651526e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 54,
+            "neuron_idx": 715,
+            "T_K": 4.656226155930199e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 19,
+            "neuron_idx": 120,
+            "T_K": 3.457352431723848e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 51,
+            "neuron_idx": 839,
+            "T_K": 4.413079295773059e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 2,
+            "neuron_idx": 17,
+            "T_K": 3.747694063349627e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 2,
+            "neuron_idx": 913,
+            "T_K": 4.099116267752834e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 41,
+            "neuron_idx": 872,
+            "T_K": 3.613023363868706e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 51,
+            "neuron_idx": 499,
+            "T_K": 5.258255987428129e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 54,
+            "neuron_idx": 46,
+            "T_K": 5.028018858865835e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 40,
+            "neuron_idx": 958,
+            "T_K": 3.442859815550037e-05,
+            "stratum": "Q2"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 20,
+            "neuron_idx": 213,
+            "T_K": 6.653960736002773e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 31,
+            "neuron_idx": 684,
+            "T_K": 6.597594619961455e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 4,
+            "neuron_idx": 169,
+            "T_K": 5.4999552958179265e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 62,
+            "neuron_idx": 524,
+            "T_K": 6.372881034621969e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 7,
+            "neuron_idx": 200,
+            "T_K": 5.754215089837089e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 62,
+            "neuron_idx": 769,
+            "T_K": 6.094439231674187e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 32,
+            "neuron_idx": 1009,
+            "T_K": 5.637595313601196e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 51,
+            "neuron_idx": 389,
+            "T_K": 7.21463147783652e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 45,
+            "neuron_idx": 536,
+            "T_K": 6.973471317905933e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 43,
+            "neuron_idx": 933,
+            "T_K": 5.4873875342309475e-05,
+            "stratum": "Q3"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 13,
+            "neuron_idx": 117,
+            "T_K": 8.995060488814488e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 28,
+            "neuron_idx": 931,
+            "T_K": 8.913472265703604e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 55,
+            "neuron_idx": 918,
+            "T_K": 7.496874604839832e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 34,
+            "neuron_idx": 325,
+            "T_K": 8.588298805989325e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 18,
+            "neuron_idx": 831,
+            "T_K": 7.797394937369972e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 12,
+            "neuron_idx": 974,
+            "T_K": 8.204719051718712e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 55,
+            "neuron_idx": 195,
+            "T_K": 7.658552203793079e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 28,
+            "neuron_idx": 1012,
+            "T_K": 9.90363914752379e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 16,
+            "neuron_idx": 411,
+            "T_K": 9.490928641753271e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 36,
+            "neuron_idx": 877,
+            "T_K": 7.48066304367967e-05,
+            "stratum": "Q4"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 10,
+            "neuron_idx": 350,
+            "T_K": 0.00014886213466525078,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 4,
+            "neuron_idx": 205,
+            "T_K": 0.00014500100223813206,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 24,
+            "neuron_idx": 1008,
+            "T_K": 0.00010419325553812087,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 10,
+            "neuron_idx": 167,
+            "T_K": 0.00013215199578553438,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 6,
+            "neuron_idx": 619,
+            "T_K": 0.00011053222260670736,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 14,
+            "neuron_idx": 177,
+            "T_K": 0.00012048949429299682,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 17,
+            "neuron_idx": 707,
+            "T_K": 0.00010739790741354227,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 49,
+            "neuron_idx": 633,
+            "T_K": 0.00025888177333399653,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 35,
+            "neuron_idx": 904,
+            "T_K": 0.00018319480295758694,
+            "stratum": "Q5"
+        },
+        {
+            "layer": 8,
+            "expert_idx": 53,
+            "neuron_idx": 819,
+            "T_K": 0.00010389171075075865,
+            "stratum": "Q5"
+        }
+    ]
+}
