@@ -23,9 +23,8 @@ from experiments.experiment7b.utils.evaluation import prepare_wikitext_eval_batc
 RESULTS_DIR_7C = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'results', 'exp7c'))
 
 # Number of tokens to extract. 
-# SET TO 512 FOR SANITY TEST. 
-# SET TO 262144 FOR FULL GPU EXTRACTION.
-NUM_TOKENS_TO_EXTRACT = 512
+# Defaults to 512 for sanity test, but can be overridden by environment variable for full extraction.
+NUM_TOKENS_TO_EXTRACT = int(os.environ.get("CARE_7C_TOKENS", 512))
 RANDOM_SEED = 42
 
 def run_extraction():
