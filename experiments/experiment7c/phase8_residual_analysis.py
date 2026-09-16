@@ -23,11 +23,11 @@ def run_residual_analysis():
     merges_df['residual'] = merges_df['D_actual_KL'] - merges_df['D_pred']
     
     # 2. Load cloud analysis results
-    cloud_path = os.path.join(RESULTS_DIR_7C, "analysis", "cloud_analysis_results.csv")
-    if not os.path.exists(cloud_path):
-        raise FileNotFoundError(f"Missing 7C cloud analysis results. Run phase 7 first: {cloud_path}")
+    c_path = os.path.join(RESULTS_DIR_7C, "revised", "analysis", "cloud_analysis_results.csv")
+    if not os.path.exists(c_path):
+        raise FileNotFoundError(f"Missing 7C cloud analysis results: {c_path}")
         
-    cloud_df = pd.read_csv(cloud_path)
+    cloud_df = pd.read_csv(c_path)
     
     # 3. Join strictly by pair_id to prevent row misalignment
     joined_df = pd.merge(
@@ -75,7 +75,8 @@ def run_residual_analysis():
     print("\nNote: N=18 candidate pairs. This analysis is hypothesis-generating.")
     
     # 5. Save joined table
-    out_dir = os.path.join(RESULTS_DIR_7C, "analysis")
+    out_dir = os.path.join(RESULTS_DIR_7C, "revised", "analysis")
+    os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "7c_final_residual_analysis.csv")
     joined_df.to_csv(out_path, index=False)
     

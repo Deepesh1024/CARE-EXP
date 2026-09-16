@@ -164,7 +164,8 @@ def run_extraction():
         for chunk in tqdm(eval_chunks, desc="Extracting Signatures"):
             input_ids = chunk["input_ids"].unsqueeze(0).to(DEVICE)
 
-            _ = model(input_ids=input_ids)
+            attention_mask = chunk["attention_mask"].unsqueeze(0).to(DEVICE)
+            _ = model(input_ids=input_ids, attention_mask=attention_mask)
 
             state["global_token_offset"] += input_ids.shape[1]
 
