@@ -39,7 +39,10 @@ def main():
 
     top_k = getattr(moe_block, 'top_k', getattr(moe_block, 'num_experts_per_tok', 'NOT FOUND'))
     print(f"\ntop_k (routing): {top_k}")
-    print(f"router type: {type(moe_block.router).__name__}")
+    # OLMoE stores the router as 'gate', not 'router'
+    router_attr = 'gate' if hasattr(moe_block, 'gate') else 'router'
+    print(f"router attribute name: {router_attr}")
+    print(f"router type: {type(getattr(moe_block, router_attr)).__name__}")
 
     # Test hook on moe_block
     print("\n--- Hook fire test on moe_block ---")
@@ -52,8 +55,8 @@ def main():
         print(f"    hidden_states shape (flat): {flat_h.shape}")
         # Re-run router
         with torch.no_grad():
-            router_logits = module.router(flat_h)
-            top_k_ids = torch.topk(router_logits, k=2, dim=-1).indices
+            router_logits = module.gate(flat_h)   # OLMoE: 'gate' is the router
+            top_k_ids = torch.topk(router_logits, k=top_k, dim=-1).indices
             print(f"    router_logits shape: {router_logits.shape}")
             print(f"    top_k_ids shape: {top_k_ids.shape}")
             print(f"    unique experts activated: {top_k_ids.unique().tolist()}")

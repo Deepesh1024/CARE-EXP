@@ -97,6 +97,7 @@ def run_extraction():
     top_k = getattr(moe_block, 'top_k',
             getattr(moe_block, 'num_experts_per_tok', 2))
     print(f"[Phase 6] Router top-k = {top_k}")
+    print(f"[Phase 6] Router attribute name: 'gate'  (OLMoE uses moe_block.gate)")
 
     state = {"global_token_offset": 0}
 
@@ -118,7 +119,8 @@ def run_extraction():
             T = flat_h.shape[0]
 
             # Re-run router to get routing indices
-            router_logits = module.router(flat_h)   # [T, num_experts]
+            # In OLMoE, the router is stored as module.gate (not module.router)
+            router_logits = module.gate(flat_h)     # [T, num_experts]
             top_k_indices = torch.topk(router_logits, k=top_k, dim=-1).indices  # [T, top_k]
 
             offset = state["global_token_offset"]
