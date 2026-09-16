@@ -56,17 +56,17 @@ def run_extraction():
     memmap_meta_path = os.path.join(out_dir, "expert_signatures_meta.json")
     
     shape = (num_target_experts, 1024, NUM_TOKENS_TO_EXTRACT)
-    dtype = np.float16
+    dtype = np.float32
     
     print(f"[Phase 6] Creating memory-mapped tensor at {memmap_path}")
-    print(f"[Phase 6] Expected shape: {shape} (~{np.prod(shape) * 2 / (1024**3):.2f} GB)")
+    print(f"[Phase 6] Expected shape: {shape} (~{np.prod(shape) * 4 / (1024**3):.2f} GB)")
     
     activations = np.memmap(memmap_path, dtype=dtype, mode='w+', shape=shape)
     
     with open(memmap_meta_path, "w") as f:
         json.dump({
             "shape": shape,
-            "dtype": "float16",
+            "dtype": "float32",
             "expert_mapping": expert_idx_to_memmap_idx,
             "num_tokens": NUM_TOKENS_TO_EXTRACT,
             "seed": RANDOM_SEED,
@@ -114,7 +114,7 @@ def run_extraction():
                 valid_mask = global_indices < NUM_TOKENS_TO_EXTRACT
                 if valid_mask.any():
                     valid_global_indices = global_indices[valid_mask]
-                    values = current_hidden_states[valid_mask].detach().cpu().to(torch.float16).numpy().T
+                    values = current_hidden_states[valid_mask].detach().cpu().to(torch.float32).numpy().T
                     activations[m_idx, :, valid_global_indices] = values
             # --------------------
 
