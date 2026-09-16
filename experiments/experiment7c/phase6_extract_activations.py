@@ -147,7 +147,9 @@ def run_extraction():
                     continue
 
                 gp   = global_positions[valid]
-                vals = post_act[valid].float().cpu().numpy().T      # [1024, n_valid]
+                vals = post_act[valid].float().cpu().numpy()    # [n_valid, 1024]
+                # activations[m_idx, :, gp] has shape (n_valid, 1024) due to numpy
+                # non-adjacent fancy indexing — no transpose needed.
 
                 m_idx = expert_idx_to_memmap_idx[eid]
                 activations[m_idx, :, gp] = vals
