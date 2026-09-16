@@ -32,7 +32,7 @@ def run_residual_analysis():
     # 3. Join strictly by pair_id to prevent row misalignment
     joined_df = pd.merge(
         merges_df[['pair_id', 'expert_i', 'expert_j', 'D_pred', 'D_actual_KL', 'residual']],
-        cloud_df[['pair_id', 'C_i_to_j', 'C_j_to_i', 'C_mutual']],
+        cloud_df[['pair_id', 'mutual_count', 'mutual_frac', 'C_i_to_j', 'C_j_to_i', 'C_mutual']],
         on='pair_id',
         how='inner'
     )
