@@ -7,6 +7,12 @@ Experiment 7B demonstrated that CARE-COM has meaningful predictive utility for e
 
 Experiment 7C tests whether fine-grained functional neuron geometry (i.e. neuron-level mutual coverage over an activation dataset) explains the residual errors of CARE-COM's expert-level merge predictions.
 
+- **Phase 6**: Extract layer 8 expert neuron responses over 262,144 Wikitext tokens.
+- **Phase 7**: Calculate cross-expert neuron functional similarity, restricted to tokens where BOTH experts are activated ($T_{ij} = \{t : r_i(t) > 0 \land r_j(t) > 0\}$). Computes mutual coverage ($C_{mutual}$).
+- **Phase 8**: Analyze association between $C_{mutual}$ and the merge residual $R_{ij} = D_{actual} - D_{pred}$.
+
+*Note: The 7C mechanism uses a routing-conditioned, mutually-activated-token neuron cloud. Original unconditioned results are preserved in `results/exp7c/original/`.*
+
 ## Status: PREPARATION PHASE
 The scripts and analysis specifications in this directory are prepared for execution.
 Full activation extraction (~19 GB, 262K tokens) requires execution on a GPU VM.

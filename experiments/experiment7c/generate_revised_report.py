@@ -91,10 +91,24 @@ def generate_report():
     print(f"  Revised  (N=18): rho = {rho18:+.4f}, p = {p18:.4f}")
     print(f"  Revised  (N=14): rho = {rho14:+.4f}, p = {p14:.4f}")
     
-    if p18 < 0.05 or p14 < 0.05:
-        print("\nSCIENTIFIC VERDICT: The revised routing-conditioned mutual coverage mechanism SHOWS explanation of CARE-COM residuals.")
+    print("\nPair 7-32 Influence Diagnostic:")
+    df_17 = df[df['pair_id'] != 'pair_10']
+    if len(df_17) == 17:
+        rho17, p17 = spearmanr(df_17['C_mutual'], df_17['residual'])
+        print("  pair_10 (7-32) has 16,427 mutual tokens (highest support).")
+        print(f"  Revised (N=17, excluding pair_10): rho = {rho17:+.4f}, p = {p17:.4f}")
+        diff = abs(rho18 - rho17)
+        if diff > 0.1:
+            print("  -> pair_10 has a disproportionate influence on the N=18 result.")
+        else:
+            print("  -> pair_10 does not disproportionately influence the N=18 result.")
+    
+    if p18 < 0.05:
+        print("\nSCIENTIFIC VERDICT: The revised routing-conditioned mutual coverage mechanism SHOWS significant explanation of CARE-COM residuals, subject to the small N=18 sample.")
+    elif p14 < 0.05:
+        print("\nSCIENTIFIC VERDICT: N=18 is null but N=14 is significant. The result is support-sensitive/exploratory. Low-support pairs introduce measurement noise.")
     else:
-        print("\nSCIENTIFIC VERDICT: The revised routing-conditioned mutual coverage mechanism DOES NOT explain CARE-COM residuals.")
+        print("\nSCIENTIFIC VERDICT: The revised routing-conditioned mutual coverage mechanism DOES NOT explain CARE-COM residuals under this experiment.")
 
 if __name__ == "__main__":
     generate_report()
