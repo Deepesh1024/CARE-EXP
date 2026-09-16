@@ -4,9 +4,17 @@ EXPERIMENT 7C — PHASE 6: NEURON ACTIVATION EXTRACTION
 Extracts post-activation neuron signatures for target Layer-8 experts
 over a deterministic Wikitext probe sequence.
 
-Uses PyTorch's register_forward_hook on the MoE block to intercept 
-hidden_states and routing decisions reliably, regardless of whether
-the model uses monkey-patchable expert sub-modules or not.
+Architecture discovery (OLMoE):
+- moe_block: OlmoeSparseMoeBlock
+  - moe_block.router: OlmoeTopKRouter (single Linear layer)
+  - moe_block.experts: nn.ModuleList of 64 OlmoeMLP objects
+    - Each OlmoeMLP: gate_proj, up_proj, down_proj, act_fn
+
+Strategy:
+  Register a forward_hook on moe_block itself. In the hook, re-run the
+  router (one cheap matrix multiply) to get routing decisions, then
+  compute post-activation signatures for target experts from their
+  individual gate_proj / up_proj / act_fn.
 """
 import os
 import sys
@@ -16,34 +24,28 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-# Add parent directory to path to import from experiment7b
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from experiments.experiment7b.config import (
-    TARGET_LAYER_IDX, DEVICE, MAX_SEQ_LEN
-)
+from experiments.experiment7b.config import TARGET_LAYER_IDX, DEVICE
 from experiments.experiment7b.utils.model_utils import (
     load_base_model, get_target_moe_block, cleanup_vram
 )
 from experiments.experiment7b.utils.evaluation import prepare_wikitext_eval_batches
 
-# 7C Results Directory
 RESULTS_DIR_7C = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'results', 'exp7c'))
-
-# Number of tokens to extract.
-# Defaults to 512 for sanity test, but can be overridden by environment variable for full extraction.
 NUM_TOKENS_TO_EXTRACT = int(os.environ.get("CARE_7C_TOKENS", 512))
 RANDOM_SEED = 42
 
 
 def run_extraction():
     print("=" * 70)
-    print("EXPERIMENT 7C — PHASE 6: NEURON ACTIVATION EXTRACTION (hook-based)")
+    print("EXPERIMENT 7C — PHASE 6: NEURON ACTIVATION EXTRACTION")
     print(f"Targeting: {NUM_TOKENS_TO_EXTRACT} tokens")
     print("=" * 70)
 
     # 1. Target Identification
-    merges_path = os.path.join(os.path.dirname(__file__), '..', '..', 'results', 'exp7b', 'merges', 'actual_merge_results.csv')
+    merges_path = os.path.join(os.path.dirname(__file__), '..', '..',
+                               'results', 'exp7b', 'merges', 'actual_merge_results.csv')
     if not os.path.exists(merges_path):
         raise FileNotFoundError(f"Missing 7B actual merge results: {merges_path}")
 
@@ -51,7 +53,7 @@ def run_extraction():
     target_experts = set(int(e) for e in cand_df["expert_i"].tolist() + cand_df["expert_j"].tolist())
     target_experts_list = sorted(list(target_experts))
     num_target_experts = len(target_experts_list)
-    print(f"[Phase 6] Target experts to extract ({num_target_experts}): {target_experts_list}")
+    print(f"[Phase 6] Target experts ({num_target_experts}): {target_experts_list}")
 
     expert_idx_to_memmap_idx = {e: i for i, e in enumerate(target_experts_list)}
 
@@ -64,9 +66,10 @@ def run_extraction():
 
     shape = (num_target_experts, 1024, NUM_TOKENS_TO_EXTRACT)
     dtype = np.float32
+    gb = np.prod(shape) * 4 / (1024 ** 3)
 
-    print(f"[Phase 6] Creating memory-mapped tensor at {memmap_path}")
-    print(f"[Phase 6] Expected shape: {shape} (~{np.prod(shape) * 4 / (1024**3):.2f} GB)")
+    print(f"[Phase 6] Creating memmap at {memmap_path}")
+    print(f"[Phase 6] Shape: {shape}  (~{gb:.2f} GB)")
 
     activations = np.memmap(memmap_path, dtype=dtype, mode='w+', shape=shape)
 
@@ -88,120 +91,108 @@ def run_extraction():
     eval_chunks = prepare_wikitext_eval_batches(tokenizer, max_tokens=NUM_TOKENS_TO_EXTRACT)
 
     moe_block = get_target_moe_block(model, TARGET_LAYER_IDX)
+    experts_list = moe_block.experts   # nn.ModuleList of OlmoeMLP
 
-    # Shared mutable state for the hook
+    # Determine top-k from the block (try common attribute names)
+    top_k = getattr(moe_block, 'top_k',
+            getattr(moe_block, 'num_experts_per_tok', 2))
+    print(f"[Phase 6] Router top-k = {top_k}")
+
     state = {"global_token_offset": 0}
 
-    # 4. Register a forward hook on the MoE block itself.
-    #    This fires BEFORE the block's output is returned.
-    #    We intercept hidden_states from the INPUT and routing from 
-    #    an inner hook on the experts module.
-    #
-    #    Strategy: hook on moe_block.experts (OlmoeExperts / similar),
-    #    capturing the inputs so we have (hidden_states, top_k_ids, top_k_weights).
-    #    Then we manually compute post-activation signatures for target experts only.
-    experts_module = moe_block.experts
-
-    def experts_forward_hook(module, inputs, output):
+    # 4. Register hook on moe_block itself
+    def moe_block_hook(module, inputs, output):
         """
-        inputs: tuple of (hidden_states, top_k_ids, top_k_weights)
-          - hidden_states: [num_tokens, hidden_dim]  (tokens flattened)
-          - top_k_ids: [num_tokens, top_k]           (expert indices per token)
-          - top_k_weights: [num_tokens, top_k]
-
-        We compute post-activation signatures for target experts and stream to memmap.
+        inputs[0]: hidden_states  [batch, seq_len, hidden_dim]
+        Strategy:
+          1. Flatten tokens.
+          2. Re-run the router (cheap: one Linear) to recover routing.
+          3. For each target expert, compute post-activation signatures
+             using that expert's gate_proj / up_proj / act_fn.
+          4. Stream results to memmap indexed by global token position.
         """
         with torch.no_grad():
-            hidden_states = inputs[0]       # [T, H]
-            top_k_ids = inputs[1]           # [T, top_k]  int tensor
+            hidden_states = inputs[0]   # [B, S, H]
+            B, S, H = hidden_states.shape
+            flat_h = hidden_states.reshape(-1, H)   # [T, H]
+            T = flat_h.shape[0]
 
-            T = hidden_states.shape[0]
+            # Re-run router to get routing indices
+            router_logits = module.router(flat_h)   # [T, num_experts]
+            top_k_indices = torch.topk(router_logits, k=top_k, dim=-1).indices  # [T, top_k]
+
             offset = state["global_token_offset"]
 
-            for expert_id in target_experts:
-                # Find which tokens are routed to this expert
-                token_mask = (top_k_ids == expert_id).any(dim=-1)  # [T] bool
+            for eid in target_experts:
+                # Find which tokens (within this batch) are routed to expert eid
+                token_mask = (top_k_indices == eid).any(dim=-1)   # [T] bool
                 if not token_mask.any():
                     continue
 
-                token_positions = token_mask.nonzero(as_tuple=True)[0]  # [n]
-                routed_hidden = hidden_states[token_positions]            # [n, H]
+                local_positions = token_mask.nonzero(as_tuple=True)[0]   # [n]
+                routed_h = flat_h[local_positions]                         # [n, H]
 
-                # Compute post-activation intermediate representation
-                # OLMoE uses fused gate_up_proj: [num_experts, 2*ffn_dim, hidden_dim]
-                gate_up = torch.nn.functional.linear(routed_hidden, module.gate_up_proj[expert_id])  # [n, 2*ffn_dim]
-                gate, up = gate_up.chunk(2, dim=-1)
-                post_act = module.act_fn(gate) * up   # [n, ffn_dim=1024]
+                # Compute post-activation signature via this expert's MLP
+                expert = experts_list[eid]
+                gate = expert.act_fn(expert.gate_proj(routed_h))   # [n, ffn_dim]
+                up   = expert.up_proj(routed_h)                    # [n, ffn_dim]
+                post_act = gate * up                                # [n, ffn_dim]
 
-                # Map local token positions to global positions
-                global_positions = offset + token_positions.cpu().numpy()
-
-                # Clip out-of-range positions
+                # Map to global token positions
+                global_positions = offset + local_positions.cpu().numpy()
                 valid = global_positions < NUM_TOKENS_TO_EXTRACT
                 if not valid.any():
                     continue
 
-                gp = global_positions[valid]
-                vals = post_act[valid].float().cpu().numpy().T   # [1024, n_valid]
+                gp   = global_positions[valid]
+                vals = post_act[valid].float().cpu().numpy().T      # [1024, n_valid]
 
-                m_idx = expert_idx_to_memmap_idx[expert_id]
+                m_idx = expert_idx_to_memmap_idx[eid]
                 activations[m_idx, :, gp] = vals
 
-    # Register the hook
-    hook_handle = experts_module.register_forward_hook(experts_forward_hook)
+    hook_handle = moe_block.register_forward_hook(moe_block_hook)
     model.eval()
 
     # 5. Execute Streaming Inference
-    print(f"\n[Phase 6] Commencing forward passes for {len(eval_chunks)} sequences...")
+    print(f"\n[Phase 6] Running forward passes over {len(eval_chunks)} sequences...")
 
     with torch.no_grad():
         for chunk in tqdm(eval_chunks, desc="Extracting Signatures"):
             input_ids = chunk["input_ids"].unsqueeze(0).to(DEVICE)
-            attention_mask = chunk["attention_mask"].unsqueeze(0).to(DEVICE)
 
-            _ = model(input_ids=input_ids, attention_mask=attention_mask)
+            _ = model(input_ids=input_ids)
 
-            # Increment global offset by the number of tokens in this chunk
             state["global_token_offset"] += input_ids.shape[1]
 
-            # Periodically flush memmap
             if state["global_token_offset"] % 50000 < input_ids.shape[1]:
                 activations.flush()
 
             if state["global_token_offset"] >= NUM_TOKENS_TO_EXTRACT:
                 break
 
-    # Cleanup
     hook_handle.remove()
     activations.flush()
 
-    # --- Sanity Diagnostics ---
-    print("\n[Phase 6] Post-extraction diagnostics:")
+    # 6. Post-extraction diagnostics
+    print("\n[Phase 6] Diagnostics:")
     any_nonzero = False
     for ei, mi in expert_idx_to_memmap_idx.items():
         sig = np.array(activations[mi])
         nz = np.count_nonzero(sig)
-        mn = sig.min()
-        mx = sig.max()
-        print(f"  Expert {ei:3d} | nonzero={nz:>10,} | min={mn:.4f} | max={mx:.4f}")
+        mn, mx = sig.min(), sig.max()
+        print(f"  Expert {ei:3d} | nonzero={nz:>10,} | min={mn:+.4f} | max={mx:+.4f}")
         if nz > 0:
             any_nonzero = True
 
     if not any_nonzero:
-        print("\n[CRITICAL WARNING] ALL activation signatures are zero!")
-        print("  Possible causes:")
-        print("  1. Hook did not fire (experts_module path is wrong).")
-        print("  2. None of the target experts received any tokens.")
-        print("  3. gate_up_proj attribute name mismatch.")
-        print("  Run the debug script to inspect model architecture.")
+        print("\n[CRITICAL] ALL signatures are zero — hook may not have fired.")
     else:
-        print("\n[Phase 6] ✓ Non-zero activations confirmed — extraction looks healthy.")
+        print("\n[Phase 6] ✓ Non-zero activations confirmed.")
 
     del activations
     cleanup_vram()
 
-    print("\n[Phase 6] Extraction complete!")
-    print(f"Signatures written to {memmap_path}")
+    print(f"\n[Phase 6] Done. Signatures written to {memmap_path}")
 
 
 if __name__ == "__main__":
