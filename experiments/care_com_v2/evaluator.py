@@ -13,7 +13,8 @@ def collect_baseline_wikitext_logits(model, eval_chunks, batch_size, max_eval_ba
     if max_eval_batches is not None:
         num_batches = min(num_batches, max_eval_batches)
         
-    for i in range(num_batches):
+    from tqdm import tqdm
+    for i in tqdm(range(num_batches), desc="Precomputing Baseline Logits"):
         batch = eval_chunks[i * batch_size : (i + 1) * batch_size]
         input_ids = torch.stack([x["input_ids"] for x in batch]).to(device)
         attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(device)
@@ -39,7 +40,8 @@ def evaluate_temporary_pruning(model, eval_chunks, baseline_logprobs, batch_size
     if max_eval_batches is not None:
         num_batches = min(num_batches, max_eval_batches)
         
-    for i in range(num_batches):
+    from tqdm import tqdm
+    for i in tqdm(range(num_batches), desc="Evaluating Candidate", leave=False):
         batch = eval_chunks[i * batch_size : (i + 1) * batch_size]
         input_ids = torch.stack([x["input_ids"] for x in batch]).to(device)
         attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(device)
