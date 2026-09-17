@@ -46,10 +46,10 @@ def run_care_com_v2_experiment():
         
     # 2. Load Calibration Data
     print("Loading Calibration Data...")
-    token_path = os.path.join(os.path.dirname(__file__), "..", "..", "results", "exp6c", "data", "EXP6C_TOKEN_CAPABILITY_VECTORS.parquet")
+    token_path = os.path.join(os.path.dirname(__file__), "..", "..", "results", "exp6c", "token_vectors", "EXP6C_TOKEN_CAPABILITY_VECTORS.parquet")
     if not os.path.exists(token_path):
         # Fallback path if running from different working dir
-        token_path = "results/exp6c/data/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet"
+        token_path = "results/exp6c/token_vectors/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet"
         
     df_tokens = pd.read_parquet(token_path)
     if config.calibration_fraction < 1.0:
@@ -60,9 +60,12 @@ def run_care_com_v2_experiment():
     
     # 4. Load Router Usage (Optional for Importance Weighting)
     usage_stats = {}
-    if config.importance_mode == "usage":
+    if config.candidate_scoring != "capability_only":
         print("Loading Router Usage Stats...")
-        usage_path = "results/exp6c/data/EXP6C_ROUTING_ENVIRONMENT.parquet"
+        usage_path = os.path.join(os.path.dirname(__file__), "..", "..", "results", "exp6c", "routing", "EXP6C_ROUTING_ENVIRONMENT.parquet")
+        if not os.path.exists(usage_path):
+            usage_path = "results/exp6c/routing/EXP6C_ROUTING_ENVIRONMENT.parquet"
+            
         if os.path.exists(usage_path):
             df_env = pd.read_parquet(usage_path)
             # Example heuristic extraction of usage frequency for target layer
