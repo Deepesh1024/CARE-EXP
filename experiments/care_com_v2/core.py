@@ -22,32 +22,44 @@ class CapabilityAwareTopKRouter(torch.nn.Module):
         self.capability_redistribution = capability_redistribution
         
     def forward(self, hidden_states):
-        # 1. Compute logits from untouched original gate
-        router_logits = self.original_gate(hidden_states)
+        # 1. Compute outputs from untouched original gate
+        outputs = self.original_gate(hidden_states)
         
-        # 2. Compute original probability distribution
-        routing_weights = F.softmax(router_logits, dim=-1)
+        # Handle older HF transformers (where gate is nn.Linear) vs newer (OlmoeTopKRouter)
+        is_tuple = isinstance(outputs, tuple)
+        router_logits = outputs[0] if is_tuple else outputs
         
-        # 3. Determine ORIGINAL top-k expert indices
-        _, original_top_k_indices = torch.topk(routing_weights, self.top_k, dim=-1)
-        
-        # 4. Exact Probability Redistribution (Conditional)
+        # 2. Exact Probability Redistribution (Conditional) in Logit Space
         if self.capability_redistribution:
+            # Determine ORIGINAL top-k expert indices (topk on logits is identical to topk on softmax)
+            _, original_top_k_indices = torch.topk(router_logits, self.top_k, dim=-1)
+            
+            modified_logits = router_logits.clone()
+            
             for removed_i, dest_j in self.removed_experts_map.items():
                 # Identify tokens where removed_i would have been originally selected
                 mask_i = (original_top_k_indices == removed_i).any(dim=-1)
                 
-                # Transfer mass ONLY for those tokens
-                routing_weights[mask_i, dest_j] += routing_weights[mask_i, removed_i]
-                routing_weights[mask_i, removed_i] = 0.0
-                
-        # 5. Top-K Selection on the modified probabilities
-        routing_weights, selected_experts = torch.topk(routing_weights, self.top_k, dim=-1)
-        
-        # 6. Renormalize surviving probabilities (standard OLMoE behavior)
-        routing_weights = routing_weights / routing_weights.sum(dim=-1, keepdim=True)
-        
-        return router_logits, routing_weights, selected_experts
+                if mask_i.any():
+                    z_i = modified_logits[mask_i, removed_i]
+                    z_j = modified_logits[mask_i, dest_j]
+                    
+                    # z'_j = log(exp(z_j) + exp(z_i))  -- exact probability mass transfer
+                    modified_logits[mask_i, dest_j] = torch.logaddexp(z_j, z_i)
+                    modified_logits[mask_i, removed_i] = -float('inf')
+                    
+            router_logits = modified_logits
+            
+        if is_tuple:
+            # If newer HF version, recompute the full tuple outputs
+            routing_weights = F.softmax(router_logits, dim=-1)
+            routing_weights, selected_experts = torch.topk(routing_weights, self.top_k, dim=-1)
+            if hasattr(self.original_gate, "norm_topk_prob") and self.original_gate.norm_topk_prob:
+                routing_weights = routing_weights / routing_weights.sum(dim=-1, keepdim=True)
+            return (router_logits, routing_weights, selected_experts)
+        else:
+            # If older HF version, just return the logits (downstream block handles softmax)
+            return router_logits
 
 def generate_candidate_pool(distances: Dict[int, Dict[int, float]], usage: Dict[int, float], config: CareComV2Config) -> List[int]:
     redundancy_scores = []
