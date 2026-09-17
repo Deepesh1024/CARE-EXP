@@ -25,6 +25,8 @@ def run_care_com_v2_experiment():
     config = CareComV2Config()
     os.makedirs(os.path.dirname(config.trace_path), exist_ok=True)
     
+    print(f"[*] Execution Device: {config.device.upper()}")
+    
     # 1. Load Model
     print("Loading Model...")
     model_id = "allenai/OLMoE-1B-7B-0924"
