@@ -121,7 +121,7 @@ def test_invariant_11_transactional_restore(mock_model):
     w_1_gate_pre = mock_model.block1.experts[1].gate_proj.weight.data.clone()
     router_pre = mock_model.block1.gate.weight.data.clone()
     
-    engine.snapshot()
+    engine.snapshot(0)
     engine.merge_experts(0, 1)
     
     assert engine.current_num_experts == 63

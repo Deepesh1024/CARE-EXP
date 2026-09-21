@@ -25,9 +25,10 @@ class PhysicalMergeEngine:
         
         self._snapshot = None
         
-    def snapshot(self):
-        """Creates a transactional backup of the exact module lists and weights."""
+    def snapshot(self, expert_i: int):
+        """Creates a transactional backup of the exact module lists and weights for the target expert."""
         self._snapshot = {
+            "expert_i": expert_i,
             "model_num_experts": getattr(self.model.config, 'num_experts', None),
             "blocks": []
         }
@@ -47,16 +48,13 @@ class PhysicalMergeEngine:
                 if hasattr(module, 'num_experts'):
                     num_experts_map.append((module, module.num_experts))
                     
-            # Deepcopy of the weights that are going to be in-place modified during merge
-            # Wait, block.experts[i].gate_proj.weight is copied in-place!
-            # We must backup the original parameter data for all experts so we can restore them exactly.
-            expert_weights = []
-            for exp in block.experts:
-                expert_weights.append({
-                    "gate": exp.gate_proj.weight.clone().detach(),
-                    "up": exp.up_proj.weight.clone().detach(),
-                    "down": exp.down_proj.weight.clone().detach()
-                })
+            # Deepcopy ONLY the weights that are going to be in-place modified during merge
+            exp = block.experts[expert_i]
+            expert_weights = {
+                "gate": exp.gate_proj.weight.clone().detach(),
+                "up": exp.up_proj.weight.clone().detach(),
+                "down": exp.down_proj.weight.clone().detach()
+            }
                 
             self._snapshot["blocks"].append({
                 "block": block,
@@ -72,6 +70,8 @@ class PhysicalMergeEngine:
         if self._snapshot is None:
             raise RuntimeError("No snapshot to restore from.")
             
+        expert_i = self._snapshot["expert_i"]
+            
         if self._snapshot["model_num_experts"] is not None:
             self.model.config.num_experts = self._snapshot["model_num_experts"]
             
@@ -83,11 +83,11 @@ class PhysicalMergeEngine:
             block.experts = b_data["experts"]
             
             # Restore expert parameter weights that were modified in-place
-            for i, exp in enumerate(block.experts):
-                w_dict = b_data["expert_weights"][i]
-                exp.gate_proj.weight.data.copy_(w_dict["gate"])
-                exp.up_proj.weight.data.copy_(w_dict["up"])
-                exp.down_proj.weight.data.copy_(w_dict["down"])
+            w_dict = b_data["expert_weights"]
+            exp = block.experts[expert_i]
+            exp.gate_proj.weight.data.copy_(w_dict["gate"])
+            exp.up_proj.weight.data.copy_(w_dict["up"])
+            exp.down_proj.weight.data.copy_(w_dict["down"])
             
             # Restore router weight
             router.weight = nn.Parameter(b_data["router_weight"])
@@ -199,7 +199,7 @@ def compress_adaptive(model, engine: PhysicalMergeEngine, df_tokens, eval_chunks
         candidate_results = []
         for i, j in candidates:
             # Transactional temporary merge
-            engine.snapshot()
+            engine.snapshot(i)
             engine.merge_experts(i, j)
             
             damage = evaluate_marginal_damage(

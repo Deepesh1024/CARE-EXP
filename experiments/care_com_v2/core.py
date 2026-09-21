@@ -49,6 +49,12 @@ class CapabilityAwareTopKRouter(torch.nn.Module):
                     modified_logits[mask_i, removed_i] = -float('inf')
                     
             router_logits = modified_logits
+        else:
+            # CARE-COM v1 behavior: Just mask the removed experts and let native top-k reselect
+            modified_logits = router_logits.clone()
+            for removed_i in self.removed_experts_map.keys():
+                modified_logits[:, removed_i] = -float('inf')
+            router_logits = modified_logits
             
         if is_tuple:
             # If newer HF version, recompute the full tuple outputs
