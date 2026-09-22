@@ -17,7 +17,7 @@ def run_reap_method(method, config):
         from reap.model_util import MODEL_ATTRS
     except ImportError as e:
         print(f"[{method.upper()}] Failed to import REAP repository: {e}")
-        return False
+        sys.exit(1)
         
     # Check if OLMoE is natively supported in REAP
     model_type = "OLMoEForCausalLM" # HF class name for OLMoE

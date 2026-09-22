@@ -13,8 +13,8 @@ from benchmark.core.logging import BenchmarkLogger
 # Reuse validated v2.1 components
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
-from experiments.care_com_v21.core import PhysicalMergeEngine, get_candidate_pairs
-from experiments.care_com_v21.capability import compute_global_capability_vectors
+from experiments.care_com_v21.core import PhysicalMergeEngine, generate_candidate_pool
+from experiments.care_com_v21.capability import compute_global_capability_vectors, pairwise_capability_distances
 
 def load_calibration_data():
     token_path = os.path.join(
@@ -80,7 +80,8 @@ def run_care_com(method_name, config):
         else:
             C_current = C_static
             
-        candidates = get_candidate_pairs(C_current, list(range(engine.current_num_experts)), k=config['compression']['candidate_pool_size'])
+        distances = pairwise_capability_distances(C_current)
+        candidates = generate_candidate_pool(distances, config['compression']['candidate_pool_size'])
         
         best_candidate = None
         min_damage = float('inf')
