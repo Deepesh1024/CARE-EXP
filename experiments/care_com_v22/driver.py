@@ -19,10 +19,13 @@ def prepare_data(tokenizer, max_length=1024, num_eval_chunks=32):
     
     tokens = tokenizer(text, return_tensors="pt")["input_ids"][0]
     
-    # Chunking for PPL and KL
     chunks = []
     for i in range(0, min(len(tokens) - max_length, num_eval_chunks * max_length), max_length):
-        chunks.append(tokens[i : i + max_length])
+        chunk = tokens[i : i + max_length]
+        chunks.append({
+            "input_ids": chunk,
+            "attention_mask": torch.ones_like(chunk)
+        })
         
     # Also need CARE tokens
     df_tokens = tokens[:4096].unsqueeze(0)

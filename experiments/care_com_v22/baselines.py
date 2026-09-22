@@ -19,13 +19,14 @@ def compute_ppl(model, eval_chunks, config: CareComV22Config):
     with torch.no_grad():
         for i in range(batches):
             batch = eval_chunks[i * config.ppl_batch_size : (i + 1) * config.ppl_batch_size]
-            batch_tensors = torch.stack(batch).to(config.device)
+            input_ids = torch.stack([x["input_ids"] for x in batch]).to(config.device)
+            attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(config.device)
             
-            outputs = model(batch_tensors, labels=batch_tensors)
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=input_ids)
             loss = outputs.loss
             
-            total_loss += loss.item() * batch_tensors.numel()
-            total_tokens += batch_tensors.numel()
+            total_loss += loss.item() * input_ids.numel()
+            total_tokens += input_ids.numel()
             
     avg_loss = total_loss / total_tokens if total_tokens > 0 else 0
     return torch.exp(torch.tensor(avg_loss)).item()

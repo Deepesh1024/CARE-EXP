@@ -21,7 +21,7 @@ def run_smoke_test():
     config.max_ppl_batches = 1
     config.random_seeds = [42]
     
-    eval_chunks = [torch.ones((1, 16), dtype=torch.long)]
+    eval_chunks = [{"input_ids": torch.ones((1, 16), dtype=torch.long), "attention_mask": torch.ones((1, 16), dtype=torch.long)}]
     df_tokens = torch.ones((1, 16), dtype=torch.long)
     
     # 1. Random

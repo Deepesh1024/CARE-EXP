@@ -39,7 +39,7 @@ class MockModel(nn.Module):
         self.block1 = MockBlock(num_experts, dim)
         self.block2 = MockBlock(num_experts, dim)
         
-    def forward(self, input_ids, labels=None):
+    def forward(self, input_ids, attention_mask=None, labels=None):
         # Mock forward pass returning some dummy loss
         class Output:
             def __init__(self):
@@ -65,7 +65,7 @@ def mock_config():
 
 @pytest.fixture
 def eval_chunks():
-    return [torch.ones((1, 16), dtype=torch.long)]
+    return [{"input_ids": torch.ones((1, 16), dtype=torch.long), "attention_mask": torch.ones((1, 16), dtype=torch.long)}]
     
 @pytest.fixture
 def df_tokens():
