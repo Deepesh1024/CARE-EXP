@@ -1,0 +1,121 @@
+{
+  "trace": [
+    {
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "selected_pair": [
+        13,
+        59
+      ],
+      "functional_damage": 0.055679164207809016,
+      "evaluation_time": 13.922037124633789,
+      "merge_time": 0.009256839752197266,
+      "total_step_time": 13.931306838989258,
+      "seed": 2027
+    },
+    {
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "selected_pair": [
+        0,
+        5
+      ],
+      "functional_damage": 0.0587507834765452,
+      "evaluation_time": 12.036073923110962,
+      "merge_time": 0.014270305633544922,
+      "total_step_time": 12.050355911254883,
+      "seed": 2027
+    },
+    {
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "selected_pair": [
+        20,
+        41
+      ],
+      "functional_damage": 0.053563223090223086,
+      "evaluation_time": 11.244162321090698,
+      "merge_time": 0.00836491584777832,
+      "total_step_time": 11.252543210983276,
+      "seed": 2027
+    },
+    {
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "selected_pair": [
+        25,
+        50
+      ],
+      "functional_damage": 0.114214734014994,
+      "evaluation_time": 11.763222217559814,
+      "merge_time": 0.008098602294921875,
+      "total_step_time": 11.77133059501648,
+      "seed": 2027
+    },
+    {
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "selected_pair": [
+        40,
+        57
+      ],
+      "functional_damage": 0.07291870149815653,
+      "evaluation_time": 10.867669105529785,
+      "merge_time": 0.008137226104736328,
+      "total_step_time": 10.875818490982056,
+      "seed": 2027
+    },
+    {
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "selected_pair": [
+        11,
+        51
+      ],
+      "functional_damage": 0.06280659300840495,
+      "evaluation_time": 11.776021480560303,
+      "merge_time": 0.007901906967163086,
+      "total_step_time": 11.783936500549316,
+      "seed": 2027
+    },
+    {
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "selected_pair": [
+        11,
+        25
+      ],
+      "functional_damage": 0.009626189984184555,
+      "evaluation_time": 10.717075824737549,
+      "merge_time": 0.007749795913696289,
+      "total_step_time": 10.72483515739441,
+      "seed": 2027
+    },
+    {
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "selected_pair": [
+        22,
+        38
+      ],
+      "functional_damage": 0.09611579003804822,
+      "evaluation_time": 11.574320554733276,
+      "merge_time": 0.012907266616821289,
+      "total_step_time": 11.58723783493042,
+      "seed": 2027
+    }
+  ],
+  "ppl": {
+    "64": 8.328898429870605,
+    "60": 10.621170997619629,
+    "56": 13.04609489440918
+  }
+}

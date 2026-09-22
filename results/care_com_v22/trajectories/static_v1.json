@@ -1,0 +1,169 @@
+{
+  "trace": [
+    {
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "selected_pair": [
+        8,
+        13
+      ],
+      "original_pair": [
+        8,
+        13
+      ],
+      "frozen_rank": 0,
+      "capability_distance": 0.015663625672459602,
+      "functional_damage": 0.07427826243120791,
+      "capability_recompute_time": 39.47247362136841,
+      "evaluation_time": 7.610095739364624,
+      "merge_time": 0.008243083953857422,
+      "total_step_time": 7.618352651596069
+    },
+    {
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "selected_pair": [
+        8,
+        14
+      ],
+      "original_pair": [
+        8,
+        15
+      ],
+      "frozen_rank": 2,
+      "capability_distance": 0.015834210440516472,
+      "functional_damage": 0.02768490585826839,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.860162973403931,
+      "merge_time": 0.009471893310546875,
+      "total_step_time": 6.869645357131958
+    },
+    {
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "selected_pair": [
+        7,
+        10
+      ],
+      "original_pair": [
+        7,
+        10
+      ],
+      "frozen_rank": 5,
+      "capability_distance": 0.01804296299815178,
+      "functional_damage": 0.06349222961283364,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.168633222579956,
+      "merge_time": 0.015549659729003906,
+      "total_step_time": 6.184192657470703
+    },
+    {
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "selected_pair": [
+        0,
+        11
+      ],
+      "original_pair": [
+        0,
+        12
+      ],
+      "frozen_rank": 6,
+      "capability_distance": 0.019942644983530045,
+      "functional_damage": 0.06199704759913411,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.159131050109863,
+      "merge_time": 0.007935285568237305,
+      "total_step_time": 6.167081356048584
+    },
+    {
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "selected_pair": [
+        0,
+        8
+      ],
+      "original_pair": [
+        0,
+        8
+      ],
+      "frozen_rank": 10,
+      "capability_distance": 0.021227065473794937,
+      "functional_damage": 0.005563014723382676,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.054301738739014,
+      "merge_time": 0.0077855587005615234,
+      "total_step_time": 6.062099933624268
+    },
+    {
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "selected_pair": [
+        7,
+        10
+      ],
+      "original_pair": [
+        7,
+        14
+      ],
+      "frozen_rank": 18,
+      "capability_distance": 0.023937352001667023,
+      "functional_damage": 0.06596866034056971,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.093944311141968,
+      "merge_time": 0.0076639652252197266,
+      "total_step_time": 6.101620435714722
+    },
+    {
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "selected_pair": [
+        1,
+        4
+      ],
+      "original_pair": [
+        1,
+        4
+      ],
+      "frozen_rank": 20,
+      "capability_distance": 0.02424982562661171,
+      "functional_damage": 0.05790987718230054,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.194186210632324,
+      "merge_time": 0.00761103630065918,
+      "total_step_time": 6.201807260513306
+    },
+    {
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "selected_pair": [
+        0,
+        3
+      ],
+      "original_pair": [
+        0,
+        3
+      ],
+      "frozen_rank": 28,
+      "capability_distance": 0.025717224925756454,
+      "functional_damage": 0.05727099593088248,
+      "capability_recompute_time": 0.0,
+      "evaluation_time": 6.010797500610352,
+      "merge_time": 0.007451772689819336,
+      "total_step_time": 6.018259286880493
+    }
+  ],
+  "ppl": {
+    "64": 6210377.5,
+    "60": 5229712.0,
+    "56": 5562377.0
+  }
+}
