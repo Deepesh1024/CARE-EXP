@@ -21,7 +21,11 @@ def compute_ppl(model, eval_chunks, config: CareComV22Config):
             input_ids = torch.stack([x["input_ids"] for x in batch]).to(config.device)
             attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(config.device)
             
-            outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=input_ids)
+            # Mask padding tokens with -100 so CrossEntropyLoss ignores them
+            labels = input_ids.clone()
+            labels[attention_mask == 0] = -100
+            
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
             # HF loss is mean NLL over all non-ignored tokens in the batch
             nlls.append(outputs.loss.item())
             
