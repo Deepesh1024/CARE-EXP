@@ -31,7 +31,7 @@ def run_smoke_test():
             with patch('experiments.care_com_v22.baselines.compute_ppl', return_value=12.0):
                 model = MockModel(num_experts=64)
                 engine = PhysicalMergeEngine(model)
-                _, trace, ppl = run_random_baseline(model, engine, eval_chunks, config, seed=42)
+                trace, ppl = run_random_baseline(model, engine, eval_chunks, config, seed=42)
                 assert engine.current_num_experts == 62
                 assert len(trace) == 2
                 
@@ -43,7 +43,7 @@ def run_smoke_test():
                 with patch('experiments.care_com_v22.baselines.compute_global_capability_vectors', return_value=torch.randn(64, 16)):
                     model = MockModel(num_experts=64)
                     engine = PhysicalMergeEngine(model)
-                    _, trace, ppl = run_static_baseline(model, engine, df_tokens, eval_chunks, config)
+                    trace, ppl = run_static_baseline(model, engine, df_tokens, eval_chunks, config)
                     assert engine.current_num_experts == 62
                     assert len(trace) == 2
                     
@@ -59,7 +59,7 @@ def run_smoke_test():
                     mock_cap.side_effect = side_effect
                     model = MockModel(num_experts=64)
                     engine = PhysicalMergeEngine(model)
-                    _, trace, ppl = run_adaptive_baseline(model, engine, df_tokens, eval_chunks, config)
+                    trace, ppl = run_adaptive_baseline(model, engine, df_tokens, eval_chunks, config)
                     assert engine.current_num_experts == 62
                     assert len(trace) == 2
                     

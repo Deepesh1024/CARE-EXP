@@ -79,7 +79,7 @@ def test_random_baseline_independent(mock_ppl, mock_collect, mock_eval, mock_mod
     engine = PhysicalMergeEngine(mock_model)
     
     with patch('experiments.care_com_v22.baselines.compute_global_capability_vectors') as mock_cap:
-        model, trace, ppl = run_random_baseline(mock_model, engine, eval_chunks, mock_config, seed=42)
+        trace, ppl = run_random_baseline(mock_model, engine, eval_chunks, mock_config, seed=42)
         mock_cap.assert_not_called()
         
     assert engine.current_num_experts == 62
@@ -96,7 +96,7 @@ def test_static_v1_baseline_called_once(mock_ppl, mock_collect, mock_eval, mock_
     with patch('experiments.care_com_v22.baselines.compute_global_capability_vectors') as mock_cap:
         # Mock capability matrix returning zeros
         mock_cap.return_value = torch.zeros((64, 16))
-        model, trace, ppl = run_static_baseline(mock_model, engine, df_tokens, eval_chunks, mock_config)
+        trace, ppl = run_static_baseline(mock_model, engine, df_tokens, eval_chunks, mock_config)
         
         # Ensure it was called EXACTLY once
         assert mock_cap.call_count == 1
@@ -117,7 +117,7 @@ def test_adaptive_baseline_recomputes(mock_ppl, mock_collect, mock_eval, mock_mo
             return torch.zeros((engine.current_num_experts, 16))
         mock_cap.side_effect = side_effect
         
-        model, trace, ppl = run_adaptive_baseline(mock_model, engine, df_tokens, eval_chunks, mock_config)
+        trace, ppl = run_adaptive_baseline(mock_model, engine, df_tokens, eval_chunks, mock_config)
         
         # 64 -> 63 (step 1), 63 -> 62 (step 2). Should be called 2 times.
         assert mock_cap.call_count == 2
@@ -132,7 +132,7 @@ def test_all_reduce_n_by_1_and_use_same_engine(mock_collect, mock_eval, mock_mod
     
     # Run 1 step of random
     mock_config.trajectory = [64, 63]
-    model, trace, ppl = run_random_baseline(mock_model, engine, eval_chunks, mock_config, seed=42)
+    trace, ppl = run_random_baseline(mock_model, engine, eval_chunks, mock_config, seed=42)
     
     assert engine.current_num_experts == 63
     assert len(mock_model.block1.experts) == 63

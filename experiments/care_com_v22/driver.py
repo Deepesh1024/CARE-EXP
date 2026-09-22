@@ -56,7 +56,7 @@ def run_care_com_v22_pilot():
         model = load_fresh_model(config)
         engine = PhysicalMergeEngine(model)
         
-        _, trace, ppl_log = run_random_baseline(model, engine, eval_chunks, config, seed=seed)
+        trace, ppl_log = run_random_baseline(model, engine, eval_chunks, config, seed=seed)
         
         with open(os.path.join(config.trajectories_dir, f"random_seed_{seed}.json"), "w") as f:
             json.dump({"trace": trace, "ppl": ppl_log}, f, indent=2)
@@ -71,7 +71,7 @@ def run_care_com_v22_pilot():
     model = load_fresh_model(config)
     engine = PhysicalMergeEngine(model)
     
-    _, trace, ppl_log = run_static_baseline(model, engine, df_tokens, eval_chunks, config)
+    trace, ppl_log = run_static_baseline(model, engine, df_tokens, eval_chunks, config)
     
     with open(os.path.join(config.trajectories_dir, "static_v1.json"), "w") as f:
         json.dump({"trace": trace, "ppl": ppl_log}, f, indent=2)
@@ -86,7 +86,7 @@ def run_care_com_v22_pilot():
     model = load_fresh_model(config)
     engine = PhysicalMergeEngine(model)
     
-    _, trace, ppl_log = run_adaptive_baseline(model, engine, df_tokens, eval_chunks, config)
+    trace, ppl_log = run_adaptive_baseline(model, engine, df_tokens, eval_chunks, config)
     
     with open(os.path.join(config.trajectories_dir, "adaptive_v21.json"), "w") as f:
         json.dump({"trace": trace, "ppl": ppl_log}, f, indent=2)

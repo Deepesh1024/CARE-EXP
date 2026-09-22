@@ -101,7 +101,7 @@ def run_random_baseline(model, engine: PhysicalMergeEngine, eval_chunks, config:
             ppl_log[target_experts] = compute_ppl(model, eval_chunks, config)
             print(f"PPL @ {target_experts}: {ppl_log[target_experts]:.4f}")
         
-    return model, trace_log, ppl_log
+    return trace_log, ppl_log
 
 def get_frozen_ranking(C):
     """Sorts all pairs based on capability distance from the initial C_64 state."""
@@ -232,4 +232,4 @@ def run_static_baseline(model, engine: PhysicalMergeEngine, df_tokens, eval_chun
             ppl_log[target_experts] = compute_ppl(model, eval_chunks, config)
             print(f"PPL @ {target_experts}: {ppl_log[target_experts]:.4f}")
         
-    return model, trace_log, ppl_log
+    return trace_log, ppl_log

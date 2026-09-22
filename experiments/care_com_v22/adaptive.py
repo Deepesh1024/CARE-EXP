@@ -95,4 +95,4 @@ def run_adaptive_baseline(model, engine: PhysicalMergeEngine, df_tokens, eval_ch
             ppl_log[target_experts] = compute_ppl(model, eval_chunks, config)
             print(f"PPL @ {target_experts}: {ppl_log[target_experts]:.4f}")
         
-    return model, trace_log, ppl_log
+    return trace_log, ppl_log
