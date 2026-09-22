@@ -2,12 +2,16 @@
 CARE-COM v2.2 PPL Recomputation — recomputes PPL at checkpoint experts
 for all existing trajectory files without re-running the full compression.
 
+Uses subprocess isolation to avoid VRAM fragmentation across models.
+
 Usage:
     PYTHONPATH=. python -m experiments.care_com_v22.recompute_ppl
 """
 import os
 import sys
 import json
+import argparse
+import subprocess
 import torch
 import pandas as pd
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -18,17 +22,6 @@ from utils.evaluation import prepare_wikitext_eval_batches
 from experiments.care_com_v21.core import PhysicalMergeEngine
 from experiments.care_com_v22.config import CareComV22Config
 from experiments.care_com_v22.baselines import compute_ppl
-
-
-def load_calibration_data():
-    token_path = os.path.join(
-        os.path.dirname(__file__), "..", "..",
-        "results", "exp6c", "token_vectors",
-        "EXP6C_TOKEN_CAPABILITY_VECTORS.parquet"
-    )
-    if not os.path.exists(token_path):
-        token_path = "results/exp6c/token_vectors/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet"
-    return pd.read_parquet(token_path)
 
 
 def replay_merges_and_compute_ppl(trace, method_name, config, tokenizer, eval_chunks):
@@ -69,15 +62,12 @@ def replay_merges_and_compute_ppl(trace, method_name, config, tokenizer, eval_ch
 
     del model
     del engine
-    import gc
-    gc.collect()
-    gc.collect()
-    torch.cuda.empty_cache()
 
     return ppl_log
 
 
-def main():
+def run_worker(path, name):
+    """Worker function to process a single file."""
     config = CareComV22Config()
     tokenizer = AutoTokenizer.from_pretrained(config.model_name)
     if tokenizer.pad_token is None:
@@ -85,7 +75,34 @@ def main():
 
     eval_chunks = prepare_wikitext_eval_batches(tokenizer)
 
-    # Process each trajectory file
+    with open(path, "r") as f:
+        data = json.load(f)
+
+    ppl_log = replay_merges_and_compute_ppl(
+        data["trace"], name, config, tokenizer, eval_chunks
+    )
+
+    # Update the file with corrected PPL
+    data["ppl"] = ppl_log
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    print(f"  Updated {path}")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--worker_path", type=str, default=None, help="Path to json file to process (internal use)")
+    parser.add_argument("--worker_name", type=str, default=None, help="Name of method (internal use)")
+    args = parser.parse_args()
+
+    if args.worker_path:
+        run_worker(args.worker_path, args.worker_name)
+        sys.exit(0)
+
+    config = CareComV22Config()
+    
+    # Process each trajectory file via subprocess
     traj_dir = config.trajectories_dir
     files_to_process = []
 
@@ -106,19 +123,16 @@ def main():
         files_to_process.append((adaptive_path, "Adaptive v2.1"))
 
     for path, name in files_to_process:
-        with open(path, "r") as f:
-            data = json.load(f)
-
-        ppl_log = replay_merges_and_compute_ppl(
-            data["trace"], name, config, tokenizer, eval_chunks
-        )
-
-        # Update the file with corrected PPL
-        data["ppl"] = ppl_log
-        with open(path, "w") as f:
-            json.dump(data, f, indent=2)
-
-        print(f"  Updated {path}")
+        cmd = [
+            sys.executable, "-m", "experiments.care_com_v22.recompute_ppl",
+            "--worker_path", path,
+            "--worker_name", name
+        ]
+        print(f"Launching subprocess for {name}...")
+        result = subprocess.run(cmd)
+        if result.returncode != 0:
+            print(f"[ERROR] Worker for {name} failed with code {result.returncode}")
+            sys.exit(1)
 
     print("\n[Done] PPL recomputed for all trajectories.")
     print("Run analysis: PYTHONPATH=. python -m experiments.care_com_v22.analysis")
