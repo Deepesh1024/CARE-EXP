@@ -71,7 +71,7 @@ def run_random_merge(seed, config):
         
         step_start_time = time.time()
         
-        active_indices = engine.active_expert_indices
+        active_indices = list(range(engine.current_num_experts))
         i, j = random.sample(active_indices, 2)
         
         # Perform permanent merge

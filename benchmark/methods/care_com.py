@@ -80,7 +80,7 @@ def run_care_com(method_name, config):
         else:
             C_current = C_static
             
-        candidates = get_candidate_pairs(C_current, engine.active_expert_indices, k=config['compression']['candidate_pool_size'])
+        candidates = get_candidate_pairs(C_current, list(range(engine.current_num_experts)), k=config['compression']['candidate_pool_size'])
         
         best_candidate = None
         min_damage = float('inf')
