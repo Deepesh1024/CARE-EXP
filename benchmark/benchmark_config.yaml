@@ -1,0 +1,32 @@
+# CARE-COM External Benchmark Configuration
+# Defines immutable constants across all runs to ensure exact reproducible science
+
+model:
+  name: "allenai/OLMoE-1B-7B-0924"
+  device: "auto"
+  precision: "bfloat16" # Must be exactly this to prevent overflow on OLMoE
+
+evaluation:
+  dataset: "wikitext"
+  subset: "wikitext-2-raw-v1"
+  split: "test"
+  max_length: 512
+  batch_size: 4
+  num_eval_chunks: 128
+  
+compression:
+  original_experts: 64
+  checkpoints: [64, 60, 56, 48]
+  candidate_pool_size: 5  # For CARE-COM
+
+baselines:
+  random_seeds: [42, 43, 44]
+  methods_to_run:
+    - "random"
+    - "care_static"
+    - "care_adaptive"
+    - "hc_smoe"
+    - "m_smoe"
+    - "sub_moe"
+    - "ream"
+    - "puzzlemoe"
