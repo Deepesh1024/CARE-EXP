@@ -63,8 +63,9 @@ def run_care_com_v22_pilot():
             
         del model
         del engine
-        torch.cuda.empty_cache()
         gc.collect()
+        gc.collect()
+        torch.cuda.empty_cache()
         
     # 2. Static v1 CARE-COM Baseline
     model = load_fresh_model(config)
@@ -77,8 +78,9 @@ def run_care_com_v22_pilot():
         
     del model
     del engine
-    torch.cuda.empty_cache()
     gc.collect()
+    gc.collect()
+    torch.cuda.empty_cache()
     
     # 3. Adaptive v2.1 CARE-COM Baseline
     model = load_fresh_model(config)
@@ -91,8 +93,9 @@ def run_care_com_v22_pilot():
         
     del model
     del engine
-    torch.cuda.empty_cache()
     gc.collect()
+    gc.collect()
+    torch.cuda.empty_cache()
     
     print("\n[v2.2] All baselines completed. Generating analysis tables and figures...")
     generate_analysis(config)
