@@ -12,8 +12,7 @@ from experiments.care_com_v22.config import CareComV22Config
 def compute_ppl(model, eval_chunks, config: CareComV22Config):
     """Computes perplexity on the evaluation subset."""
     model.eval()
-    total_loss = 0.0
-    total_tokens = 0
+    nlls = []
     batches = min(len(eval_chunks) // config.ppl_batch_size, config.max_ppl_batches)
     
     with torch.no_grad():
@@ -23,13 +22,11 @@ def compute_ppl(model, eval_chunks, config: CareComV22Config):
             attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(config.device)
             
             outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=input_ids)
-            loss = outputs.loss
+            # HF loss is mean NLL over all non-ignored tokens in the batch
+            nlls.append(outputs.loss.item())
             
-            total_loss += loss.item() * input_ids.numel()
-            total_tokens += input_ids.numel()
-            
-    avg_loss = total_loss / total_tokens if total_tokens > 0 else 0
-    return torch.exp(torch.tensor(avg_loss)).item()
+    avg_nll = sum(nlls) / len(nlls) if nlls else 0
+    return torch.exp(torch.tensor(avg_nll)).item()
 
 def run_random_baseline(model, engine: PhysicalMergeEngine, eval_chunks, config: CareComV22Config, seed: int):
     """
