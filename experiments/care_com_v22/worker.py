@@ -3,16 +3,20 @@ CARE-COM v2.2 Worker — runs a single baseline in an isolated process.
 Called by driver.py via subprocess to guarantee complete VRAM cleanup between runs.
 
 Usage:
-    python -m experiments.care_com_v22.worker --method random --seed 42
-    python -m experiments.care_com_v22.worker --method static
-    python -m experiments.care_com_v22.worker --method adaptive
+    PYTHONPATH=. python -m experiments.care_com_v22.worker --method random --seed 42
+    PYTHONPATH=. python -m experiments.care_com_v22.worker --method static
+    PYTHONPATH=. python -m experiments.care_com_v22.worker --method adaptive
 """
 import os
+import sys
 import json
 import argparse
 import torch
-from datasets import load_dataset
+import pandas as pd
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "experiment7b")))
+from utils.evaluation import prepare_wikitext_eval_batches
 
 from experiments.care_com_v21.core import PhysicalMergeEngine
 from experiments.care_com_v22.config import CareComV22Config
@@ -20,25 +24,19 @@ from experiments.care_com_v22.baselines import run_random_baseline, run_static_b
 from experiments.care_com_v22.adaptive import run_adaptive_baseline
 
 
-def prepare_data(tokenizer, config, max_length=1024):
-    """Loads wikitext for evaluation."""
-    print("Loading WikiText...")
-    dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
-    text = "\n\n".join(dataset["text"])
+def load_calibration_data():
+    """Loads the CARE capability token vectors (parquet DataFrame)."""
+    token_path = os.path.join(
+        os.path.dirname(__file__), "..", "..",
+        "results", "exp6c", "token_vectors",
+        "EXP6C_TOKEN_CAPABILITY_VECTORS.parquet"
+    )
+    if not os.path.exists(token_path):
+        token_path = "results/exp6c/token_vectors/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet"
 
-    tokens = tokenizer(text, return_tensors="pt")["input_ids"][0]
-
-    num_eval_chunks = config.max_ppl_batches * config.ppl_batch_size
-    chunks = []
-    for i in range(0, min(len(tokens) - max_length, num_eval_chunks * max_length), max_length):
-        chunk = tokens[i : i + max_length]
-        chunks.append({
-            "input_ids": chunk,
-            "attention_mask": torch.ones_like(chunk)
-        })
-
-    df_tokens = tokens[:4096].unsqueeze(0)
-    return chunks, df_tokens
+    print(f"Loading calibration data from {token_path}...")
+    df_tokens = pd.read_parquet(token_path)
+    return df_tokens
 
 
 def load_model(config):
@@ -57,8 +55,14 @@ def load_model(config):
 def run_worker(method, seed=None):
     config = CareComV22Config()
     tokenizer = AutoTokenizer.from_pretrained(config.model_name)
-    eval_chunks, df_tokens = prepare_data(tokenizer, config)
-    df_tokens = df_tokens.to(config.device)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    # Eval chunks: list of dicts with input_ids & attention_mask (from experiment7b)
+    eval_chunks = prepare_wikitext_eval_batches(tokenizer)
+
+    # Calibration data: pandas DataFrame with axis_idx, input_ids, attention_mask
+    df_tokens = load_calibration_data()
 
     model = load_model(config)
     engine = PhysicalMergeEngine(model)
