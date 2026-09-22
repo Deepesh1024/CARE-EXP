@@ -34,7 +34,7 @@ def replay_merges_and_compute_ppl(trace, method_name, config, tokenizer, eval_ch
 
     model = AutoModelForCausalLM.from_pretrained(
         config.model_name,
-        torch_dtype=torch.float16,
+        torch_dtype=torch.bfloat16,
         trust_remote_code=True,
         device_map=config.device
     )

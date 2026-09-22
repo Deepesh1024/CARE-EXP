@@ -44,7 +44,7 @@ def load_model(config):
     print(f"Loading {config.model_name}...")
     model = AutoModelForCausalLM.from_pretrained(
         config.model_name,
-        torch_dtype=torch.float16,
+        torch_dtype=torch.bfloat16,
         trust_remote_code=True,
         device_map=config.device
     )
