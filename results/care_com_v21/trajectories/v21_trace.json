@@ -1,0 +1,466 @@
+[
+  {
+    "step": 1,
+    "experts_before": 64,
+    "experts_after": 63,
+    "selected_pair": [
+      13,
+      15
+    ],
+    "capability_distance": 0.015828697010874748,
+    "functional_damage": 0.046429177588429585,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 40.1887948513031,
+    "evaluation_time": 196.84736728668213,
+    "merge_time": 0.011609792709350586,
+    "total_step_time": 237.05378365516663,
+    "all_candidates": [
+      {
+        "pair": [
+          8,
+          13
+        ],
+        "capability_distance": 0.015765443444252014,
+        "marginal_damage": 0.08377607078732739
+      },
+      {
+        "pair": [
+          13,
+          15
+        ],
+        "capability_distance": 0.015828697010874748,
+        "marginal_damage": 0.046429177588429585
+      },
+      {
+        "pair": [
+          8,
+          15
+        ],
+        "capability_distance": 0.015954578295350075,
+        "marginal_damage": 0.08556583742510245
+      },
+      {
+        "pair": [
+          0,
+          15
+        ],
+        "capability_distance": 0.016044605523347855,
+        "marginal_damage": 0.05258883262056285
+      },
+      {
+        "pair": [
+          12,
+          15
+        ],
+        "capability_distance": 0.017348773777484894,
+        "marginal_damage": 0.048054068329775455
+      }
+    ]
+  },
+  {
+    "step": 2,
+    "experts_before": 63,
+    "experts_after": 62,
+    "selected_pair": [
+      12,
+      13
+    ],
+    "capability_distance": 0.01773226074874401,
+    "functional_damage": 0.028309164758709076,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 39.443267822265625,
+    "evaluation_time": 142.3170063495636,
+    "merge_time": 0.023435354232788086,
+    "total_step_time": 181.78946185112,
+    "all_candidates": [
+      {
+        "pair": [
+          8,
+          13
+        ],
+        "capability_distance": 0.0160085316747427,
+        "marginal_damage": 0.0644493901999185
+      },
+      {
+        "pair": [
+          7,
+          13
+        ],
+        "capability_distance": 0.016826577484607697,
+        "marginal_damage": 0.041248629208513965
+      },
+      {
+        "pair": [
+          12,
+          13
+        ],
+        "capability_distance": 0.01773226074874401,
+        "marginal_damage": 0.028309164758709076
+      },
+      {
+        "pair": [
+          7,
+          10
+        ],
+        "capability_distance": 0.018201131373643875,
+        "marginal_damage": 0.06427424863435569
+      },
+      {
+        "pair": [
+          0,
+          12
+        ],
+        "capability_distance": 0.020039886236190796,
+        "marginal_damage": 0.05486043798026719
+      }
+    ]
+  },
+  {
+    "step": 3,
+    "experts_before": 62,
+    "experts_after": 61,
+    "selected_pair": [
+      10,
+      12
+    ],
+    "capability_distance": 0.020716004073619843,
+    "functional_damage": 0.03212775743541429,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 39.37759757041931,
+    "evaluation_time": 211.29418063163757,
+    "merge_time": 0.01956009864807129,
+    "total_step_time": 250.70203495025635,
+    "all_candidates": [
+      {
+        "pair": [
+          7,
+          10
+        ],
+        "capability_distance": 0.01796548068523407,
+        "marginal_damage": 0.06703318607172225
+      },
+      {
+        "pair": [
+          8,
+          12
+        ],
+        "capability_distance": 0.01941320300102234,
+        "marginal_damage": 0.06248457230911821
+      },
+      {
+        "pair": [
+          10,
+          12
+        ],
+        "capability_distance": 0.020716004073619843,
+        "marginal_damage": 0.03212775743541429
+      },
+      {
+        "pair": [
+          10,
+          13
+        ],
+        "capability_distance": 0.02095019817352295,
+        "marginal_damage": 0.08393409856880799
+      },
+      {
+        "pair": [
+          0,
+          8
+        ],
+        "capability_distance": 0.02106206677854061,
+        "marginal_damage": 0.09045361058809394
+      }
+    ]
+  },
+  {
+    "step": 4,
+    "experts_before": 61,
+    "experts_after": 60,
+    "selected_pair": [
+      7,
+      10
+    ],
+    "capability_distance": 0.017585717141628265,
+    "functional_damage": 0.042778030285618135,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 38.388935565948486,
+    "evaluation_time": 139.978107213974,
+    "merge_time": 0.023022890090942383,
+    "total_step_time": 178.39542841911316,
+    "all_candidates": [
+      {
+        "pair": [
+          7,
+          10
+        ],
+        "capability_distance": 0.017585717141628265,
+        "marginal_damage": 0.042778030285618135
+      },
+      {
+        "pair": [
+          0,
+          8
+        ],
+        "capability_distance": 0.021034926176071167,
+        "marginal_damage": 0.09215419197339184
+      },
+      {
+        "pair": [
+          10,
+          12
+        ],
+        "capability_distance": 0.021044371649622917,
+        "marginal_damage": 0.060201727485482866
+      },
+      {
+        "pair": [
+          7,
+          8
+        ],
+        "capability_distance": 0.022911980748176575,
+        "marginal_damage": 0.09915804607346483
+      },
+      {
+        "pair": [
+          6,
+          8
+        ],
+        "capability_distance": 0.022928472608327866,
+        "marginal_damage": 0.10650858022367996
+      }
+    ]
+  },
+  {
+    "step": 5,
+    "experts_before": 60,
+    "experts_after": 59,
+    "selected_pair": [
+      5,
+      12
+    ],
+    "capability_distance": 0.02331872284412384,
+    "functional_damage": 0.06014133671761677,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 37.67054629325867,
+    "evaluation_time": 207.91417789459229,
+    "merge_time": 0.00871729850769043,
+    "total_step_time": 245.59863901138306,
+    "all_candidates": [
+      {
+        "pair": [
+          0,
+          8
+        ],
+        "capability_distance": 0.02100527286529541,
+        "marginal_damage": 0.0919833842957812
+      },
+      {
+        "pair": [
+          8,
+          15
+        ],
+        "capability_distance": 0.021539149805903435,
+        "marginal_damage": 0.09554091367983604
+      },
+      {
+        "pair": [
+          0,
+          15
+        ],
+        "capability_distance": 0.022352730855345726,
+        "marginal_damage": 0.07303004260019083
+      },
+      {
+        "pair": [
+          6,
+          8
+        ],
+        "capability_distance": 0.022893456742167473,
+        "marginal_damage": 0.10579737121665489
+      },
+      {
+        "pair": [
+          5,
+          12
+        ],
+        "capability_distance": 0.02331872284412384,
+        "marginal_damage": 0.06014133671761677
+      }
+    ]
+  },
+  {
+    "step": 6,
+    "experts_before": 59,
+    "experts_after": 58,
+    "selected_pair": [
+      1,
+      4
+    ],
+    "capability_distance": 0.023526621982455254,
+    "functional_damage": 0.06938544483799981,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 37.09379696846008,
+    "evaluation_time": 138.81149196624756,
+    "merge_time": 0.02379441261291504,
+    "total_step_time": 175.9341676235199,
+    "all_candidates": [
+      {
+        "pair": [
+          0,
+          8
+        ],
+        "capability_distance": 0.021300897002220154,
+        "marginal_damage": 0.09377715783943633
+      },
+      {
+        "pair": [
+          8,
+          14
+        ],
+        "capability_distance": 0.021821804344654083,
+        "marginal_damage": 0.09737195044221648
+      },
+      {
+        "pair": [
+          0,
+          14
+        ],
+        "capability_distance": 0.022324245423078537,
+        "marginal_damage": 0.07661632215541524
+      },
+      {
+        "pair": [
+          6,
+          8
+        ],
+        "capability_distance": 0.023050731047987938,
+        "marginal_damage": 0.10950764360778494
+      },
+      {
+        "pair": [
+          1,
+          4
+        ],
+        "capability_distance": 0.023526621982455254,
+        "marginal_damage": 0.06938544483799981
+      }
+    ]
+  },
+  {
+    "step": 7,
+    "experts_before": 58,
+    "experts_after": 57,
+    "selected_pair": [
+      4,
+      15
+    ],
+    "capability_distance": 0.022623904049396515,
+    "functional_damage": 0.04449647385849381,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 36.3640558719635,
+    "evaluation_time": 205.6683909893036,
+    "merge_time": 0.02480483055114746,
+    "total_step_time": 242.06213116645813,
+    "all_candidates": [
+      {
+        "pair": [
+          0,
+          15
+        ],
+        "capability_distance": 0.02097676880657673,
+        "marginal_damage": 0.07944614952335124
+      },
+      {
+        "pair": [
+          0,
+          7
+        ],
+        "capability_distance": 0.0217315424233675,
+        "marginal_damage": 0.08195806040182013
+      },
+      {
+        "pair": [
+          0,
+          13
+        ],
+        "capability_distance": 0.02213902585208416,
+        "marginal_damage": 0.08240821822399469
+      },
+      {
+        "pair": [
+          7,
+          13
+        ],
+        "capability_distance": 0.02222159504890442,
+        "marginal_damage": 0.08234516616061562
+      },
+      {
+        "pair": [
+          4,
+          15
+        ],
+        "capability_distance": 0.022623904049396515,
+        "marginal_damage": 0.04449647385849381
+      }
+    ]
+  },
+  {
+    "step": 8,
+    "experts_before": 57,
+    "experts_after": 56,
+    "selected_pair": [
+      4,
+      6
+    ],
+    "capability_distance": 0.02197391167283058,
+    "functional_damage": 0.006976646534471445,
+    "candidate_pool_size": 5,
+    "capability_recompute_time": 35.964919090270996,
+    "evaluation_time": 137.74769473075867,
+    "merge_time": 0.025254011154174805,
+    "total_step_time": 173.74259686470032,
+    "all_candidates": [
+      {
+        "pair": [
+          1,
+          15
+        ],
+        "capability_distance": 0.019081328064203262,
+        "marginal_damage": 0.05230549484324465
+      },
+      {
+        "pair": [
+          0,
+          7
+        ],
+        "capability_distance": 0.02151780016720295,
+        "marginal_damage": 0.09143312172886191
+      },
+      {
+        "pair": [
+          0,
+          13
+        ],
+        "capability_distance": 0.021960796788334846,
+        "marginal_damage": 0.08653354372069329
+      },
+      {
+        "pair": [
+          7,
+          13
+        ],
+        "capability_distance": 0.021965784952044487,
+        "marginal_damage": 0.0910218125360006
+      },
+      {
+        "pair": [
+          4,
+          6
+        ],
+        "capability_distance": 0.02197391167283058,
+        "marginal_damage": 0.006976646534471445
+      }
+    ]
+  }
+]
