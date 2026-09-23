@@ -39,6 +39,29 @@ def test_forward_equivalence(config):
     print("Patching model...")
     register_olmoe_in_reap(model)
     
+    # [PATCH] OLMoEExperts expects 3 arguments, but REAP's fused hook passes 1 argument (unweighted activations).
+    for name, module in model.named_modules():
+        if type(module).__name__ == "OlmoeSparseMoeBlock":
+            experts_cls = module.experts.__class__
+            if not hasattr(experts_cls, '_original_forward'):
+                experts_cls._original_forward = experts_cls.forward
+                def patched_experts_forward(self, *args, **kwargs):
+                    if len(args) == 1 and not kwargs:
+                        # REAP unweighted activations path
+                        hidden_states = args[0]
+                        E = self.num_experts
+                        T = hidden_states.size(0) // E
+                        H = self.hidden_dim
+                        x = hidden_states.view(E, T, H)
+                        
+                        gate_up = torch.bmm(x, self.gate_up_proj.transpose(1, 2))
+                        gate, up = gate_up.chunk(2, dim=-1)
+                        intermediate = self.act_fn(gate) * up
+                        down = torch.bmm(intermediate, self.down_proj.transpose(1, 2))
+                        return down.view(-1, H)
+                    return self._original_forward(*args, **kwargs)
+                experts_cls.forward = patched_experts_forward
+
     # Apply monkey-patched hook factory approach
     reap_path = os.path.join(os.path.dirname(__file__), "..", "external", "reap", "src")
     if reap_path not in sys.path:
