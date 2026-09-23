@@ -61,6 +61,9 @@ def main():
     parser.add_argument("--seed", type=int, default=None, 
                         help="Specific random seed to use (only for random baseline)")
     
+    parser.add_argument("--resume", action="store_true", 
+                        help="Skip methods that have already completed successfully")
+    
     args = parser.parse_args()
     config = load_config()
     
@@ -70,6 +73,26 @@ def main():
         methods = [args.method]
         
     for method in methods:
+        if args.resume:
+            # Check if this method already completed
+            traj_file = os.path.join(os.path.dirname(__file__), "..", "benchmark_results", method, "trajectory.json")
+            if method == "random":
+                traj_file = os.path.join(os.path.dirname(__file__), "..", "benchmark_results", "random", "seed_42_trajectory.json")
+                
+            if os.path.exists(traj_file):
+                try:
+                    import json
+                    with open(traj_file, "r") as f:
+                        data = json.load(f)
+                    if "error" in data:
+                        print(f"Skipping {method} (previously recorded as error/incompatible).")
+                        continue
+                    elif "steps" in data and len(data["steps"]) >= len(config["compression"]["checkpoints"]):
+                        print(f"Skipping {method} (already completed).")
+                        continue
+                except Exception:
+                    pass
+
         if method == "random":
             seeds = [args.seed] if args.seed is not None else config["baselines"]["random_seeds"]
             for seed in seeds:
