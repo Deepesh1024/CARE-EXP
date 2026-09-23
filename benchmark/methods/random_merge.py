@@ -39,6 +39,9 @@ def run_random_merge(seed, config):
         
     eval_chunks = prepare_wikitext_eval_batches(tokenizer, config)
     df_calibration = load_calibration_data()
+    # Sample a small representative subset for extremely fast KL tracking per step
+    # We don't need all 2800 sequences just to log a rough KL trend line
+    df_calibration = df_calibration.sample(n=128, random_state=42).reset_index(drop=True)
     
     print(f"[Random Seed {seed}] Loading model in {config['model']['precision']}...")
     dtype = torch.bfloat16 if config['model']['precision'] == "bfloat16" else torch.float32

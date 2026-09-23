@@ -38,6 +38,8 @@ def run_care_com(method_name, config):
         
     eval_chunks = prepare_wikitext_eval_batches(tokenizer, config)
     df_calibration = load_calibration_data()
+    # Sample a small representative subset for extremely fast KL tracking per step
+    df_calibration = df_calibration.sample(n=128, random_state=42).reset_index(drop=True)
     
     print(f"[{method_name}] Loading model in {config['model']['precision']}...")
     dtype = torch.bfloat16 if config['model']['precision'] == "bfloat16" else torch.float32
