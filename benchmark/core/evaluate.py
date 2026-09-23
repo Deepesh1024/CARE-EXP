@@ -94,8 +94,9 @@ def evaluate_marginal_kl(model, df_tokens, baseline_probs, batch_size=32, device
     for i in range(0, num_samples, batch_size):
         batch_df = df_tokens.iloc[i:i+batch_size]
         
-        input_ids = torch.tensor(batch_df['input_ids'].tolist()).to(device)
-        attention_mask = torch.tensor(batch_df['attention_mask'].tolist()).to(device)
+        import numpy as np
+        input_ids = torch.tensor(np.array(batch_df['input_ids'].tolist())).to(device)
+        attention_mask = torch.tensor(np.array(batch_df['attention_mask'].tolist())).to(device)
         
         outputs = model(input_ids=input_ids, attention_mask=attention_mask)
         current_probs = F.softmax(outputs.logits[:, -1, :], dim=-1)
