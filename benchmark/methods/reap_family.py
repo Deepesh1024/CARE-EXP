@@ -22,7 +22,7 @@ from benchmark.run_benchmark import load_config
 from benchmark.core.evaluate import prepare_wikitext_eval_batches, compute_ppl
 from benchmark.core.logging import BenchmarkLogger
 
-from benchmark.external.reap.src.reap.data import DATASET_REGISTRY, LMDatasetProcessor
+from reap.data import DATASET_REGISTRY, LMDatasetProcessor
 
 class WikitextLMDataset(LMDatasetProcessor):
     category_field: str = None
