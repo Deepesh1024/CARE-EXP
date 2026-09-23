@@ -318,7 +318,7 @@ def run_reap_method(method, config):
                     cluster_label=cluster_labels[layer],
                     expert_proba=expert_proba,
                     model_attrs=model_attrs,
-                    merge_method=MergeMethod("average"),
+                    merge_method=MergeMethod.FREQUENCY_WEIGHTED_AVERAGE,
                     dom_as_base=False,
                     select_top_k=False,
                     permute=False,
