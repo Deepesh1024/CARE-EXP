@@ -77,7 +77,7 @@ def main():
             # Check if this method already completed
             traj_file = os.path.join(os.path.dirname(__file__), "..", "benchmark_results", method, "trajectory.json")
             if method == "random":
-                traj_file = os.path.join(os.path.dirname(__file__), "..", "benchmark_results", "random", "seed_42_trajectory.json")
+                traj_file = os.path.join(os.path.dirname(__file__), "..", "benchmark_results", "random", "random_seed_42", "trajectory.json")
                 
             if os.path.exists(traj_file):
                 try:
