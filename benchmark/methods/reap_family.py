@@ -45,6 +45,17 @@ def register_olmoe_in_reap(model):
     model_cls_name = type(model).__name__
     moe_cls_name = detect_olmoe_moe_class(model)
 
+    # REAP dynamically accesses `num_experts` and `num_experts_per_tok` on the MoE block.
+    # OLMoE does not expose these directly on the block, so we dynamically patch the class.
+    for name, module in model.named_modules():
+        if type(module).__name__ == moe_cls_name:
+            if not hasattr(module.__class__, 'num_experts'):
+                module.__class__.num_experts = property(lambda self: len(self.experts))
+            if not hasattr(module.__class__, 'num_experts_per_tok'):
+                # OLMoE routes to 8 experts per token by default
+                module.__class__.num_experts_per_tok = property(lambda self: getattr(self.gate, "top_k", 8) if hasattr(self, "gate") else 8)
+            break
+
     if model_cls_name not in MODEL_ATTRS:
         print(f"[REAP] Registering {model_cls_name} in MODEL_ATTRS...")
         MODEL_ATTRS[model_cls_name] = {
