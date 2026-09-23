@@ -353,8 +353,12 @@ def run_reap_method(method, config):
 
             # IMPORTANT: Reload model for next compression target (since merging is destructive)
             if target != min(config['compression']['checkpoints']):
-                del merger
-                del moe
+                if 'merger' in locals():
+                    del merger
+                if 'moe' in locals():
+                    del moe
+                if 'observer' in locals():
+                    del observer
                 del model
                 import gc
                 gc.collect()
