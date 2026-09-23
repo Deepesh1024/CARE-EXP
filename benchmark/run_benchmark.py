@@ -87,7 +87,9 @@ def main():
                     if "error" in data:
                         print(f"Skipping {method} (previously recorded as error/incompatible).")
                         continue
-                    elif "steps" in data and len(data["steps"]) >= len(config["compression"]["checkpoints"]):
+                    
+                    min_checkpoint = str(min(config["compression"]["checkpoints"]))
+                    if "ppl" in data and min_checkpoint in data["ppl"]:
                         print(f"Skipping {method} (already completed).")
                         continue
                 except Exception:
