@@ -40,7 +40,11 @@ def test_forward_equivalence(config):
     register_olmoe_in_reap(model)
     
     # Apply monkey-patched hook factory approach
-    from external.reap.src.reap.observer import MoETransformerObserver, OBSERVER_CONFIG_REGISTRY
+    reap_path = os.path.join(os.path.dirname(__file__), "..", "external", "reap", "src")
+    if reap_path not in sys.path:
+        sys.path.insert(0, reap_path)
+        
+    from reap.observer import MoETransformerObserver, OBSERVER_CONFIG_REGISTRY
     
     original_hook_factory = MoETransformerObserver._hook_factory
     
