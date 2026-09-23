@@ -4,6 +4,12 @@ import yaml
 import subprocess
 import sys
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 def load_config():
     config_path = os.path.join(os.path.dirname(__file__), "benchmark_config.yaml")
     with open(config_path, "r") as f:
