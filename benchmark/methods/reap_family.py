@@ -52,6 +52,8 @@ def register_olmoe_in_reap(model):
                 module.__class__.num_experts = property(lambda self: self.experts.num_experts)
             if not hasattr(module.__class__, 'num_experts_per_tok'):
                 module.__class__.num_experts_per_tok = property(lambda self: getattr(self.gate, "top_k", 8) if hasattr(self, "gate") else 8)
+            if not hasattr(module.__class__, 'router'):
+                module.__class__.router = property(lambda self: getattr(self, "gate", None))
             break
 
     if model_cls_name not in MODEL_ATTRS:
@@ -75,6 +77,8 @@ def register_olmoe_in_reap(model):
             @dataclass
             class OLMoEObserverHookConfig(MoETransformerObserverConfig):
                 module_class_name_to_hook_regex: str = moe_cls_name
+                top_k_attr_name: str = "num_experts_per_tok"
+                fused_experts: bool = True
 
             OBSERVER_CONFIG_REGISTRY[model_cls_name] = OLMoEObserverHookConfig
         else:
