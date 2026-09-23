@@ -64,7 +64,7 @@ def run_care_com(method_name, config):
     # For static, compute capability only once
     if not is_adaptive:
         print(f"[{method_name}] Computing STATIC capability vectors...")
-        C_static = compute_global_capability_vectors(model, df_calibration)
+        C_static = compute_global_capability_vectors(model, engine.moe_blocks, df_calibration)
         
     step = 1
     cumulative_kl = 0.0
@@ -76,7 +76,7 @@ def run_care_com(method_name, config):
         step_start_time = time.time()
         
         if is_adaptive:
-            C_current = compute_global_capability_vectors(model, df_calibration)
+            C_current = compute_global_capability_vectors(model, engine.moe_blocks, df_calibration)
         else:
             C_current = C_static
             
@@ -87,8 +87,8 @@ def run_care_com(method_name, config):
         min_damage = float('inf')
         candidate_records = []
         
-        for pair, cap_dist in candidates:
-            i, j = pair
+        for i, j in candidates:
+            cap_dist = distances[i][j]
             # Transactional evaluation
             engine.snapshot(i)
             engine.merge_experts(i, j)
@@ -105,7 +105,7 @@ def run_care_com(method_name, config):
                 min_damage = damage
                 best_candidate = (i, j, cap_dist)
                 
-            engine.restore(i)
+            engine.restore()
             
         # Perform permanent merge
         best_i, best_j, best_cap_dist = best_candidate
