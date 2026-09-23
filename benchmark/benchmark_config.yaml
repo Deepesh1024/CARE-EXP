@@ -3,7 +3,7 @@
 
 model:
   name: "allenai/OLMoE-1B-7B-0924"
-  device: "auto"
+  device: "cuda"
   precision: "bfloat16" # Must be exactly this to prevent overflow on OLMoE
 
 evaluation:
