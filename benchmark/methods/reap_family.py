@@ -187,6 +187,19 @@ def run_reap_method(method, config):
 
         # Step 1: Record activations (observer)
         print(f"[{method.upper()}] Step 1: Recording activations...")
+
+        # [PATCH] Wrap OLMoE outputs in a tuple so REAP doesn't crash unpacking it.
+        # REAP's fused_experts hook expects `_, router_scores = output` and calls `router_scores.size(0)`.
+        def wrap_output_hook(module, args, output):
+            if not isinstance(output, tuple):
+                dummy_scores = torch.empty((module.num_experts, 0), device=output.device if hasattr(output, 'device') else 'cpu')
+                return (output, dummy_scores)
+            return output
+            
+        for name, module in model.named_modules():
+            if type(module).__name__ == moe_cls:
+                module.register_forward_hook(wrap_output_hook)
+
         observer_config = OBSERVER_CONFIG_REGISTRY[model_cls](
             distance_measure="cosine",
             renormalize_router_weights=False,
