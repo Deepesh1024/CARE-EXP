@@ -284,6 +284,9 @@ def run_reap_method(method, config):
         logger = BenchmarkLogger(os.path.join(out_dir, "trajectory.json"), config)
         logger.log_ppl(64, ppl_64)
 
+        print(f"[{method.upper()}] Backing up base model weights to CPU RAM...")
+        base_state_dict = {k: v.cpu().clone() for k, v in model.state_dict().items()}
+
         for target in config['compression']['checkpoints']:
             if target >= 64:
                 continue
@@ -359,21 +362,12 @@ def run_reap_method(method, config):
                     del moe
                 if 'observer' in locals():
                     del observer
-                del model
                 import gc
                 gc.collect()
                 torch.cuda.empty_cache()
                 
-                print(f"[{method.upper()}] Reloading base model from disk to clear destructive edits...")
-                model = AutoModelForCausalLM.from_pretrained(
-                    config['model']['name'],
-                    torch_dtype=dtype,
-                    trust_remote_code=True,
-                    device_map=config['model']['device'],
-                    offload_folder="offload"
-                )
-                model.eval()
-                register_olmoe_in_reap(model)
+                print(f"[{method.upper()}] Restoring base model weights from CPU RAM...")
+                model.load_state_dict(base_state_dict, strict=True)
 
         print(f"\n[{method.upper()}] Completed successfully!")
         return True
