@@ -194,6 +194,9 @@ def run_reap_method(method, config):
         )
         observer = MoETransformerObserver(model=model, hook_config=observer_config)
 
+        # Fix OverflowError: explicitly set tokenizer.model_max_length so it doesn't 
+        # evaluate to a massive fallback integer that crashes Rust bindings.
+        tokenizer.model_max_length = 512
         # Load calibration data using REAP's data loader
         cal_batches = load_category_batches(
             dataset_name="wikitext",
