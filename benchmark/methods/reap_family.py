@@ -62,8 +62,20 @@ def register_olmoe_in_reap(model):
                 module.__class__.num_experts = property(lambda self: self.experts.num_experts)
             if not hasattr(module.__class__, 'num_experts_per_tok'):
                 module.__class__.num_experts_per_tok = property(lambda self: getattr(self.gate, "top_k", 8) if hasattr(self, "gate") else 8)
+            
+            # [PATCH] Provide a RouterAdapter that extracts logits (element 0) from the gate's tuple output
             if not hasattr(module.__class__, 'router'):
-                module.__class__.router = property(lambda self: getattr(self, "gate", None))
+                def get_router(self):
+                    if not hasattr(self, '_reap_router_adapter'):
+                        class RouterAdapter(torch.nn.Module):
+                            def __init__(self, gate):
+                                super().__init__()
+                                self.gate = gate
+                            def forward(self, hidden_states):
+                                return self.gate(hidden_states)[0]
+                        self._reap_router_adapter = RouterAdapter(getattr(self, "gate", None))
+                    return self._reap_router_adapter
+                module.__class__.router = property(get_router)
             break
 
     if model_cls_name not in MODEL_ATTRS:
@@ -188,17 +200,23 @@ def run_reap_method(method, config):
         # Step 1: Record activations (observer)
         print(f"[{method.upper()}] Step 1: Recording activations...")
 
-        # [PATCH] Wrap OLMoE outputs in a tuple so REAP doesn't crash unpacking it.
-        # REAP's fused_experts hook expects `_, router_scores = output` and calls `router_scores.size(0)`.
-        def wrap_output_hook(module, args, output):
-            if not isinstance(output, tuple):
-                dummy_scores = torch.empty((module.num_experts, 0), device=output.device if hasattr(output, 'device') else 'cpu')
-                return (output, dummy_scores)
-            return output
+        
+        # [PATCH] Wrap OLMoE outputs in a tuple specifically for REAP's hook 
+        # so it doesn't crash unpacking it, but without modifying the actual PyTorch forward pass.
+        original_hook_factory = MoETransformerObserver._hook_factory
+        
+        def patched_hook_factory(self, module, layer_number):
+            orig_hook_fn = original_hook_factory(self, module, layer_number)
+            def wrapped_hook_fn(mod, args, output):
+                if not isinstance(output, tuple):
+                    dummy_scores = torch.empty((mod.num_experts, 0), device=output.device if hasattr(output, 'device') else 'cpu')
+                    fake_output = (output, dummy_scores)
+                else:
+                    fake_output = output
+                return orig_hook_fn(mod, args, fake_output)
+            return wrapped_hook_fn
             
-        for name, module in model.named_modules():
-            if type(module).__name__ == moe_cls:
-                module.register_forward_hook(wrap_output_hook)
+        MoETransformerObserver._hook_factory = patched_hook_factory
 
         observer_config = OBSERVER_CONFIG_REGISTRY[model_cls](
             distance_measure="cosine",

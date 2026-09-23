@@ -7,10 +7,10 @@ During the construction of the CARE-COM External Benchmark, we analyzed the comp
 | **Random (Internal Baseline)** | ✅ Fully Supported | Wrapped successfully. |
 | **Static CARE-COM** | ✅ Fully Supported | Wrapped successfully. |
 | **Adaptive CARE-COM** | ✅ Fully Supported | Wrapped successfully. |
-| **REAP** | ❌ Not Reproduced on OLMoE | `OLMoEForCausalLM` not supported natively by REAP's `model_util.py`. |
-| **HC-SMoE** | ❌ Not Reproduced on OLMoE | `OLMoEForCausalLM` not supported natively by REAP's `model_util.py`. |
-| **M-SMoE** | ❌ Not Reproduced on OLMoE | `OLMoEForCausalLM` not supported natively by REAP's `model_util.py`. |
-| **Sub-MoE** | ❌ Not Reproduced on OLMoE | `OLMoEForCausalLM` not supported natively by REAP's `model_util.py`. |
+| **REAP** | ✅ COMPATIBLE_AND_VALIDATED | Validated OLMoE compatibility adapters. |
+| **HC-SMoE** | ✅ COMPATIBLE_AND_VALIDATED | Validated OLMoE compatibility adapters. |
+| **M-SMoE** | ✅ COMPATIBLE_AND_VALIDATED | Validated OLMoE compatibility adapters. |
+| **Sub-MoE** | ✅ COMPATIBLE_AND_VALIDATED | Validated OLMoE compatibility adapters. |
 | **REAM** | ❌ Not Reproduced on OLMoE | Relies on hardcoded Mistral/Mixtral block configurations. |
 | **PuzzleMoE** | ❌ Not Reproduced on OLMoE | Requires explicit modeling modifications specific to standard LLMs. |
 
