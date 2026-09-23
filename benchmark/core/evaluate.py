@@ -72,8 +72,9 @@ def compute_calibration_distributions(model, df_tokens, batch_size=32, device="c
     for i in range(0, len(df_tokens), batch_size):
         batch_df = df_tokens.iloc[i:i+batch_size]
         
-        input_ids = torch.tensor(batch_df['input_ids'].tolist()).to(device)
-        attention_mask = torch.tensor(batch_df['attention_mask'].tolist()).to(device)
+        import numpy as np
+        input_ids = torch.tensor(np.array(batch_df['input_ids'].tolist())).to(device)
+        attention_mask = torch.tensor(np.array(batch_df['attention_mask'].tolist())).to(device)
         
         outputs = model(input_ids=input_ids, attention_mask=attention_mask)
         probs = F.softmax(outputs.logits[:, -1, :], dim=-1)
