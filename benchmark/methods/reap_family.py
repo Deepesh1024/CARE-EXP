@@ -353,8 +353,14 @@ def run_reap_method(method, config):
 
             # IMPORTANT: Reload model for next compression target (since merging is destructive)
             if target != min(config['compression']['checkpoints']):
+                del merger
+                del moe
                 del model
+                import gc
+                gc.collect()
                 torch.cuda.empty_cache()
+                
+                print(f"[{method.upper()}] Reloading base model from disk to clear destructive edits...")
                 model = AutoModelForCausalLM.from_pretrained(
                     config['model']['name'],
                     torch_dtype=dtype,
