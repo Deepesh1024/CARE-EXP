@@ -1,0 +1,1 @@
+Generated from audit/experiment4_pair_level.csv. Highlights the distribution of Oracle KL within a very narrow band of capability distance.

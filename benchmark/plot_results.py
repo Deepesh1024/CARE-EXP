@@ -17,71 +17,82 @@ def generate_plots(summary_dir):
     plots_dir = os.path.join(summary_dir, "plots")
     os.makedirs(plots_dir, exist_ok=True)
     
-    # We will average the Random baseline across seeds
-    df_agg = df.groupby(['method', 'experts']).mean(numeric_only=True).reset_index()
-    
-    # Set style
     sns.set_theme(style="whitegrid")
     
     # Figure 1: PPL vs number of experts
     plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df, x='experts', y='ppl', hue='method', marker='o')
+    # We use errorbar=None to remove fake uncertainty shading for deterministic methods
+    sns.lineplot(data=df, x='experts', y='ppl', hue='method', marker='o', errorbar=None)
     plt.gca().invert_xaxis()
-    plt.title("Figure 1: Perplexity vs Number of Experts")
-    plt.xlabel("Number of Experts")
-    plt.ylabel("WikiText-2 Perplexity")
+    plt.title("Language-model quality under expert consolidation", fontsize=14)
+    plt.xlabel("Number of Active Experts", fontsize=12)
+    plt.ylabel("WikiText-2 Perplexity ↓", fontsize=12)
+    plt.legend(title="Method")
     plt.savefig(os.path.join(plots_dir, "fig1_ppl_vs_experts.png"), dpi=300)
     plt.close()
     
-    # Figure 2: Cumulative KL vs number of experts
+    # Dataframe filtered for methods that actually measured KL
+    df_kl = df.dropna(subset=['cumulative_kl'])
+    
+    # Figure 2: Cumulative Functional Divergence During Compression
     plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df, x='experts', y='cumulative_kl', hue='method', marker='s')
+    if not df_kl.empty:
+        sns.lineplot(data=df_kl, x='experts', y='cumulative_kl', hue='method', marker='s', errorbar=None)
     plt.gca().invert_xaxis()
-    plt.title("Figure 2: Cumulative KL vs Number of Experts")
-    plt.xlabel("Number of Experts")
-    plt.ylabel("Cumulative KL Divergence")
+    plt.title("Cumulative Functional Divergence During Compression", fontsize=14)
+    plt.xlabel("Number of Active Experts", fontsize=12)
+    plt.ylabel("Cumulative KL Divergence ↓", fontsize=12)
+    plt.legend(title="Method")
     plt.savefig(os.path.join(plots_dir, "fig2_cum_kl_vs_experts.png"), dpi=300)
     plt.close()
     
-    # Figure 3: Mean marginal KL vs compression step
-    # We need to compute step from experts (64 - experts)
-    df['step'] = 64 - df['experts']
+    # Figure 3: Marginal Functional Damage per Compression Step
+    df_kl = df_kl.copy()
+    df_kl['step'] = 64 - df_kl['experts']
     plt.figure(figsize=(10, 6))
-    # We don't have step-level marginal KL in the summary CSV directly, but we can compute diff of cumulative
-    df_sorted = df.sort_values(['method', 'seed', 'step'])
-    df_sorted['marginal_kl'] = df_sorted.groupby(['method', 'seed'])['cumulative_kl'].diff().fillna(0)
     
-    sns.lineplot(data=df_sorted[df_sorted['step'] > 0], x='step', y='marginal_kl', hue='method', marker='^')
-    plt.title("Figure 3: Mean Marginal KL vs Compression Step")
-    plt.xlabel("Compression Step")
-    plt.ylabel("Marginal KL Divergence")
+    df_sorted = df_kl.sort_values(['method', 'seed', 'step']).copy()
+    # No fillna(0) here!
+    df_sorted['marginal_kl'] = df_sorted.groupby(['method', 'seed'])['cumulative_kl'].diff()
+    
+    if not df_sorted[df_sorted['step'] > 0].empty:
+        sns.lineplot(data=df_sorted[df_sorted['step'] > 0], x='step', y='marginal_kl', hue='method', marker='^', errorbar=None)
+    plt.title("Marginal Functional Damage per Compression Step", fontsize=14)
+    plt.xlabel("Compression Step", fontsize=12)
+    plt.ylabel("Marginal KL Divergence ↓", fontsize=12)
+    plt.legend(title="Method")
     plt.savefig(os.path.join(plots_dir, "fig3_marginal_kl.png"), dpi=300)
     plt.close()
     
     # Figure 4: Compression time vs number of experts removed
+    df['step'] = 64 - df['experts']
     plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df, x='step', y='compression_time_sec', hue='method', marker='x')
-    plt.title("Figure 4: Compression Time vs Experts Removed")
-    plt.xlabel("Experts Removed")
-    plt.ylabel("Time (seconds)")
+    sns.lineplot(data=df, x='step', y='compression_time_sec', hue='method', marker='x', errorbar=None)
+    plt.title("Compression Time vs Experts Removed\n(Note: Wall-clock time is implementation-dependent)", fontsize=14)
+    plt.xlabel("Experts Removed", fontsize=12)
+    plt.ylabel("Time (seconds)", fontsize=12)
+    plt.legend(title="Method")
     plt.savefig(os.path.join(plots_dir, "fig4_time_vs_removed.png"), dpi=300)
     plt.close()
     
     # Figure 5: PPL degradation vs parameter reduction
     plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df, x='param_reduction_pct', y='delta_ppl', hue='method', marker='d')
-    plt.title("Figure 5: PPL Degradation vs Parameter Reduction")
-    plt.xlabel("Parameter Reduction (%)")
-    plt.ylabel("Delta PPL (from 64 experts)")
+    sns.lineplot(data=df, x='param_reduction_pct', y='delta_ppl', hue='method', marker='d', errorbar=None)
+    plt.title("PPL Degradation vs Parameter Reduction", fontsize=14)
+    plt.xlabel("Parameter Reduction (%)", fontsize=12)
+    plt.ylabel("Delta PPL (from 64 experts) ↓", fontsize=12)
+    plt.legend(title="Method")
     plt.savefig(os.path.join(plots_dir, "fig5_ppl_deg_vs_param_red.png"), dpi=300)
     plt.close()
     
     # Figure 6: Functional damage vs parameter reduction
     plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df, x='param_reduction_pct', y='cumulative_kl', hue='method', marker='*')
-    plt.title("Figure 6: Functional Damage vs Parameter Reduction")
-    plt.xlabel("Parameter Reduction (%)")
-    plt.ylabel("Cumulative KL Divergence")
+    if not df_kl.empty:
+        sns.lineplot(data=df_kl, x='param_reduction_pct', y='cumulative_kl', hue='method', marker='*', errorbar=None)
+    plt.title("Functional Damage vs Parameter Reduction", fontsize=14)
+    plt.xlabel("Parameter Reduction (%)", fontsize=12)
+    plt.ylabel("Cumulative KL Divergence ↓", fontsize=12)
+    plt.legend(title="Method")
     plt.savefig(os.path.join(plots_dir, "fig6_func_damage_vs_param_red.png"), dpi=300)
     plt.close()
     
@@ -92,9 +103,12 @@ def generate_plots(summary_dir):
         if not df_sel.empty:
             plt.figure(figsize=(8, 8))
             sns.scatterplot(data=df_sel, x='capability_distance', y='actual_marginal_kl', hue='step', palette='viridis', s=100)
-            plt.title("Figure 7: Capability Distance vs Actual Marginal KL")
-            plt.xlabel("Capability Distance (Geometric)")
-            plt.ylabel("Actual Marginal KL (Functional)")
+            plt.title("Observed Capability Distance and Intervention Damage", fontsize=14)
+            plt.xlabel("Capability Distance (Geometric)", fontsize=12)
+            plt.ylabel("Actual Marginal KL (Functional) ↓", fontsize=12)
+            # Add caption text below plot
+            plt.figtext(0.5, 0.01, "Descriptive visualization of observed selected interventions.", ha="center", fontsize=10, style='italic')
+            plt.subplots_adjust(bottom=0.15)
             plt.savefig(os.path.join(plots_dir, "fig7_cap_dist_vs_kl.png"), dpi=300)
             plt.close()
             

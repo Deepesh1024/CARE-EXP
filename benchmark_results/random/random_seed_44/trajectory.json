@@ -1,0 +1,1204 @@
+{
+  "config": {
+    "model": {
+      "name": "allenai/OLMoE-1B-7B-0924",
+      "device": "auto",
+      "precision": "bfloat16"
+    },
+    "evaluation": {
+      "dataset": "wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "split": "test",
+      "max_length": 512,
+      "batch_size": 4,
+      "num_eval_chunks": 128
+    },
+    "compression": {
+      "original_experts": 64,
+      "checkpoints": [
+        64,
+        60,
+        56,
+        48
+      ],
+      "candidate_pool_size": 5
+    },
+    "baselines": {
+      "random_seeds": [
+        42,
+        43,
+        44
+      ],
+      "methods_to_run": [
+        "random",
+        "care_static",
+        "care_adaptive",
+        "hc_smoe",
+        "m_smoe",
+        "sub_moe",
+        "ream",
+        "puzzlemoe"
+      ]
+    }
+  },
+  "ppl": {
+    "64": 10.287769317626953,
+    "60": 12.505691528320312,
+    "56": 16.553112030029297,
+    "48": 29.50580596923828
+  },
+  "trace": [
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": null,
+      "selected_pair": [
+        52,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.0438246903349617,
+      "cumulative_kl": 1.0438246903349617,
+      "wall_time_sec": 91.17165207862854,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": null,
+      "selected_pair": [
+        11,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1199052468597348,
+      "cumulative_kl": 2.1637299371946965,
+      "wall_time_sec": 90.33864164352417,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": null,
+      "selected_pair": [
+        14,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1314931524773204,
+      "cumulative_kl": 3.295223089672017,
+      "wall_time_sec": 89.5099630355835,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": null,
+      "selected_pair": [
+        1,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1092959481856246,
+      "cumulative_kl": 4.404519037857641,
+      "wall_time_sec": 88.29590559005737,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": null,
+      "selected_pair": [
+        7,
+        36
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.223427686671319,
+      "cumulative_kl": 5.62794672452896,
+      "wall_time_sec": 87.78191924095154,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": null,
+      "selected_pair": [
+        0,
+        6
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4151365143056525,
+      "cumulative_kl": 7.043083238834613,
+      "wall_time_sec": 86.77928566932678,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": null,
+      "selected_pair": [
+        10,
+        49
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4075802512212143,
+      "cumulative_kl": 8.450663490055828,
+      "wall_time_sec": 86.00390934944153,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": null,
+      "selected_pair": [
+        32,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4387621031053734,
+      "cumulative_kl": 9.889425593161201,
+      "wall_time_sec": 84.85264253616333,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": null,
+      "selected_pair": [
+        19,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4677114227145849,
+      "cumulative_kl": 11.357137015875786,
+      "wall_time_sec": 84.04892158508301,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": null,
+      "selected_pair": [
+        40,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.51153883897418,
+      "cumulative_kl": 12.868675854849966,
+      "wall_time_sec": 83.75452923774719,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": null,
+      "selected_pair": [
+        37,
+        25
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.452901474180042,
+      "cumulative_kl": 14.321577329030008,
+      "wall_time_sec": 82.44330883026123,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": null,
+      "selected_pair": [
+        49,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3984811147941383,
+      "cumulative_kl": 15.720058443824147,
+      "wall_time_sec": 81.35355162620544,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": null,
+      "selected_pair": [
+        42,
+        20
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.378592768667132,
+      "cumulative_kl": 17.09865121249128,
+      "wall_time_sec": 80.62338781356812,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": null,
+      "selected_pair": [
+        22,
+        4
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4347222827983253,
+      "cumulative_kl": 18.533373495289606,
+      "wall_time_sec": 79.51219248771667,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": null,
+      "selected_pair": [
+        21,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4655279570830426,
+      "cumulative_kl": 19.99890145237265,
+      "wall_time_sec": 78.72704696655273,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": null,
+      "selected_pair": [
+        39,
+        10
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.5076653000697837,
+      "cumulative_kl": 21.506566752442435,
+      "wall_time_sec": 77.64167189598083,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": null,
+      "selected_pair": [
+        52,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.0438246903349617,
+      "cumulative_kl": 1.0438246903349617,
+      "wall_time_sec": 90.80217456817627,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": null,
+      "selected_pair": [
+        11,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1199052468597348,
+      "cumulative_kl": 2.1637299371946965,
+      "wall_time_sec": 90.16422915458679,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": null,
+      "selected_pair": [
+        14,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1314931524773204,
+      "cumulative_kl": 3.295223089672017,
+      "wall_time_sec": 89.22593688964844,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": null,
+      "selected_pair": [
+        1,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1092959481856246,
+      "cumulative_kl": 4.404519037857641,
+      "wall_time_sec": 88.26881742477417,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": null,
+      "selected_pair": [
+        7,
+        36
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.223427686671319,
+      "cumulative_kl": 5.62794672452896,
+      "wall_time_sec": 88.14103865623474,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": null,
+      "selected_pair": [
+        0,
+        6
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4151365143056525,
+      "cumulative_kl": 7.043083238834613,
+      "wall_time_sec": 86.66657257080078,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": null,
+      "selected_pair": [
+        10,
+        49
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4075802512212143,
+      "cumulative_kl": 8.450663490055828,
+      "wall_time_sec": 85.97602534294128,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": null,
+      "selected_pair": [
+        32,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4387621031053734,
+      "cumulative_kl": 9.889425593161201,
+      "wall_time_sec": 84.80840516090393,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": null,
+      "selected_pair": [
+        19,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4677114227145849,
+      "cumulative_kl": 11.357137015875786,
+      "wall_time_sec": 84.11320853233337,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": null,
+      "selected_pair": [
+        40,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.51153883897418,
+      "cumulative_kl": 12.868675854849966,
+      "wall_time_sec": 82.98708987236023,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": null,
+      "selected_pair": [
+        37,
+        25
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.452901474180042,
+      "cumulative_kl": 14.321577329030008,
+      "wall_time_sec": 82.13415884971619,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": null,
+      "selected_pair": [
+        49,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3984811147941383,
+      "cumulative_kl": 15.720058443824147,
+      "wall_time_sec": 81.2322039604187,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": null,
+      "selected_pair": [
+        42,
+        20
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.378592768667132,
+      "cumulative_kl": 17.09865121249128,
+      "wall_time_sec": 80.3583390712738,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": null,
+      "selected_pair": [
+        22,
+        4
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4347222827983253,
+      "cumulative_kl": 18.533373495289606,
+      "wall_time_sec": 79.38726305961609,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": null,
+      "selected_pair": [
+        21,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4655279570830426,
+      "cumulative_kl": 19.99890145237265,
+      "wall_time_sec": 78.45908117294312,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": null,
+      "selected_pair": [
+        39,
+        10
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.5076653000697837,
+      "cumulative_kl": 21.506566752442435,
+      "wall_time_sec": 77.40157628059387,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": null,
+      "selected_pair": [
+        52,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.0438246903349617,
+      "cumulative_kl": 1.0438246903349617,
+      "wall_time_sec": 91.0376307964325,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": null,
+      "selected_pair": [
+        11,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1199052468597348,
+      "cumulative_kl": 2.1637299371946965,
+      "wall_time_sec": 90.07342720031738,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": null,
+      "selected_pair": [
+        14,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1314931524773204,
+      "cumulative_kl": 3.295223089672017,
+      "wall_time_sec": 89.35709714889526,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": null,
+      "selected_pair": [
+        1,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.1092959481856246,
+      "cumulative_kl": 4.404519037857641,
+      "wall_time_sec": 88.30666160583496,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": null,
+      "selected_pair": [
+        7,
+        36
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.223427686671319,
+      "cumulative_kl": 5.62794672452896,
+      "wall_time_sec": 87.68161797523499,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": null,
+      "selected_pair": [
+        0,
+        6
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4151365143056525,
+      "cumulative_kl": 7.043083238834613,
+      "wall_time_sec": 86.66492199897766,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": null,
+      "selected_pair": [
+        10,
+        49
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4075802512212143,
+      "cumulative_kl": 8.450663490055828,
+      "wall_time_sec": 85.96890234947205,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": null,
+      "selected_pair": [
+        32,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4387621031053734,
+      "cumulative_kl": 9.889425593161201,
+      "wall_time_sec": 84.84529232978821,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": null,
+      "selected_pair": [
+        19,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4677114227145849,
+      "cumulative_kl": 11.357137015875786,
+      "wall_time_sec": 84.15196824073792,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": null,
+      "selected_pair": [
+        40,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.51153883897418,
+      "cumulative_kl": 12.868675854849966,
+      "wall_time_sec": 83.11696434020996,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": null,
+      "selected_pair": [
+        37,
+        25
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.452901474180042,
+      "cumulative_kl": 14.321577329030008,
+      "wall_time_sec": 82.28388953208923,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": null,
+      "selected_pair": [
+        49,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3984811147941383,
+      "cumulative_kl": 15.720058443824147,
+      "wall_time_sec": 81.2279167175293,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": null,
+      "selected_pair": [
+        42,
+        20
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.378592768667132,
+      "cumulative_kl": 17.09865121249128,
+      "wall_time_sec": 80.479825258255,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": null,
+      "selected_pair": [
+        22,
+        4
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4347222827983253,
+      "cumulative_kl": 18.533373495289606,
+      "wall_time_sec": 79.93431782722473,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": null,
+      "selected_pair": [
+        21,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.4655279570830426,
+      "cumulative_kl": 19.99890145237265,
+      "wall_time_sec": 78.58986854553223,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": null,
+      "selected_pair": [
+        39,
+        10
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.5076653000697837,
+      "cumulative_kl": 21.506566752442435,
+      "wall_time_sec": 77.49425745010376,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": null,
+      "selected_pair": [
+        52,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 0.96124267578125,
+      "cumulative_kl": 0.96124267578125,
+      "wall_time_sec": 4.082228899002075,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": null,
+      "selected_pair": [
+        11,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.0255126953125,
+      "cumulative_kl": 1.98675537109375,
+      "wall_time_sec": 4.005364894866943,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": null,
+      "selected_pair": [
+        14,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 0.989013671875,
+      "cumulative_kl": 2.97576904296875,
+      "wall_time_sec": 3.9655840396881104,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": null,
+      "selected_pair": [
+        1,
+        14
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 0.9619140625,
+      "cumulative_kl": 3.93768310546875,
+      "wall_time_sec": 3.9227490425109863,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": null,
+      "selected_pair": [
+        7,
+        36
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.0909423828125,
+      "cumulative_kl": 5.02862548828125,
+      "wall_time_sec": 3.900425434112549,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": null,
+      "selected_pair": [
+        0,
+        6
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.30859375,
+      "cumulative_kl": 6.33721923828125,
+      "wall_time_sec": 3.8747363090515137,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": null,
+      "selected_pair": [
+        10,
+        49
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.260009765625,
+      "cumulative_kl": 7.59722900390625,
+      "wall_time_sec": 3.8502893447875977,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": null,
+      "selected_pair": [
+        32,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.2535400390625,
+      "cumulative_kl": 8.85076904296875,
+      "wall_time_sec": 3.794459581375122,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": null,
+      "selected_pair": [
+        19,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.318603515625,
+      "cumulative_kl": 10.16937255859375,
+      "wall_time_sec": 3.7538182735443115,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": null,
+      "selected_pair": [
+        40,
+        24
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3424072265625,
+      "cumulative_kl": 11.51177978515625,
+      "wall_time_sec": 3.701655864715576,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": null,
+      "selected_pair": [
+        37,
+        25
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.326416015625,
+      "cumulative_kl": 12.83819580078125,
+      "wall_time_sec": 3.6657044887542725,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": null,
+      "selected_pair": [
+        49,
+        44
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.2510986328125,
+      "cumulative_kl": 14.08929443359375,
+      "wall_time_sec": 3.6166300773620605,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": null,
+      "selected_pair": [
+        42,
+        20
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.235595703125,
+      "cumulative_kl": 15.32489013671875,
+      "wall_time_sec": 3.5800137519836426,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": null,
+      "selected_pair": [
+        22,
+        4
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3424072265625,
+      "cumulative_kl": 16.66729736328125,
+      "wall_time_sec": 3.5345590114593506,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": null,
+      "selected_pair": [
+        21,
+        18
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3526611328125,
+      "cumulative_kl": 18.01995849609375,
+      "wall_time_sec": 3.5008437633514404,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "random",
+      "seed": 44,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": null,
+      "selected_pair": [
+        39,
+        10
+      ],
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": 1.3814697265625,
+      "cumulative_kl": 19.40142822265625,
+      "wall_time_sec": 3.450627565383911,
+      "peak_memory_mb": 15296.908203125
+    }
+  ]
+}

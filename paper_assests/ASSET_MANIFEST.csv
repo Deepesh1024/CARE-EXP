@@ -1,0 +1,11 @@
+asset_id,asset_type,title,paper_section,main_or_appendix,source_experiment,source_file,generation_script,data_source,status,verified,notes
+fig1,figure,Method Overview,Method,Main,None,architecture/source.md,-,-,Ready,Yes,Mermaid diagram showing pipeline
+fig2,figure,Geometry vs Damage,Method,Main,Experiment 4,fig2_geometry_damage.pdf,generate_figures.py,audit/experiment4_pair_level.csv,Ready,Yes,Verified rho=0.7657
+fig3,figure,Similarity vs Consequence,Method,Main,Experiment 4,fig3_similarity_vs_consequence.pdf,generate_figures.py,audit/experiment4_pair_level.csv,Ready,Yes,186 pairs with eps=1e-4
+fig4,figure,Static vs Adaptive,Results,Main,v2.2 Validation,fig4_static_vs_adaptive.pdf,generate_figures.py,audit/static_vs_adaptive_validation.md,Ready,Yes,Line charts for PPL and KL
+fig5,figure,External Benchmark,Results,Main,v3 Benchmark,fig5_external_benchmark.pdf,generate_figures.py,benchmark_results/summary/results.csv,Ready,Yes,PPL over compression targets
+fig6,figure,Efficiency,Results,Main,v3 Benchmark,fig6_efficiency.pdf,generate_figures.py,benchmark_results/summary/results.csv,Ready,Yes,Evaluations and time
+tab1,table,Geometry Results,Method,Main,Experiment 4,tables/table1_geometry.md,-,audit/experiment4_pair_level.csv,Ready,Yes,P@K and Rho
+tab2,table,Static vs Adaptive,Results,Appendix,v2.2 Validation,tables/table2_static_vs_adaptive.md,-,audit/static_vs_adaptive_validation.md,Ready,Yes,Metrics breakdown
+tab3,table,External Benchmark,Results,Main,v3 Benchmark,tables/table3_benchmark.md,-,benchmark_results/summary/table_main.csv,Ready,Yes,Full benchmark table
+tab4,table,Efficiency,Results,Appendix,v3 Benchmark,tables/table4_efficiency.md,-,benchmark_results/summary/results.csv,Ready,Yes,Efficiency at 48 experts

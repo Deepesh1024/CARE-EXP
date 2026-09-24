@@ -1,0 +1,676 @@
+{
+  "config": {
+    "model": {
+      "name": "allenai/OLMoE-1B-7B-0924",
+      "device": "auto",
+      "precision": "bfloat16"
+    },
+    "evaluation": {
+      "dataset": "wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "split": "test",
+      "max_length": 512,
+      "batch_size": 4,
+      "num_eval_chunks": 128
+    },
+    "compression": {
+      "original_experts": 64,
+      "checkpoints": [
+        64,
+        60,
+        56,
+        48
+      ],
+      "candidate_pool_size": 5
+    },
+    "baselines": {
+      "random_seeds": [
+        42,
+        43,
+        44
+      ],
+      "methods_to_run": [
+        "random",
+        "care_static",
+        "care_adaptive",
+        "hc_smoe",
+        "m_smoe",
+        "sub_moe",
+        "ream",
+        "puzzlemoe"
+      ]
+    }
+  },
+  "ppl": {
+    "64": 10.287769317626953,
+    "60": 11.54831600189209,
+    "56": 13.812067031860352,
+    "48": 20.135997772216797
+  },
+  "trace": [
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        13
+      ],
+      "selection_score": 0.4017333984375,
+      "capability_distance": 0.019583862274885178,
+      "marginal_kl": 0.4017333984375,
+      "cumulative_kl": 0.4017333984375,
+      "wall_time_sec": 45.807668685913086,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": [
+        [
+          0,
+          14
+        ],
+        [
+          12,
+          14
+        ],
+        [
+          8,
+          12
+        ],
+        [
+          8,
+          14
+        ],
+        [
+          3,
+          8
+        ]
+      ],
+      "selected_pair": [
+        3,
+        8
+      ],
+      "selection_score": 0.465057373046875,
+      "capability_distance": 0.024103162810206413,
+      "marginal_kl": 0.465057373046875,
+      "cumulative_kl": 0.866790771484375,
+      "wall_time_sec": 45.344778537750244,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": [
+        [
+          0,
+          13
+        ],
+        [
+          11,
+          13
+        ],
+        [
+          7,
+          12
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          6,
+          11
+        ]
+      ],
+      "selected_pair": [
+        11,
+        13
+      ],
+      "selection_score": 0.553558349609375,
+      "capability_distance": 0.022166041657328606,
+      "marginal_kl": 0.553558349609375,
+      "cumulative_kl": 1.42034912109375,
+      "wall_time_sec": 44.85696506500244,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": [
+        [
+          0,
+          11
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          12
+        ]
+      ],
+      "selected_pair": [
+        3,
+        11
+      ],
+      "selection_score": 0.61578369140625,
+      "capability_distance": 0.021597376093268394,
+      "marginal_kl": 0.61578369140625,
+      "cumulative_kl": 2.0361328125,
+      "wall_time_sec": 44.266950845718384,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": [
+        [
+          7,
+          11
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          9,
+          11
+        ]
+      ],
+      "selected_pair": [
+        3,
+        9
+      ],
+      "selection_score": 0.668304443359375,
+      "capability_distance": 0.025309961289167404,
+      "marginal_kl": 0.668304443359375,
+      "cumulative_kl": 2.704437255859375,
+      "wall_time_sec": 43.58209824562073,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": [
+        [
+          3,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          6,
+          15
+        ],
+        [
+          0,
+          14
+        ]
+      ],
+      "selected_pair": [
+        3,
+        15
+      ],
+      "selection_score": 0.73199462890625,
+      "capability_distance": 0.02359168790280819,
+      "marginal_kl": 0.73199462890625,
+      "cumulative_kl": 3.436431884765625,
+      "wall_time_sec": 43.100616455078125,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": [
+        [
+          7,
+          10
+        ],
+        [
+          0,
+          14
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          0,
+          10
+        ]
+      ],
+      "selected_pair": [
+        5,
+        11
+      ],
+      "selection_score": 0.79290771484375,
+      "capability_distance": 0.02569735050201416,
+      "marginal_kl": 0.79290771484375,
+      "cumulative_kl": 4.229339599609375,
+      "wall_time_sec": 42.56037139892578,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": [
+        [
+          4,
+          15
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          0,
+          13
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "selected_pair": [
+        3,
+        7
+      ],
+      "selection_score": 0.91400146484375,
+      "capability_distance": 0.02497594989836216,
+      "marginal_kl": 0.91400146484375,
+      "cumulative_kl": 5.143341064453125,
+      "wall_time_sec": 41.92025899887085,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": [
+        [
+          4,
+          14
+        ],
+        [
+          0,
+          12
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          5,
+          13
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "selected_pair": [
+        3,
+        5
+      ],
+      "selection_score": 0.946533203125,
+      "capability_distance": 0.025792790576815605,
+      "marginal_kl": 0.946533203125,
+      "cumulative_kl": 6.089874267578125,
+      "wall_time_sec": 41.33836841583252,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": [
+        [
+          4,
+          13
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          12,
+          14
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          3,
+          8
+        ]
+      ],
+      "selected_pair": [
+        0,
+        11
+      ],
+      "selection_score": 1.04827880859375,
+      "capability_distance": 0.02426767162978649,
+      "marginal_kl": 1.04827880859375,
+      "cumulative_kl": 7.138153076171875,
+      "wall_time_sec": 40.89684534072876,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": [
+        [
+          4,
+          12
+        ],
+        [
+          11,
+          15
+        ],
+        [
+          3,
+          15
+        ],
+        [
+          0,
+          14
+        ],
+        [
+          8,
+          15
+        ]
+      ],
+      "selected_pair": [
+        3,
+        15
+      ],
+      "selection_score": 1.1170654296875,
+      "capability_distance": 0.02339206635951996,
+      "marginal_kl": 1.1170654296875,
+      "cumulative_kl": 8.255218505859375,
+      "wall_time_sec": 40.23708200454712,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": [
+        [
+          4,
+          12
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          3,
+          15
+        ],
+        [
+          0,
+          14
+        ],
+        [
+          0,
+          8
+        ]
+      ],
+      "selected_pair": [
+        3,
+        15
+      ],
+      "selection_score": 1.0833740234375,
+      "capability_distance": 0.024414289742708206,
+      "marginal_kl": 1.0833740234375,
+      "cumulative_kl": 9.338592529296875,
+      "wall_time_sec": 39.66336631774902,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": [
+        [
+          4,
+          12
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          0,
+          14
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          11
+        ]
+      ],
+      "selected_pair": [
+        4,
+        12
+      ],
+      "selection_score": 1.2813720703125,
+      "capability_distance": 0.01498376950621605,
+      "marginal_kl": 1.2813720703125,
+      "cumulative_kl": 10.619964599609375,
+      "wall_time_sec": 39.178104639053345,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": [
+        [
+          0,
+          14
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          3,
+          15
+        ],
+        [
+          0,
+          13
+        ],
+        [
+          11,
+          12
+        ]
+      ],
+      "selected_pair": [
+        3,
+        15
+      ],
+      "selection_score": 1.2845458984375,
+      "capability_distance": 0.02602318860590458,
+      "marginal_kl": 1.2845458984375,
+      "cumulative_kl": 11.904510498046875,
+      "wall_time_sec": 38.428797006607056,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": [
+        [
+          0,
+          14
+        ],
+        [
+          0,
+          13
+        ],
+        [
+          3,
+          12
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          11,
+          12
+        ]
+      ],
+      "selected_pair": [
+        0,
+        14
+      ],
+      "selection_score": 1.44580078125,
+      "capability_distance": 0.02158427983522415,
+      "marginal_kl": 1.44580078125,
+      "cumulative_kl": 13.350311279296875,
+      "wall_time_sec": 37.97133994102478,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_adaptive",
+      "seed": null,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": [
+        [
+          3,
+          12
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          0,
+          13
+        ],
+        [
+          3,
+          8
+        ]
+      ],
+      "selected_pair": [
+        3,
+        12
+      ],
+      "selection_score": 1.5308837890625,
+      "capability_distance": 0.02640521340072155,
+      "marginal_kl": 1.5308837890625,
+      "cumulative_kl": 14.881195068359375,
+      "wall_time_sec": 37.19415211677551,
+      "peak_memory_mb": 15296.908203125
+    }
+  ]
+}

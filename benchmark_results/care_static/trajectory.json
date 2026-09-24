@@ -1,0 +1,949 @@
+{
+  "config": {
+    "model": {
+      "name": "allenai/OLMoE-1B-7B-0924",
+      "device": "auto",
+      "precision": "bfloat16"
+    },
+    "evaluation": {
+      "dataset": "wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "split": "test",
+      "max_length": 512,
+      "batch_size": 4,
+      "num_eval_chunks": 128
+    },
+    "compression": {
+      "original_experts": 64,
+      "checkpoints": [
+        64,
+        60,
+        56,
+        48
+      ],
+      "candidate_pool_size": 5
+    },
+    "baselines": {
+      "random_seeds": [
+        42,
+        43,
+        44
+      ],
+      "methods_to_run": [
+        "random",
+        "care_static",
+        "care_adaptive",
+        "hc_smoe",
+        "m_smoe",
+        "sub_moe",
+        "ream",
+        "puzzlemoe"
+      ]
+    }
+  },
+  "ppl": {
+    "64": 10.287769317626953,
+    "60": 12.111583709716797,
+    "56": 14.819662094116211,
+    "48": 21.03206443786621
+  },
+  "trace": [
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 0.43100275863572923,
+      "capability_distance": 0.017348773777484894,
+      "marginal_kl": 0.43100275863572923,
+      "cumulative_kl": 0.43100275863572923,
+      "wall_time_sec": 452.7411811351776,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 0.46178798848569436,
+      "capability_distance": 0.017348773777484894,
+      "marginal_kl": 0.46178798848569436,
+      "cumulative_kl": 0.8927907471214236,
+      "wall_time_sec": 448.77427554130554,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        13
+      ],
+      "selection_score": 0.6241304300418702,
+      "capability_distance": 0.015765443444252014,
+      "marginal_kl": 0.6241304300418702,
+      "cumulative_kl": 1.5169211771632938,
+      "wall_time_sec": 445.6006906032562,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 0.7782542088276343,
+      "capability_distance": 0.015954578295350075,
+      "marginal_kl": 0.7782542088276343,
+      "cumulative_kl": 2.295175385990928,
+      "wall_time_sec": 440.13113284111023,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 0.874266726273552,
+      "capability_distance": 0.015954578295350075,
+      "marginal_kl": 0.874266726273552,
+      "cumulative_kl": 3.16944211226448,
+      "wall_time_sec": 437.21546626091003,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 0.9274249825540823,
+      "capability_distance": 0.015954578295350075,
+      "marginal_kl": 0.9274249825540823,
+      "cumulative_kl": 4.096867094818562,
+      "wall_time_sec": 432.3320109844208,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": [
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          0,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 1.1884976884159106,
+      "capability_distance": 0.015954578295350075,
+      "marginal_kl": 1.1884976884159106,
+      "cumulative_kl": 5.285364783234473,
+      "wall_time_sec": 428.8992166519165,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        13
+      ],
+      "selection_score": 0.4017333984375,
+      "capability_distance": 0.019583862274885178,
+      "marginal_kl": 0.4017333984375,
+      "cumulative_kl": 0.4017333984375,
+      "wall_time_sec": 20.28968620300293,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 0.479339599609375,
+      "capability_distance": 0.018940666690468788,
+      "marginal_kl": 0.479339599609375,
+      "cumulative_kl": 0.881072998046875,
+      "wall_time_sec": 20.062981367111206,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 0.72406005859375,
+      "capability_distance": 0.018940666690468788,
+      "marginal_kl": 0.72406005859375,
+      "cumulative_kl": 1.605133056640625,
+      "wall_time_sec": 19.905139684677124,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 0.871734619140625,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 0.871734619140625,
+      "cumulative_kl": 2.47686767578125,
+      "wall_time_sec": 19.66983389854431,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 0.96484375,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 0.96484375,
+      "cumulative_kl": 3.44171142578125,
+      "wall_time_sec": 20.013774156570435,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 1.01190185546875,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 1.01190185546875,
+      "cumulative_kl": 4.45361328125,
+      "wall_time_sec": 19.38556933403015,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        13
+      ],
+      "selection_score": 1.157470703125,
+      "capability_distance": 0.019583862274885178,
+      "marginal_kl": 1.157470703125,
+      "cumulative_kl": 5.611083984375,
+      "wall_time_sec": 19.20218586921692,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        13
+      ],
+      "selection_score": 1.20855712890625,
+      "capability_distance": 0.019583862274885178,
+      "marginal_kl": 1.20855712890625,
+      "cumulative_kl": 6.81964111328125,
+      "wall_time_sec": 18.937696933746338,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 1.2239990234375,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 1.2239990234375,
+      "cumulative_kl": 8.04364013671875,
+      "wall_time_sec": 18.74723196029663,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 1.2762451171875,
+      "capability_distance": 0.018940666690468788,
+      "marginal_kl": 1.2762451171875,
+      "cumulative_kl": 9.31988525390625,
+      "wall_time_sec": 18.51679563522339,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 1.365234375,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 1.365234375,
+      "cumulative_kl": 10.68511962890625,
+      "wall_time_sec": 18.34437108039856,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        13,
+        15
+      ],
+      "selection_score": 1.345458984375,
+      "capability_distance": 0.020259900018572807,
+      "marginal_kl": 1.345458984375,
+      "cumulative_kl": 12.03057861328125,
+      "wall_time_sec": 18.103763341903687,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 1.4254150390625,
+      "capability_distance": 0.018940666690468788,
+      "marginal_kl": 1.4254150390625,
+      "cumulative_kl": 13.45599365234375,
+      "wall_time_sec": 17.94438672065735,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 1.4071044921875,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 1.4071044921875,
+      "cumulative_kl": 14.86309814453125,
+      "wall_time_sec": 17.704328536987305,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        8,
+        15
+      ],
+      "selection_score": 1.4356689453125,
+      "capability_distance": 0.018940666690468788,
+      "marginal_kl": 1.4356689453125,
+      "cumulative_kl": 16.29876708984375,
+      "wall_time_sec": 17.524757146835327,
+      "peak_memory_mb": 15296.908203125
+    },
+    {
+      "method": "care_static",
+      "seed": null,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": [
+        [
+          0,
+          15
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          13,
+          15
+        ],
+        [
+          12,
+          15
+        ]
+      ],
+      "selected_pair": [
+        12,
+        15
+      ],
+      "selection_score": 1.394775390625,
+      "capability_distance": 0.021558063104748726,
+      "marginal_kl": 1.394775390625,
+      "cumulative_kl": 17.69354248046875,
+      "wall_time_sec": 17.28165364265442,
+      "peak_memory_mb": 15296.908203125
+    }
+  ]
+}

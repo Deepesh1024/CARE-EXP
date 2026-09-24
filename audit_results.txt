@@ -1,0 +1,2 @@
+Global Rho - Local: 0.4598, Geometry: 0.7657, Combined: 0.7994
+Mean Fold Rho - Local: 0.4797, Geometry: 0.7504, Combined: 0.8146

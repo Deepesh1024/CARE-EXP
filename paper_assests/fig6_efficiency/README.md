@@ -1,0 +1,1 @@
+Generated from benchmark_results/summary/results.csv. Verifies that Adaptive evaluates fewer candidates and terminates faster.

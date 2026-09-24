@@ -1,0 +1,1 @@
+Generated from hardcoded controlled validation values verified in audit/static_vs_adaptive_validation.md.

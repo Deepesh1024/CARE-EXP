@@ -1,0 +1,4 @@
+Target,Static PPL,Adaptive PPL,Static cumulative KL,Adaptive cumulative KL,KL reduction %,Static exact evaluations,Adaptive exact evaluations,Evaluation reduction %
+60,12.112,11.548,2.477,2.036,17.8%,40,20,50.0%
+56,14.820,13.812,6.820,5.143,24.6%,75,40,46.7%
+48,21.032,20.136,17.694,14.881,15.9%,115,80,30.4%

@@ -60,14 +60,15 @@ def aggregate_results(results_dir):
                 delta_ppl = ppl - base_ppl if base_ppl else None
                 
                 # Find cumulative KL at this expert count
-                cum_kl = 0.0
+                cum_kl = 0.0 if int(experts) == 64 else None
                 time_sec = 0.0
                 peak_mem = 0.0
                 evaluations = 0
                 
                 for step_data in trace:
                     if step_data["experts_after"] >= int(experts):
-                        cum_kl = step_data["cumulative_kl"]
+                        if step_data.get("cumulative_kl") is not None:
+                            cum_kl = step_data["cumulative_kl"]
                         time_sec += step_data["wall_time_sec"]
                         peak_mem = max(peak_mem, step_data["peak_memory_mb"])
                         if step_data.get("candidate_pairs"):
@@ -99,6 +100,7 @@ def aggregate_results(results_dir):
                         # If we had full candidate records, we'd add them. Let's add the selected one for now.
                         care_selections.append({
                             "step": step_data["step"],
+                            "index_space": "current_active_model",
                             "candidate_pair": selected,
                             "capability_distance": step_data["capability_distance"],
                             "actual_marginal_kl": step_data["marginal_kl"],

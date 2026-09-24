@@ -1,0 +1,1 @@
+Generated from audit/experiment4_pair_level.csv. Shows global capability distance vs oracle KL.
