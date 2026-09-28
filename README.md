@@ -107,7 +107,7 @@ Each experiment is comprehensively documented with formal methodology, numerical
 | **V** | **Exp 7B** | *Does joint functional interaction explain CARE-COM errors?* Diagnostic falsification of non-additive interaction mechanisms. | [results/exp7b/analysis/EXPERIMENT_7B_FINAL_REPORT.md](./results/exp7b/analysis/EXPERIMENT_7B_FINAL_REPORT.md) |
 | **V** | **Exp 7C** | *Does functional neuron geometry explain CARE-COM residuals?* Investigates fine-grained routing-conditioned neuron coverage. | [results/exp7c/revised/REVISED_EXPERIMENT_7C_FINAL_REPORT.md](./results/exp7c/revised/REVISED_EXPERIMENT_7C_FINAL_REPORT.md) |
 | **V** | **CARE-COM** | *Is adaptive functional selection superior to static ranking?* Validation of CARE-COM v2.2 adaptive compression. | [results/care_com_v22/v22_summary.md](./results/care_com_v22/v22_summary.md) |
-| **V** | **Benchmark** | *How does CARE-COM compare to SOTA external baselines?* External evaluation against Sub-MoE, HC-SMoE, M-SMoE, and Random. | [benchmark_results/summary/benchmark_summary.md](./benchmark_results/summary/benchmark_summary.md) |
+| **V** | **Benchmark** | *How does CARE-COM compare to SOTA external baselines?* External evaluation against Sub-MoE, HC-SMoE, M-SMoE, and Random. | [benchmark_results/OLMoE-1B-7B/summary/benchmark_summary.md](./benchmark_results/OLMoE-1B-7B/summary/benchmark_summary.md) |
 
 ---
 
@@ -131,7 +131,7 @@ CARE-EXP/
 │   ├── experiment7b/                   # Joint functional interaction failure analysis
 │   ├── experiment7c/                   # Functional neuron geometry diagnostics
 │   └── care_com_v22/                   # CARE-COM adaptive compression routines
-├── benchmark/                          # External state-of-the-art method benchmarking
+├── benchmark/OLMoE-1B-7B/                          # External state-of-the-art method benchmarking
 └── results/                            # Persistent artifacts, datasets, & markdown reports
     ├── exp1/ ... exp6d/                # Experiment outputs (metrics, plots, final reports)
 ```
@@ -181,10 +181,10 @@ Run any of the following orchestrators from the root directory to reproduce the 
 - `python3 experiments/experiment7c/phase8_residual_analysis.py`
 - Benchmarking:
   ```bash
-  ./benchmark/setup_external.sh
-  python benchmark/run_benchmark.py --method all
-  python benchmark/aggregate_results.py
-  python benchmark/plot_results.py
+  ./benchmark/OLMoE-1B-7B/setup_external.sh
+  python benchmark/OLMoE-1B-7B/run_benchmark.py --method all
+  python benchmark/OLMoE-1B-7B/aggregate_results.py
+  python benchmark/OLMoE-1B-7B/plot_results.py
   ```
 
 ### 3. Expected Outputs

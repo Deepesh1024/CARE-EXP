@@ -1,1 +1,1 @@
-Generated from benchmark_results/summary/results.csv. Verifies that Adaptive evaluates fewer candidates and terminates faster.
+Generated from benchmark_results/OLMoE-1B-7B/summary/results.csv. Verifies that Adaptive evaluates fewer candidates and terminates faster.

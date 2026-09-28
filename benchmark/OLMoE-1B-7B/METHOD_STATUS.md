@@ -14,4 +14,4 @@ During the construction of the CARE-COM External Benchmark, we analyzed the comp
 | **REAM** | ❌ Not Reproduced on OLMoE | Relies on hardcoded Mistral/Mixtral block configurations. |
 | **PuzzleMoE** | ❌ Not Reproduced on OLMoE | Requires explicit modeling modifications specific to standard LLMs. |
 
-*Note: For the external methods marked ❌, their execution wrappers gracefully catch the `ImportError` or `KeyError` and log the incompatibility to `benchmark_results/<method>/error.log`.*
+*Note: For the external methods marked ❌, their execution wrappers gracefully catch the `ImportError` or `KeyError` and log the incompatibility to `benchmark_results/OLMoE-1B-7B/<method>/error.log`.*

@@ -35,12 +35,12 @@
 
 **Claim 7: External expert-compression baselines provide practical validation.**
 - Status: SUPPORTED
-- Source: benchmark_results/summary/results.csv (Outperforms Random, HC-SMoE, M-SMoE, competitive with Sub-MoE)
+- Source: benchmark_results/OLMoE-1B-7B/summary/results.csv (Outperforms Random, HC-SMoE, M-SMoE, competitive with Sub-MoE)
 - Proposed Figure: fig5_external_benchmark
 - Main/Appendix: Main
 
 **Claim 8: Exact intervention evaluation remains the major computational bottleneck.**
 - Status: SUPPORTED
-- Source: benchmark_results/summary/results.csv
+- Source: benchmark_results/OLMoE-1B-7B/summary/results.csv
 - Proposed Figure: fig6_efficiency (30% reduction in evals)
 - Main/Appendix: Main

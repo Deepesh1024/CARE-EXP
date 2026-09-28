@@ -2,7 +2,7 @@ import json
 import os
 
 transcript_path = "/Users/deepeshkumarjha/.gemini/antigravity-ide/brain/71ec6ba4-5913-4310-8a79-1e3f86d3b6f2/.system_generated/logs/transcript.jsonl"
-out_path = "benchmark_results/prompts/all_prompts.md"
+out_path = "benchmark_results/OLMoE-1B-7B/prompts/all_prompts.md"
 
 with open(out_path, "w") as f:
     f.write("# Conversation Prompts\n\n")

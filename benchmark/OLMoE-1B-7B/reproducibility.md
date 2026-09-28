@@ -16,32 +16,32 @@ pip install transformers datasets accelerate pandas matplotlib seaborn pyyaml
 We provide a bash script to clone all the required external repositories (REAP, REAM, PuzzleMoE):
 
 ```bash
-chmod +x benchmark/setup_external.sh
-./benchmark/setup_external.sh
+chmod +x benchmark/OLMoE-1B-7B/setup_external.sh
+./benchmark/OLMoE-1B-7B/setup_external.sh
 ```
 
 ## 3. Running the Benchmark
 
 You can run all methods sequentially using:
 ```bash
-python benchmark/run_benchmark.py --method all
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method all
 ```
 
 Or you can run individual methods. This is highly recommended for parallelizing across multiple GPUs or tmux sessions:
 
 **Internal Baselines:**
 ```bash
-python benchmark/run_benchmark.py --method random --seed 42
-python benchmark/run_benchmark.py --method care_static
-python benchmark/run_benchmark.py --method care_adaptive
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method random --seed 42
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method care_static
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method care_adaptive
 ```
 
 **External Methods:**
 ```bash
-python benchmark/run_benchmark.py --method reap
-python benchmark/run_benchmark.py --method hc_smoe
-python benchmark/run_benchmark.py --method ream
-python benchmark/run_benchmark.py --method puzzlemoe
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method reap
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method hc_smoe
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method ream
+python benchmark/OLMoE-1B-7B/run_benchmark.py --method puzzlemoe
 ```
 *(Note: As documented in `METHOD_STATUS.md`, many external methods do not currently support OLMoE natively and will safely exit, logging their incompatibility).*
 
@@ -50,16 +50,16 @@ python benchmark/run_benchmark.py --method puzzlemoe
 Once the runs are complete, aggregate the raw `trajectory.json` files into clean CSV summaries:
 
 ```bash
-python benchmark/aggregate_results.py
+python benchmark/OLMoE-1B-7B/aggregate_results.py
 ```
 
 This will produce:
-- `benchmark_results/summary/results.csv`
-- `benchmark_results/summary/selection_analysis.csv`
+- `benchmark_results/OLMoE-1B-7B/summary/results.csv`
+- `benchmark_results/OLMoE-1B-7B/summary/selection_analysis.csv`
 
 Finally, generate all the figures required by the ICLR spec:
 ```bash
-python benchmark/plot_results.py
+python benchmark/OLMoE-1B-7B/plot_results.py
 ```
 
-The high-resolution plots will be saved to `benchmark_results/summary/plots/`.
+The high-resolution plots will be saved to `benchmark_results/OLMoE-1B-7B/summary/plots/`.

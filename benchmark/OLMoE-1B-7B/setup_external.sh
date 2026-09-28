@@ -3,8 +3,8 @@ set -e
 
 echo "Setting up external benchmark repositories..."
 
-mkdir -p benchmark/external
-cd benchmark/external
+mkdir -p benchmark/OLMoE-1B-7B/external
+cd benchmark/OLMoE-1B-7B/external
 
 # REAP / HC-SMoE / M-SMoE / Sub-MoE
 if [ ! -d "reap" ]; then

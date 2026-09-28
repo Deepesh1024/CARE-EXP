@@ -1,10 +1,10 @@
 # Repository Audit
 
 A. **Repository structure:**
-Contains `results/` with past experiments, `benchmark_results/` with final v3 benchmark data, `audit/` with final reconstructed pairs and diagnostics, and `paper_assests/`.
+Contains `results/` with past experiments, `benchmark_results/OLMoE-1B-7B/` with final v3 benchmark data, `audit/` with final reconstructed pairs and diagnostics, and `paper_assests/`.
 
 B. **Relevant files:**
-`audit/experiment4_pair_level.csv`, `audit/static_vs_adaptive_validation.md`, `benchmark_results/summary/results.csv`, `benchmark/aggregate_results.py`.
+`audit/experiment4_pair_level.csv`, `audit/static_vs_adaptive_validation.md`, `benchmark_results/OLMoE-1B-7B/summary/results.csv`, `benchmark/OLMoE-1B-7B/aggregate_results.py`.
 
 C. **Experiment inventory:**
 - Exp 4: Geometry vs Damage (Final)

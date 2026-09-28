@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-csv_path = "benchmark_results/summary/results.csv"
-out_path = "benchmark_results/summary/plots/fig9_ranking_6_25.png"
+csv_path = "benchmark_results/OLMoE-1B-7B/summary/results.csv"
+out_path = "benchmark_results/OLMoE-1B-7B/summary/plots/fig8_ranking.png"
 
 df = pd.read_csv(csv_path)
 
-df_compressed = df[df["experts"] == 60]
-method_deltas = df_compressed.groupby("method")["delta_ppl"].mean()
+df_compressed = df[df["experts"] < 64]
+method_deltas = df_compressed.groupby("method")["delta_ppl"].sum()
 
 if "random" in method_deltas:
     random_delta = method_deltas["random"]
@@ -39,10 +39,10 @@ labels = [pretty_names.get(m, m) for m in methods]
 plt.figure(figsize=(10, 6))
 sns.set_theme(style="whitegrid")
 
-colors = sns.color_palette("plasma", len(methods))
+colors = sns.color_palette("viridis", len(methods))
 bars = plt.bar(labels, values, color=colors)
 
-plt.title("Compression Quality Ranking @ 6.25% Reduction", fontsize=16, pad=20)
+plt.title("Overall Compression Quality Ranking", fontsize=16, pad=20)
 plt.ylabel("Degradation Prevented vs Random (%)", fontsize=12)
 plt.xlabel("Compression Algorithm", fontsize=12)
 plt.ylim(0, max(values) * 1.1)

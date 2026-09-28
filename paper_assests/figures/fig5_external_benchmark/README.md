@@ -1,1 +1,1 @@
-Generated from benchmark_results/summary/results.csv. Displays PPL over compression targets.
+Generated from benchmark_results/OLMoE-1B-7B/summary/results.csv. Displays PPL over compression targets.

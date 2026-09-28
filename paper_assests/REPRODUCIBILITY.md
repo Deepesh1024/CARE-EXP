@@ -10,5 +10,5 @@ Calibration and evaluation are performed on deterministic sequential chunks of `
 
 **Scripts:**
 - Experiment 4: `reconstruct_exp4.py` and `audit_analysis.py` (available in `audit/`)
-- Benchmark: `python benchmark/run_benchmark.py --method all`
-- Plotting: `python benchmark/plot_results.py`
+- Benchmark: `python benchmark/OLMoE-1B-7B/run_benchmark.py --method all`
+- Plotting: `python benchmark/OLMoE-1B-7B/plot_results.py`
