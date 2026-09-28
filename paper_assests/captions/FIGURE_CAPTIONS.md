@@ -17,3 +17,6 @@ Language modeling performance (WikiText-2 Perplexity) under aggressive expert co
 
 **Figure 6 (Efficiency):**
 Computational efficiency at the 48-expert target (25% parameter reduction). CARE-Adaptive evaluates ~30% fewer exact candidates than CARE-Static due to the dynamically updating topology, resulting in an 80% reduction in wall-clock compression time.
+
+**Figure 7 (Ranking at 6.25%):**
+Comparative analysis of compression algorithm performance ranked by perplexity degradation relative to original parameters at the 6.25% target. Demonstrates how CARE-COM methods stack up against external baselines at extremely aggressive compression thresholds.

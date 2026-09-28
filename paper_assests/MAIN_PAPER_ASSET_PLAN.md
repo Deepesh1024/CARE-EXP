@@ -16,5 +16,6 @@
 - Figure 5: External Benchmark Comparison (PPL vs Experts line chart)
 - Table 3: External Benchmark (Detailed numbers)
 - Figure 6: Efficiency (Bar charts showing eval count and time)
+- Figure 7: Ranking at 6.25% (Bar charts detailing method performance at aggressive compression)
 
 All supplementary tables, full fold metrics, and negative results (Exp 7A-C) are pushed to the Appendix to respect the 9-page limit.

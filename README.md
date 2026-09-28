@@ -74,6 +74,15 @@ The repository structures the research into four progressive stages.
   │ 🟢 Experiment 6C: Structural Evolution Modeling                       │
   │ 🟢 Experiment 6D: Multi-Directional Intervention Responses            │
   └───────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │ Stage V: Diagnostic & Benchmarking                                    │
+  │ 🟢 Experiment 7B: CARE-COM Failure Analysis (Joint Interaction)       │
+  │ 🟢 Experiment 7C: Functional Neuron Geometry vs. Residuals            │
+  │ 🟢 CARE-COM v2.2: Adaptive Compression Validation                     │
+  │ 🟢 Benchmark: CARE-COM vs SOTA External Compression Baselines         │
+  └───────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -95,6 +104,10 @@ Each experiment is comprehensively documented with formal methodology, numerical
 | **IV** | **Exp 6B** | *Are there empirical laws governing structural evolution?* Investigates scaling and layer-wise evolutionary patterns. | [results/exp6b/EXP6B_FINAL_REPORT.md](./results/exp6b/EXP6B_FINAL_REPORT.md) |
 | **IV** | **Exp 6C** | *How do specific token environments shape structural evolution?* Models the dynamics of capability under controlled semantic exposure. | [results/exp6c/EXP6C_FINAL_REPORT.md](./results/exp6c/EXP6C_FINAL_REPORT.md) |
 | **IV** | **Exp 6D** | *How does capability respond to targeted interventions?* Maps the causal-adjacent responses of the network to external modifications. | [results/exp6d_rerun/exp6d/EXP6D_FINAL_REPORT.md](./results/exp6d_rerun/exp6d/EXP6D_FINAL_REPORT.md) |
+| **V** | **Exp 7B** | *Does joint functional interaction explain CARE-COM errors?* Diagnostic falsification of non-additive interaction mechanisms. | [results/exp7b/analysis/EXPERIMENT_7B_FINAL_REPORT.md](./results/exp7b/analysis/EXPERIMENT_7B_FINAL_REPORT.md) |
+| **V** | **Exp 7C** | *Does functional neuron geometry explain CARE-COM residuals?* Investigates fine-grained routing-conditioned neuron coverage. | [results/exp7c/revised/REVISED_EXPERIMENT_7C_FINAL_REPORT.md](./results/exp7c/revised/REVISED_EXPERIMENT_7C_FINAL_REPORT.md) |
+| **V** | **CARE-COM** | *Is adaptive functional selection superior to static ranking?* Validation of CARE-COM v2.2 adaptive compression. | [results/care_com_v22/v22_summary.md](./results/care_com_v22/v22_summary.md) |
+| **V** | **Benchmark** | *How does CARE-COM compare to SOTA external baselines?* External evaluation against Sub-MoE, HC-SMoE, M-SMoE, and Random. | [benchmark_results/summary/benchmark_summary.md](./benchmark_results/summary/benchmark_summary.md) |
 
 ---
 
@@ -114,7 +127,11 @@ CARE-EXP/
 │   ├── exp5/                           # Downstream compression benchmarks
 │   ├── experiment6b/                   # Empirical law analysis pipeline
 │   ├── experiment6c/                   # Structural evolution modeling
-│   └── experiment6d/                   # Multi-directional intervention testing
+│   ├── experiment6d/                   # Multi-directional intervention testing
+│   ├── experiment7b/                   # Joint functional interaction failure analysis
+│   ├── experiment7c/                   # Functional neuron geometry diagnostics
+│   └── care_com_v22/                   # CARE-COM adaptive compression routines
+├── benchmark/                          # External state-of-the-art method benchmarking
 └── results/                            # Persistent artifacts, datasets, & markdown reports
     ├── exp1/ ... exp6d/                # Experiment outputs (metrics, plots, final reports)
 ```
@@ -158,6 +175,17 @@ Run any of the following orchestrators from the root directory to reproduce the 
 - `python3 experiments/experiment6b/run_all.py`
 - `python3 experiments/experiment6c/run_all.py`
 - `python3 experiments/experiment6d/run_final.py`
+
+**Stage V (Diagnostic & Benchmarking):**
+- `python3 experiments/experiment7b/run_all.py`
+- `python3 experiments/experiment7c/phase8_residual_analysis.py`
+- Benchmarking:
+  ```bash
+  ./benchmark/setup_external.sh
+  python benchmark/run_benchmark.py --method all
+  python benchmark/aggregate_results.py
+  python benchmark/plot_results.py
+  ```
 
 ### 3. Expected Outputs
 Upon completion, each `run_all.py` script will automatically populate its respective `results/exp[X]/` directory with serialized models (`.pkl`), raw telemetry (`.csv`, `.json`), generated matplotlib charts (`.png`), and a freshly compiled markdown report.
