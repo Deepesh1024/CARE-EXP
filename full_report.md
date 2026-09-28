@@ -339,7 +339,13 @@ Adaptive functional compression (recomputing candidate capability similarity dyn
 - **Design:** Compressed 64 experts down to 56 experts on OLMoE-1B-7B. Evaluated Static CARE-COM vs Adaptive CARE-COM vs Random Merging across 3 random seeds.
 
 ### Equations
-- **Definition (Adaptive Selection):** Continuously recalculates capability distances $D_{pred}$ based on the updated state $M_t$ after every merge step, minimizing marginal KL damage dynamically.
+- **Definition (Parameter Merge):** $W_{merged} = \frac{W_i + W_j}{2}$
+- **Definition (Adaptive Selection):** Continuously recalculates capability distances $D_{pred}(i, j \mid M_t)$ based on the updated state $M_t$ after every merge step, minimizing marginal KL damage dynamically.
+
+### Plots
+- ![Perplexity vs Experts](./results/care_com_v22/figures/perplexity_plot.png)
+- ![Cumulative KL Damage](./results/care_com_v22/figures/cumulative_kl_plot.png)
+- ![Marginal KL Damage](./results/care_com_v22/figures/marginal_kl_plot.png)
 
 ### Results
 - **Perplexity (PPL@56):** Adaptive = 22.71, Static = 25.86, Random = 31.42.
@@ -358,6 +364,15 @@ Adaptive functional compression (CARE-Adaptive) will yield competitive or superi
 
 ### Experiment
 - **Design:** Evaluated Perplexity (PPL) across methods at 60, 56, and 48 experts. 
+
+### Equations
+- **Definition (Parameter Reduction):** $R = 1 - \frac{N_{target}}{N_{total}}$
+- **Definition (Degradation Prevented vs Random):** $Prevented = \frac{KL_{random} - KL_{method}}{KL_{random}} \times 100\%$
+
+### Plots
+- ![Compression Quality Ranking @ 6.25% Reduction](./benchmark_results/summary/plots/fig9_ranking_6_25.png)
+- ![Perplexity vs Experts](./benchmark_results/summary/plots/fig1_ppl_vs_experts.png)
+- ![Cumulative KL vs Experts](./benchmark_results/summary/plots/fig2_cum_kl_vs_experts.png)
 
 ### Results
 - **Performance:** CARE-Adaptive achieves the lowest PPL at 60 experts (11.54) and is highly competitive with Sub-MoE at 56 experts (13.81 vs 13.73). It substantially outperforms HC-SMoE, M-SMoE, and random merging.
