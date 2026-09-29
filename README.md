@@ -1,5 +1,7 @@
 # Capability in Mixture-of-Experts: Functional State, Geometry, and Evolution
 
+> 📖 **To understand or read the whole research, [click here to go to the full report](full_report.md).**
+
 > **An experimental research framework for representing, analyzing, and studying the functional capability of Mixture-of-Experts (MoE) experts.**
 
 ---
