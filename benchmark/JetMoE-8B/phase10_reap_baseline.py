@@ -78,27 +78,26 @@ def compute_reap_scores(model, encodings):
                 elif "output_linear" in name: W_out = param
             
             for j in range(num_experts):
-                # Mask of tokens assigned to expert j
+                # Mask of tokens assigned to expert j  (stays on GPU)
                 mask = (selected_experts == j).any(dim=-1)
                 if not mask.any(): continue
                 
                 tokens_for_j = N_tokens[mask] # [K, 2048]
                 
-                # Compute SwiGLU forward pass for expert j
+                # Compute SwiGLU forward pass for expert j (on GPU)
                 h = F.linear(tokens_for_j, W_in[j]) # [K, 11264]
                 gate, up = h.chunk(2, dim=-1) # [K, 5632], [K, 5632]
                 h_act = F.silu(gate) * up # [K, 5632]
                 out_j = F.linear(h_act, W_out[j]) # [K, 2048]
                 
-                # ||f_j(t)||_2
-                norm_j = torch.linalg.norm(out_j, dim=-1).cpu() # [K]
-                
-                # g_j(t) - router gate weight for expert j
+                # Move to CPU for accumulation
+                norm_j = torch.linalg.norm(out_j.float(), dim=-1).cpu() # [K]
                 g_j = probs[mask, j].cpu() # [K]
+                mask_cpu = mask.cpu()
                 
-                # Update stats
+                # Update stats — all on CPU
                 reap_sum[layer_idx][j] += (g_j * norm_j).sum()
-                reap_count[layer_idx][j] += mask.sum()
+                reap_count[layer_idx][j] += mask_cpu.sum().long()
                 
         return hook
 
