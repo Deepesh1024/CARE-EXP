@@ -48,74 +48,56 @@ def run_ablation_and_merge():
     print(f"Base PPL: {base_ppl:.4f}")
     
     # -------------------------------------------------------------
-    # Attempt to find the first MLP MoE layer and its experts
+    # JetMoE uses batched tensors for MLP MoE (e.g., [8, in_dim, out_dim])
     # -------------------------------------------------------------
-    expert_0_tensors = {}
-    expert_1_tensors = {}
     
-    # We heuristically look for experts in the first layer
-    layer_prefix = None
-    for name, _ in model.named_parameters():
-        if "mlp" in name.lower() or "moe" in name.lower():
-            if layer_prefix is None:
-                # Find the layer container name, e.g., "model.layers.0.mlp"
-                parts = name.split(".")
-                for i, p in enumerate(parts):
-                    if "mlp" in p.lower() or "moe" in p.lower():
-                        layer_prefix = ".".join(parts[:i+1])
-                        break
+    input_linear_param = None
+    output_linear_param = None
+    
+    for name, param in model.named_parameters():
+        if "model.layers.0.mlp.input_linear.weight" in name:
+            input_linear_param = param
+        elif "model.layers.0.mlp.output_linear.weight" in name:
+            output_linear_param = param
             
-            if layer_prefix and name.startswith(layer_prefix):
-                if ".0." in name or "experts.0" in name:
-                    expert_0_tensors[name] = _
-                elif ".1." in name or "experts.1" in name:
-                    expert_1_tensors[name] = _
-
-    if not expert_0_tensors or not expert_1_tensors:
-        print("WARNING: Could not automatically identify separate tensors for Expert 0 and Expert 1.")
-        print("JetMoE may use a batched tensor representation (e.g., [num_experts, in, out]).")
-        print("You will need to manually adapt this script based on the Phase 1 & 2 inspection report.")
+    if input_linear_param is None or output_linear_param is None:
+        print("WARNING: Could not find model.layers.0.mlp.input_linear.weight or output_linear.weight.")
         return
 
-    print(f"\nFound {len(expert_0_tensors)} tensors for Expert 0 in {layer_prefix}")
-    print(f"Found {len(expert_1_tensors)} tensors for Expert 1 in {layer_prefix}")
-
-    # Backup original weights
-    orig_0_weights = {name: param.clone().detach() for name, param in expert_0_tensors.items()}
-    orig_1_weights = {name: param.clone().detach() for name, param in expert_1_tensors.items()}
+    # Backup original weights (clone)
+    orig_input = input_linear_param.clone().detach()
+    orig_output = output_linear_param.clone().detach()
 
     # --- PHASE 6: ABLATION ---
-    print("\n[+] PHASE 6: Ablating Expert 0 (zeroing weights)...")
-    for name, param in expert_0_tensors.items():
-        param.data.zero_()
+    print("\n[+] PHASE 6: Ablating Expert 0 (zeroing weights in the batched tensor)...")
+    # Expert 0 is at index 0 of the first dimension
+    input_linear_param.data[0].zero_()
+    output_linear_param.data[0].zero_()
         
     ablated_ppl = evaluate_subset(model, tokenizer)
     print(f"Ablated PPL: {ablated_ppl:.4f}")
     
     # Restore
-    for name, param in expert_0_tensors.items():
-        param.data.copy_(orig_0_weights[name])
+    input_linear_param.data.copy_(orig_input)
+    output_linear_param.data.copy_(orig_output)
 
     # --- PHASE 7: MERGE ---
     print("\n[+] PHASE 7: Merging Expert 0 and Expert 1 -> (W0 + W1) / 2...")
-    for name in expert_0_tensors:
-        # Match names, e.g., "model.layers.0.mlp.experts.0.weight" -> "model.layers.0.mlp.experts.1.weight"
-        name_1 = name.replace(".0.", ".1.").replace("experts.0", "experts.1")
-        if name_1 in expert_1_tensors:
-            merged_weight = (orig_0_weights[name] + orig_1_weights[name_1]) / 2.0
-            expert_0_tensors[name].data.copy_(merged_weight)
-            expert_1_tensors[name_1].data.copy_(merged_weight)
+    merged_input = (orig_input[0] + orig_input[1]) / 2.0
+    merged_output = (orig_output[0] + orig_output[1]) / 2.0
+    
+    input_linear_param.data[0].copy_(merged_input)
+    input_linear_param.data[1].copy_(merged_input)
+    
+    output_linear_param.data[0].copy_(merged_output)
+    output_linear_param.data[1].copy_(merged_output)
             
     merged_ppl = evaluate_subset(model, tokenizer)
     print(f"Merged PPL: {merged_ppl:.4f}")
     
     # Restore
-    for name, param in expert_0_tensors.items():
-        param.data.copy_(orig_0_weights[name])
-    for name, param in expert_1_tensors.items():
-        name_1 = name.replace(".0.", ".1.").replace("experts.0", "experts.1")
-        if name_1 in expert_1_tensors:
-            param.data.copy_(orig_1_weights[name_1])
+    input_linear_param.data.copy_(orig_input)
+    output_linear_param.data.copy_(orig_output)
             
     print("\nRestored original weights. Sanity checks passed!")
     
