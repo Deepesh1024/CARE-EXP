@@ -87,7 +87,7 @@ def run_lm_eval(model_name, model_path):
         "--model_args", f"pretrained={model_path},dtype=bfloat16,trust_remote_code=True",
         "--tasks", "mmlu,gsm8k,humaneval",
         "--device", "cuda:0",
-        "--batch_size", "auto",
+        "--batch_size", "1",
         "--output_path", output_dir,
         "--trust_remote_code",
         "--confirm_run_unsafe_code"

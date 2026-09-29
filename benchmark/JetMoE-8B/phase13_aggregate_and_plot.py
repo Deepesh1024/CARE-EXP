@@ -133,15 +133,19 @@ def main():
     
     # 3. Calculate Retention
     df_retention = df.copy()
+    retention_cols = ["Method", "Experts", "Compression"]
     
-    if base_mmlu:
+    if base_mmlu is not None and base_mmlu != 0:
         df_retention["MMLU_Retention"] = (df["MMLU"] / base_mmlu) * 100
-    if base_gsm8k:
+        retention_cols.append("MMLU_Retention")
+    if base_gsm8k is not None and base_gsm8k != 0:
         df_retention["GSM8K_Retention"] = (df["GSM8K"] / base_gsm8k) * 100
-    if base_he:
+        retention_cols.append("GSM8K_Retention")
+    if base_he is not None and base_he != 0:
         df_retention["HumanEval_Retention"] = (df["HumanEval_pass1"] / base_he) * 100
+        retention_cols.append("HumanEval_Retention")
         
-    df_retention = df_retention[["Method", "Experts", "Compression", "MMLU_Retention", "GSM8K_Retention", "HumanEval_Retention"]]
+    df_retention = df_retention[retention_cols]
     
     # 4. Save CSVs
     df.to_csv(os.path.join(RESULTS_DIR, "jetmoe_multicapability_results.csv"), index=False)
