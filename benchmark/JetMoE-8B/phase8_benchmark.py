@@ -73,35 +73,29 @@ def merge_experts_jetmoe(model, layer_idx, keep_idx, remove_idx):
         router.data[remove_idx].copy_(merged_router * 0.99)
 
 def get_characteristic_activations(model, tokenizer):
-    print("[*] Collecting Characteristic Activations (CA)...")
-    dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="train")
-    texts = [text for text in dataset["text"] if len(text.strip()) > 100][:32]
-    
-    ca_stats = {i: [] for i in range(24)}
-    hooks = []
-    
-    def get_hook(layer_idx):
-        def hook(module, input, output):
-            hidden = input[0].detach()
-            ca_stats[layer_idx].append(hidden.view(-1, hidden.shape[-1]).cpu())
-        return hook
+    """
+    Compute per-expert Characteristic Activations (CA) for Sub-MoE clustering.
 
-    for i in range(24):
-        router_module = model.model.layers[i].mlp.router
-        hooks.append(router_module.register_forward_hook(get_hook(i)))
-        
-    with torch.no_grad():
-        for text in tqdm(texts):
-            inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
-            inputs = {k: v.cuda() for k, v in inputs.items()}
-            model(**inputs)
-            
-    for h in hooks: h.remove()
-    
+    CA proxy: mean of each expert's input projection weight rows.
+      - input_linear.weight shape: [8, 11264, 2048]
+      - We take the mean over the 11264 output dim → [8, 2048]
+      - This captures the average 'receptive field' of each expert in
+        hidden-state space, which is the correct signal for Sub-MoE:
+        experts with similar means produce similar outputs for similar
+        inputs and can safely be merged.
+
+    Avoid using router.weight rows as CA proxy: high router cosine similarity
+    means two experts are co-activated (bad to merge), not that they're
+    functionally redundant (good to merge).
+    """
+    print("[*] Computing Expert Weight-Space CA...")
     final_ca = {}
     for i in range(24):
-        _, _, router = get_jetmoe_mlp_tensors(model, i)
-        final_ca[i] = router.data.cpu().to(torch.float32).numpy() # Proxy CA
+        input_linear, _, _ = get_jetmoe_mlp_tensors(model, i)
+        # input_linear.weight: [8, 11264, 2048]  (num_experts, ffn_dim, hidden_dim)
+        # Mean over ffn_dim → [8, 2048] float32
+        ca = input_linear.data.mean(dim=1).cpu().to(torch.float32).numpy()
+        final_ca[i] = ca
     return final_ca
 
 def run_submoe(model, tokenizer, ca_stats, target_experts):
