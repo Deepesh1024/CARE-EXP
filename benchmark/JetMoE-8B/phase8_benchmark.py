@@ -43,11 +43,17 @@ def get_jetmoe_mlp_tensors(model, layer_idx):
 def merge_experts_jetmoe(model, layer_idx, keep_idx, remove_idx):
     """
     Safely merges remove_idx into keep_idx.
-    Strategy: average the weights, then write the merged result into BOTH slots.
-    This means both experts become identical, so whichever one the router picks
-    produces the same output — mathematically equivalent to one merged expert.
-    We also average the router rows so routing probabilities stay balanced.
-    We do NOT zero or set -inf on any slot, as that breaks TopKGating softmax.
+
+    Strategy:
+      - Average both experts' weights, write result into BOTH slots so that
+        whichever slot the router picks, the computation is the same.
+      - Average the canonical (keep) router row, leave it as-is.
+      - Scale the removed slot's router row by 0.99 so the canonical slot
+        ALWAYS scores marginally higher in top-k selection.
+        This prevents torch.topk from choosing BOTH slots of the same merged
+        pair, which would waste a top-k slot on a duplicate computation and
+        halve the model's effective routing capacity — causing the catastrophic
+        PPL blowup seen with multiple merges per layer (8→6→4 experts).
     """
     input_linear, output_linear, router = get_jetmoe_mlp_tensors(model, layer_idx)
     with torch.no_grad():
@@ -55,14 +61,16 @@ def merge_experts_jetmoe(model, layer_idx, keep_idx, remove_idx):
         merged_output = (output_linear.data[keep_idx] + output_linear.data[remove_idx]) / 2.0
         merged_router = (router.data[keep_idx]        + router.data[remove_idx])        / 2.0
 
-        # Write merged weights into both slots — safe for batched parallel experts
+        # Both slots compute identical outputs (safe for batched parallel experts)
         input_linear.data[keep_idx].copy_(merged_input)
         input_linear.data[remove_idx].copy_(merged_input)
         output_linear.data[keep_idx].copy_(merged_output)
         output_linear.data[remove_idx].copy_(merged_output)
-        # Merge router rows so both experts compete equally but produce same result
+
+        # Canonical slot gets the merged router row
         router.data[keep_idx].copy_(merged_router)
-        router.data[remove_idx].copy_(merged_router)
+        # Remove slot gets a 1% weaker router row → canonical always wins top-k
+        router.data[remove_idx].copy_(merged_router * 0.99)
 
 def get_characteristic_activations(model, tokenizer):
     print("[*] Collecting Characteristic Activations (CA)...")
