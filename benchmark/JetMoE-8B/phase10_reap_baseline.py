@@ -147,22 +147,47 @@ def prune_model(model, final_scores, target_experts):
         router_layer = mlp.router.layer
         router_layer.weight = torch.nn.Parameter(router_layer.weight.data[retained_indices, :])
         router_layer.out_features = target_experts
-        mlp.router.num_experts = target_experts
-        
-        # 2. Prune experts
+        if hasattr(mlp.router, "num_experts"):
+            mlp.router.num_experts = target_experts
+
+        # 2. Find input_linear and output_linear (JetMoeParallelExperts)
         input_linear = None
         output_linear = None
         for name, module_child in mlp.named_modules():
-            if "input_linear" in name: input_linear = module_child
-            elif "output_linear" in name: output_linear = module_child
-        
-        input_linear.weight = torch.nn.Parameter(input_linear.weight.data[retained_indices, :, :])
-        output_linear.weight = torch.nn.Parameter(output_linear.weight.data[retained_indices, :, :])
-        
-        # In JetMoE, config is often used, but we'll try setting .num_experts on the parent
-        if hasattr(mlp, "num_experts"):
-            mlp.num_experts = target_experts
-        
+            if name == "input_linear":
+                input_linear = module_child
+            elif name == "output_linear":
+                output_linear = module_child
+        # Fallback: search by 3D weight shape
+        if input_linear is None or output_linear is None:
+            for name, module_child in mlp.named_modules():
+                if hasattr(module_child, "weight") and isinstance(module_child.weight, torch.nn.Parameter):
+                    w = module_child.weight
+                    if w.dim() == 3 and w.shape[0] == 8:
+                        if input_linear is None:
+                            input_linear = module_child
+                        elif output_linear is None:
+                            output_linear = module_child
+
+        # Slice the weight tensors
+        input_linear.weight = torch.nn.Parameter(input_linear.weight.data[retained_indices])
+        output_linear.weight = torch.nn.Parameter(output_linear.weight.data[retained_indices])
+
+        # CRITICAL: update num_experts on JetMoeParallelExperts — this controls
+        # the forward dispatch loop bucket count
+        for module_child in (input_linear, output_linear):
+            if hasattr(module_child, "num_experts"):
+                module_child.num_experts = target_experts
+            if hasattr(module_child, "input_size_list"):
+                module_child.input_size_list = module_child.input_size_list[:target_experts]
+            if hasattr(module_child, "output_size_list"):
+                module_child.output_size_list = module_child.output_size_list[:target_experts]
+
+        # Update the MoE block's own num_experts
+        for attr in ("num_experts", "num_local_experts"):
+            if hasattr(mlp, attr):
+                setattr(mlp, attr, target_experts)
+
     pruning_time = time.time() - start_time
     print(f"[REAP] Structural pruning finished in {pruning_time:.2f}s.")
     return pruned_experts_log, pruning_time
