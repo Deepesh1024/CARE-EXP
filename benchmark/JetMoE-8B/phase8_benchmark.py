@@ -41,20 +41,28 @@ def get_jetmoe_mlp_tensors(model, layer_idx):
     return input_linear, output_linear, router
 
 def merge_experts_jetmoe(model, layer_idx, keep_idx, remove_idx):
-    """Physically merges remove_idx into keep_idx and pseudo-removes remove_idx."""
+    """
+    Safely merges remove_idx into keep_idx.
+    Strategy: average the weights, then write the merged result into BOTH slots.
+    This means both experts become identical, so whichever one the router picks
+    produces the same output — mathematically equivalent to one merged expert.
+    We also average the router rows so routing probabilities stay balanced.
+    We do NOT zero or set -inf on any slot, as that breaks TopKGating softmax.
+    """
     input_linear, output_linear, router = get_jetmoe_mlp_tensors(model, layer_idx)
     with torch.no_grad():
-        merged_input = (input_linear.data[keep_idx] + input_linear.data[remove_idx]) / 2.0
+        merged_input  = (input_linear.data[keep_idx]  + input_linear.data[remove_idx])  / 2.0
         merged_output = (output_linear.data[keep_idx] + output_linear.data[remove_idx]) / 2.0
-        merged_router = (router.data[keep_idx] + router.data[remove_idx]) / 2.0
-        
+        merged_router = (router.data[keep_idx]        + router.data[remove_idx])        / 2.0
+
+        # Write merged weights into both slots — safe for batched parallel experts
         input_linear.data[keep_idx].copy_(merged_input)
+        input_linear.data[remove_idx].copy_(merged_input)
         output_linear.data[keep_idx].copy_(merged_output)
+        output_linear.data[remove_idx].copy_(merged_output)
+        # Merge router rows so both experts compete equally but produce same result
         router.data[keep_idx].copy_(merged_router)
-        
-        input_linear.data[remove_idx].zero_()
-        output_linear.data[remove_idx].zero_()
-        router.data[remove_idx].fill_(-1e4) # Mask out
+        router.data[remove_idx].copy_(merged_router)
 
 def get_characteristic_activations(model, tokenizer):
     print("[*] Collecting Characteristic Activations (CA)...")

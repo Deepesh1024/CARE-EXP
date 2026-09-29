@@ -70,7 +70,7 @@ def run_ablation_and_merge():
 
     # --- PHASE 6: ABLATION ---
     print("\n[+] PHASE 6: Ablating Expert 0 (zeroing weights in the batched tensor)...")
-    # Expert 0 is at index 0 of the first dimension
+    # Zero only the linear weights — router stays intact so no softmax blowup
     input_linear_param.data[0].zero_()
     output_linear_param.data[0].zero_()
         
