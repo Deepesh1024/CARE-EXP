@@ -72,8 +72,10 @@ def compute_reap_scores(model, encodings):
             topk_weights, selected_experts = torch.topk(probs, 2, dim=-1)
             
             # 3. Extract expert weights to compute f_j(t)
-            W_in = module.experts.input_linear.weight # [8, 11264, 2048]
-            W_out = module.experts.output_linear.weight # [8, 2048, 5632]
+            W_in, W_out = None, None
+            for name, param in module.named_parameters():
+                if "input_linear" in name: W_in = param
+                elif "output_linear" in name: W_out = param
             
             for j in range(num_experts):
                 # Mask of tokens assigned to expert j
@@ -149,13 +151,18 @@ def prune_model(model, final_scores, target_experts):
         mlp.router.num_experts = target_experts
         
         # 2. Prune experts
-        input_linear = mlp.experts.input_linear
-        output_linear = mlp.experts.output_linear
+        input_linear = None
+        output_linear = None
+        for name, module_child in mlp.named_modules():
+            if "input_linear" in name: input_linear = module_child
+            elif "output_linear" in name: output_linear = module_child
         
         input_linear.weight = torch.nn.Parameter(input_linear.weight.data[retained_indices, :, :])
         output_linear.weight = torch.nn.Parameter(output_linear.weight.data[retained_indices, :, :])
         
-        mlp.experts.num_experts = target_experts
+        # In JetMoE, config is often used, but we'll try setting .num_experts on the parent
+        if hasattr(mlp, "num_experts"):
+            mlp.num_experts = target_experts
         
     pruning_time = time.time() - start_time
     print(f"[REAP] Structural pruning finished in {pruning_time:.2f}s.")
