@@ -85,7 +85,7 @@ def get_characteristic_activations(model, tokenizer):
     final_ca = {}
     for i in range(24):
         _, _, router = get_jetmoe_mlp_tensors(model, i)
-        final_ca[i] = router.data.cpu().numpy() # Proxy CA
+        final_ca[i] = router.data.cpu().to(torch.float32).numpy() # Proxy CA
     return final_ca
 
 def run_submoe(model, tokenizer, ca_stats, target_experts):
