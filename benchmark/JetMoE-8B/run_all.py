@@ -29,16 +29,18 @@ def main():
         f"{base_dir}/phase1_2_inspect.py",
         f"{base_dir}/phase3_4_routing.py",
         f"{base_dir}/phase5_baseline.py",
-        f"{base_dir}/phase6_7_ablation_merge.py"
+        f"{base_dir}/phase6_7_ablation_merge.py",
+        f"{base_dir}/phase8_benchmark.py",
+        f"{base_dir}/phase9_plot.py"
     ]
 
-    print("Starting JetMoE-8B Inspection Pipeline...")
+    print("Starting JetMoE-8B Full Inspection and Benchmarking Pipeline...")
     
     for script in scripts_to_run:
         run_script(script)
         
     print("🎉 ALL PHASES COMPLETED SUCCESSFULLY!")
-    print(f"Please check the JSON outputs in '{base_dir}/' and fill out 'JETMOE_INSPECTION_REPORT.md'.")
+    print(f"Please check the JSON outputs and the generated compression_plot.png in 'benchmark_results/JetMoE-8B/'.")
 
 if __name__ == "__main__":
     main()
