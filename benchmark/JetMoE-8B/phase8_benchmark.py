@@ -98,19 +98,47 @@ def get_characteristic_activations(model, tokenizer):
 
 def run_submoe(model, tokenizer, ca_stats, target_experts):
     print(f"\n[Sub-MoE] Compressing to {target_experts} experts...")
+    num_merges = 8 - target_experts  # How many experts to remove per layer
+
     for i in range(24):
-        ca = ca_stats[i]
-        kmeans = KMeans(n_clusters=target_experts, random_state=42, n_init=10)
-        labels = kmeans.fit_predict(ca)
-        
-        merged_clusters = {}
-        for exp_idx, cluster_idx in enumerate(labels):
-            if cluster_idx not in merged_clusters:
-                merged_clusters[cluster_idx] = exp_idx
-            else:
-                keep_idx = merged_clusters[cluster_idx]
-                merge_experts_jetmoe(model, i, keep_idx, exp_idx)
-                
+        ca = ca_stats[i]  # [8, 2048] float32 numpy
+
+        # Greedy agglomerative: repeatedly merge the closest pair
+        # (by cosine similarity of router weight rows) until we reach target_experts.
+        # Tracks which slot is the canonical representative for each logical expert.
+        canonical = list(range(8))  # canonical[e] = model tensor slot for logical expert e
+        active = list(range(8))     # which logical experts are still alive
+
+        # Normalise rows for cosine similarity
+        norms = np.linalg.norm(ca, axis=1, keepdims=True) + 1e-9
+        ca_normed = ca / norms
+
+        for _ in range(num_merges):
+            # Find the most similar pair among active experts
+            best_sim = -1.0
+            best_a, best_b = active[0], active[1]
+            for ai in range(len(active)):
+                for bi in range(ai + 1, len(active)):
+                    e_a = active[ai]
+                    e_b = active[bi]
+                    sim = float(np.dot(ca_normed[e_a], ca_normed[e_b]))
+                    if sim > best_sim:
+                        best_sim = sim
+                        best_a, best_b = e_a, e_b
+
+            # Merge best_b into best_a
+            slot_a = canonical[best_a]
+            slot_b = canonical[best_b]
+            merge_experts_jetmoe(model, i, slot_a, slot_b)
+
+            # Update normed CA for best_a (average of the two)
+            ca_normed[best_a] = (ca_normed[best_a] + ca_normed[best_b]) / 2.0
+            norm = np.linalg.norm(ca_normed[best_a]) + 1e-9
+            ca_normed[best_a] /= norm
+
+            # Remove best_b from active list
+            active.remove(best_b)
+
     return evaluate_subset(model, tokenizer)
 
 def run_random(model, tokenizer, target_experts):
