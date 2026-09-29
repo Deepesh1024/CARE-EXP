@@ -145,7 +145,8 @@ def run_submoe(model, tokenizer, ca_stats, target_experts):
 
 def run_random(model, tokenizer, target_experts):
     print(f"\n[Random] Compressing to {target_experts} experts...")
-    random.seed(42)
+    # Seed is unique per target so each run is an independent random sample
+    random.seed(42 + (8 - target_experts))
     for i in range(24):
         active_experts = list(range(8))
         while len(active_experts) > target_experts:
@@ -157,52 +158,66 @@ def run_random(model, tokenizer, target_experts):
     return evaluate_subset(model, tokenizer)
 
 def run_care_adaptive(model, tokenizer, ca_stats, target_experts):
+    """
+    Adaptive CARE for JetMoE.
+    Per layer, greedily selects the best expert pair to merge by:
+      1. Building a candidate pool of top-3 most similar pairs (by CA cosine sim)
+      2. Running a micro-PPL eval (2000 tokens) for each candidate
+      3. Committing the merge that causes the least PPL degradation
+    CA is updated in-place after each commit so subsequent rounds use
+    the merged expert's CA rather than stale original values.
+    """
     print(f"\n[CARE Adaptive] Compressing to {target_experts} experts...")
-    # CARE simplifies: finds the closest CA pairs (candidate pool), evaluates micro-PPL, picks best
     for i in tqdm(range(24), desc="CARE Iterating Layers"):
-        ca = ca_stats[i]
+        # Work on a local mutable copy of CA for this layer
+        ca = ca_stats[i].copy()  # [8, 2048] float32
         active_experts = list(range(8))
-        
+
         while len(active_experts) > target_experts:
-            # Candidate Pool (top 2 closest pairs based on CA cosine similarity)
+            # --- Candidate Pool: top-3 most similar active pairs by CA cosine sim ---
             pairs = []
-            for idx1 in active_experts:
-                for idx2 in active_experts:
-                    if idx1 >= idx2: continue
-                    sim = np.dot(ca[idx1], ca[idx2]) / (np.linalg.norm(ca[idx1]) * np.linalg.norm(ca[idx2]) + 1e-9)
+            for ai in range(len(active_experts)):
+                for bi in range(ai + 1, len(active_experts)):
+                    idx1 = active_experts[ai]
+                    idx2 = active_experts[bi]
+                    n1 = np.linalg.norm(ca[idx1]) + 1e-9
+                    n2 = np.linalg.norm(ca[idx2]) + 1e-9
+                    sim = float(np.dot(ca[idx1], ca[idx2]) / (n1 * n2))
                     pairs.append((sim, idx1, idx2))
-            pairs.sort(reverse=True) # Highest similarity first
-            candidates = pairs[:2]
-            
+            pairs.sort(reverse=True)
+            candidates = pairs[:3]  # Top-3 most similar pairs
+
             best_pair = None
             best_ppl = float('inf')
-            
-            # Evaluate candidates
+
+            # --- Micro-evaluate each candidate ---
             for sim, k_idx, r_idx in candidates:
-                # Backup weights for this layer
                 in_w, out_w, r_w = get_jetmoe_mlp_tensors(model, i)
-                in_bak, out_bak, r_bak = in_w.data.clone(), out_w.data.clone(), r_w.data.clone()
-                
-                # Merge
+                in_bak = in_w.data.clone()
+                out_bak = out_w.data.clone()
+                r_bak = r_w.data.clone()
+
                 merge_experts_jetmoe(model, i, k_idx, r_idx)
-                
-                # Micro eval (500 tokens)
-                micro_ppl = evaluate_subset(model, tokenizer, num_tokens=500)
-                
+                # 2000 tokens: noisy but fast; enough to discriminate bad pairs
+                micro_ppl = evaluate_subset(model, tokenizer, num_tokens=2000)
+
                 if micro_ppl < best_ppl:
                     best_ppl = micro_ppl
                     best_pair = (k_idx, r_idx)
-                
-                # Restore
+
+                # Restore layer weights
                 in_w.data.copy_(in_bak)
                 out_w.data.copy_(out_bak)
                 r_w.data.copy_(r_bak)
-                
-            # Commit best merge
+
+            # --- Commit best merge ---
             keep_idx, remove_idx = best_pair
             merge_experts_jetmoe(model, i, keep_idx, remove_idx)
             active_experts.remove(remove_idx)
-            
+
+            # Update CA for the merged expert so future rounds use correct similarity
+            ca[keep_idx] = (ca[keep_idx] + ca[remove_idx]) / 2.0
+
     return evaluate_subset(model, tokenizer)
 
 def main():
