@@ -199,7 +199,9 @@ def apply_reap(model, scores, target_experts):
             if hasattr(mlp, attr): setattr(mlp, attr, target_experts)
 
     # Update config so model.config matches the architecture
-    if hasattr(model.config, "num_experts"):
+    if hasattr(model.config, "moe_num_experts"):
+        model.config.moe_num_experts = target_experts
+    elif hasattr(model.config, "num_experts"):
         model.config.num_experts = target_experts
 
 
