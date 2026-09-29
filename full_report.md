@@ -398,8 +398,9 @@ The functional geometries and adaptive compression techniques discovered and ver
 - **Definition (Parameter Merge):** $W_{merged} = \frac{W_i + W_j}{2}$
 
 ### Plots
-- ![JetMoE-8B Compression - PPL Curve](./benchmark_results/JetMoE-8B/plots_noreap/compression_plot.png)
-- ![JetMoE-8B Method Comparison](./benchmark_results/JetMoE-8B/plots_noreap/compression_barplot.png)
+- ![JetMoE-8B Compression - PPL Curve](./benchmark_results/JetMoE-8B/plots/compression_plot.png)
+- ![JetMoE-8B Method Comparison](./benchmark_results/JetMoE-8B/plots/compression_barplot.png)
+- ![JetMoE-8B Performance Retention](./benchmark_results/JetMoE-8B/plots/retention_barplot.png)
 
 ### Results
 - **7 Experts (-12.5%):** CARE-Adaptive (10.17) dramatically outperforms Sub-MoE (27.06) and Random (25.94).

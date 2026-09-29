@@ -33,7 +33,7 @@ ax.axhline(base_ppl, color="red", linestyle=":", linewidth=1.5, label=f"Base ({b
 ax.legend(fontsize=11)
 ax.grid(True, axis="y", linestyle="--", alpha=0.6)
 plt.tight_layout()
-plt.savefig("benchmark_results/JetMoE-8B/plots_noreap/compression_plot.png", dpi=300)
+plt.savefig("benchmark_results/JetMoE-8B/plots/compression_plot.png", dpi=300)
 plt.close()
 
 # PLOT 2: Grouped Bar
@@ -61,6 +61,30 @@ ax.axhline(base_ppl, color="red", linestyle=":", linewidth=1.5, label=f"Base ({b
 ax.legend(fontsize=10)
 ax.grid(True, axis="y", linestyle="--", alpha=0.6)
 plt.tight_layout()
-plt.savefig("benchmark_results/JetMoE-8B/plots_noreap/compression_barplot.png", dpi=300)
+plt.savefig("benchmark_results/JetMoE-8B/plots/compression_barplot.png", dpi=300)
+plt.close()
+
+# PLOT 3: Performance Retention (Higher is Better)
+fig, ax = plt.subplots(figsize=(10, 6))
+for i, (method, color) in enumerate(zip(methods, colors)):
+    retentions = [(base_ppl / results[method][c]) * 100 for c in checkpoints_str]
+    offset = (i - 1) * width
+    bars = ax.bar(x + offset, retentions, width, label=method, color=color, edgecolor="black", linewidth=0.8)
+    for bar in bars:
+        h = bar.get_height()
+        label = f"{h:.1f}%" if h >= 0.1 else "<0.1%"
+        ax.annotate(label, xy=(bar.get_x() + bar.get_width() / 2, h), xytext=(0, 3), textcoords="offset points", ha="center", va="bottom", fontsize=8)
+
+ax.set_ylim(0, 105)
+ax.set_ylabel("Performance Retention (%, higher is better)", fontsize=12)
+ax.set_xlabel("MLP Experts per Layer", fontsize=12)
+ax.set_title("JetMoE-8B Performance Retention", fontsize=14, pad=15)
+ax.set_xticks(x)
+ax.set_xticklabels(checkpoints_str, fontsize=11)
+ax.axhline(100, color="red", linestyle=":", linewidth=1.5, label="100% (Base)")
+ax.legend(fontsize=10)
+ax.grid(True, axis="y", linestyle="--", alpha=0.6)
+plt.tight_layout()
+plt.savefig("benchmark_results/JetMoE-8B/plots/retention_barplot.png", dpi=300)
 plt.close()
 
