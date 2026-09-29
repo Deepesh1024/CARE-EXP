@@ -88,7 +88,9 @@ def run_lm_eval(model_name, model_path):
         "--tasks", "mmlu,gsm8k,humaneval",
         "--device", "cuda:0",
         "--batch_size", "auto",
-        "--output_path", output_dir
+        "--output_path", output_dir,
+        "--trust_remote_code",
+        "--confirm_run_unsafe_code"
     ]
     
     # Important: HumanEval requires HF_ALLOW_CODE_EVAL=1
