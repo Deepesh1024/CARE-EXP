@@ -64,7 +64,7 @@ def compute_reap_scores(model, encodings):
             N_tokens = hidden_states.view(-1, hidden_states.size(-1)) # [tokens, 2048]
             
             # 1. Get router logits
-            router_logits = module.router(N_tokens) # [tokens, 8]
+            router_logits = module.router.layer(N_tokens) # [tokens, 8]
             probs = torch.softmax(router_logits.float(), dim=-1)
             
             # 2. Get routing weights and selected experts (Top-2)
