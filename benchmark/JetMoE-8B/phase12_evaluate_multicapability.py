@@ -1,11 +1,14 @@
 """
 Phase 12: Multi-Capability Evaluation
-
+======================================
 Evaluates the saved JetMoE-8B checkpoints on:
-1. WikiText-2 (custom protocol to match Phase 8 exactly)
-2. MMLU (via lm-eval)
-3. GSM8K (via lm-eval)
-4. HumanEval (via lm-eval)
+  1. WikiText-2 (via isolated subprocess worker -- phase12_wikitext_worker.py)
+  2. MMLU (via lm-eval subprocess)
+  3. GSM8K (via lm-eval subprocess)
+  4. HumanEval (via lm-eval subprocess)
+
+Both WikiText and lm-eval run in separate subprocess so the parent process
+never holds any GPU memory, guaranteeing complete VRAM release between runs.
 
 Prerequisites:
     pip install lm-eval
@@ -13,74 +16,62 @@ Prerequisites:
 """
 
 import os
+import sys
 import json
 import time
-import torch
 import subprocess
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from datasets import load_dataset
 
-CKPT_DIR = "benchmark_results/JetMoE-8B/checkpoints"
+CKPT_DIR    = "benchmark_results/JetMoE-8B/checkpoints"
 RESULTS_DIR = "benchmark_results/JetMoE-8B/multicapability_results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-def evaluate_wikitext(model_path, num_tokens=15000):
-    print(f"    Evaluating WikiText-2 on {model_path}...")
-    torch.cuda.empty_cache()
-    torch.cuda.reset_peak_memory_stats()
-    
-    start_time = time.time()
-    
-    tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path, 
-        torch_dtype=torch.bfloat16, 
-        device_map="auto",
-        trust_remote_code=True
-    )
-    model.eval()
+# Path to this file's directory so we can find the worker script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+WIKI_WORKER = os.path.join(SCRIPT_DIR, "phase12_wikitext_worker.py")
 
-    dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
-    encodings = tokenizer("\n\n".join(dataset["text"]), return_tensors="pt")
-    seq_len = 512
-    limit = min(encodings.input_ids.size(1), num_tokens)
-    
-    nlls = []
-    total_tokens = 0
-    with torch.inference_mode():
-        for begin_loc in range(0, limit, seq_len):
-            end_loc = min(begin_loc + seq_len, limit)
-            trg_len = end_loc - begin_loc
-            if trg_len == 0: break
-            input_ids = encodings.input_ids[:, begin_loc:end_loc].cuda()
-            target_ids = input_ids.detach().clone()
-            outputs = model(input_ids, labels=target_ids)
-            nlls.append(outputs.loss * trg_len)
-            total_tokens += trg_len
-            
-    ppl = torch.exp(torch.stack(nlls).sum() / total_tokens).item()
-    
-    end_time = time.time()
-    eval_time = end_time - start_time
-    tokens_per_sec = total_tokens / eval_time
-    peak_vram_gb = torch.cuda.max_memory_allocated() / (1024**3)
-    
-    del model
-    del tokenizer
-    torch.cuda.empty_cache()
-    
-    return {
-        "ppl": ppl,
-        "eval_time_sec": eval_time,
-        "tokens_per_sec": tokens_per_sec,
-        "peak_vram_gb": peak_vram_gb
-    }
+
+def run_wikitext_subprocess(model_name, model_path, num_tokens=15000):
+    """
+    Run WikiText-2 PPL eval in a completely isolated subprocess.
+    This guarantees the GPU is 100% free after the call returns.
+    """
+    print(f"    [WikiText-2] Evaluating {model_name} in subprocess...")
+
+    result = subprocess.run(
+        [sys.executable, WIKI_WORKER, model_path, str(num_tokens)],
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode != 0:
+        print(f"    [WARNING] WikiText eval subprocess failed for {model_name}:")
+        # Print last 20 lines of stderr for debugging
+        stderr_lines = result.stderr.strip().splitlines()
+        for line in stderr_lines[-20:]:
+            print(f"      {line}")
+        return None
+
+    # Parse the JSON from the last line of stdout (worker prints JSON at the end)
+    stdout_lines = [l.strip() for l in result.stdout.strip().splitlines() if l.strip()]
+    for line in reversed(stdout_lines):
+        try:
+            data = json.loads(line)
+            print(f"    [WikiText-2] PPL: {data['ppl']:.4f}  VRAM peak: {data['peak_vram_gb']:.2f} GB")
+            return data
+        except (json.JSONDecodeError, KeyError):
+            continue
+
+    print(f"    [WARNING] Could not parse WikiText result for {model_name}")
+    return None
+
 
 def run_lm_eval(model_name, model_path):
-    print(f"    Running lm-eval for MMLU, GSM8K, HumanEval on {model_name}...")
+    """
+    Run lm-eval (MMLU, GSM8K, HumanEval) in a completely isolated subprocess.
+    """
+    print(f"    [lm-eval] Running MMLU, GSM8K, HumanEval for {model_name}...")
     output_dir = os.path.join(RESULTS_DIR, f"{model_name}_lmeval")
-    
-    # We use subprocess to ensure clean memory isolation between runs
+
     cmd = [
         "lm_eval",
         "--model", "hf",
@@ -92,67 +83,91 @@ def run_lm_eval(model_name, model_path):
         "--trust_remote_code",
         "--confirm_run_unsafe_code"
     ]
-    
-    # Important: HumanEval requires HF_ALLOW_CODE_EVAL=1
+
     env = os.environ.copy()
     env["HF_ALLOW_CODE_EVAL"] = "1"
-    
+
     try:
         subprocess.run(cmd, env=env, check=True)
+        print(f"    [lm-eval] Done for {model_name}.")
     except subprocess.CalledProcessError as e:
-        print(f"    [WARNING] lm_eval failed for {model_name}. Ensure lm-eval is installed (pip install lm-eval).")
-        print(f"    Error: {e}")
+        print(f"    [WARNING] lm_eval failed for {model_name}: exit code {e.returncode}")
+        # If an empty output dir was created, remove it so the pipeline retries it next run
+        if os.path.isdir(output_dir):
+            json_files = [f for f in os.listdir(output_dir) if f.endswith(".json")]
+            if not json_files:
+                import shutil
+                shutil.rmtree(output_dir)
+                print(f"    [INFO] Removed empty lm-eval dir so it will retry next run.")
+
 
 def main():
     print("=" * 60)
     print("PHASE 12: MULTI-CAPABILITY EVALUATION")
+    print("  (Full subprocess isolation for zero VRAM leaks)")
     print("=" * 60)
-    
+
     if not os.path.exists(CKPT_DIR):
         print(f"Error: {CKPT_DIR} not found. Please run phase11_save_checkpoints.py first.")
         return
-        
+
+    if not os.path.exists(WIKI_WORKER):
+        print(f"Error: WikiText worker not found at {WIKI_WORKER}")
+        print("Please ensure phase12_wikitext_worker.py is in the same directory.")
+        return
+
     models = sorted([d for d in os.listdir(CKPT_DIR) if os.path.isdir(os.path.join(CKPT_DIR, d))])
-    
+
     if not models:
         print(f"Error: No checkpoints found in {CKPT_DIR}.")
         return
-        
-    print(f"Found {len(models)} models to evaluate.")
-    
+
+    print(f"Found {len(models)} models to evaluate: {models}\n")
+
     wiki_results_path = os.path.join(RESULTS_DIR, "results_wikitext2.json")
     if os.path.exists(wiki_results_path):
         with open(wiki_results_path, "r") as f:
             wiki_results = json.load(f)
+        print(f"Loaded existing WikiText results ({len(wiki_results)} models cached).\n")
     else:
         wiki_results = {}
-        
-    for model_name in models:
-        print(f"\nEvaluating: {model_name}")
+
+    for i, model_name in enumerate(models):
+        print(f"\n[{i+1}/{len(models)}] Evaluating: {model_name}")
         model_path = os.path.join(CKPT_DIR, model_name)
-        
-        # 1. WikiText-2 Custom Protocol
+
+        # ── 1. WikiText-2 (subprocess) ─────────────────────────────────────────
         if model_name not in wiki_results:
-            try:
-                res = evaluate_wikitext(model_path)
+            res = run_wikitext_subprocess(model_name, model_path)
+            if res is not None:
                 wiki_results[model_name] = res
-                # Save incrementally
                 with open(wiki_results_path, "w") as f:
                     json.dump(wiki_results, f, indent=4)
-                print(f"    WikiText PPL: {res['ppl']:.4f}")
-            except Exception as e:
-                print(f"    [WARNING] WikiText eval failed for {model_name}: {e}")
         else:
-            print("    WikiText-2 already evaluated, skipping.")
-            
-        # 2. LM Eval (MMLU, GSM8K, HumanEval)
+            print(f"    [WikiText-2] Already evaluated ({wiki_results[model_name]['ppl']:.4f}), skipping.")
+
+        # Brief pause between subprocess launches to let CUDA fully settle
+        time.sleep(2)
+
+        # ── 2. LM Eval (subprocess) ────────────────────────────────────────────
         lmeval_out = os.path.join(RESULTS_DIR, f"{model_name}_lmeval")
         if not os.path.exists(lmeval_out):
             run_lm_eval(model_name, model_path)
         else:
-            print("    LM-Eval already run, skipping.")
-            
-    print("\nEvaluation complete. Results saved to:", RESULTS_DIR)
+            print(f"    [lm-eval] Already evaluated, skipping.")
+
+        # Brief pause between subprocess launches
+        time.sleep(2)
+
+    print(f"\n{'='*60}")
+    print(f"Evaluation complete. Results saved to: {RESULTS_DIR}")
+    wiki_done = len(wiki_results)
+    lmeval_done = len([d for d in os.listdir(RESULTS_DIR)
+                       if d.endswith("_lmeval") and os.path.isdir(os.path.join(RESULTS_DIR, d))
+                       and any(f.endswith(".json") for f in os.listdir(os.path.join(RESULTS_DIR, d)))])
+    print(f"  WikiText-2: {wiki_done}/{len(models)} models done")
+    print(f"  LM-Eval:    {lmeval_done}/{len(models)} models done")
+
 
 if __name__ == "__main__":
     main()
