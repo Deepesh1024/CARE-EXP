@@ -27,7 +27,8 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # Path to this file's directory so we can find the worker script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-WIKI_WORKER = os.path.join(SCRIPT_DIR, "phase12_wikitext_worker.py")
+WIKI_WORKER   = os.path.join(SCRIPT_DIR, "phase12_wikitext_worker.py")
+LMEVAL_WORKER = os.path.join(SCRIPT_DIR, "phase12_lmeval_worker.py")
 
 
 def run_wikitext_subprocess(model_name, model_path, num_tokens=15000):
@@ -65,40 +66,35 @@ def run_wikitext_subprocess(model_name, model_path, num_tokens=15000):
     return None
 
 
-def run_lm_eval(model_name, model_path):
+def run_lm_eval(model_name, model_path, tasks="mmlu,gsm8k,humaneval"):
     """
-    Run lm-eval (MMLU, GSM8K, HumanEval) in a completely isolated subprocess.
+    Run lm-eval in a completely isolated subprocess via the lmeval worker.
+    The worker pre-initializes CUDA before lm_eval loads to avoid
+    the caching_allocator_warmup crash.
     """
-    print(f"    [lm-eval] Running MMLU, GSM8K, HumanEval for {model_name}...")
+    print(f"    [lm-eval] Running {tasks} for {model_name}...")
     output_dir = os.path.join(RESULTS_DIR, f"{model_name}_lmeval")
-
-    cmd = [
-        sys.executable, "-m", "lm_eval",
-        "--model", "hf",
-        "--model_args", f"pretrained={model_path},dtype=bfloat16,trust_remote_code=True",
-        "--tasks", "mmlu,gsm8k,humaneval",
-        "--device", "cuda:0",
-        "--batch_size", "1",
-        "--output_path", output_dir,
-        "--trust_remote_code",
-        "--confirm_run_unsafe_code"
-    ]
 
     env = os.environ.copy()
     env["HF_ALLOW_CODE_EVAL"] = "1"
+    # Ensure GPU is visible to the subprocess
+    if "CUDA_VISIBLE_DEVICES" not in env:
+        env["CUDA_VISIBLE_DEVICES"] = "0"
+
+    cmd = [sys.executable, LMEVAL_WORKER, model_path, output_dir, tasks]
 
     try:
         subprocess.run(cmd, env=env, check=True)
         print(f"    [lm-eval] Done for {model_name}.")
     except subprocess.CalledProcessError as e:
         print(f"    [WARNING] lm_eval failed for {model_name}: exit code {e.returncode}")
-        # If an empty output dir was created, remove it so the pipeline retries it next run
+        # Remove empty output dir so pipeline retries on next run
         if os.path.isdir(output_dir):
             json_files = [f for f in os.listdir(output_dir) if f.endswith(".json")]
             if not json_files:
                 import shutil
                 shutil.rmtree(output_dir)
-                print(f"    [INFO] Removed empty lm-eval dir so it will retry next run.")
+                print(f"    [INFO] Removed empty lm-eval dir -- will retry next run.")
 
 
 def main():
