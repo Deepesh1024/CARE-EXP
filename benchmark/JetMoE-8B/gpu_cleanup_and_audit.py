@@ -19,6 +19,8 @@ import shutil
 import sys
 import time
 
+AUTO_MODE = "--auto" in sys.argv  # skip all y/N prompts, just delete
+
 CKPT_DIR    = "benchmark_results/JetMoE-8B/checkpoints"
 RESULTS_DIR = "benchmark_results/JetMoE-8B/multicapability_results"
 SCRIPTS_DIR = "benchmark/JetMoE-8B"
@@ -96,7 +98,11 @@ def kill_zombies(pids):
         return
 
     print(f"\n  Found {len(pids)} Python/lm_eval process(es) holding VRAM: {pids}")
-    answer = input("  Kill ALL of them? [y/N]: ").strip().lower()
+    if AUTO_MODE:
+        answer = "y"
+        print("  [auto] Killing all zombie processes...")
+    else:
+        answer = input("  Kill ALL of them? [y/N]: ").strip().lower()
     if answer != "y":
         print("  Skipping kill. Memory will NOT be freed.")
         return
@@ -297,7 +303,12 @@ def clean_failed_lmeval():
     for d, _ in failed:
         print(f"    PARTIAL  {d}")
 
-    answer = input("\n  Delete partial dirs so they get re-evaluated? [y/N]: ").strip().lower()
+    if AUTO_MODE:
+        answer = "y"
+        print("  [auto] Deleting all partial dirs...")
+    else:
+        answer = input("\n  Delete partial dirs so they get re-evaluated? [y/N]: ").strip().lower()
+
     if answer == "y":
         for d, full in failed:
             shutil.rmtree(full)
@@ -308,6 +319,61 @@ def clean_failed_lmeval():
 
 
 # ------------------------------------------------------------------------------
+# CLEAN FAILED WIKITEXT RESULTS
+# ------------------------------------------------------------------------------
+
+def clean_failed_wikitext():
+    """Remove wikitext cache entries that have None/error PPL so they retry."""
+    print(f"\n{DIVIDER}")
+    print("  BONUS 2 -- CLEAN FAILED WIKITEXT-2 CACHE ENTRIES")
+    print(DIVIDER)
+
+    wiki_path = os.path.join(RESULTS_DIR, "results_wikitext2.json")
+    if not os.path.exists(wiki_path):
+        print("  No wikitext results file found. Nothing to clean.")
+        return
+
+    with open(wiki_path, "r") as f:
+        wiki = json.load(f)
+
+    failed = []
+    ok = []
+    for model, data in wiki.items():
+        ppl = data.get("ppl") if isinstance(data, dict) else None
+        if ppl is None or not isinstance(ppl, (int, float)) or ppl <= 0:
+            failed.append(model)
+        else:
+            ok.append((model, ppl))
+
+    print(f"\n  Valid wikitext results ({len(ok)}):")
+    for model, ppl in ok:
+        print(f"    OK    {model:<30}  PPL={ppl:.4f}")
+
+    if not failed:
+        print("\n  OK  No failed wikitext entries found.")
+        return
+
+    print(f"\n  Failed/null wikitext entries ({len(failed)}):")
+    for m in failed:
+        print(f"    FAILED  {m}")
+
+    if AUTO_MODE:
+        answer = "y"
+        print("  [auto] Removing failed entries from cache...")
+    else:
+        answer = input("\n  Remove these entries so they retry? [y/N]: ").strip().lower()
+
+    if answer == "y":
+        for m in failed:
+            del wiki[m]
+        with open(wiki_path, "w") as f:
+            json.dump(wiki, f, indent=4)
+        print(f"  Removed {len(failed)} entry/entries. They will be re-evaluated on next run.")
+    else:
+        print("  Skipping.")
+
+
+# ------------------------------------------------------------------------------
 # MAIN
 # ------------------------------------------------------------------------------
 
@@ -315,6 +381,8 @@ if __name__ == "__main__":
     print(f"\n{DIVIDER}")
     print("  GPU CLEANUP + REAP CONFIG PATCH + MEMORY AUDIT")
     print("  Run from the root of your Experiments-V3 directory on the VM")
+    if AUTO_MODE:
+        print("  Mode: AUTO (no prompts, all partial dirs deleted automatically)")
     print(DIVIDER)
 
     pids = audit_gpu()
@@ -322,6 +390,7 @@ if __name__ == "__main__":
     patch_configs()
     audit_scripts()
     clean_failed_lmeval()
+    clean_failed_wikitext()
 
     print(f"\n{DIVIDER}")
     print("  All cleanup steps complete. Now run:")
