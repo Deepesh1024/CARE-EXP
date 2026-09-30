@@ -173,17 +173,20 @@ def patch_configs():
 
 LEAK_PATTERNS = [
     # (regex, description, severity)
-    (r"batch_size.*auto",
+    # NOTE: batch_size=1 is correct; flag only 'auto'
+    (r"--batch_size['",\s]+auto",
      "batch_size=auto in lm_eval -- will OOM on 8B models, use batch_size=1",
      "WARN"),
     (r"except\s+Exception\s*:\s*\n\s*pass",
      "bare 'except Exception: pass' -- silently swallows OOM errors",
      "WARN"),
-    (r"torch\.float32(?!\s*\.\s*numpy)",
-     "float32 dtype -- uses 2x VRAM vs bfloat16, consider switching",
+    # float32 is unavoidable for numpy; only flag explicit model dtype casts
+    (r"dtype\s*=\s*torch\.float32",
+     "float32 model dtype -- uses 2x VRAM vs bfloat16, consider switching",
      "WARN"),
-    (r"\.clone\(\)(?!\s*\.\s*detach)",
-     ".clone() without .detach() -- can hold gradient graphs in memory",
+    # Correct pattern: .detach() must come BEFORE .clone()
+    (r"(?<!detach\(\))\.clone\(\)",
+     ".clone() without preceding .detach() -- can hold gradient graphs in memory",
      "INFO"),
     (r"device_map\s*=\s*['\"]auto['\"]",
      "device_map='auto' -- ensure del model + empty_cache() after each eval",
@@ -207,10 +210,11 @@ def audit_scripts():
     print("  STEP 4/4 -- PIPELINE SCRIPT MEMORY AUDIT")
     print(DIVIDER)
 
+    THIS_SCRIPT = os.path.basename(__file__)  # exclude self from audit
     scripts = []
     for root, _, files in os.walk(SCRIPTS_DIR):
         for f in sorted(files):
-            if f.endswith(".py"):
+            if f.endswith(".py") and f != THIS_SCRIPT:
                 scripts.append(os.path.join(root, f))
 
     if not scripts:
