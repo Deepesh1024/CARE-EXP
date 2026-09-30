@@ -16,13 +16,25 @@ import os
 # HumanEval requires this flag -- set before any lm_eval imports
 os.environ["HF_ALLOW_CODE_EVAL"] = "1"
 
+# ── DIAGNOSTIC ────────────────────────────────────────────────────────────────
+print(f"[lmeval_worker] Python:              {sys.executable}", flush=True)
+print(f"[lmeval_worker] CUDA_VISIBLE_DEVICES={os.environ.get('CUDA_VISIBLE_DEVICES', '<not set>')}", flush=True)
+
 # ── STEP 1: Pre-init CUDA ─────────────────────────────────────────────────────
-# caching_allocator_warmup in newer transformers calls torch.cuda.mem_get_info()
-# before the CUDA context exists, which crashes with "No CUDA GPUs are available".
-# Calling torch.cuda.init() here forces the CUDA context to be created first.
 import torch
 
+print(f"[lmeval_worker] torch version:       {torch.__version__}", flush=True)
+print(f"[lmeval_worker] torch.version.cuda:  {torch.version.cuda}", flush=True)
+print(f"[lmeval_worker] cuda.is_available(): {torch.cuda.is_available()}", flush=True)
+
 if not torch.cuda.is_available():
+    try:
+        import subprocess as _sp
+        _nv = _sp.run(["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+                      capture_output=True, text=True)
+        print(f"[lmeval_worker] nvidia-smi output: {_nv.stdout.strip() or _nv.stderr.strip()}", flush=True)
+    except Exception as _e:
+        print(f"[lmeval_worker] nvidia-smi failed: {_e}", flush=True)
     print("[lmeval_worker] ERROR: torch.cuda.is_available() returned False!", flush=True)
     sys.exit(1)
 
