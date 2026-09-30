@@ -73,7 +73,7 @@ def run_lm_eval(model_name, model_path):
     output_dir = os.path.join(RESULTS_DIR, f"{model_name}_lmeval")
 
     cmd = [
-        "lm_eval",
+        sys.executable, "-m", "lm_eval",
         "--model", "hf",
         "--model_args", f"pretrained={model_path},dtype=bfloat16,trust_remote_code=True",
         "--tasks", "mmlu,gsm8k,humaneval",
