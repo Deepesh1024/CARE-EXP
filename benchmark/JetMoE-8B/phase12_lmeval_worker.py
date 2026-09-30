@@ -13,6 +13,9 @@ Usage (called automatically by phase12):
 import sys
 import os
 
+# HumanEval requires this flag -- set before any lm_eval imports
+os.environ["HF_ALLOW_CODE_EVAL"] = "1"
+
 # ── STEP 1: Pre-init CUDA ─────────────────────────────────────────────────────
 # caching_allocator_warmup in newer transformers calls torch.cuda.mem_get_info()
 # before the CUDA context exists, which crashes with "No CUDA GPUs are available".

@@ -84,7 +84,7 @@ def run_lm_eval(model_name, model_path, tasks="mmlu,gsm8k,humaneval"):
     cmd = [sys.executable, LMEVAL_WORKER, model_path, output_dir, tasks]
 
     try:
-        subprocess.run(cmd, env=env, check=True)
+        subprocess.run(cmd, check=True)  # Inherit env naturally — same as WikiText worker
         print(f"    [lm-eval] Done for {model_name}.")
     except subprocess.CalledProcessError as e:
         print(f"    [WARNING] lm_eval failed for {model_name}: exit code {e.returncode}")
