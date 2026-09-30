@@ -53,7 +53,7 @@ def evaluate_wikitext(model_path, num_tokens=15000):
             trg_len = end_loc - begin_loc
             if trg_len == 0: break
             input_ids = encodings.input_ids[:, begin_loc:end_loc].cuda()
-            target_ids = input_ids.clone()
+            target_ids = input_ids.detach().clone()
             outputs = model(input_ids, labels=target_ids)
             nlls.append(outputs.loss * trg_len)
             total_tokens += trg_len

@@ -73,7 +73,8 @@ def get_characteristic_activations(model):
     final_ca = {}
     for i in range(NUM_LAYERS):
         input_linear, _, _ = get_jetmoe_mlp_tensors(model, i)
-        ca = input_linear.data.mean(dim=1).cpu().to(torch.float32).numpy()
+        # detach() first to avoid holding gradient graphs; float32 is required by numpy
+        ca = input_linear.data.detach().mean(dim=1).cpu().to(torch.float32).numpy()
         final_ca[i] = ca
     return final_ca
 
@@ -244,7 +245,9 @@ def apply_care(model, tokenizer, target_experts):
             best_pair, best_ppl = None, float("inf")
             for _, k_idx, r_idx in candidates:
                 in_w, out_w, r_w = get_jetmoe_mlp_tensors(model, i)
-                in_bak, out_bak, r_bak = in_w.data.clone(), out_w.data.clone(), r_w.data.clone()
+                in_bak  = in_w.data.detach().clone()
+                out_bak = out_w.data.detach().clone()
+                r_bak   = r_w.data.detach().clone()
                 merge_experts_jetmoe(model, i, k_idx, r_idx)
                 ppl = _micro_ppl(model, tokenizer)
                 if ppl < best_ppl:

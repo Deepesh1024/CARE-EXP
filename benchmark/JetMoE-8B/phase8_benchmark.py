@@ -93,8 +93,8 @@ def get_characteristic_activations(model, tokenizer):
     for i in range(24):
         input_linear, _, _ = get_jetmoe_mlp_tensors(model, i)
         # input_linear.weight: [8, 11264, 2048]  (num_experts, ffn_dim, hidden_dim)
-        # Mean over ffn_dim → [8, 2048] float32
-        ca = input_linear.data.mean(dim=1).cpu().to(torch.float32).numpy()
+        # detach() first to avoid holding gradient graphs; float32 is required by numpy
+        ca = input_linear.data.detach().mean(dim=1).cpu().to(torch.float32).numpy()
         final_ca[i] = ca
     return final_ca
 
