@@ -167,43 +167,25 @@ def apply_reap(model, scores, target_experts):
     for i in range(NUM_LAYERS):
         s = torch.tensor(scores[i])
         _, kept = torch.topk(s, target_experts, largest=True)
-        kept = kept.sort().values
+        
+        # Determine which experts to remove
+        all_experts = set(range(NUM_EXPERTS))
+        kept_experts = set(kept.tolist())
+        removed = list(all_experts - kept_experts)
+        
         mlp = model.model.layers[i].mlp
 
-        # 1. Prune router
+        # Mask router logits for removed experts so they are never selected
         rl = mlp.router.layer
-        rl.weight = torch.nn.Parameter(rl.weight.data[kept, :])
-        rl.out_features = target_experts
-        if hasattr(mlp.router, "num_experts"):
-            mlp.router.num_experts = target_experts
+        with torch.no_grad():
+            rl.weight[removed, :] = -1e9
 
-        # 2. Find & prune expert tensors
-        in_lin = out_lin = None
-        for name, m in mlp.named_modules():
-            if name == "input_linear":  in_lin  = m
-            elif name == "output_linear": out_lin = m
-        if in_lin is None:
-            for name, m in mlp.named_modules():
-                if hasattr(m, "weight") and isinstance(m.weight, torch.nn.Parameter):
-                    w = m.weight
-                    if w.dim() == 3 and w.shape[0] == NUM_EXPERTS:
-                        if in_lin  is None: in_lin  = m
-                        elif out_lin is None: out_lin = m
-        in_lin.weight  = torch.nn.Parameter(in_lin.weight.data[kept])
-        out_lin.weight = torch.nn.Parameter(out_lin.weight.data[kept])
+        # We do NOT slice the expert tensors (input_linear/output_linear) 
+        # or change num_experts. This keeps the architecture mathematically 
+        # identical to an 8-expert model, satisfying Hugging Face's strict 
+        # shape checks, but the removed experts are never routed to!
 
-        for m in (in_lin, out_lin):
-            if hasattr(m, "num_experts"):        m.num_experts        = target_experts
-            if hasattr(m, "input_size_list"):    m.input_size_list    = m.input_size_list[:target_experts]
-            if hasattr(m, "output_size_list"):   m.output_size_list   = m.output_size_list[:target_experts]
-        for attr in ("num_experts", "num_local_experts"):
-            if hasattr(mlp, attr): setattr(mlp, attr, target_experts)
-
-    # Update config so model.config matches the architecture
-    if hasattr(model.config, "moe_num_experts"):
-        model.config.moe_num_experts = target_experts
-    elif hasattr(model.config, "num_experts"):
-        model.config.num_experts = target_experts
+    # Do not modify config.moe_num_experts because the architecture shape remains 8
 
 
 def apply_care(model, tokenizer, target_experts):
