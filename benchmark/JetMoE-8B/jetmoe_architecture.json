@@ -1,0 +1,2338 @@
+[
+    {
+        "module_name": "",
+        "module_class": "JetMoeForCausalLM",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model",
+        "module_class": "JetMoeModel",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.0.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.0.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.0.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.0.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.1",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.1.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.1.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.1.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.1.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.2",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.2.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.2.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.2.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.2.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.3",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.3.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.3.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.3.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.3.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.4",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.4.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.4.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.4.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.4.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.5",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.5.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.5.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.5.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.5.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.6",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.6.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.6.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.6.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.6.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.7",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.7.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.7.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.7.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.7.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.8",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.8.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.8.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.8.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.8.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.9",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.9.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.9.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.9.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.9.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.10",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.10.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.10.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.10.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.10.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.11",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.11.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.11.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.11.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.11.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.12",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.12.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.12.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.12.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.12.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.13",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.13.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.13.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.13.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.13.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.14",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.14.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.14.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.14.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.14.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.15",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.15.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.15.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.15.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.15.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.16",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.16.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.16.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.16.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.16.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.17",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.17.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.17.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.17.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.17.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.18",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.18.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.18.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.18.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.18.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.19",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.19.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.19.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.19.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.19.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.20",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.20.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.20.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.20.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.20.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.21",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.21.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.21.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.21.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.21.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.22",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.22.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.22.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.22.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.22.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.23",
+        "module_class": "JetMoeDecoderLayer",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.mlp",
+        "module_class": "JetMoeMoE",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.mlp.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.mlp.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.mlp.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": true,
+        "is_moa": false,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.23.input_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.post_attention_layernorm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.self_attention",
+        "module_class": "JetMoeAttention",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": null,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.23.self_attention.experts",
+        "module_class": "JetMoeMoA",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.layers.23.self_attention.experts.input_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.self_attention.experts.output_linear",
+        "module_class": "JetMoeParallelExperts",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": null
+    },
+    {
+        "module_name": "model.layers.23.self_attention.experts.router",
+        "module_class": "JetMoeTopKGating",
+        "is_mlp_moe": false,
+        "is_moa": true,
+        "num_experts": 8,
+        "top_k": 2
+    },
+    {
+        "module_name": "model.norm",
+        "module_class": "JetMoeRMSNorm",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    },
+    {
+        "module_name": "model.rotary_emb",
+        "module_class": "JetMoeRotaryEmbedding",
+        "is_mlp_moe": false,
+        "is_moa": false,
+        "num_experts": null,
+        "top_k": null
+    }
+]

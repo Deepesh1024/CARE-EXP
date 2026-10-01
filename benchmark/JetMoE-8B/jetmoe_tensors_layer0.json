@@ -1,0 +1,13 @@
+{
+    "model.layers.0.mlp.bias": "[2048]",
+    "model.layers.0.mlp.input_linear.weight": "[8, 11264, 2048]",
+    "model.layers.0.mlp.output_linear.weight": "[8, 2048, 5632]",
+    "model.layers.0.mlp.router.layer.weight": "[8, 2048]",
+    "model.layers.0.input_layernorm.weight": "[2048]",
+    "model.layers.0.post_attention_layernorm.weight": "[2048]",
+    "model.layers.0.self_attention.experts.bias": "[2048]",
+    "model.layers.0.self_attention.experts.input_linear.weight": "[8, 2048, 2048]",
+    "model.layers.0.self_attention.experts.output_linear.weight": "[8, 2048, 2048]",
+    "model.layers.0.self_attention.experts.router.layer.weight": "[8, 2048]",
+    "model.layers.0.self_attention.kv_proj.weight": "[4096, 2048]"
+}

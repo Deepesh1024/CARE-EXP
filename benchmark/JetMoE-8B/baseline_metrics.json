@@ -1,0 +1,7 @@
+{
+    "baseline_ppl": 7.5085039138793945,
+    "total_eval_time_sec": 4.471420049667358,
+    "peak_gpu_memory_gb": 16.25807523727417,
+    "tokens_per_sec": 11221.4910347626,
+    "tokens_evaluated": 50176
+}

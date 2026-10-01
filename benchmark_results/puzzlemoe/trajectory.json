@@ -1,0 +1,4 @@
+{
+  "error": "not reproduced on OLMoE",
+  "message": "Architecture Incompatibility: PuzzleMoE repository does not support the OLMoEForCausalLM architecture out of the box. It requires specialized modifications to the modeling files (like Mistral/Mixtral) which contradicts the benchmark rule against fabricating adaptations."
+}

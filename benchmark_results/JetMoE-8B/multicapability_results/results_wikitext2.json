@@ -1,0 +1,80 @@
+{
+    "jetmoe_base": {
+        "ppl": 7.125833988189697,
+        "eval_time_sec": 29.042252779006958,
+        "tokens_per_sec": 516.4888589786902,
+        "peak_vram_gb": 16.25807523727417
+    },
+    "jetmoe_care_4": {
+        "ppl": 87.1912841796875,
+        "eval_time_sec": 5.922729969024658,
+        "tokens_per_sec": 2532.6158846424946,
+        "peak_vram_gb": 16.256858348846436
+    },
+    "jetmoe_care_6": {
+        "ppl": 15.693251609802246,
+        "eval_time_sec": 22.138592958450317,
+        "tokens_per_sec": 677.5498347231,
+        "peak_vram_gb": 16.256858348846436
+    },
+    "jetmoe_care_7": {
+        "ppl": 10.172869682312012,
+        "eval_time_sec": 21.472778797149658,
+        "tokens_per_sec": 698.5588657016823,
+        "peak_vram_gb": 16.256856441497803
+    },
+    "jetmoe_random_4": {
+        "ppl": 5128.33203125,
+        "eval_time_sec": 21.889972448349,
+        "tokens_per_sec": 685.2452663151406,
+        "peak_vram_gb": 16.256196975708008
+    },
+    "jetmoe_random_6": {
+        "ppl": 106.49143981933594,
+        "eval_time_sec": 21.70373773574829,
+        "tokens_per_sec": 691.1251961588836,
+        "peak_vram_gb": 16.256858348846436
+    },
+    "jetmoe_random_7": {
+        "ppl": 25.937347412109375,
+        "eval_time_sec": 21.869457006454468,
+        "tokens_per_sec": 685.8880856334456,
+        "peak_vram_gb": 16.25514793395996
+    },
+    "jetmoe_submoe_4": {
+        "ppl": 1149.0869140625,
+        "eval_time_sec": 20.96283268928528,
+        "tokens_per_sec": 715.5521499566679,
+        "peak_vram_gb": 16.25685739517212
+    },
+    "jetmoe_submoe_6": {
+        "ppl": 83.4945068359375,
+        "eval_time_sec": 21.496386528015137,
+        "tokens_per_sec": 697.7916953833738,
+        "peak_vram_gb": 16.25685739517212
+    },
+    "jetmoe_submoe_7": {
+        "ppl": 27.060354232788086,
+        "eval_time_sec": 21.596362352371216,
+        "tokens_per_sec": 694.5614152632073,
+        "peak_vram_gb": 16.256858348846436
+    },
+    "jetmoe_reap_4": {
+        "ppl": 56.10553741455078,
+        "eval_time_sec": 7.828885078430176,
+        "tokens_per_sec": 1915.981630810674,
+        "peak_vram_gb": 16.25878667831421
+    },
+    "jetmoe_reap_6": {
+        "ppl": 41.99057388305664,
+        "eval_time_sec": 9.733213186264038,
+        "tokens_per_sec": 1541.11491374387,
+        "peak_vram_gb": 16.25807523727417
+    },
+    "jetmoe_reap_7": {
+        "ppl": 75.25997924804688,
+        "eval_time_sec": 22.012802839279175,
+        "tokens_per_sec": 681.4216303811307,
+        "peak_vram_gb": 16.25807523727417
+    }
+}

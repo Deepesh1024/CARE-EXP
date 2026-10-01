@@ -1,0 +1,97 @@
+{
+  "config": {
+    "model": {
+      "name": "allenai/OLMoE-1B-7B-0924",
+      "device": "cuda",
+      "precision": "bfloat16"
+    },
+    "evaluation": {
+      "dataset": "wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "split": "test",
+      "max_length": 512,
+      "batch_size": 4,
+      "num_eval_chunks": 128
+    },
+    "compression": {
+      "original_experts": 64,
+      "checkpoints": [
+        64,
+        60,
+        56,
+        48
+      ],
+      "candidate_pool_size": 5
+    },
+    "baselines": {
+      "random_seeds": [
+        42,
+        43,
+        44
+      ],
+      "methods_to_run": [
+        "random",
+        "care_static",
+        "care_adaptive",
+        "hc_smoe",
+        "m_smoe",
+        "sub_moe",
+        "ream",
+        "puzzlemoe"
+      ]
+    }
+  },
+  "ppl": {
+    "64": 10.288335800170898,
+    "60": 11.811169624328613,
+    "56": 13.735270500183105,
+    "48": 19.477291107177734
+  },
+  "trace": [
+    {
+      "method": "sub_moe",
+      "seed": null,
+      "step": 4,
+      "experts_before": 64,
+      "experts_after": 60,
+      "candidate_pairs": null,
+      "selected_pair": null,
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": null,
+      "cumulative_kl": null,
+      "wall_time_sec": 1.5378499031066895,
+      "peak_memory_mb": 16320.0732421875
+    },
+    {
+      "method": "sub_moe",
+      "seed": null,
+      "step": 8,
+      "experts_before": 64,
+      "experts_after": 56,
+      "candidate_pairs": null,
+      "selected_pair": null,
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": null,
+      "cumulative_kl": null,
+      "wall_time_sec": 1.4101624488830566,
+      "peak_memory_mb": 16320.0732421875
+    },
+    {
+      "method": "sub_moe",
+      "seed": null,
+      "step": 16,
+      "experts_before": 64,
+      "experts_after": 48,
+      "candidate_pairs": null,
+      "selected_pair": null,
+      "selection_score": null,
+      "capability_distance": null,
+      "marginal_kl": null,
+      "cumulative_kl": null,
+      "wall_time_sec": 1.2393465042114258,
+      "peak_memory_mb": 16320.0732421875
+    }
+  ]
+}

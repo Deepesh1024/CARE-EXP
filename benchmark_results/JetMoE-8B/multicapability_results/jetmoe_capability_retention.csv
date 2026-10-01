@@ -1,0 +1,14 @@
+Method,Experts,Compression,MMLU_Retention
+Base,8,0%,100.0
+Random,7,12.5%,
+Random,6,25.0%,
+Random,4,50.0%,
+Sub-MoE,7,12.5%,
+Sub-MoE,6,25.0%,
+Sub-MoE,4,50.0%,
+REAP,7,12.5%,
+REAP,6,25.0%,
+REAP,4,50.0%,
+CARE,7,12.5%,74.47685478757134
+CARE,6,25.0%,61.52504755865568
+CARE,4,50.0%,51.28408370323398
