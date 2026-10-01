@@ -159,10 +159,10 @@ def patch_configs():
 
         patched = False
         if "moe_num_experts" in config:
-            config["moe_num_experts"] = n_experts
+            pass # config["moe_num_experts"] = n_experts
             patched = True
         if "num_experts" in config:
-            config["num_experts"] = n_experts
+            pass # config["num_experts"] = n_experts
             patched = True
 
         if patched:
