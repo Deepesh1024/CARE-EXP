@@ -25,6 +25,18 @@ CKPT_DIR    = "benchmark_results/JetMoE-8B/checkpoints"
 RESULTS_DIR = "benchmark_results/JetMoE-8B/multicapability_results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
+# ── Phase 1 lm_eval scope ──────────────────────────────────────────────────────
+# Only run lm_eval on the 7 key models: base + CARE×3 + REAP×3
+# Random and Sub-MoE are excluded from lm_eval (too slow, less scientifically relevant)
+LMEVAL_MODELS = {
+    "jetmoe_base",
+    "jetmoe_care_7",  "jetmoe_care_6",  "jetmoe_care_4",
+    "jetmoe_reap_7",  "jetmoe_reap_6",  "jetmoe_reap_4",
+}
+
+# Phase 1: MMLU only (~45-60 min/model × 7 models = ~5-7 hrs total)
+LMEVAL_TASKS = "mmlu"
+
 # Path to this file's directory so we can find the worker script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 WIKI_WORKER   = os.path.join(SCRIPT_DIR, "phase12_wikitext_worker.py")
@@ -146,11 +158,14 @@ def main():
         time.sleep(2)
 
         # ── 2. LM Eval (subprocess) ────────────────────────────────────────────
-        lmeval_out = os.path.join(RESULTS_DIR, f"{model_name}_lmeval")
-        if not os.path.exists(lmeval_out):
-            run_lm_eval(model_name, model_path)
+        if model_name not in LMEVAL_MODELS:
+            print(f"    [lm-eval] Skipping {model_name} (not in Phase 1 model set).")
         else:
-            print(f"    [lm-eval] Already evaluated, skipping.")
+            lmeval_out = os.path.join(RESULTS_DIR, f"{model_name}_lmeval")
+            if not os.path.exists(lmeval_out):
+                run_lm_eval(model_name, model_path, tasks=LMEVAL_TASKS)
+            else:
+                print(f"    [lm-eval] Already evaluated, skipping.")
 
         # Brief pause between subprocess launches
         time.sleep(2)
