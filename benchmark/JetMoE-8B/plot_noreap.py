@@ -37,7 +37,7 @@ plt.savefig("benchmark_results/JetMoE-8B/plots/compression_plot.png", dpi=300)
 plt.close()
 
 # PLOT 2: Grouped Bar
-checkpoints_str = ["7", "6", "4"]
+checkpoints_str = ["7", "6", "4"]https://127.0.0.1:54374/static/artifacts/23683cb2-7c60-4fdf-b154-f50c39443184/.user_uploaded/media_1790794680163.png?csrf=3849518a-8731-463d-b9bd-d5c967c7de3c
 x = np.arange(len(checkpoints_str))
 width = 0.25
 

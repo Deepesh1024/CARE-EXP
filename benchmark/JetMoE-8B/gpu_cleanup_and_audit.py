@@ -180,7 +180,7 @@ def patch_configs():
 LEAK_PATTERNS = [
     # (regex, description, severity)
     # NOTE: batch_size=1 is correct; flag only 'auto'
-    (r"--batch_size['",\s]+auto",
+    (r"--batch_size[\'\"\\s=]+auto",
      "batch_size=auto in lm_eval -- will OOM on 8B models, use batch_size=1",
      "WARN"),
     (r"except\s+Exception\s*:\s*\n\s*pass",
