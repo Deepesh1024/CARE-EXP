@@ -145,8 +145,8 @@ def main():
         
         out_dir = f"benchmark_results/JetMoE-8B/multicapability_results/reap_mmlu_fixed"
         os.makedirs(out_dir, exist_ok=True)
-        with open(f"{out_dir}/reap_{target}.json", "w") as f:
-            json.dump(results, f, indent=4)
+        # with open(f"{out_dir}/reap_{target}.json", "w") as f:
+        #     json.dump(results, f, indent=4)
             
         for h in hooks:
             h.remove()
