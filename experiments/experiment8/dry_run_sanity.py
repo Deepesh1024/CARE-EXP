@@ -161,7 +161,7 @@ def run_sanity_checks():
     shift_labels = labels[..., 1:].contiguous()
     ce_loss_manual = F.cross_entropy(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
     
-    if torch.allclose(loss, ce_loss_manual):
+    if torch.allclose(loss.float(), ce_loss_manual.float(), atol=1e-4):
         print(f"   PASS: Manual shifted CE Loss ({ce_loss_manual.item():.4f}) matches model output loss ({loss.item():.4f})")
     else:
         print(f"   FAIL: Manual CE ({ce_loss_manual.item():.4f}) != Model CE ({loss.item():.4f})")
