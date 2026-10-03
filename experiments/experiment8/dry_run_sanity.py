@@ -109,7 +109,11 @@ def run_sanity_checks():
                     
         return h_manual.view(batch_size, seq_len, hidden_dim), E_dense, full_routing
 
-    # 2. Activation-Gradient Verification & 4. Exact post-top-k router coefficient verification
+    # Disable aux loss so Model CE perfectly matches manual CE
+    model.config.output_router_logits = False
+    model.config.router_aux_loss_coef = 0.0
+
+    # 2. Activation-Gradient & 4. Exact post-top-k router coefficient verification
     print("\n2 & 4. Activation-Gradient & Router Coefficient Verification...")
     pre_hook = target_layer.mlp.register_forward_pre_hook(pre_fw_hook)
     h_hook = target_layer.mlp.register_forward_hook(fw_hook, with_kwargs=True)
@@ -135,6 +139,12 @@ def run_sanity_checks():
     
     # 3. One-pair algebraic reconstruction
     print("\n3. One-pair algebraic reconstruction...")
+    
+    # Print overall diagnostic norms
+    print(f"   Diagnostic - Mean norm of captured 'h': {captured['h'].norm(dim=-1).mean().item():.4f}")
+    print(f"   Diagnostic - Mean norm of h_manual: {h_manual.norm(dim=-1).mean().item():.4f}")
+    print(f"   Diagnostic - Mean norm of E_dense: {E_dense.norm(dim=-1).mean().item():.4f}")
+    
     # Pick a random token that routed to some expert j
     valid_mask = full_routing > 0
     token_idx = valid_mask.nonzero()[0][0].item()
@@ -151,9 +161,13 @@ def run_sanity_checks():
     
     h_sub_algebraic = h_orig - (g_j * e_j) + (g_j * e_i)
     
-    print(f"   Original h norm: {h_orig.norm().item():.4f}")
+    print(f"   Original h norm (Token {token_idx}): {h_orig.norm().item():.4f}")
     print(f"   Reconstructed h_sub norm: {h_sub_algebraic.norm().item():.4f}")
-    print("   PASS: Algebraic reconstruction successfully implemented in single operation.")
+    
+    if torch.allclose(h_orig, h_manual.view(-1, 2048)[token_idx], atol=1e-2):
+        print("   PASS: Algebraic reconstruction successfully implemented in single operation.")
+    else:
+        print("   FAIL: Algebraic reconstruction does not match original.")
 
     # 5. Correct held-out CE token accounting
     print("\n5. Correct held-out CE token accounting...")
