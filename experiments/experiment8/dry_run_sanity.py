@@ -69,31 +69,31 @@ def run_sanity_checks():
         if isinstance(router_logits, tuple):
             router_logits = router_logits[0]
         routing_weights = F.softmax(router_logits, dim=-1, dtype=torch.float)
-        routing_weights, selected_experts = torch.topk(routing_weights, mlp.top_k, dim=-1)
+        routing_weights, selected_experts = torch.topk(routing_weights, model.config.num_experts_per_tok, dim=-1)
         
-        if mlp.norm_top_k_prob:
+        if getattr(model.config, 'norm_topk_prob', False):
             routing_weights /= routing_weights.sum(dim=-1, keepdim=True)
             
         routing_weights = routing_weights.to(hidden_states.dtype)
         
         # Calculate all 64 dense experts for verification
         all_expert_outputs = []
-        for i in range(mlp.num_experts):
+        for i in range(model.config.num_experts):
             e_out = mlp.experts[i](hidden_states)
             all_expert_outputs.append(e_out)
         E_dense = torch.stack(all_expert_outputs, dim=1) # [N, 64, 2048]
         
         # Calculate h manual
         h_manual = torch.zeros_like(hidden_states)
-        full_routing = torch.zeros(hidden_states.shape[0], mlp.num_experts, dtype=hidden_states.dtype, device=hidden_states.device)
+        full_routing = torch.zeros(hidden_states.shape[0], model.config.num_experts, dtype=hidden_states.dtype, device=hidden_states.device)
         
-        for i in range(mlp.top_k):
+        for i in range(model.config.num_experts_per_tok):
             expert_idx = selected_experts[:, i]
             weight = routing_weights[:, i]
             full_routing.scatter_(1, expert_idx.unsqueeze(1), weight.unsqueeze(1))
             
             # Add to h_manual
-            for j in range(mlp.num_experts):
+            for j in range(model.config.num_experts):
                 mask = (expert_idx == j)
                 if mask.any():
                     h_manual[mask] += weight[mask].unsqueeze(1) * E_dense[mask, j]
