@@ -42,10 +42,18 @@ def run_sanity_checks():
     def fw_hook(module, args, kwargs, output):
         # output of MoE layer is (hidden_states, router_logits)
         hidden_states = output[0] if isinstance(output, tuple) else output
+        
+        # Detach and require grad to make it a leaf tensor.
+        # This prevents the graph from going back to layers 0-7 and saves massive memory,
+        # while allowing loss.backward() to compute the gradient for this exact tensor.
+        hidden_states = hidden_states.detach().requires_grad_(True)
+        
         captured['h'] = hidden_states.detach().clone()
-        hidden_states.retain_grad()
         captured['h_tensor'] = hidden_states
-        return output
+        
+        if isinstance(output, tuple):
+            return (hidden_states,) + output[1:]
+        return hidden_states
         
     def get_experts_and_routing(hidden_states):
         # We need to manually do what the OLMoE MLP does to verify routing coefficients and experts
