@@ -55,6 +55,10 @@ def run_sanity_checks():
             return (hidden_states,) + output[1:]
         return hidden_states
         
+    def pre_fw_hook(module, args):
+        captured['mlp_input'] = args[0].detach().clone()
+        return args
+
     def get_experts_and_routing(hidden_states):
         # We need to manually do what the OLMoE MLP does to verify routing coefficients and experts
         mlp = target_layer.mlp
@@ -62,7 +66,9 @@ def run_sanity_checks():
         hidden_states = hidden_states.view(-1, hidden_dim)
         
         router_logits = mlp.gate(hidden_states)
-        routing_weights = F.softmax(router_logits, dim=1, dtype=torch.float)
+        if isinstance(router_logits, tuple):
+            router_logits = router_logits[0]
+        routing_weights = F.softmax(router_logits, dim=-1, dtype=torch.float)
         routing_weights, selected_experts = torch.topk(routing_weights, mlp.top_k, dim=-1)
         
         if mlp.norm_top_k_prob:
@@ -96,6 +102,7 @@ def run_sanity_checks():
 
     # 2. Activation-Gradient Verification & 4. Exact post-top-k router coefficient verification
     print("\n2 & 4. Activation-Gradient & Router Coefficient Verification...")
+    pre_hook = target_layer.mlp.register_forward_pre_hook(pre_fw_hook)
     h_hook = target_layer.mlp.register_forward_hook(fw_hook, with_kwargs=True)
     
     # Forward pass requiring grad
@@ -112,9 +119,10 @@ def run_sanity_checks():
         print("   FAIL: grad_h is None.")
         
     h_hook.remove()
+    pre_hook.remove()
     
     # Manual forward to get experts
-    h_manual, E_dense, full_routing = get_experts_and_routing(model.model.layers[layer_idx].input_layernorm(model.model.embed_tokens(input_ids)))
+    h_manual, E_dense, full_routing = get_experts_and_routing(captured['mlp_input'])
     
     # 3. One-pair algebraic reconstruction
     print("\n3. One-pair algebraic reconstruction...")

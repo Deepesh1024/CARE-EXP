@@ -9,7 +9,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 # Data extracted from Phase 12 execution logs
 base_ppl = 7.1258
-base_mmlu = 0.2655
+base_mmlu = 0.4492
 
 data_ppl = {
     "Random": {4: 5128.3320, 6: 106.4914, 7: 25.9373, 8: base_ppl},
@@ -19,8 +19,8 @@ data_ppl = {
 }
 
 data_mmlu = {
-    "REAP": {4: 0.2305, 6: 0.2308, 7: 0.2308, 8: base_mmlu},
-    "CARE": {4: 0.2365, 6: 0.2520, 7: 0.2541, 8: base_mmlu},
+    "REAP": {4: 0.2682, 6: 0.4140, 7: 0.4495, 8: base_mmlu},
+    "CARE": {4: 0.2304, 6: 0.2764, 7: 0.3346, 8: base_mmlu},
 }
 
 colors = {"Random": "#95a5a6", "Sub-MoE": "#3498db", "REAP": "#e74c3c", "CARE": "#2ecc71"}
