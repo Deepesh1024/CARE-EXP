@@ -79,7 +79,16 @@ def run_sanity_checks():
         # Calculate all 64 dense experts for verification
         all_expert_outputs = []
         for i in range(model.config.num_experts):
-            e_out = mlp.experts[i](hidden_states)
+            weight_gate_up = mlp.experts.gate_up_proj[i]
+            weight_down = mlp.experts.down_proj[i]
+            
+            # forward pass for expert i
+            gate_up = F.linear(hidden_states, weight_gate_up)
+            # OLMoE splits gate and up halves
+            gate, up = gate_up.chunk(2, dim=-1)
+            intermediate = mlp.experts.act_fn(gate) * up
+            e_out = F.linear(intermediate, weight_down)
+            
             all_expert_outputs.append(e_out)
         E_dense = torch.stack(all_expert_outputs, dim=1) # [N, 64, 2048]
         
