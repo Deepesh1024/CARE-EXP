@@ -177,7 +177,7 @@ def main():
     truncated_target_layer = model.model.layers[0]
 
     cached_batches = []
-    batch_size = 16
+    batch_size = 4
     for b in range(0, len(split_B), batch_size):
         embeds = torch.cat(cached_layer7_out[b:b+batch_size], dim=0).cuda()
         lbls = split_B[b:b+batch_size].cuda()
@@ -251,13 +251,17 @@ def main():
         
         for embeds, lbls in cached_batches:
             with torch.no_grad():
-                outputs = model(inputs_embeds=embeds, labels=lbls)
+                # Avoid passing labels to prevent HF from allocating massive float32 loss tensors internally
+                outputs = model(inputs_embeds=embeds)
                 shift_logits = outputs.logits[..., :-1, :].contiguous()
                 shift_labels = lbls[..., 1:].contiguous()
                 
                 ce = F.cross_entropy(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction='sum').item()
                 total_ce += ce
                 total_tokens += shift_labels.numel()
+                
+                del outputs, shift_logits
+                torch.cuda.empty_cache()
                 
         avg_ce = total_ce / total_tokens
         damage = avg_ce - baseline_ce
