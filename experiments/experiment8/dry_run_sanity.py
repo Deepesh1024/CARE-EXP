@@ -17,6 +17,8 @@ def run_sanity_checks():
             device_map="auto",
             trust_remote_code=True
         )
+        for param in model.parameters():
+            param.requires_grad = False
     except Exception as e:
         print(f"FAIL: Could not load model. {e}")
         return
