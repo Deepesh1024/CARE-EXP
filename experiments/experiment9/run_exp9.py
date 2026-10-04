@@ -117,8 +117,9 @@ def main():
             # For Train pairs, we compute distance from mds_coordinates.npy
             z_train = np.load(os.path.join(fold_dir, "mds_coordinates.npy"))
             with open(os.path.join(fold_dir, "train_experts.json"), "r") as f:
-                train_experts = json.load(f)
-            expert_to_row = {int(eid): r for r, eid in enumerate(train_experts)}
+                train_experts_data = json.load(f)
+            train_experts_list = train_experts_data["experts"] if isinstance(train_experts_data, dict) else train_experts_data
+            expert_to_row = {int(eid): r for r, eid in enumerate(train_experts_list)}
             
             geom_train = np.zeros(len(train_idx), dtype=np.float32)
             for idx_in_train, global_idx in enumerate(train_idx):
