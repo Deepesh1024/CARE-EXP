@@ -115,10 +115,9 @@ def main():
             geom_test = np.load(os.path.join(fold_dir, "predictions_model_b.npy"))
             
             # For Train pairs, we compute distance from mds_coordinates.npy
-            z_train = np.load(os.path.join(fold_dir, "mds_coordinates.npy"))
-            with open(os.path.join(fold_dir, "train_experts.json"), "r") as f:
-                train_experts_data = json.load(f)
-            train_experts_list = train_experts_data["experts"] if isinstance(train_experts_data, dict) else train_experts_data
+            mds_data = np.load(os.path.join(fold_dir, "mds_coordinates.npy"), allow_pickle=True)
+            z_train = mds_data["Z_train"]
+            train_experts_list = mds_data["train_experts"]
             expert_to_row = {int(eid): r for r, eid in enumerate(train_experts_list)}
             
             geom_train = np.zeros(len(train_idx), dtype=np.float32)
