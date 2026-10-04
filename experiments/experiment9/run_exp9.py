@@ -66,7 +66,7 @@ def main():
         rw_l2_sym[k] = item["rw_l2_symmetric"]
         
     # 3. Load CV Splits from Exp 4
-    exp4_dir = os.path.join(os.path.dirname(__file__), "..", "experiment4", "results", "exp4")
+    exp4_dir = os.path.join(os.path.dirname(__file__), "..", "..", "results", "exp4")
     cv_splits_path = os.path.join(exp4_dir, "cv_splits.json")
     with open(cv_splits_path, "r") as f:
         cv_splits = json.load(f)
