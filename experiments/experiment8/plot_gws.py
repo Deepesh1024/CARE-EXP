@@ -4,13 +4,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import os
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import GroupKFold
+from sklearn.metrics import r2_score
 
 def bootstrap_ci(x, y, group, n_boot=1000):
     np.random.seed(42)
     corrs = []
     unique_groups = np.unique(group)
     for _ in range(n_boot):
-        # Sample groups with replacement
         sampled_groups = np.random.choice(unique_groups, size=len(unique_groups), replace=True)
         idx = np.concatenate([np.where(group == g)[0] for g in sampled_groups])
         r, _ = stats.spearmanr(x[idx], y[idx])
@@ -19,7 +21,6 @@ def bootstrap_ci(x, y, group, n_boot=1000):
     return np.percentile(corrs, [2.5, 97.5])
 
 def partial_corr(x, y, cov):
-    # Regress x and y on cov, then correlate residuals
     slope_x, intercept_x, _, _, _ = stats.linregress(cov, x)
     res_x = x - (slope_x * cov + intercept_x)
     
@@ -27,6 +28,15 @@ def partial_corr(x, y, cov):
     res_y = y - (slope_y * cov + intercept_y)
     
     return stats.spearmanr(res_x, res_y)[0]
+
+def out_of_sample_r2(X, y, groups):
+    gkf = GroupKFold(n_splits=5)
+    y_pred = np.zeros_like(y)
+    for train_idx, test_idx in gkf.split(X, y, groups):
+        model = LinearRegression()
+        model.fit(X[train_idx], y[train_idx])
+        y_pred[test_idx] = model.predict(X[test_idx])
+    return r2_score(y, y_pred)
 
 def main():
     results_file = "experiments/experiment8/results.json"
@@ -45,38 +55,56 @@ def main():
     usage = df['usage'].values
     damage = df['actual_damage'].values
     
-    print("\n--- Correlations vs Actual Damage ---")
+    print("\n--- Diagnostic Stats (Low-Damage Regime) ---")
+    neg_ce = np.sum(damage < 0)
+    min_ce = np.min(damage)
+    # Since noise_floor was 0.0000000 in FP32, any strictly positive damage is above noise floor.
+    # We will use 1e-7 as a practical FP32 machine epsilon bound for sum reduction.
+    noise_floor = 1e-7 
+    within_noise = np.sum(np.abs(damage) <= noise_floor)
+    above_noise = np.sum(np.abs(damage) > noise_floor)
+    
+    print(f"Number of negative ΔCE pairs: {neg_ce}")
+    print(f"Minimum ΔCE: {min_ce:.7f}")
+    print(f"Number within noise floor (abs(ΔCE) <= {noise_floor}): {within_noise}")
+    print(f"Number above noise floor: {above_noise}")
+    print(f"Total pairs evaluated: {len(damage)}")
+
+    print("\n--- Primary Correlations Table ---")
+    print(f"{'Predictor':<25} {'Spearman ρ':<12} {'Bootstrap 95% CI':<20}")
+    print("-" * 57)
+    
     metrics = [
-        ("GWS Signed", gws),
+        ("GWS signed", gws),
         ("Usage", usage),
         ("RW-L2", rw_l2),
-        ("GWS Squared", gws_sq)
+        ("GWS squared", gws_sq)
     ]
     
     for name, vals in metrics:
-        s_r, s_p = stats.spearmanr(vals, damage)
+        s_r, _ = stats.spearmanr(vals, damage)
         ci = bootstrap_ci(vals, damage, j_arr)
-        print(f"{name}: Spearman r = {s_r:.4f} (95% CI: [{ci[0]:.4f}, {ci[1]:.4f}]), p={s_p:.2e}")
+        print(f"{name:<25} {s_r:<12.3f} [{ci[0]:.3f}, {ci[1]:.3f}]")
         
-    partial_r = partial_corr(gws, damage, usage)
-    print(f"\nPartial Spearman r (GWS vs Damage controlling for Usage): {partial_r:.4f}")
+    print("\n--- Partial Correlations ---")
+    print(f"GWS | Usage:   {partial_corr(gws, damage, usage):.3f}")
+    print(f"GWS | RW-L2:   {partial_corr(gws, damage, rw_l2):.3f}")
+    print(f"RW-L2 | Usage: {partial_corr(rw_l2, damage, usage):.3f}")
+    print(f"Usage | RW-L2: {partial_corr(usage, damage, rw_l2):.3f}")
 
-    # Plot
-    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
-    axes = axes.flatten()
+    print("\n--- Incremental Out-of-Sample Models (GroupKFold over j) ---")
+    # Features need to be 2D arrays
+    X_usage = usage.reshape(-1, 1)
+    X_usage_rw = np.column_stack((usage, rw_l2))
+    X_usage_rw_gws = np.column_stack((usage, rw_l2, gws_sq)) # Using gws_sq since it's stronger than signed
     
-    for i, (name, vals) in enumerate(metrics):
-        axes[i].scatter(vals, damage, alpha=0.3, s=15)
-        axes[i].set_title(f"{name} vs ΔCE (ρ={stats.spearmanr(vals, damage)[0]:.3f})")
-        axes[i].set_xlabel(name)
-        axes[i].set_ylabel("Actual ΔCE")
-        axes[i].grid(True, linestyle='--', alpha=0.6)
-        
-    plt.tight_layout()
-    os.makedirs("experiments/experiment8/plots", exist_ok=True)
-    out_path = "experiments/experiment8/plots/full_correlations.png"
-    plt.savefig(out_path, dpi=300)
-    print(f"\nSaved plots to {out_path}")
+    oos_r2_1 = out_of_sample_r2(X_usage, damage, j_arr)
+    oos_r2_2 = out_of_sample_r2(X_usage_rw, damage, j_arr)
+    oos_r2_3 = out_of_sample_r2(X_usage_rw_gws, damage, j_arr)
+    
+    print(f"1. Usage                 (Out-of-sample R²): {oos_r2_1:.4f}")
+    print(f"2. Usage + RW-L2         (Out-of-sample R²): {oos_r2_2:.4f}")
+    print(f"3. Usage + RW-L2 + GWS²  (Out-of-sample R²): {oos_r2_3:.4f}")
 
 if __name__ == "__main__":
     main()
