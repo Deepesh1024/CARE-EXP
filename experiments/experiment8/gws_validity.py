@@ -250,13 +250,12 @@ def main():
             
         return e_j, e_i, full_routing
 
-    global current_j, current_i, hook_rw_l2_sum
+    global current_j, current_i
     current_j = -1
     current_i = -1
-    hook_rw_l2_sum = 0
+    hook_rw_l2_sum = [0.0]
 
     def sub_fw_hook(module, args, kwargs, output):
-        global hook_rw_l2_sum
         hidden_states = output[0] if isinstance(output, tuple) else output
         mlp_input = args[0]
         
@@ -268,7 +267,7 @@ def main():
         # Calculate RW-L2 for this batch
         with torch.no_grad():
             l2_dist = torch.sum((e_i - e_j)**2, dim=-1, keepdim=True)
-            hook_rw_l2_sum += (mask * g_j * l2_dist).sum().item()
+            hook_rw_l2_sum[0] += (mask * g_j * l2_dist).sum().item()
             
         delta = mask * g_j * (e_i - e_j)
         
@@ -302,10 +301,9 @@ def main():
                 total_ce += ce
                 total_tokens += shift_labels.numel()
                 
-                # Retrieve the rw_l2 tracking from the hook using a global variable
-                global hook_rw_l2_sum
-                total_rw_l2 += hook_rw_l2_sum
-                hook_rw_l2_sum = 0
+                # Retrieve the rw_l2 tracking from the hook
+                total_rw_l2 += hook_rw_l2_sum[0]
+                hook_rw_l2_sum[0] = 0.0
                 
                 del outputs, shift_logits
                 torch.cuda.empty_cache()
