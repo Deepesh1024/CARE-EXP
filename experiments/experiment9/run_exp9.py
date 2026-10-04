@@ -82,7 +82,7 @@ def main():
         "Model 4": []
     }
     
-    for part_idx, partition in enumerate(cv_splits["partitions"]):
+    for part_idx, partition in enumerate(cv_splits):
         part_name = f"partition_{part_idx:02d}"
         print(f"\nProcessing {part_name}...")
         
