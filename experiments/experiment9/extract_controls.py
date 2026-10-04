@@ -97,26 +97,24 @@ def main():
             # expert_outputs is (N, 64, H)
             flat_probs = routing_probs.view(-1, 64) # (N, 64)
             
-            # We can do this efficiently using broadcasting:
-            # ||e_i - e_j||^2 = ||e_i||^2 + ||e_j||^2 - 2 e_i^T e_j
-            e_norms = torch.sum(expert_outputs.float()**2, dim=-1) # (N, 64)
-            
-            # We need the full 64x64 distance matrix for each token
-            # Doing it via loop over pairs to avoid OOM for a N x 64 x 64 x H tensor
-            expert_outputs_f = expert_outputs.float()
-            
+            e_norms = torch.zeros(flat_input.size(0), 64, dtype=torch.float32, device="cuda")
+            for exp_idx in range(64):
+                e_norms[:, exp_idx] = torch.sum(expert_outputs[:, exp_idx, :].float()**2, dim=-1)
+                
             for j in range(64):
-                # e_j: (N, H)
-                e_j = expert_outputs_f[:, j, :]
-                dist_j = e_norms + e_norms[:, j:j+1] - 2 * torch.matmul(expert_outputs_f, e_j.unsqueeze(-1)).squeeze(-1) # (N, 64)
-                # Ensure non-negative due to float precision
-                dist_j = torch.clamp(dist_j, min=0.0)
+                e_j = expert_outputs[:, j, :].float() # (N, H)
+                for i_start in range(0, 64, 8):
+                    i_end = min(i_start + 8, 64)
+                    e_i_chunk = expert_outputs[:, i_start:i_end, :].float() # (N, 8, H)
+                    
+                    dot_chunk = torch.sum(e_i_chunk * e_j.unsqueeze(1), dim=-1) # (N, 8)
+                    dist_chunk = e_norms[:, i_start:i_end] + e_norms[:, j:j+1] - 2 * dot_chunk
+                    dist_chunk = torch.clamp(dist_chunk, min=0.0)
+                    
+                    weighted_dist = flat_probs[:, j:j+1] * dist_chunk # (N, 8)
+                    rw_l2_matrix[i_start:i_end, j] += weighted_dist.sum(dim=0).to(torch.float64)
                 
-                # Weight by P(j|x)
-                weighted_dist = flat_probs[:, j:j+1] * dist_j # (N, 64)
-                rw_l2_matrix[:, j] += weighted_dist.sum(dim=0).to(torch.float64)
-                
-            del expert_outputs, expert_outputs_f, mlp_input, routing_logits, routing_probs
+            del expert_outputs, mlp_input, routing_logits, routing_probs
             torch.cuda.empty_cache()
 
     # Normalize by total tokens to get expectation
