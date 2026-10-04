@@ -65,6 +65,8 @@ def main():
             
             # Compute routing probabilities
             routing_logits = layer_module.gate(mlp_input) # (B, S, 64)
+            if isinstance(routing_logits, tuple):
+                routing_logits = routing_logits[0]
             routing_probs = F.softmax(routing_logits, dim=-1, dtype=torch.float32) # (B, S, 64)
             
             # Valid tokens mask (all tokens are valid in this packed formulation)
