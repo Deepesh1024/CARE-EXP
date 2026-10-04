@@ -297,8 +297,11 @@ def main():
                 shift_logits = outputs.logits[..., :-1, :].contiguous()
                 shift_labels = lbls[..., 1:].contiguous()
                 
-                ce = F.cross_entropy(shift_logits.float().view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction='sum').item()
-                total_ce += ce
+                # Compute CE sequence-by-sequence to avoid OOM from a massive FP32 logits tensor
+                for b_idx in range(shift_logits.size(0)):
+                    ce = F.cross_entropy(shift_logits[b_idx].float(), shift_labels[b_idx], reduction='sum').item()
+                    total_ce += ce
+                    
                 total_tokens += shift_labels.numel()
                 
                 # Retrieve the rw_l2 tracking from the hook
