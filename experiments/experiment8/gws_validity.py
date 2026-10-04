@@ -125,11 +125,16 @@ def main():
     S_all = torch.cat(S_all, dim=0)
     G_all = torch.cat(G_all, dim=0)
 
-    print("Computing GWS matrix...")
+    print("Computing GWS matrix, RW-L2, and Usage...")
     gws_matrix = torch.zeros(64, 64)
+    rw_l2_matrix = torch.zeros(64, 64)
+    usage_vector = torch.zeros(64)
+    
     for j in range(64):
         g_j = G_all[:, j]
         valid = g_j > 0
+        usage_vector[j] = g_j.mean().item()
+        
         if valid.sum() == 0:
             continue
         
@@ -142,6 +147,10 @@ def main():
             S_i = S_all[valid, i]
             damage = (g_j_valid * (S_i - S_j)).sum() / len(G_all)
             gws_matrix[j, i] = damage.item()
+            
+            # Since we don't have full E_dense stored, we can compute RW-L2 dynamically during Split B...
+            # Wait, S is just a dot product. RW-L2 requires the L2 norm of (e_i - e_j).
+            # We must compute RW-L2 during Split B when we have access to e_i and e_j.
 
     # --- SPLIT B: Compute Actual Damage ---
     print("\n--- SPLIT B: Computing Actual Damage ---")
@@ -155,7 +164,10 @@ def main():
 
     h3 = target_layer.register_forward_pre_hook(pre_layer8_hook)
 
-    print("Caching layer 7 outputs and computing baseline CE...")
+    # First baseline run
+    print("Caching layer 7 outputs and computing baseline CE_1...")
+    baseline_ce_1_total = 0
+    baseline_tokens = 0
     for i in tqdm(range(len(split_B))):
         input_ids = split_B[i:i+1].cuda()
         labels = input_ids.clone()
@@ -163,14 +175,35 @@ def main():
             outputs = model(input_ids, labels=labels)
             shift_logits = outputs.logits[..., :-1, :].contiguous()
             shift_labels = labels[..., 1:].contiguous()
-            ce = F.cross_entropy(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1)).item()
-            baseline_ce_list.append(ce)
+            ce = F.cross_entropy(shift_logits.float().view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction='sum').item()
+            baseline_ce_1_total += ce
+            baseline_tokens += shift_labels.numel()
             cached_layer7_out.append(captured['layer7_out'])
 
     h3.remove()
+    baseline_ce_1 = baseline_ce_1_total / baseline_tokens
 
-    baseline_ce = np.mean(baseline_ce_list)
-    print(f"Baseline CE: {baseline_ce:.4f}")
+    # Second baseline run
+    print("Computing baseline CE_2 for noise floor...")
+    baseline_ce_2_total = 0
+    for i in tqdm(range(len(split_B))):
+        input_ids = split_B[i:i+1].cuda()
+        labels = input_ids.clone()
+        with torch.no_grad():
+            outputs = model(input_ids)
+            shift_logits = outputs.logits[..., :-1, :].contiguous()
+            shift_labels = labels[..., 1:].contiguous()
+            ce = F.cross_entropy(shift_logits.float().view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction='sum').item()
+            baseline_ce_2_total += ce
+
+    baseline_ce_2 = baseline_ce_2_total / baseline_tokens
+    noise_floor = abs(baseline_ce_1 - baseline_ce_2)
+    
+    print(f"Baseline CE_1: {baseline_ce_1:.7f}")
+    print(f"Baseline CE_2: {baseline_ce_2:.7f}")
+    print(f"Noise floor (absolute difference): {noise_floor:.7f}")
+    
+    baseline_ce = baseline_ce_1
 
     print("Truncating model to layers 8-15...")
     model.model.layers = model.model.layers[8:]
@@ -217,11 +250,13 @@ def main():
             
         return e_j, e_i, full_routing
 
-    global current_j, current_i
+    global current_j, current_i, hook_rw_l2_sum
     current_j = -1
     current_i = -1
+    hook_rw_l2_sum = 0
 
     def sub_fw_hook(module, args, kwargs, output):
+        global hook_rw_l2_sum
         hidden_states = output[0] if isinstance(output, tuple) else output
         mlp_input = args[0]
         
@@ -229,6 +264,12 @@ def main():
         
         g_j = full_routing[:, current_j].unsqueeze(1)
         mask = (g_j > 0).to(hidden_states.dtype)
+        
+        # Calculate RW-L2 for this batch
+        with torch.no_grad():
+            l2_dist = torch.sum((e_i - e_j)**2, dim=-1, keepdim=True)
+            hook_rw_l2_sum += (mask * g_j * l2_dist).sum().item()
+            
         delta = mask * g_j * (e_i - e_j)
         
         h_new = hidden_states + delta.view(*hidden_states.shape)
@@ -248,6 +289,7 @@ def main():
         
         total_ce = 0
         total_tokens = 0
+        total_rw_l2 = 0
         
         for embeds, lbls in cached_batches:
             with torch.no_grad():
@@ -256,20 +298,29 @@ def main():
                 shift_logits = outputs.logits[..., :-1, :].contiguous()
                 shift_labels = lbls[..., 1:].contiguous()
                 
-                ce = F.cross_entropy(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction='sum').item()
+                ce = F.cross_entropy(shift_logits.float().view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction='sum').item()
                 total_ce += ce
                 total_tokens += shift_labels.numel()
+                
+                # Retrieve the rw_l2 tracking from the hook using a global variable
+                global hook_rw_l2_sum
+                total_rw_l2 += hook_rw_l2_sum
+                hook_rw_l2_sum = 0
                 
                 del outputs, shift_logits
                 torch.cuda.empty_cache()
                 
         avg_ce = total_ce / total_tokens
         damage = avg_ce - baseline_ce
+        avg_rw_l2 = total_rw_l2 / total_tokens
         
         results.append({
             'j': j,
             'i': i,
             'gws': gws_matrix[j, i].item(),
+            'gws_squared': (gws_matrix[j, i].item()) ** 2,
+            'rw_l2': avg_rw_l2,
+            'usage': usage_vector[j].item(),
             'actual_damage': damage
         })
 
@@ -281,7 +332,21 @@ def main():
     with open("experiments/experiment8/results.json", "w") as f:
         json.dump(results, f, indent=4)
         
-    print("Experiment 8 Complete! Results saved to experiments/experiment8/results.json")
-
+    print("\nExperiment 8 Complete! Results saved to experiments/experiment8/results.json")
+    
+    # Calculate reporting stats
+    actual_damages = [r['actual_damage'] for r in results]
+    unique_vals = len(set(actual_damages))
+    
+    print(f"\nUnique actual_damage values: {unique_vals}")
+    print(f"Min: {min(actual_damages):.7f}")
+    print(f"Max: {max(actual_damages):.7f}")
+    print(f"Median: {np.median(actual_damages):.7f}")
+    print(f"Std: {np.std(actual_damages):.7f}")
+    print(f"Noise floor: {noise_floor:.7f}")
+    
+    above_noise = sum(1 for d in actual_damages if abs(d) > noise_floor)
+    print(f"Pairs above noise floor: {above_noise} / {len(actual_damages)}")
+    
 if __name__ == "__main__":
     main()
