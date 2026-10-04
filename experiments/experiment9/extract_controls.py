@@ -82,7 +82,15 @@ def main():
             expert_outputs = torch.zeros((flat_input.size(0), 64, flat_input.size(1)), dtype=torch.bfloat16, device="cuda")
             
             for exp_idx in range(64):
-                expert_outputs[:, exp_idx, :] = layer_module.experts[exp_idx](flat_input)
+                weight_gate_up = layer_module.experts.gate_up_proj[exp_idx]
+                weight_down = layer_module.experts.down_proj[exp_idx]
+                
+                gate_up = F.linear(flat_input, weight_gate_up)
+                gate, up = gate_up.chunk(2, dim=-1)
+                intermediate = layer_module.experts.act_fn(gate) * up
+                e_out = F.linear(intermediate, weight_down)
+                
+                expert_outputs[:, exp_idx, :] = e_out
                 
             # Now compute distance. 
             # We want \mathbb{E}_x [ P(j|x) ||e_i(x) - e_j(x)||_2^2 ]
