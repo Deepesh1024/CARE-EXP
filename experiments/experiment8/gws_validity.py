@@ -177,7 +177,7 @@ def main():
     truncated_target_layer = model.model.layers[0]
 
     cached_batches = []
-    batch_size = 4
+    batch_size = 32
     for b in range(0, len(split_B), batch_size):
         embeds = torch.cat(cached_layer7_out[b:b+batch_size], dim=0).cuda()
         lbls = split_B[b:b+batch_size].cuda()
@@ -269,9 +269,14 @@ def main():
         results.append({
             'j': j,
             'i': i,
-            'gws': gws_matrix[j, i],
+            'gws': gws_matrix[j, i].item(),
             'actual_damage': damage
         })
+
+        # Checkpoint every 50 pairs to prevent ANY data loss in the future
+        if len(results) % 50 == 0:
+            with open("experiments/experiment8/results_partial.json", "w") as f:
+                json.dump(results, f, indent=4)
 
     with open("experiments/experiment8/results.json", "w") as f:
         json.dump(results, f, indent=4)
