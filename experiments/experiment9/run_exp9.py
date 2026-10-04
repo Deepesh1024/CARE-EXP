@@ -95,11 +95,20 @@ def main():
             fold_name = f"fold_{fold_idx:02d}"
             fold_dir = os.path.join(part_dir, fold_name)
             
-            # Get test/train indices
-            with open(os.path.join(fold_dir, "pair_indices.json"), "r") as f:
-                pair_indices = json.load(f)
-                train_idx = np.array(pair_indices["train"])
-                test_idx = np.array(pair_indices["test"])
+            # Compute test/train indices from cv_splits
+            train_experts_set = set(fold["train_experts"])
+            test_experts_set = set(fold["test_experts"])
+            
+            train_idx = []
+            test_idx = []
+            for idx in range(len(pair_i)):
+                if pair_i[idx] in train_experts_set and pair_j[idx] in train_experts_set:
+                    train_idx.append(idx)
+                elif pair_i[idx] in test_experts_set and pair_j[idx] in test_experts_set:
+                    test_idx.append(idx)
+                    
+            train_idx = np.array(train_idx)
+            test_idx = np.array(test_idx)
                 
             # Get CARE Geometry
             # For Test pairs, Model B's prediction IS the geometry distance
