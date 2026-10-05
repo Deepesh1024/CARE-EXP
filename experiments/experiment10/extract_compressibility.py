@@ -42,7 +42,7 @@ def get_k_for_fidelity(eigvals, total_variance, epsilon):
     k = len(eigvals) - discard_count
     return max(0, k)
 
-def compute_frc(C_A, C_B, epsilon):
+def compute_frc_all_eps(C_A, C_B, epsilons):
     # Independent costs
     eigvals_A, _ = torch.linalg.eigh(C_A)
     eigvals_B, _ = torch.linalg.eigh(C_B)
@@ -53,12 +53,19 @@ def compute_frc(C_A, C_B, epsilon):
     var_A = eigvals_A.sum().item()
     var_B = eigvals_B.sum().item()
     
-    if var_A == 0 or var_B == 0:
-        return {"k_A": 0, "k_B": 0, "optimal_cost": 0, "k_shared": 0, "k_res_A": 0, "k_res_B": 0, "overlap": 0.0}
+    res = {}
+    for eps in epsilons:
+        if var_A == 0 or var_B == 0:
+            res[str(eps)] = {"k_A": 0, "k_B": 0, "optimal_cost": 0, "k_shared": 0, "k_res_A": 0, "k_res_B": 0, "overlap": 0.0}
+            continue
+            
+        k_A = get_k_for_fidelity(eigvals_A, var_A, eps)
+        k_B = get_k_for_fidelity(eigvals_B, var_B, eps)
+        res[str(eps)] = {"k_A": k_A, "k_B": k_B, "optimal_cost": float('inf'), "k_shared": 0, "k_res_A": 0, "k_res_B": 0}
         
-    k_A = get_k_for_fidelity(eigvals_A, var_A, epsilon)
-    k_B = get_k_for_fidelity(eigvals_B, var_B, epsilon)
-    
+    if var_A == 0 or var_B == 0:
+        return res
+        
     # Joint SVD
     C_AB = C_A + C_B
     eigvals_AB, V_AB = torch.linalg.eigh(C_AB)
@@ -66,49 +73,18 @@ def compute_frc(C_A, C_B, epsilon):
     
     V_AB_desc = torch.flip(V_AB, dims=[1])
     
-    # Pre-transform into the shared basis to avoid massive matrix multiplications inside the loop
     C_A_tilde = V_AB_desc.T @ C_A @ V_AB_desc
     C_B_tilde = V_AB_desc.T @ C_B @ V_AB_desc
     
-    optimal_cost = float('inf')
-    best_ks = 0
-    best_krA = 0
-    best_krB = 0
+    max_k_shared = min(res[str(epsilons[0])]["k_A"] + res[str(epsilons[0])]["k_B"], C_AB.shape[0]) # Use the loosest epsilon for bounds
     
-    max_k_shared = min(k_A + k_B, C_AB.shape[0])
+    # 1. Coarse Sweep (step size 50)
+    coarse_best_ks = {str(eps): 0 for eps in epsilons}
     
-    # 1. Coarse Sweep (step size 5)
-    for ks in range(0, max_k_shared + 1, 5):
+    def evaluate_ks(ks):
         if ks == 0:
-            krA = k_A
-            krB = k_B
-        else:
-            C_EA_sub = C_A_tilde[ks:, ks:]
-            C_EB_sub = C_B_tilde[ks:, ks:]
+            return {str(eps): (res[str(eps)]["k_A"], res[str(eps)]["k_B"]) for eps in epsilons}
             
-            evals_EA = torch.linalg.eigvalsh(C_EA_sub)
-            evals_EB = torch.linalg.eigvalsh(C_EB_sub)
-            
-            evals_EA = torch.clamp(evals_EA, min=0.0)
-            evals_EB = torch.clamp(evals_EB, min=0.0)
-            
-            krA = get_k_for_fidelity(evals_EA, var_A, epsilon)
-            krB = get_k_for_fidelity(evals_EB, var_B, epsilon)
-            
-        cost = ks + krA + krB
-        if cost < optimal_cost:
-            optimal_cost = cost
-            best_ks = ks
-            best_krA = krA
-            best_krB = krB
-            
-    # 2. Fine-tune locally around the coarse minimum
-    start_ks = max(0, best_ks - 4)
-    end_ks = min(max_k_shared, best_ks + 4)
-    
-    for ks in range(start_ks, end_ks + 1):
-        if ks % 5 == 0: continue # Already evaluated in coarse sweep
-        
         C_EA_sub = C_A_tilde[ks:, ks:]
         C_EB_sub = C_B_tilde[ks:, ks:]
         
@@ -118,29 +94,61 @@ def compute_frc(C_A, C_B, epsilon):
         evals_EA = torch.clamp(evals_EA, min=0.0)
         evals_EB = torch.clamp(evals_EB, min=0.0)
         
-        krA = get_k_for_fidelity(evals_EA, var_A, epsilon)
-        krB = get_k_for_fidelity(evals_EB, var_B, epsilon)
+        kr_dict = {}
+        for eps in epsilons:
+            krA = get_k_for_fidelity(evals_EA, var_A, eps)
+            krB = get_k_for_fidelity(evals_EB, var_B, eps)
+            kr_dict[str(eps)] = (krA, krB)
+        return kr_dict
         
-        cost = ks + krA + krB
-        if cost < optimal_cost:
-            optimal_cost = cost
-            best_ks = ks
-            best_krA = krA
-            best_krB = krB
-            
-    k_A_99 = get_k_for_fidelity(eigvals_A, var_A, 0.01)
-    k_B_99 = get_k_for_fidelity(eigvals_B, var_B, 0.01)
-    overlap = get_principal_angles(C_A, C_B, k_A_99, k_B_99)
-            
-    return {
-        "k_A": k_A,
-        "k_B": k_B,
-        "optimal_cost": optimal_cost,
-        "k_shared": best_ks,
-        "k_res_A": best_krA,
-        "k_res_B": best_krB,
-        "overlap": overlap
-    }
+    for ks in range(0, max_k_shared + 1, 50):
+        kr_dict = evaluate_ks(ks)
+        for eps in epsilons:
+            krA, krB = kr_dict[str(eps)]
+            cost = ks + krA + krB
+            if cost < res[str(eps)]["optimal_cost"]:
+                res[str(eps)]["optimal_cost"] = cost
+                res[str(eps)]["k_shared"] = ks
+                res[str(eps)]["k_res_A"] = krA
+                res[str(eps)]["k_res_B"] = krB
+                coarse_best_ks[str(eps)] = ks
+                
+    # 2. Medium-tune locally (step 10)
+    medium_best_ks = {str(eps): coarse_best_ks[str(eps)] for eps in epsilons}
+    for eps in epsilons:
+        c_best = coarse_best_ks[str(eps)]
+        for ks in range(max(0, c_best - 40), min(max_k_shared, c_best + 40) + 1, 10):
+            if ks % 50 == 0: continue
+            kr_dict = evaluate_ks(ks)
+            krA, krB = kr_dict[str(eps)]
+            cost = ks + krA + krB
+            if cost < res[str(eps)]["optimal_cost"]:
+                res[str(eps)]["optimal_cost"] = cost
+                res[str(eps)]["k_shared"] = ks
+                res[str(eps)]["k_res_A"] = krA
+                res[str(eps)]["k_res_B"] = krB
+                medium_best_ks[str(eps)] = ks
+                
+    # 3. Fine-tune locally (step 1)
+    for eps in epsilons:
+        m_best = medium_best_ks[str(eps)]
+        for ks in range(max(0, m_best - 9), min(max_k_shared, m_best + 9) + 1, 1):
+            if ks % 10 == 0: continue
+            kr_dict = evaluate_ks(ks)
+            krA, krB = kr_dict[str(eps)]
+            cost = ks + krA + krB
+            if cost < res[str(eps)]["optimal_cost"]:
+                res[str(eps)]["optimal_cost"] = cost
+                res[str(eps)]["k_shared"] = ks
+                res[str(eps)]["k_res_A"] = krA
+                res[str(eps)]["k_res_B"] = krB
+                
+    # 4. Overlap
+    overlap = get_principal_angles(C_A, C_B, res["0.01"]["k_A"], res["0.01"]["k_B"])
+    for eps in epsilons:
+        res[str(eps)]["overlap"] = overlap
+        
+    return res
 
 def main():
     os.makedirs("experiments/experiment10/results", exist_ok=True)
@@ -282,15 +290,15 @@ def main():
             C_A_norm = inv_std_A @ C_A_centered @ inv_std_A
             C_B_norm = inv_std_B @ C_B_centered @ inv_std_B
             
+            epsilons = [0.05, 0.01, 0.001]
+            raw_res = compute_frc_all_eps(C_A_raw, C_B_raw, epsilons)
+            norm_res = compute_frc_all_eps(C_A_norm, C_B_norm, epsilons)
+            
             pair_result = {
                 "pair": [i, j],
-                "raw": {},
-                "norm": {}
+                "raw": raw_res,
+                "norm": norm_res
             }
-            
-            for eps in [0.05, 0.01, 0.001]:
-                pair_result["raw"][str(eps)] = compute_frc(C_A_raw, C_B_raw, eps)
-                pair_result["norm"][str(eps)] = compute_frc(C_A_norm, C_B_norm, eps)
                 
             results[group_name].append(pair_result)
             
