@@ -131,8 +131,8 @@ def main():
     with open("experiments/experiment9/controls.json", "r") as f:
         controls = json.load(f)
         
-    pairs = controls["pairs"]
-    rw_l2 = controls["rw_l2_symmetric"]
+    pairs = [item["pair"] for item in controls]
+    rw_l2 = [item["rw_l2_symmetric"] for item in controls]
     
     print("Computing Parameter Distances...")
     param_dists = []
