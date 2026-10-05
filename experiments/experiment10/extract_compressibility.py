@@ -191,11 +191,24 @@ def main():
     for b in tqdm(range(n_batches)):
         batch_ids = input_ids[b*batch_size:(b+1)*batch_size].to(device)
         
-        hidden = model.model.embed_tokens(batch_ids)
-        for i in range(8):
-            hidden = model.model.layers[i](hidden)[0]
+        # Use a forward hook to capture the input to layer 8 MLP, which handles RoPE internally
+        captured_inputs = []
+        class StopForward(Exception): pass
+        
+        def hook(module, args, kwargs):
+            captured_inputs.append(args[0].detach())
+            raise StopForward()
             
-        hidden = model.model.layers[8].input_layernorm(hidden)
+        layer_module = model.model.layers[8].mlp
+        handle = layer_module.register_forward_pre_hook(hook, with_kwargs=True)
+        try:
+            _ = model(batch_ids)
+        except StopForward:
+            pass
+        finally:
+            handle.remove()
+        
+        hidden = captured_inputs[0]
         
         B, S, D = hidden.shape
         h_flat = hidden.view(B * S, D)
