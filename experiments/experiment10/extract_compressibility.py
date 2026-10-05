@@ -269,11 +269,11 @@ def main():
         for idx in tqdm(indices):
             i, j = pairs[idx]
             
-            C_A_raw = expert_covs[i].to(device)
-            C_B_raw = expert_covs[j].to(device)
+            C_A_raw = expert_covs[i].to(device).float()
+            C_B_raw = expert_covs[j].to(device).float()
             
-            mu_A = (expert_sums[i] / total_tokens).to(device)
-            mu_B = (expert_sums[j] / total_tokens).to(device)
+            mu_A = (expert_sums[i] / total_tokens).to(device).float()
+            mu_B = (expert_sums[j] / total_tokens).to(device).float()
             
             C_A_centered = C_A_raw - total_tokens * torch.outer(mu_A, mu_A)
             C_B_centered = C_B_raw - total_tokens * torch.outer(mu_B, mu_B)
