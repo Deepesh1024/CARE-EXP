@@ -137,10 +137,10 @@ def main():
     print("Computing Parameter Distances...")
     param_dists = []
     for (i, j) in pairs:
-        w_up_i = layer8_experts[i].gate_up_proj.weight.data
-        w_down_i = layer8_experts[i].down_proj.weight.data
-        w_up_j = layer8_experts[j].gate_up_proj.weight.data
-        w_down_j = layer8_experts[j].down_proj.weight.data
+        w_up_i = layer8_experts.gate_up_proj.weight.data[i] if hasattr(layer8_experts.gate_up_proj, "weight") else layer8_experts.gate_up_proj[i]
+        w_down_i = layer8_experts.down_proj.weight.data[i] if hasattr(layer8_experts.down_proj, "weight") else layer8_experts.down_proj[i]
+        w_up_j = layer8_experts.gate_up_proj.weight.data[j] if hasattr(layer8_experts.gate_up_proj, "weight") else layer8_experts.gate_up_proj[j]
+        w_down_j = layer8_experts.down_proj.weight.data[j] if hasattr(layer8_experts.down_proj, "weight") else layer8_experts.down_proj[j]
         
         dist = torch.nn.functional.mse_loss(w_up_i, w_up_j).item() + torch.nn.functional.mse_loss(w_down_i, w_down_j).item()
         param_dists.append(dist)
@@ -204,11 +204,13 @@ def main():
         h_flat = hidden.view(B * S, D)
         
         for e in range(64):
-            expert = model.model.layers[8].mlp.experts[e]
-            gate_up = expert.gate_up_proj(h_flat)
+            weight_gate_up = model.model.layers[8].mlp.experts.gate_up_proj[e]
+            weight_down = model.model.layers[8].mlp.experts.down_proj[e]
+            
+            gate_up = torch.nn.functional.linear(h_flat, weight_gate_up)
             gate, up = gate_up.chunk(2, dim=-1)
             act = torch.nn.functional.silu(gate) * up
-            out = expert.down_proj(act)
+            out = torch.nn.functional.linear(act, weight_down)
             
             expert_sums[e] += out.sum(dim=0).cpu().double()
             expert_covs[e] += (out.T @ out).cpu().double()
