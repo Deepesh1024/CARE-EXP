@@ -2,6 +2,7 @@
 set -e
 
 echo "============================================================"
+export PYTHONPATH=.:$PYTHONPATH
 echo "Starting Experiment 10: Functional Compressibility"
 echo "============================================================"
 
