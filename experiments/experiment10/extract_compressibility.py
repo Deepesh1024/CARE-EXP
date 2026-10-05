@@ -119,9 +119,10 @@ def main():
     os.makedirs("experiments/experiment10/results", exist_ok=True)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
-    print("Loading model for expert weights...")
+    print("Loading model...")
     model_id = "allenai/OLMoE-1B-7B-0924"
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32, device_map="cpu")
+    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.bfloat16, device_map="auto")
+    model.eval()
     layer8_experts = model.model.layers[8].mlp.experts
     
     print("Loading datasets and controls...")
@@ -142,12 +143,9 @@ def main():
         w_up_j = layer8_experts.gate_up_proj.weight.data[j] if hasattr(layer8_experts.gate_up_proj, "weight") else layer8_experts.gate_up_proj[j]
         w_down_j = layer8_experts.down_proj.weight.data[j] if hasattr(layer8_experts.down_proj, "weight") else layer8_experts.down_proj[j]
         
-        dist = torch.nn.functional.mse_loss(w_up_i, w_up_j).item() + torch.nn.functional.mse_loss(w_down_i, w_down_j).item()
+        dist = torch.nn.functional.mse_loss(w_up_i.float(), w_up_j.float()).item() + torch.nn.functional.mse_loss(w_down_i.float(), w_down_j.float()).item()
         param_dists.append(dist)
         
-    del model
-    torch.cuda.empty_cache()
-    
     def get_top_100(scores, reverse=False):
         indexed = list(enumerate(scores))
         indexed.sort(key=lambda x: x[1], reverse=reverse)
@@ -174,7 +172,6 @@ def main():
     }
     
     print("Computing Output Covariances on Split A...")
-    model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32, device_map=device)
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="train")
     
@@ -210,7 +207,7 @@ def main():
             gate_up = torch.nn.functional.linear(h_flat, weight_gate_up)
             gate, up = gate_up.chunk(2, dim=-1)
             act = torch.nn.functional.silu(gate) * up
-            out = torch.nn.functional.linear(act, weight_down)
+            out = torch.nn.functional.linear(act, weight_down).float()
             
             expert_sums[e] += out.sum(dim=0).cpu().double()
             expert_covs[e] += (out.T @ out).cpu().double()
