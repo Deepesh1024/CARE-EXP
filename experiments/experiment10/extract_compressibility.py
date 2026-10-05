@@ -66,27 +66,28 @@ def compute_frc(C_A, C_B, epsilon):
     
     V_AB_desc = torch.flip(V_AB, dims=[1])
     
+    # Pre-transform into the shared basis to avoid massive matrix multiplications inside the loop
+    C_A_tilde = V_AB_desc.T @ C_A @ V_AB_desc
+    C_B_tilde = V_AB_desc.T @ C_B @ V_AB_desc
+    
     optimal_cost = float('inf')
     best_ks = 0
     best_krA = 0
     best_krB = 0
     
     max_k_shared = min(k_A + k_B, C_AB.shape[0])
-    I = torch.eye(C_AB.shape[0], device=C_AB.device)
     
-    for ks in range(0, max_k_shared + 1):
+    # 1. Coarse Sweep (step size 5)
+    for ks in range(0, max_k_shared + 1, 5):
         if ks == 0:
             krA = k_A
             krB = k_B
         else:
-            Vs = V_AB_desc[:, :ks]
-            Proj = I - Vs @ Vs.T
+            C_EA_sub = C_A_tilde[ks:, ks:]
+            C_EB_sub = C_B_tilde[ks:, ks:]
             
-            C_EA = Proj @ C_A @ Proj
-            C_EB = Proj @ C_B @ Proj
-            
-            evals_EA = torch.linalg.eigvalsh(C_EA)
-            evals_EB = torch.linalg.eigvalsh(C_EB)
+            evals_EA = torch.linalg.eigvalsh(C_EA_sub)
+            evals_EB = torch.linalg.eigvalsh(C_EB_sub)
             
             evals_EA = torch.clamp(evals_EA, min=0.0)
             evals_EB = torch.clamp(evals_EB, min=0.0)
@@ -94,6 +95,32 @@ def compute_frc(C_A, C_B, epsilon):
             krA = get_k_for_fidelity(evals_EA, var_A, epsilon)
             krB = get_k_for_fidelity(evals_EB, var_B, epsilon)
             
+        cost = ks + krA + krB
+        if cost < optimal_cost:
+            optimal_cost = cost
+            best_ks = ks
+            best_krA = krA
+            best_krB = krB
+            
+    # 2. Fine-tune locally around the coarse minimum
+    start_ks = max(0, best_ks - 4)
+    end_ks = min(max_k_shared, best_ks + 4)
+    
+    for ks in range(start_ks, end_ks + 1):
+        if ks % 5 == 0: continue # Already evaluated in coarse sweep
+        
+        C_EA_sub = C_A_tilde[ks:, ks:]
+        C_EB_sub = C_B_tilde[ks:, ks:]
+        
+        evals_EA = torch.linalg.eigvalsh(C_EA_sub)
+        evals_EB = torch.linalg.eigvalsh(C_EB_sub)
+        
+        evals_EA = torch.clamp(evals_EA, min=0.0)
+        evals_EB = torch.clamp(evals_EB, min=0.0)
+        
+        krA = get_k_for_fidelity(evals_EA, var_A, epsilon)
+        krB = get_k_for_fidelity(evals_EB, var_B, epsilon)
+        
         cost = ks + krA + krB
         if cost < optimal_cost:
             optimal_cost = cost
