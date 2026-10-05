@@ -126,7 +126,7 @@ def main():
     
     print("Loading datasets and controls...")
     exp4_data = load_all()
-    oracle_matrix = exp4_data["oracle_matrix"]
+    oracle_matrix = exp4_data["D_oracle"]
     
     with open("experiments/experiment9/controls.json", "r") as f:
         controls = json.load(f)
