@@ -122,6 +122,7 @@ def load_model(strategy):
     
     if strategy == "4bit_or_offload":
         try:
+            from transformers import BitsAndBytesConfig
             bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
             kwargs["quantization_config"] = bnb_cfg
             kwargs["device_map"] = "auto"
