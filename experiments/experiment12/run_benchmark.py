@@ -465,12 +465,14 @@ def run_one(model_state_dict, cfg, tokenizer, method, target, seed, device):
     # Fresh model copy
     from transformers import AutoConfig
     from transformers import BitsAndBytesConfig
+    bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
     
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         state_dict=model_state_dict,
         torch_dtype=torch.bfloat16,
-        device_map="auto",
+        device_map={"": 0},
+        quantization_config=bnb_cfg,
         trust_remote_code=True
     )
     model.eval()

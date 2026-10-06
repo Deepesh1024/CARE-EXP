@@ -120,7 +120,7 @@ def load_model(strategy):
             from transformers import BitsAndBytesConfig
             bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
             kwargs["quantization_config"] = bnb_cfg
-            kwargs["device_map"] = "auto"
+            kwargs["device_map"] = {"": 0}  # Force to GPU to avoid bitsandbytes CPU offload crash
             print("  Attempting 4-bit quantization via bitsandbytes...")
         except ImportError:
             print("  bitsandbytes not available; falling back to device_map=auto with CPU offload")
@@ -128,7 +128,7 @@ def load_model(strategy):
             kwargs["torch_dtype"] = torch.bfloat16
     else:
         kwargs["torch_dtype"] = torch.bfloat16
-        kwargs["device_map"] = "auto"
+        kwargs["device_map"] = {"": 0}
     
     t0 = time.time()
     model = AutoModelForCausalLM.from_pretrained(MODEL_ID, **kwargs)
