@@ -4,6 +4,9 @@ set -e
 echo "============================================================"
 echo "Experiment 12: Phi-3.5-MoE Compression Benchmark"
 echo "============================================================"
+
+# Prevent CUDA memory fragmentation since 4-bit Phi-3.5-MoE barely fits in 24GB
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 echo ""
 echo "STEP 1: Run architecture audit (REQUIRED before benchmark)"
 echo "============================================================"
