@@ -120,11 +120,17 @@ def load_model(strategy):
             from transformers import BitsAndBytesConfig
             bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
             kwargs["quantization_config"] = bnb_cfg
-            # device_map="auto" is correct for bnb 4-bit — do NOT use {"":0},
-            # which causes accelerate to call .to() on an already-placed model.
-            # PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True (set in run_all.sh)
-            # prevents the fragmentation OOM that previously forced this workaround.
             kwargs["device_map"] = "auto"
+            # max_memory forces the device-map planner to budget everything on GPU
+            # and give CPU zero budget — preventing silent CPU offload which
+            # bitsandbytes 4-bit refuses. PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+            # (set in run_all.sh) is still required to avoid fragmentation OOM.
+            n_gpus = torch.cuda.device_count()
+            total_vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
+            gpu_budget = f"{int(total_vram_gb * 0.95)}GiB"  # 95% of VRAM
+            kwargs["max_memory"] = {i: gpu_budget for i in range(n_gpus)}
+            kwargs["max_memory"]["cpu"] = "0GiB"
+            print(f"  4-bit load: max_memory={kwargs['max_memory']}")
             print("  Attempting 4-bit quantization via bitsandbytes...")
         except ImportError:
             print("  bitsandbytes not available; falling back to device_map=auto with CPU offload")
