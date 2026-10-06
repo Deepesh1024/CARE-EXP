@@ -97,7 +97,7 @@ def compute_geodesic_ratio(X, k):
         graph[i, idx] = D[i, idx]
         graph[idx, i] = D[i, idx] # symmetrize
         
-    D_geo = shortest_path(csr_matrix(graph), directed=False, method='dijkstra')
+    D_geo = shortest_path(csr_matrix(graph), directed=False, method='auto')
     
     valid = (D > 0) & (D_geo != np.inf)
     if np.sum(valid) == 0:
@@ -155,11 +155,11 @@ def run_tests():
     try:
         df = pd.read_parquet("results/exp6c/expert_vectors/EXP6C_EXPERT_CAPABILITY_VECTORS.parquet")
         # Ensure we are operating on 64 experts
-        layer_df = df[(df['layer'] == 'layer_8') & (df['checkpoint'] == 'checkpoint_10')]
+        layer_df = df[(df['layer_idx'] == 8) & (df['checkpoint'] == 'checkpoint_10')]
         if len(layer_df) == 0:
             layer_df = df.head(64) # Fallback
             
-        X = np.stack(layer_df['capability_vector'].values)
+        X = np.stack(layer_df['C_hat'].values)
         print(f"Loaded CARE vectors of shape {X.shape}")
     except Exception as e:
         print(f"Failed to load specific parquet ({e}), using fallback structure.")
