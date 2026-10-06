@@ -471,7 +471,7 @@ def run_one(model_state_dict, cfg, tokenizer, method, target, seed, device):
         MODEL_ID,
         state_dict=model_state_dict,
         torch_dtype=torch.bfloat16,
-        device_map={"": 0},
+        device_map="auto",
         quantization_config=bnb_cfg,
         trust_remote_code=True
     )

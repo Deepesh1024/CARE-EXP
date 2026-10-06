@@ -120,7 +120,11 @@ def load_model(strategy):
             from transformers import BitsAndBytesConfig
             bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
             kwargs["quantization_config"] = bnb_cfg
-            kwargs["device_map"] = {"": 0}  # Force to GPU to avoid bitsandbytes CPU offload crash
+            # device_map="auto" is correct for bnb 4-bit — do NOT use {"":0},
+            # which causes accelerate to call .to() on an already-placed model.
+            # PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True (set in run_all.sh)
+            # prevents the fragmentation OOM that previously forced this workaround.
+            kwargs["device_map"] = "auto"
             print("  Attempting 4-bit quantization via bitsandbytes...")
         except ImportError:
             print("  bitsandbytes not available; falling back to device_map=auto with CPU offload")
@@ -128,7 +132,7 @@ def load_model(strategy):
             kwargs["torch_dtype"] = torch.bfloat16
     else:
         kwargs["torch_dtype"] = torch.bfloat16
-        kwargs["device_map"] = {"": 0}
+        kwargs["device_map"] = "auto"
     
     t0 = time.time()
     model = AutoModelForCausalLM.from_pretrained(MODEL_ID, **kwargs)
