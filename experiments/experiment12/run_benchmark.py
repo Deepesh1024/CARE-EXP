@@ -581,6 +581,12 @@ def main():
                         "method": method, "target": target, "seed": seed,
                         "ppl": None, "error": str(e)
                     })
+                finally:
+                    # Force cleanup of the 23GB model from VRAM before the next run
+                    import gc
+                    gc.collect()
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
     
     # Aggregate and save final table
     with open(f"{RESULTS_DIR}/all_results.json", "w") as f:
