@@ -466,18 +466,12 @@ def run_one(model_state_dict, cfg, tokenizer, method, target, seed, device):
     from transformers import AutoConfig
     from transformers import BitsAndBytesConfig
     bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
-    n_gpus = torch.cuda.device_count()
-    total_vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
-    gpu_budget = f"{int(total_vram_gb * 0.95)}GiB"
-    max_mem = {i: gpu_budget for i in range(n_gpus)}
-    max_mem["cpu"] = "0GiB"
     
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         state_dict=model_state_dict,
         torch_dtype=torch.bfloat16,
-        device_map="auto",
-        max_memory=max_mem,
+        low_cpu_mem_usage=True,
         quantization_config=bnb_cfg,
         trust_remote_code=True
     )
