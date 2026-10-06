@@ -3,6 +3,7 @@ import numpy as np
 import json
 import os
 import random
+import pandas as pd
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
@@ -10,7 +11,7 @@ from experiments.experiment4.data_loader import load_all
 
 torch.set_grad_enabled(False)
 
-def get_principal_angles(C_A, C_B, k_A, k_B):
+def get_subspace_overlap(C_A, C_B, k_A, k_B):
     # C_A, C_B are covariance matrices. Find top eigenvectors
     eigvals_A, eigvecs_A = torch.linalg.eigh(C_A)
     eigvals_B, eigvecs_B = torch.linalg.eigh(C_B)
@@ -144,7 +145,7 @@ def compute_frc_all_eps(C_A, C_B, epsilons):
                 res[str(eps)]["k_res_B"] = krB
                 
     # 4. Overlap
-    overlap = get_principal_angles(C_A, C_B, res["0.01"]["k_A"], res["0.01"]["k_B"])
+    overlap = get_subspace_overlap(C_A, C_B, res["0.01"]["k_A"], res["0.01"]["k_B"])
     for eps in epsilons:
         res[str(eps)]["overlap"] = overlap
         
@@ -170,8 +171,16 @@ def main():
     pairs = [item["pair"] for item in controls]
     rw_l2 = [item["rw_l2_symmetric"] for item in controls]
     
-    print("Computing Parameter Distances...")
+    # Load actual CARE capability vectors
+    df = pd.read_parquet("results/exp6c/expert_vectors/EXP6C_EXPERT_CAPABILITY_VECTORS.parquet")
+    layer_df = df[(df['layer_idx'] == 8) & (df['checkpoint'] == 'checkpoint_10')]
+    C_hat = np.stack(layer_df['C_hat'].values)
+    
+    print("Computing Parameter Distances and Pair Scores...")
     param_dists = []
+    care_distances = []
+    oracle_scores = []
+    
     for (i, j) in pairs:
         w_up_i = layer8_experts.gate_up_proj.weight.data[i] if hasattr(layer8_experts.gate_up_proj, "weight") else layer8_experts.gate_up_proj[i]
         w_down_i = layer8_experts.down_proj.weight.data[i] if hasattr(layer8_experts.down_proj, "weight") else layer8_experts.down_proj[i]
@@ -181,16 +190,16 @@ def main():
         dist = torch.nn.functional.mse_loss(w_up_i.float(), w_up_j.float()).item() + torch.nn.functional.mse_loss(w_down_i.float(), w_down_j.float()).item()
         param_dists.append(dist)
         
+        care_distances.append(np.linalg.norm(C_hat[i] - C_hat[j]))
+        oracle_scores.append(oracle_matrix[i, j])
+        
     def get_top_100(scores, reverse=False):
         indexed = list(enumerate(scores))
         indexed.sort(key=lambda x: x[1], reverse=reverse)
         return [x[0] for x in indexed[:100]]
         
-    care_scores = []
-    for (i, j) in pairs:
-        care_scores.append(oracle_matrix[i, j])
-        
-    idx_care = get_top_100(care_scores, reverse=False)
+    idx_care = get_top_100(care_distances, reverse=False)
+    idx_oracle = get_top_100(oracle_scores, reverse=False)
     idx_rw = get_top_100(rw_l2, reverse=False)
     idx_param = get_top_100(param_dists, reverse=False)
     
@@ -203,7 +212,8 @@ def main():
         "CARE": idx_care,
         "RW-L2": idx_rw,
         "Parameter": idx_param,
-        "Random": idx_random
+        "Random": idx_random,
+        "Oracle-best": idx_oracle
     }
     
     print("Computing Output Covariances on Split A...")
@@ -226,7 +236,6 @@ def main():
     for b in tqdm(range(n_batches)):
         batch_ids = input_ids[b*batch_size:(b+1)*batch_size].to(device)
         
-        # Use a forward hook to capture the input to layer 8 MLP, which handles RoPE internally
         captured_inputs = []
         class StopForward(Exception): pass
         
@@ -295,7 +304,7 @@ def main():
             norm_res = compute_frc_all_eps(C_A_norm, C_B_norm, epsilons)
             
             pair_result = {
-                "pair": [i, j],
+                "pair": [int(i), int(j)],
                 "raw": raw_res,
                 "norm": norm_res
             }
