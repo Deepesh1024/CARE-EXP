@@ -74,7 +74,10 @@ def tokens_to_batches(tokens, seq_len):
 # MODEL ACCESS HELPERS
 # ──────────────────────────────────────────────────────────
 def get_moe_layer(model, layer_idx):
-    return model.model.layers[layer_idx].mlp
+    layer = model.model.layers[layer_idx]
+    if hasattr(layer, "mlp"): return layer.mlp
+    if hasattr(layer, "block_sparse_moe"): return layer.block_sparse_moe
+    return layer
 
 def get_experts(moe_layer):
     """Return expert list, handling different attribute structures."""
@@ -91,7 +94,7 @@ def get_moe_layers(model, cfg):
     """Return indices of all MoE layers."""
     moe_layer_idxs = []
     for li, layer in enumerate(model.model.layers):
-        if hasattr(layer, "mlp") and hasattr(layer.mlp, "experts"):
+        if hasattr(layer, "mlp") or hasattr(layer, "block_sparse_moe"):
             moe_layer_idxs.append(li)
     return moe_layer_idxs
 

@@ -156,7 +156,12 @@ def audit_expert_layout(model, cfg):
     print(f"\n=== [4] Expert Tensor Layout (layer {AUDIT_LAYER}) ===")
     
     layer = model.model.layers[AUDIT_LAYER]
-    moe = layer.mlp
+    if hasattr(layer, "mlp"):
+        moe = layer.mlp
+    elif hasattr(layer, "block_sparse_moe"):
+        moe = layer.block_sparse_moe
+    else:
+        moe = layer
     
     print(f"  MoE module type: {type(moe).__name__}")
     
