@@ -24,6 +24,11 @@ import traceback
 import torch
 import numpy as np
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+import transformers.utils.import_utils
+if not hasattr(transformers.utils.import_utils, "is_torch_fx_available"):
+    transformers.utils.import_utils.is_torch_fx_available = lambda: False
+
 from datasets import load_dataset
 
 MODEL_ID = "microsoft/Phi-3.5-MoE-instruct"
@@ -117,16 +122,10 @@ def load_model(strategy):
     
     if strategy == "4bit_or_offload":
         try:
-            from transformers import BitsAndBytesConfig
             bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
             kwargs["quantization_config"] = bnb_cfg
-            # Do NOT use device_map for 4-bit single-GPU loading.
-            # device_map (even "auto") triggers dispatch_model which calls
-            # model.to(device) — illegal for already-quantized bitsandbytes models.
-            # low_cpu_mem_usage=True uses meta tensors to load directly to CUDA
-            # without an intermediate CPU copy and without dispatch_model.
-            kwargs["low_cpu_mem_usage"] = True
-            print("  Attempting 4-bit quantization via bitsandbytes (low_cpu_mem_usage=True)...")
+            kwargs["device_map"] = "auto"
+            print("  Attempting 4-bit quantization via bitsandbytes (device_map='auto')...")
         except ImportError:
             print("  bitsandbytes not available; falling back to device_map=auto with CPU offload")
             kwargs["device_map"] = "auto"

@@ -30,6 +30,11 @@ import torch.nn.functional as F
 from dataclasses import dataclass, field, asdict
 from typing import List, Optional, Dict, Any, Tuple
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+import transformers.utils.import_utils
+if not hasattr(transformers.utils.import_utils, "is_torch_fx_available"):
+    transformers.utils.import_utils.is_torch_fx_available = lambda: False
+
 from datasets import load_dataset
 from tqdm import tqdm
 
