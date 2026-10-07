@@ -47,7 +47,7 @@ EVAL_TOKENS = 15_000
 SEQ_LEN = 512
 SEEDS = [42, 1337, 7]
 TARGETS = [14, 12, 10, 8]
-METHODS = ["uncompressed", "care_adaptive"]
+METHODS = ["uncompressed", "reap", "random", "parameter", "rw_l2", "submoe", "care_static", "care_adaptive"]
 
 RESULTS_DIR = "experiments/experiment12/results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -105,13 +105,23 @@ def n_experts_per_layer(model, cfg):
 # ──────────────────────────────────────────────────────────
 def merge_expert_pair_inplace(expert_a, expert_b):
     """W_new = (W_A + W_B) / 2, written into expert_a. expert_b becomes a dead slot."""
+    from phi_care_engine import _dequantize_to_float, _requantize_inplace
+    import torch.nn as nn
+    
+    device = next(iter(expert_a.parameters())).device
     with torch.no_grad():
-        for (name_a, param_a), (name_b, param_b) in zip(
-            expert_a.named_parameters(), expert_b.named_parameters()
-        ):
-            assert name_a == name_b, f"Param name mismatch: {name_a} vs {name_b}"
-            assert param_a.shape == param_b.shape, f"Shape mismatch: {param_a.shape} vs {param_b.shape}"
-            param_a.data = ((param_a.data.float() + param_b.data.float()) / 2.0).to(param_a.dtype)
+        for attr in ["w1", "w2", "w3"]:
+            if hasattr(expert_a, attr) and hasattr(expert_b, attr):
+                lin_a = getattr(expert_a, attr)
+                lin_b = getattr(expert_b, attr)
+                
+                fa = _dequantize_to_float(lin_a, device)
+                fb = _dequantize_to_float(lin_b, device)
+                merged = (fa + fb) / 2.0
+                del fa, fb
+                
+                _requantize_inplace(lin_a, merged)
+                del merged
 
 def apply_merge_to_all_layers(model, cfg, pair: Tuple[int, int]):
     """Apply merge of expert pair (i, j) across all MoE layers."""
@@ -512,13 +522,17 @@ def compress_reap(model, cfg, target_n, calib_batches, eval_batches, device):
     trajectory = [{"pruned_experts": prune_indices, "method": "reap"}]
     
     # Zero out pruned experts (equivalent to removal — router still routes but output = 0)
+    from phi_care_engine import _requantize_inplace
     with torch.no_grad():
         for li in moe_idxs:
             moe = get_moe_layer(model, li)
             experts = get_experts(moe)
             for ei in prune_indices:
-                for param in experts[ei].parameters():
-                    param.data.zero_()
+                for attr in ["w1", "w2", "w3"]:
+                    if hasattr(experts[ei], attr):
+                        lin = getattr(experts[ei], attr)
+                        zeros = torch.zeros(lin.out_features, lin.in_features, device=device, dtype=torch.bfloat16)
+                        _requantize_inplace(lin, zeros)
     
     return trajectory
 
