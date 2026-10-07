@@ -419,7 +419,7 @@ def compress_care_adaptive(model, cfg, target_n, calib_batches, eval_batches, de
             probe_logits_orig = model(probe_batch).logits.detach().cpu()
             
         for i, j, cap_dist in candidates:
-            engine.snapshot()
+            engine.snapshot(i, j)
             engine.merge_experts(i, j)
             
             assert engine.current_num_experts == N - 1
