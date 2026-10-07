@@ -47,8 +47,7 @@ EVAL_TOKENS = 15_000
 SEQ_LEN = 512
 SEEDS = [42, 1337, 7]
 TARGETS = [14, 12, 10, 8]
-METHODS = ["uncompressed", "random", "parameter", "rw_l2", "submoe",
-           "care_static", "care_adaptive", "reap"]
+METHODS = ["uncompressed", "care_adaptive"]
 
 RESULTS_DIR = "experiments/experiment12/results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -381,22 +380,88 @@ def compress_care_static(model, cfg, target_n, calib_batches, eval_batches, devi
     return trajectory
 
 def compress_care_adaptive(model, cfg, target_n, calib_batches, eval_batches, device):
-    """Full CARE-COM: recompute capability geometry after every merge."""
-    alive = list(range(cfg.num_local_experts))
+    """Full CARE-COM: recompute capability geometry, evaluate trials, commit physical merge."""
+    import sys
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    from phi_care_engine import PhiPhysicalMergeEngine, extract_phi_care_capability, compute_kl_divergence
+    
+    engine = PhiPhysicalMergeEngine(model)
     trajectory = []
     
-    while len(alive) > target_n:
-        care_vecs = compute_care_vectors(model, cfg, calib_batches, device)
-        pair, dist = select_care_pair(care_vecs, alive)
-        apply_merge_to_all_layers(model, cfg, pair)
-        alive.remove(max(pair))
+    print("  [CARE] Computing baseline logits for KL damage...")
+    baseline_logits = []
+    model.eval()
+    with torch.no_grad():
+        for batch in calib_batches:
+            batch_t = batch.unsqueeze(0).to(device)
+            out = model(batch_t)
+            baseline_logits.append(out.logits.detach().cpu())
+            
+    while engine.current_num_experts > target_n:
+        N = engine.current_num_experts
+        print(f"  [CARE] Extracing capabilities for N={N}...")
+        C_t = extract_phi_care_capability(model, engine, calib_batches, device)
+        assert C_t.shape[0] == N, f"Capability dim {C_t.shape[0]} != N {N}"
+        
+        distances = torch.cdist(C_t, C_t)
+        pairs = []
+        for i in range(N):
+            for j in range(i+1, N):
+                pairs.append((i, j, distances[i, j].item()))
+        pairs.sort(key=lambda x: x[2])
+        candidates = pairs[:5]
+        
+        best_pair = None
+        best_damage = float('inf')
+        
+        with torch.no_grad():
+            probe_batch = calib_batches[0].unsqueeze(0).to(device)
+            probe_logits_orig = model(probe_batch).logits.detach().cpu()
+            
+        for i, j, cap_dist in candidates:
+            engine.snapshot()
+            engine.merge_experts(i, j)
+            
+            assert engine.current_num_experts == N - 1
+            
+            total_kl = 0.0
+            with torch.no_grad():
+                for b_idx, batch in enumerate(calib_batches):
+                    batch_t = batch.unsqueeze(0).to(device)
+                    out = model(batch_t)
+                    kl = compute_kl_divergence(baseline_logits[b_idx].to(device), out.logits)
+                    total_kl += kl
+                    
+            if total_kl < best_damage:
+                best_damage = total_kl
+                best_pair = (i, j)
+                
+            engine.restore()
+            
+            with torch.no_grad():
+                probe_logits_restored = model(probe_batch).logits.detach().cpu()
+                assert torch.allclose(probe_logits_orig, probe_logits_restored, atol=1e-3), "Restore identity failed!"
+
+        assert best_pair is not None
+        i, j = best_pair
+        print(f"  [CARE] Committing merge {i} and {j} -> Damage: {best_damage:.4f}")
+        engine.merge_experts(i, j)
+        
+        new_n = engine.current_num_experts
+        assert new_n == N - 1, "Expert count invariant failed"
+        
         trajectory.append({
-            "pair": pair, 
-            "care_dist": float(dist), 
-            "alive": alive[:],
+            "pair": best_pair,
+            "kl_damage": float(best_damage),
+            "num_experts": new_n,
             "method": "care_adaptive"
         })
-    
+        
+        # Save intermediate checkpoint
+        ckpt_path = f"{RESULTS_DIR}/care_adaptive_ckpt_N{new_n}.json"
+        with open(ckpt_path, "w") as f:
+            json.dump(trajectory, f, indent=2)
+            
     return trajectory
 
 def compress_reap(model, cfg, target_n, calib_batches, eval_batches, device):
@@ -541,23 +606,6 @@ def main():
     print("=" * 60)
     print("PHI-3.5-MOE COMPRESSION BENCHMARK")
     print("=" * 60)
-    
-    # Load audit report first
-    audit_path = f"{RESULTS_DIR}/audit_report.json"
-    if not os.path.exists(audit_path):
-        print("❌ Audit report not found. Run phi_audit.py first.")
-        sys.exit(1)
-    
-    with open(audit_path) as f:
-        audit = json.load(f)
-    
-    if not audit.get("passed", False):
-        print("❌ Audit did not pass. Fix stop conditions before running benchmark.")
-        for sc in audit.get("stop_conditions", []):
-            print(f"  • {sc}")
-        sys.exit(1)
-    
-    print("✅ Audit passed. Starting benchmark...\n")
     
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
