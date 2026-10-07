@@ -635,6 +635,12 @@ def main():
         for method in METHODS:
             n_seeds = len(SEEDS) if method in ["random"] else 1
             for seed in SEEDS[:n_seeds]:
+                out_path = f"{RESULTS_DIR}/{method}_target{target}_seed{seed}.json"
+                if os.path.exists(out_path):
+                    print(f"  [Skipping] {method} target={target} seed={seed} (already completed)")
+                    with open(out_path, "r") as f:
+                        all_results.append(json.load(f))
+                    continue
                 try:
                     result = run_one(None, cfg, tokenizer, method, target, seed, device)
                     all_results.append(asdict(result))
