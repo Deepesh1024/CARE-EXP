@@ -272,8 +272,8 @@ class PhiPhysicalMergeEngine:
 
             # --- Expert weights (sequential per attribute to bound GPU peak) ---
             for attr in ("w1", "w2", "w3"):
-                fi = _dequantize_to_float(block.experts[i], device)
-                fj = _dequantize_to_float(block.experts[j], device)
+                fi = _dequantize_to_float(getattr(block.experts[i], attr), device)
+                fj = _dequantize_to_float(getattr(block.experts[j], attr), device)
                 merged = (fi + fj) / 2.0
                 del fi, fj
                 _requantize_inplace(getattr(block.experts[i], attr), merged)
