@@ -535,23 +535,29 @@ def run_one(model_state_dict, cfg, tokenizer, method, target, seed, device):
     """Load a fresh model copy from state dict and run one method."""
     print(f"\n  [{method}] target={target} seed={seed}")
     
-    # Fresh model copy
+    # Fix CUDA allocator fragmentation before loading 42B model
+    import os
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+    
+    # 4-bit quantization + device_map=auto is incompatible with bitsandbytes 
+    # (meta tensors cannot be deserialized during forward pass).
+    # 42B model in 4-bit = ~21GB which fits in 24GB GPU directly.
+    # Force everything onto GPU with no CPU offload.
     from transformers import AutoConfig
     from transformers import BitsAndBytesConfig
     bnb_cfg = BitsAndBytesConfig(
         load_in_4bit=True, 
         bnb_4bit_compute_dtype=torch.bfloat16,
-        llm_int8_enable_fp32_cpu_offload=True
+        bnb_4bit_use_double_quant=True,  # saves ~0.4GB extra
     )
     
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
-        state_dict=model_state_dict,
         torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
         quantization_config=bnb_cfg,
         trust_remote_code=True,
-        device_map="auto"
+        device_map={"":0}  # force everything to cuda:0, no CPU offload
     )
     model.eval()
     
