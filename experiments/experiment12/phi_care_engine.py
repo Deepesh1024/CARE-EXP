@@ -34,8 +34,8 @@ def _dequantize_linear_weight(linear: nn.Linear) -> torch.Tensor:
     if hasattr(w, 'quant_state'):          # bitsandbytes Params4bit
         import bitsandbytes as bnb
         return bnb.functional.dequantize_4bit(
-            w.data, w.quant_state, dtype=torch.float32
-        ).contiguous()
+            w.data, w.quant_state
+        ).to(torch.float32).contiguous()
     return w.data.to(torch.float32)
 
 
