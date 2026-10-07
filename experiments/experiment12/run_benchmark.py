@@ -538,7 +538,11 @@ def run_one(model_state_dict, cfg, tokenizer, method, target, seed, device):
     # Fresh model copy
     from transformers import AutoConfig
     from transformers import BitsAndBytesConfig
-    bnb_cfg = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
+    bnb_cfg = BitsAndBytesConfig(
+        load_in_4bit=True, 
+        bnb_4bit_compute_dtype=torch.bfloat16,
+        llm_int8_enable_fp32_cpu_offload=True
+    )
     
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
