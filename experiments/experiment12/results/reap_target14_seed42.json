@@ -1,0 +1,21 @@
+{
+  "method": "reap",
+  "target": 14,
+  "seed": 42,
+  "ppl": 6.441810865829478,
+  "trajectory": [
+    {
+      "pruned_experts": [
+        1,
+        8
+      ],
+      "method": "reap"
+    }
+  ],
+  "runtime_s": 22.952042818069458,
+  "peak_gpu_mb": 22654.591488,
+  "metadata": {
+    "calib_hash": "8bcc7c39655274ef",
+    "eval_hash": "6dc829691b4868b4"
+  }
+}

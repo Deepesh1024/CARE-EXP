@@ -412,6 +412,43 @@ The functional geometries and adaptive compression techniques discovered and ver
 
 ---
 
+## Experiment 12: Cross-Architecture Validation on Phi-3.5-MoE
+
+### Hypothesis
+Capability-guided sequential consolidation (CARE-Adaptive) remains effective when the underlying MoE implementation differs substantially from OLMoE, including fused expert projections and a different physical expert representation.
+
+### Experiment
+To determine whether the CARE-Adaptive intervention protocol transfers beyond the OLMoE architecture, we implemented an architecture-specific physical adaptation for `microsoft/Phi-3.5-MoE-instruct`.
+
+The experiment evaluates physical capacity-reducing interventions targeting 16→14, 16→12, 16→10, and 16→8 local experts.
+
+Three independent architecture-specific validation gates were required to pass before benchmarking:
+1. **Expert Equivalence:** Validated adapted evaluator against native computation (max error < $10^{-6}$).
+2. **Physical Expert Deletion:** Verified genuine $N \rightarrow N-1$ architectural compression. This explicitly excludes the "dead-slot" failure mode where a merged expert is simply zeroed but remains addressable by the router.
+3. **One-Step CARE-COM:** Validated the complete candidate generation, trial merge, evaluation, and commit cycle.
+
+We evaluated CARE-Adaptive against **REAP** (expert pruning) and **Random** physical merges.
+
+> **Historical Phi benchmark / Invalidated Baselines:** An earlier Phi-3.5-MoE benchmark run was invalidated during an implementation audit. Affected baselines (`submoe`, `rw_l2`, `parameter`, `care_static`) did not physically remove merged experts and therefore artificially retained uncompressed performance. Those results have been excluded from scientific comparison.
+
+### Results
+| Method | 16 → 14 | 16 → 12 | 16 → 10 | 16 → 8 |
+|---|---:|---:|---:|---:|
+| Uncompressed | 4.57 | 4.57 | 4.57 | 4.57 |
+| **CARE-Adaptive** | **6.88** | **9.24** | **13.57** | **32.75** |
+| REAP | 6.44 | 17.65 | 40.33 | 125.72 |
+| Random | 8.50 | 23.34 | 44.74 | 71.90 |
+
+![Performance Retention Bar Chart](experiments/experiment12/results/plots/retention_bar_chart.png)
+*Figure: Predictive probability retention (Baseline PPL / Compressed PPL). Higher is better.*
+
+CARE-Adaptive is slightly worse than the evaluated REAP baseline at 14 experts (6.88 vs 6.44). However, as compression becomes more aggressive, the gap reverses and expands drastically. At 50% expert reduction (16→8), CARE-Adaptive achieves a PPL of 32.75, compared to 125.72 for REAP (a **74.0% lower perplexity**).
+
+### Conclusion
+**Hypothesis Supported.** The Phi experiment provides preliminary evidence that the CARE intervention framework transfers effectively to MoE architectures with substantially different structural details. The results reveal a strong compression-regime dependence: CARE's advantage over the pruning baseline becomes significantly pronounced at aggressive expert reductions, maintaining structural coherency where standard interventions collapse.
+
+---
+
 ## Overarching Final Conclusion
 
 The empirical evidence from Experiments 1 through CARE-COM Validation demonstrates that MoE expert capabilities exhibit a structured, functional geometry that is layer-dependent and evolves predictably over time. 

@@ -1,0 +1,266 @@
+{
+  "method": "care_adaptive",
+  "target": 10,
+  "seed": 42,
+  "ppl": 13.571704682280485,
+  "trajectory": [
+    {
+      "merge_step": 1,
+      "target_expert_count": 10,
+      "num_experts_after": 15,
+      "merged_pair": [
+        4,
+        11
+      ],
+      "selected_kl": 6134.179023742676,
+      "candidate_pairs": [
+        [
+          7,
+          14,
+          2593.233154296875
+        ],
+        [
+          4,
+          11,
+          3180.379638671875
+        ],
+        [
+          1,
+          7,
+          3414.59521484375
+        ],
+        [
+          1,
+          14,
+          4300.0751953125
+        ],
+        [
+          2,
+          14,
+          5119.00439453125
+        ]
+      ],
+      "cap_shape": [
+        16,
+        320
+      ],
+      "method": "care_adaptive"
+    },
+    {
+      "merge_step": 2,
+      "target_expert_count": 10,
+      "num_experts_after": 14,
+      "merged_pair": [
+        4,
+        13
+      ],
+      "selected_kl": 9986.404266357422,
+      "candidate_pairs": [
+        [
+          7,
+          13,
+          2502.17333984375
+        ],
+        [
+          1,
+          7,
+          3367.17626953125
+        ],
+        [
+          1,
+          13,
+          4255.15576171875
+        ],
+        [
+          4,
+          13,
+          4798.05712890625
+        ],
+        [
+          2,
+          13,
+          4921.884765625
+        ]
+      ],
+      "cap_shape": [
+        15,
+        320
+      ],
+      "method": "care_adaptive"
+    },
+    {
+      "merge_step": 3,
+      "target_expert_count": 10,
+      "num_experts_after": 13,
+      "merged_pair": [
+        1,
+        2
+      ],
+      "selected_kl": 16951.912109375,
+      "candidate_pairs": [
+        [
+          1,
+          7,
+          3057.390869140625
+        ],
+        [
+          1,
+          2,
+          4689.177734375
+        ],
+        [
+          11,
+          12,
+          4810.15380859375
+        ],
+        [
+          2,
+          7,
+          4899.3818359375
+        ],
+        [
+          7,
+          11,
+          4951.0361328125
+        ]
+      ],
+      "cap_shape": [
+        14,
+        320
+      ],
+      "method": "care_adaptive"
+    },
+    {
+      "merge_step": 4,
+      "target_expert_count": 10,
+      "num_experts_after": 12,
+      "merged_pair": [
+        1,
+        3
+      ],
+      "selected_kl": 19820.4835357666,
+      "candidate_pairs": [
+        [
+          1,
+          3,
+          880.9678344726562
+        ],
+        [
+          6,
+          10,
+          3530.0400390625
+        ],
+        [
+          1,
+          6,
+          3843.677734375
+        ],
+        [
+          3,
+          6,
+          4492.07470703125
+        ],
+        [
+          10,
+          11,
+          4734.83251953125
+        ]
+      ],
+      "cap_shape": [
+        13,
+        320
+      ],
+      "method": "care_adaptive"
+    },
+    {
+      "merge_step": 5,
+      "target_expert_count": 10,
+      "num_experts_after": 11,
+      "merged_pair": [
+        4,
+        7
+      ],
+      "selected_kl": 29276.107620239258,
+      "candidate_pairs": [
+        [
+          5,
+          9,
+          2113.27197265625
+        ],
+        [
+          6,
+          9,
+          3225.703369140625
+        ],
+        [
+          5,
+          6,
+          3225.882080078125
+        ],
+        [
+          4,
+          7,
+          3261.2265625
+        ],
+        [
+          4,
+          9,
+          3379.5830078125
+        ]
+      ],
+      "cap_shape": [
+        12,
+        320
+      ],
+      "method": "care_adaptive"
+    },
+    {
+      "merge_step": 6,
+      "target_expert_count": 10,
+      "num_experts_after": 10,
+      "merged_pair": [
+        1,
+        4
+      ],
+      "selected_kl": 31238.930694580078,
+      "candidate_pairs": [
+        [
+          1,
+          4,
+          1343.885986328125
+        ],
+        [
+          5,
+          8,
+          2221.618896484375
+        ],
+        [
+          4,
+          5,
+          2853.4052734375
+        ],
+        [
+          6,
+          8,
+          3171.305908203125
+        ],
+        [
+          0,
+          5,
+          3272.103759765625
+        ]
+      ],
+      "cap_shape": [
+        11,
+        320
+      ],
+      "method": "care_adaptive"
+    }
+  ],
+  "runtime_s": 2144.0620396137238,
+  "peak_gpu_mb": 23187.185152,
+  "metadata": {
+    "calib_hash": "8bcc7c39655274ef",
+    "eval_hash": "6dc829691b4868b4"
+  }
+}

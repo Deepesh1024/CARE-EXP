@@ -1,0 +1,17 @@
+{
+  "method": "uncompressed",
+  "target": 8,
+  "seed": 42,
+  "ppl": 4.574508429605245,
+  "trajectory": [
+    {
+      "method": "uncompressed"
+    }
+  ],
+  "runtime_s": 6.850704193115234,
+  "peak_gpu_mb": 22339.920384,
+  "metadata": {
+    "calib_hash": "8bcc7c39655274ef",
+    "eval_hash": "6dc829691b4868b4"
+  }
+}
