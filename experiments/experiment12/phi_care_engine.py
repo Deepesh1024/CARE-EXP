@@ -1,18 +1,18 @@
 """
-Phi-3.5-MoE CARE-COM Engine
-==============================
-Actual remote-code architecture (modeling_phimoe.py from HuggingFace Hub):
-  - MoE block:     layer.block_sparse_moe  (PhiMoESparseMoeBlock)
-  - Router:        block.gate              (nn.Linear, hidden -> num_experts)
-  - Expert list:   block.experts           (nn.ModuleList of PhiMoEBlockSparseTop2MLP)
-  - Expert MLP:    expert.w1 (gate), expert.w3 (up), expert.w2 (down)
-  - Expert fwd:    SiLU(w1(x)) * w3(x) -> w2(...)
+Phi-3.5-MoE CARE-COM Engine  (memory-safe revision)
+=====================================================
+Actual remote-code architecture:
+  - MoE block:   layer.block_sparse_moe  (PhiMoESparseMoeBlock)
+  - Router:      block.gate              (nn.Linear, hidden -> num_experts)
+  - Experts:     block.experts           (nn.ModuleList of PhiMoEBlockSparseTop2MLP)
+  - Expert fwd:  SiLU(w1(x)) * w3(x) -> w2
 
-IMPORTANT: With load_in_4bit=True, all Linear weights are stored as bitsandbytes
-Params4bit tensors with packed shapes (NOT [out, in]). We must:
-  - Use .out_features for invariant checks (not .weight.shape[0])
-  - Dequantize gate weights before row arithmetic, store back as float nn.Parameter
-  - Expert w1/w2/w3 forward passes work natively via bnb; we let them run as-is
+GPU memory contract
+-------------------
+Snapshot  : saves packed int8 to CPU   — zero GPU overhead
+Merge     : dequantize one layer at a time → average → re-quantize to 4-bit
+            net GPU change ≈ 0 (freed j cancels converted i)
+Restore   : mutate packed data in-place → re-insert j module reference
 """
 
 import torch
@@ -21,17 +21,17 @@ import torch.nn.functional as F
 
 
 # ──────────────────────────────────────────────────────────────
-# WEIGHT UTILITIES: handle bitsandbytes Params4bit
+# LOW-LEVEL WEIGHT UTILITIES
 # ──────────────────────────────────────────────────────────────
 
-def _dequantize_linear_weight(linear: nn.Linear) -> torch.Tensor:
-    """
-    Returns the weight as a float32 tensor regardless of whether it is
-    a standard nn.Parameter or a bitsandbytes Params4bit.
-    Shape: [out_features, in_features].
-    """
-    w = linear.weight
-    if hasattr(w, 'quant_state'):          # bitsandbytes Params4bit
+def _is_4bit(param) -> bool:
+    return hasattr(param, "quant_state")
+
+
+def _dequantize_to_float(param, device) -> torch.Tensor:
+    """Dequantize a Linear weight (Params4bit or plain) to float32 on device."""
+    w = param.weight
+    if _is_4bit(w):
         import bitsandbytes as bnb
         return bnb.functional.dequantize_4bit(
             w.data, w.quant_state
@@ -39,24 +39,81 @@ def _dequantize_linear_weight(linear: nn.Linear) -> torch.Tensor:
     return w.data.to(torch.float32)
 
 
-def _get_expert_weight(expert: nn.Module, attr: str) -> torch.Tensor:
-    """Returns dequantized float32 weight for expert.attr (w1/w2/w3)."""
-    return _dequantize_linear_weight(getattr(expert, attr))
+def _requantize_inplace(linear: nn.Module, merged_fp: torch.Tensor) -> None:
+    """
+    Re-quantize merged_fp (float32 GPU tensor) back to 4-bit and mutate
+    linear.weight in-place so no new Parameter objects are created.
+    Falls back to bfloat16 plain parameter if quantization fails.
+    """
+    w = linear.weight
+    if _is_4bit(w):
+        try:
+            import bitsandbytes as bnb
+            qs = w.quant_state
+            blocksize = getattr(qs, "blocksize", 64)
+            quant_type = getattr(qs, "quant_type", "fp4")
+            new_packed, new_qs = bnb.functional.quantize_4bit(
+                merged_fp.to(torch.float16),
+                blocksize=blocksize,
+                quant_type=quant_type,
+            )
+            w.data = new_packed
+            w.quant_state = new_qs
+            return
+        except Exception:
+            pass  # fall through to plain-float fallback
+    # Plain float or fallback
+    linear.weight = nn.Parameter(merged_fp.to(torch.bfloat16))
+
+
+def _save_expert_packed_cpu(expert: nn.Module) -> dict:
+    """Save expert weights as packed int8 on CPU. Zero GPU overhead."""
+    state = {}
+    for attr in ("w1", "w2", "w3"):
+        w = getattr(expert, attr).weight
+        if _is_4bit(w):
+            state[attr] = {
+                "packed_cpu": w.data.cpu(),   # just a CPU copy of the packed int8
+                "quant_state": w.quant_state, # small GPU tensors - kept alive by reference
+                "is_4bit": True,
+                "out_f": getattr(expert, attr).out_features,
+                "in_f": getattr(expert, attr).in_features,
+            }
+        else:
+            state[attr] = {
+                "data_cpu": w.data.cpu(),
+                "is_4bit": False,
+                "out_f": getattr(expert, attr).out_features,
+                "in_f": getattr(expert, attr).in_features,
+            }
+    return state
+
+
+def _restore_expert_from_saved(expert: nn.Module, state: dict, device) -> None:
+    """Restore expert weights from a CPU-saved state dict."""
+    for attr in ("w1", "w2", "w3"):
+        s = state[attr]
+        linear = getattr(expert, attr)
+        if s["is_4bit"]:
+            w = linear.weight
+            # Mutate packed data back in-place
+            w.data = s["packed_cpu"].to(device)
+            w.quant_state = s["quant_state"]
+        else:
+            linear.weight = nn.Parameter(s["data_cpu"].to(device))
+        linear.out_features = s["out_f"]
+        linear.in_features = s["in_f"]
 
 
 # ──────────────────────────────────────────────────────────────
-# EXPERT EVALUATION
+# EXPERT EVALUATION  (forward probe — no weight dequantization)
 # ──────────────────────────────────────────────────────────────
 
 def evaluate_expert_on_probe(x: torch.Tensor, expert: nn.Module) -> torch.Tensor:
     """
-    Evaluates the unweighted expert functional mapping on a residual-stream probe x.
     Expert forward: SiLU(w1(x)) * w3(x) -> w2
-    Uses native bnb forward pass (quantized experts run fine in forward mode).
+    Uses native bnb forward — works for both Params4bit and plain nn.Linear.
     """
-    assert hasattr(expert, "w1"), "Expert missing w1 (gate projection)"
-    assert hasattr(expert, "w2"), "Expert missing w2 (down projection)"
-    assert hasattr(expert, "w3"), "Expert missing w3 (up projection)"
     return expert.w2(F.silu(expert.w1(x)) * expert.w3(x))
 
 
@@ -66,14 +123,11 @@ def evaluate_expert_on_probe(x: torch.Tensor, expert: nn.Module) -> torch.Tensor
 
 class PhiPhysicalMergeEngine:
     """
-    Implements true N -> N-1 physical expert deletion for Phi-3.5-MoE.
+    True N -> N-1 physical expert deletion for Phi-3.5-MoE.
 
-    Weight handling:
-      - Gate: dequantize to float -> row arithmetic -> store as plain nn.Parameter float
-      - Expert w1/w2/w3: dequantize to float -> arithmetic -> store as plain nn.Parameter float
-        (After the first merge, subsequent merges work on already-float parameters.)
-
-    All 8 hard invariants are checked after every state transition.
+    snapshot(i, j):  Saves only experts i and j (packed int8 to CPU — zero GPU overhead).
+    merge_experts:   Sequential per-layer dequant → average → re-quantize.  Net GPU ≈ 0.
+    restore():       Mutates weights back in-place, re-inserts j module reference.
     """
 
     def __init__(self, model: nn.Module):
@@ -97,129 +151,160 @@ class PhiPhysicalMergeEngine:
         self._snapshot = None
         self._validate_invariants()
 
-    def snapshot(self):
-        """Save full model state for transaction rollback (dequantized floats)."""
+    # ── Snapshot ──────────────────────────────────────────────
+
+    def snapshot(self, i: int, j: int):
+        """
+        Minimal snapshot of experts i and j.
+        GPU overhead: zero  (packed int8 copied to CPU, no dequantization).
+        """
+        torch.cuda.empty_cache()   # reclaim reserved-but-free GPU memory
+
+        N = self.current_num_experts
+        assert 0 <= i < N and 0 <= j < N and i != j
+
         self._snapshot = {
+            "i": i, "j": j,
             "config_num_local": getattr(self.model.config, "num_local_experts", None),
             "config_num":       getattr(self.model.config, "num_experts", None),
-            "blocks": []
+            "blocks": [],
         }
+
         for block in self.moe_blocks:
-            experts_state = []
-            for exp in block.experts:
-                experts_state.append({
-                    "w1": _get_expert_weight(exp, "w1").clone(),
-                    "w2": _get_expert_weight(exp, "w2").clone(),
-                    "w3": _get_expert_weight(exp, "w3").clone(),
-                })
+            # Gate: [N, hidden] — dequantize to CPU float (256 KB for N=16, hidden=4096)
+            device = block.gate.weight.device if not _is_4bit(block.gate.weight) \
+                     else block.gate.weight.data.device
+            if _is_4bit(block.gate.weight):
+                import bitsandbytes as bnb
+                gate_float = bnb.functional.dequantize_4bit(
+                    block.gate.weight.data, block.gate.weight.quant_state
+                ).to(torch.float32).cpu()
+            else:
+                gate_float = block.gate.weight.data.cpu().float()
+
             self._snapshot["blocks"].append({
-                "block":       block,
-                "gate_weight": _dequantize_linear_weight(block.gate).clone(),
-                "num_experts": block.num_experts,
-                "experts_state": experts_state,
+                "block":          block,
+                "exp_i_module":   block.experts[i],
+                "exp_i_state":    _save_expert_packed_cpu(block.experts[i]),
+                "exp_j_module":   block.experts[j],   # reference only; weights untouched
+                "gate_float_cpu": gate_float,
+                "gate_in_f":      block.gate.in_features,
+                "num_experts":    block.num_experts,
             })
 
+    # ── Restore ───────────────────────────────────────────────
+
     def restore(self):
-        """Rollback model to last snapshot."""
+        """Rollback to snapshot. Mutates weights in-place; re-inserts j module."""
         if self._snapshot is None:
             raise RuntimeError("No snapshot to restore from")
+
+        i = self._snapshot["i"]
+        j = self._snapshot["j"]
 
         if self._snapshot["config_num_local"] is not None:
             self.model.config.num_local_experts = self._snapshot["config_num_local"]
         if self._snapshot["config_num"] is not None:
-            self.model.config.num_experts = self._snapshot["config_num"]
+            self.model.config.num_experts       = self._snapshot["config_num"]
 
         for b_data in self._snapshot["blocks"]:
-            block    = b_data["block"]
-            n        = b_data["num_experts"]
-            gate_w   = b_data["gate_weight"]           # [n, hidden], float32
+            block  = b_data["block"]
+            n      = b_data["num_experts"]
+            device = next(iter(block.parameters())).device
 
-            # Restore gate as a plain float Parameter
-            device = block.gate.weight.device if hasattr(block.gate.weight, 'device') \
-                     else next(block.parameters()).device
-            block.gate.weight      = nn.Parameter(gate_w.to(device))
+            # 1. Restore gate
+            gate_w = b_data["gate_float_cpu"].to(device)
+            block.gate.weight      = nn.Parameter(gate_w)
             block.gate.out_features = n
-            block.gate.in_features  = gate_w.shape[1]
+            block.gate.in_features  = b_data["gate_in_f"]
 
-            # Restore experts from saved float weights
-            new_experts = nn.ModuleList()
-            for i, exp_state in enumerate(b_data["experts_state"]):
-                exp = block.experts[i]
-                exp.w1.weight = nn.Parameter(exp_state["w1"].to(device))
-                exp.w2.weight = nn.Parameter(exp_state["w2"].to(device))
-                exp.w3.weight = nn.Parameter(exp_state["w3"].to(device))
-                new_experts.append(exp)
-            block.experts    = new_experts
+            # 2. Restore expert i weights in-place
+            _restore_expert_from_saved(b_data["exp_i_module"], b_data["exp_i_state"], device)
+
+            # 3. Re-insert expert j at original position j
+            #    (module is still alive via exp_j_module reference)
+            experts_list = list(block.experts)
+            experts_list.insert(j, b_data["exp_j_module"])
+            block.experts     = nn.ModuleList(experts_list)
             block.num_experts = n
 
         self.current_num_experts = self._snapshot["blocks"][0]["num_experts"]
         self._snapshot = None
+        torch.cuda.empty_cache()
         self._validate_invariants()
+
+    # ── Merge ─────────────────────────────────────────────────
 
     @torch.no_grad()
     def merge_experts(self, i: int, j: int):
         """
-        Physically merge expert j into expert i, then delete expert j.
-        Produces a true N -> N-1 structural change.
+        Physical N -> N-1 merge.
+        Processes one block at a time to bound peak GPU usage.
+        Each block: dequant i+j per matrix (sequential) → average → re-quantize.
+        Net GPU memory change ≈ 0 (freed j ≈ re-quantized i).
         """
         N = self.current_num_experts
         assert 0 <= i < N and 0 <= j < N and i != j, \
-            f"Invalid expert indices {i}, {j} for N={N}"
+            f"Invalid expert indices {i},{j} for N={N}"
+
+        keep = [idx for idx in range(N) if idx != j]
+        new_i = keep.index(i)
 
         for block in self.moe_blocks:
-            device = block.gate.weight.device \
-                     if hasattr(block.gate.weight, 'device') \
-                     else next(block.parameters()).device
+            device = next(iter(block.parameters())).device
 
-            # 1. Dequantize and average gate rows
-            gate_w = _dequantize_linear_weight(block.gate)   # [N, hidden]
+            # --- Gate ---
+            if _is_4bit(block.gate.weight):
+                import bitsandbytes as bnb
+                gate_w = bnb.functional.dequantize_4bit(
+                    block.gate.weight.data, block.gate.weight.quant_state
+                ).to(torch.float32)
+            else:
+                gate_w = block.gate.weight.data.float()
+
             merged_gate_row = (gate_w[i] + gate_w[j]) / 2.0
-
-            keep  = [idx for idx in range(N) if idx != j]
-            new_i = keep.index(i)
-
-            new_gate_w          = gate_w[keep].clone()
-            new_gate_w[new_i]   = merged_gate_row
-
-            block.gate.weight      = nn.Parameter(new_gate_w.to(device))
+            new_gate = gate_w[keep].clone()
+            new_gate[new_i] = merged_gate_row
+            block.gate.weight      = nn.Parameter(new_gate.to(device))
             block.gate.out_features = len(keep)
-            block.gate.in_features  = new_gate_w.shape[1]
+            block.gate.in_features  = new_gate.shape[1]
+            del gate_w, new_gate
 
-            # 2. Average expert weights (dequantize, merge, store as float)
+            # --- Expert weights (sequential per attribute to bound GPU peak) ---
             for attr in ("w1", "w2", "w3"):
-                wi = _get_expert_weight(block.experts[i], attr)
-                wj = _get_expert_weight(block.experts[j], attr)
-                merged_w = (wi + wj) / 2.0
-                getattr(block.experts[i], attr).weight = nn.Parameter(merged_w.to(device))
+                fi = _dequantize_to_float(block.experts[i], device)
+                fj = _dequantize_to_float(block.experts[j], device)
+                merged = (fi + fj) / 2.0
+                del fi, fj
+                _requantize_inplace(getattr(block.experts[i], attr), merged)
+                del merged
 
-            # 3. Delete expert j from ModuleList
+            # --- Delete expert j ---
             experts_list = list(block.experts)
             experts_list.pop(j)
             block.experts     = nn.ModuleList(experts_list)
             block.num_experts = len(experts_list)
 
-        new_n = len(keep)
-        self.current_num_experts            = new_n
-        self.model.config.num_local_experts = new_n
+            torch.cuda.empty_cache()  # reclaim freed j weights immediately
+
+        self.current_num_experts            = len(keep)
+        self.model.config.num_local_experts = len(keep)
         if hasattr(self.model.config, "num_experts"):
-            self.model.config.num_experts   = new_n
+            self.model.config.num_experts   = len(keep)
 
         self._validate_invariants()
 
+    # ── Invariants ────────────────────────────────────────────
+
     def _validate_invariants(self):
-        """Hard invariant check after every state transition."""
         N = self.current_num_experts
         for block in self.moe_blocks:
-            # Invariant 1: expert list size (no dead slots)
             assert len(block.experts) == N, \
                 f"Expert list has {len(block.experts)}, expected {N}"
-            # Invariant 2: router out_features (use .out_features, NOT weight.shape[0])
             assert block.gate.out_features == N, \
                 f"gate.out_features={block.gate.out_features}, expected {N}"
-            # Invariant 3: block-level count
             assert block.num_experts == N, \
                 f"block.num_experts={block.num_experts}, expected {N}"
-        # Invariant 4: config
         assert self.model.config.num_local_experts == N, \
             f"config.num_local_experts={self.model.config.num_local_experts}, expected {N}"
 
@@ -237,14 +322,9 @@ def extract_phi_care_capability(
 ) -> torch.Tensor:
     """
     Computes capability matrix C ∈ R^[N, num_layers * num_axes].
-
-    Protocol (faithful to CARE-COM):
-      - Probe: hidden_states[layer_idx] (residual stream before MoE block)
-      - Expert function: SiLU(w1(x)) * w3(x) -> w2  (unweighted, no routing weight)
-      - Axis assignment: token_idx % num_axes  (deterministic)
-      - Accumulation: L2 norm of expert output, averaged per axis
-
-    Invariant 7: C.shape[0] == N is asserted.
+    Probe: hidden_states[l] (residual stream before MoE block l).
+    Expert function: SiLU(w1(x)) * w3(x) -> w2 (no routing weight).
+    All intermediate tensors moved to CPU to avoid accumulating GPU allocations.
     """
     model.eval()
     num_layers = len(engine.moe_blocks)
@@ -257,31 +337,30 @@ def extract_phi_care_capability(
         for batch in calib_batches:
             out = model(
                 batch.unsqueeze(0).to(device),
-                output_hidden_states=True
+                output_hidden_states=True,
             )
-            # hidden_states[l] = residual stream *input* to transformer layer l
-            hidden_states = out.hidden_states
+            hidden_states = out.hidden_states   # tuple: [seq, hidden] per layer
             seq_len = batch.shape[0]
 
             for layer_idx, block in enumerate(engine.moe_blocks):
-                x = hidden_states[layer_idx].squeeze(0)   # [seq, hidden], still on device
+                x = hidden_states[layer_idx].squeeze(0)   # [seq, hidden] on device
 
                 for exp_idx, expert in enumerate(block.experts):
-                    exp_out = evaluate_expert_on_probe(x, expert).to("cpu")  # [seq, hidden]
-
+                    exp_out = evaluate_expert_on_probe(x, expert).cpu()  # [seq, hidden]
                     for tok in range(seq_len):
                         axis = tok % num_axes
                         cap[layer_idx, exp_idx, axis] += \
-                            torch.norm(exp_out[tok].float(), p=2).item()
+                            exp_out[tok].float().norm(p=2).item()
                         counts[layer_idx, exp_idx, axis] += 1
+
+            # Free hidden states and model output immediately
+            del out, hidden_states
+            torch.cuda.empty_cache()
 
     valid      = counts > 0
     cap[valid] /= counts[valid]
 
-    # C: [N, num_layers * num_axes]
     C = cap.permute(1, 0, 2).reshape(N, num_layers * num_axes)
-
-    # Invariant 7: capability dimensionality
     assert C.shape[0] == N, f"Capability matrix has {C.shape[0]} rows, expected {N}"
     return C
 
@@ -290,10 +369,7 @@ def extract_phi_care_capability(
 # KL DAMAGE UTILITY
 # ──────────────────────────────────────────────────────────────
 
-def compute_kl_divergence(
-    p_logits: torch.Tensor,
-    q_logits: torch.Tensor,
-) -> float:
-    p_probs      = F.softmax(p_logits, dim=-1)
-    q_log_probs  = F.log_softmax(q_logits, dim=-1)
+def compute_kl_divergence(p_logits: torch.Tensor, q_logits: torch.Tensor) -> float:
+    p_probs     = F.softmax(p_logits, dim=-1)
+    q_log_probs = F.log_softmax(q_logits, dim=-1)
     return F.kl_div(q_log_probs, p_probs, reduction="batchmean").item()
