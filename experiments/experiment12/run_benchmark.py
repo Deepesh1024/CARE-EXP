@@ -546,7 +546,8 @@ def run_one(model_state_dict, cfg, tokenizer, method, target, seed, device):
         torch_dtype=torch.bfloat16,
         low_cpu_mem_usage=True,
         quantization_config=bnb_cfg,
-        trust_remote_code=True
+        trust_remote_code=True,
+        device_map="auto"
     )
     model.eval()
     
