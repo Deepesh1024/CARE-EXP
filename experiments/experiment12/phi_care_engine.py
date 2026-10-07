@@ -188,6 +188,7 @@ class PhiPhysicalMergeEngine:
                 "exp_i_state":    _save_expert_packed_cpu(block.experts[i]),
                 "exp_j_module":   block.experts[j],   # reference only; weights untouched
                 "gate_float_cpu": gate_float,
+                "gate_bias_cpu":  block.gate.bias.data.cpu().clone() if hasattr(block.gate, "bias") and block.gate.bias is not None else None,
                 "gate_in_f":      block.gate.in_features,
                 "num_experts":    block.num_experts,
             })
@@ -212,11 +213,17 @@ class PhiPhysicalMergeEngine:
             n      = b_data["num_experts"]
             device = next(iter(block.parameters())).device
 
-            # 1. Restore gate
+            # 1. Restore gate by completely replacing the module
             gate_w = b_data["gate_float_cpu"].to(device)
-            block.gate.weight      = nn.Parameter(gate_w)
-            block.gate.out_features = n
-            block.gate.in_features  = b_data["gate_in_f"]
+            new_gate_module = nn.Linear(
+                in_features=b_data["gate_in_f"],
+                out_features=n,
+                bias=hasattr(block.gate, "bias") and block.gate.bias is not None
+            )
+            new_gate_module.weight = nn.Parameter(gate_w.to(torch.bfloat16))
+            if new_gate_module.bias is not None and b_data.get("gate_bias_cpu") is not None:
+                new_gate_module.bias = nn.Parameter(b_data["gate_bias_cpu"].to(device).to(torch.bfloat16))
+            block.gate = new_gate_module
 
             # 2. Restore expert i weights in-place
             _restore_expert_from_saved(b_data["exp_i_module"], b_data["exp_i_state"], device)
@@ -265,9 +272,20 @@ class PhiPhysicalMergeEngine:
             merged_gate_row = (gate_w[i] + gate_w[j]) / 2.0
             new_gate = gate_w[keep].clone()
             new_gate[new_i] = merged_gate_row
-            block.gate.weight      = nn.Parameter(new_gate.to(device))
-            block.gate.out_features = len(keep)
-            block.gate.in_features  = new_gate.shape[1]
+            
+            # Completely replace the gate module to drop the bitsandbytes Linear4bit class
+            new_gate_module = nn.Linear(
+                in_features=new_gate.shape[1],
+                out_features=len(keep),
+                bias=hasattr(block.gate, "bias") and block.gate.bias is not None
+            )
+            new_gate_module.weight = nn.Parameter(new_gate.to(torch.bfloat16).to(device))
+            if new_gate_module.bias is not None:
+                new_bias = block.gate.bias[keep].clone()
+                new_bias[new_i] = (block.gate.bias[i] + block.gate.bias[j]) / 2.0
+                new_gate_module.bias = nn.Parameter(new_bias.to(torch.bfloat16).to(device))
+            
+            block.gate = new_gate_module
             del gate_w, new_gate
 
             # --- Expert weights (sequential per attribute to bound GPU peak) ---
