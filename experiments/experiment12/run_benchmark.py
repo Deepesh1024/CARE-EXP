@@ -444,20 +444,25 @@ def compress_care_adaptive(model, cfg, target_n, calib_batches, eval_batches, de
 
         assert best_pair is not None
         i, j = best_pair
-        print(f"  [CARE] Committing merge {i} and {j} -> Damage: {best_damage:.4f}")
+        merge_step = len(trajectory) + 1
+        print(f"  [CARE] Step {merge_step}: Committing merge ({i},{j}) -> KL={best_damage:.4f}  N: {N}->{N-1}")
         engine.merge_experts(i, j)
         
         new_n = engine.current_num_experts
         assert new_n == N - 1, "Expert count invariant failed"
         
         trajectory.append({
-            "pair": best_pair,
-            "kl_damage": float(best_damage),
-            "num_experts": new_n,
+            "merge_step": merge_step,
+            "target_expert_count": target_n,
+            "num_experts_after": new_n,
+            "merged_pair": list(best_pair),
+            "selected_kl": float(best_damage),
+            "candidate_pairs": [[ci, cj, float(d)] for ci, cj, d in candidates],
+            "cap_shape": list(C_t.shape),
             "method": "care_adaptive"
         })
         
-        # Save intermediate checkpoint
+        # Save intermediate checkpoint after every committed merge
         ckpt_path = f"{RESULTS_DIR}/care_adaptive_ckpt_N{new_n}.json"
         with open(ckpt_path, "w") as f:
             json.dump(trajectory, f, indent=2)
