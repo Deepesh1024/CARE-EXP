@@ -28,11 +28,11 @@ methods = list(scores.keys())
 values = list(scores.values())
 
 pretty_names = {
-    "care_adaptive": "CARE (Adaptive)",
-    "care_static": "CARE (Static)",
-    "sub_moe": "Sub-MoE (REAP)",
-    "m_smoe": "M-SMoE (REAP)",
-    "hc_smoe": "HC-SMoE (REAP)"
+    "care_adaptive": "CARE-Adaptive",
+    "care_static": "CARE-Static",
+    "sub_moe": "Sub-MoE",
+    "m_smoe": "MC-SMoE",
+    "hc_smoe": "HC-SMoE"
 }
 labels = [pretty_names.get(m, m) for m in methods]
 
