@@ -4,7 +4,7 @@ import seaborn as sns
 import os
 
 csv_path = "benchmark_results/OLMoE-1B-7B/summary/results.csv"
-out_path = "benchmark_results/OLMoE-1B-7B/summary/plots/fig9_ranking_6_25.png"
+out_path = "benchmark_results/OLMoE-1B-7B/summary/plots/fig9_ranking_6_25_v2.png"
 
 df = pd.read_csv(csv_path)
 

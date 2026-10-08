@@ -370,7 +370,7 @@ Adaptive functional compression (CARE-Adaptive) will yield competitive or superi
 - **Definition (Degradation Prevented vs Random):** $Prevented = \frac{KL_{random} - KL_{method}}{KL_{random}} \times 100\%$
 
 ### Plots
-- ![Compression Quality Ranking @ 6.25% Reduction](./benchmark_results/OLMoE-1B-7B/summary/plots/fig9_ranking_6_25.png)
+- ![Compression Quality Ranking @ 6.25% Reduction](./benchmark_results/OLMoE-1B-7B/summary/plots/fig9_ranking_6_25_v2.png)
 - ![Perplexity vs Experts](./benchmark_results/OLMoE-1B-7B/summary/plots/fig1_ppl_vs_experts.png)
 - ![Cumulative KL vs Experts](./benchmark_results/OLMoE-1B-7B/summary/plots/fig2_cum_kl_vs_experts.png)
 
