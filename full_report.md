@@ -439,7 +439,7 @@ We evaluated CARE-Adaptive against **REAP** (expert pruning) and **Random** phys
 | REAP | 6.44 | 17.65 | 40.33 | 125.72 |
 | Random | 8.50 | 23.34 | 44.74 | 71.90 |
 
-![Performance Retention Bar Chart](experiments/experiment12/results/plots/retention_bar_chart.png)
+![Performance Retention Bar Chart](benchmark_results/Phi-3.5-MoE/plots/retention_bar_chart.png)
 *Figure: Predictive probability retention (Baseline PPL / Compressed PPL). Higher is better.*
 
 CARE-Adaptive is slightly worse than the evaluated REAP baseline at 14 experts (6.88 vs 6.44). However, as compression becomes more aggressive, the gap reverses and expands drastically. At 50% expert reduction (16→8), CARE-Adaptive achieves a PPL of 32.75, compared to 125.72 for REAP (a **74.0% lower perplexity**).
