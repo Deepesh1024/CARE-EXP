@@ -467,19 +467,8 @@ Dynamic, physical structural compression (CARE-COM) can be executed natively on 
 ### Conclusion
 **Hypothesis Rejected (Infeasible).** It is architecturally impossible to run dynamic, physical structural-compression algorithms on PyTorch models relying on `accelerate` CPU-offloading. To execute this benchmark cleanly without simulated masking or quantization, the entire model must reside natively in VRAM without `meta` hooks (necessitating an 80 GB GPU, such as an H100).
 
----
 
-## Overarching Final Conclusion
 
-The empirical evidence from Experiments 1 through CARE-COM Validation demonstrates that MoE expert capabilities exhibit a structured, functional geometry that is layer-dependent and evolves predictably over time. 
-
-- **Observational:** We observe clear topological patterns, including low-dimensional geometric structure (Exp 3B) and varying modularity (Exp 3A) that peaks in the middle layers.
-- **Predictive:** Geometric features extracted from this space are highly predictive of functional merge damage, providing a robust baseline for budget-constrained compression (Exp 4). 
-- **Diagnostic:** Detailed diagnostic experiments (Exp 7B, 7C) rigorously falsified alternative hypotheses (joint interaction and fine-grained functional neuron geometry), isolating the residual error mechanisms.
-- **Interventional:** Controlled structural interventions reveal that the network's functional responses are highly direction- and magnitude-dependent, confirming the presence of local geometric constraints (Exp 6D).
-- **Application:** Through adaptive functional compression (CARE-COM v2.2), this geometric framework successfully produces a new Pareto frontier against external state-of-the-art benchmarks on both the `OLMoE-1B-7B` and `JetMoE-8B` architectures.
-
-Together, these findings advance the understanding of MoE internal representation from unstructured sets of parameters to organized functional geometries, laying the foundation for "Interpretability as a Science."
 
 > [!WARNING]
 > **Limitation:** The primary mechanistic observations were derived predominantly from the `OLMoE-1B-7B-0924` model, though successfully validated externally on `JetMoE-8B`. While the internal statistics are highly robust across random seeds, cross-validation folds, and distinct architectures, further work is required to map these topological phenomena exhaustively across a wider variety of scale and MoE gating mechanisms (e.g. DeepSeek-V3).
