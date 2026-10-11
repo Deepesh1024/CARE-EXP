@@ -449,6 +449,26 @@ CARE-Adaptive is slightly worse than the evaluated REAP baseline at 14 experts (
 
 ---
 
+## Experiment 13: Hardware & Architectural Feasibility for Ultra-Large MoEs
+
+### Hypothesis
+Dynamic, physical structural compression (CARE-COM) can be executed natively on ultra-large 30B-parameter MoEs (e.g. `Qwen3-30B-A3B`) using standard 48 GB consumer GPUs via CPU-offloading, without resorting to quantization or logical masking.
+
+### Experiment
+- **Dataset/Model:** `Qwen/Qwen3-30B-A3B`
+- **Environment:** 48 GB NVIDIA L40S GPU, 120 GB CPU RAM.
+- **Protocol:** Attempted fully unquantized (`bfloat16`) genuine physical expert consolidation. Strict prohibition on logical masking/simulated deletion.
+
+### Results
+- **Memory Ceiling:** The unquantized Qwen3-30B requires ~64 GB of memory. `accelerate` successfully mapped ~38 GB to the GPU and offloaded the remaining ~26 GB to CPU RAM.
+- **Architectural Failure:** For layers mapped to the CPU, PyTorch replaces the parameters with dimensionless `meta` tensors, binding the true data to opaque pre-forward hooks (`AlignDevicesHook`). 
+- **Surgery Incompatibility:** When CARE-COM attempts to physically resize the parameter (e.g., dropping from 128 to 127 experts), it corrupts the `meta` tensor mapping. This instantly triggers a `NotImplementedError: Cannot copy out of meta tensor; no data!` and shape mismatch during the forward pass.
+
+### Conclusion
+**Hypothesis Rejected (Infeasible).** It is architecturally impossible to run dynamic, physical structural-compression algorithms on PyTorch models relying on `accelerate` CPU-offloading. To execute this benchmark cleanly without simulated masking or quantization, the entire model must reside natively in VRAM without `meta` hooks (necessitating an 80 GB GPU, such as an H100).
+
+---
+
 ## Overarching Final Conclusion
 
 The empirical evidence from Experiments 1 through CARE-COM Validation demonstrates that MoE expert capabilities exhibit a structured, functional geometry that is layer-dependent and evolves predictably over time. 

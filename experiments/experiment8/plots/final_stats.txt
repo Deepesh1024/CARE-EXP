@@ -1,0 +1,40 @@
+Loading experiments/experiment8/results_partial.json...
+
+--- Diagnostic Stats (Low-Damage Regime) ---
+Number of evaluated substitutions: 1750
+Number of negative ΔCE pairs: 150 (8.6%)
+Minimum ΔCE: -0.0002237
+Number within noise floor (abs(ΔCE) <= 1e-07): 0
+Number above noise floor: 1750
+
+--- Primary Correlations Table ---
+Predictor                 Spearman ρ   Bootstrap 95% CI    
+---------------------------------------------------------
+GWS signed                0.148        [-0.198, 0.436]
+Usage                     0.766        [0.468, 0.922]
+RW-L2                     0.838        [0.653, 0.940]
+GWS squared               0.310        [-0.025, 0.581]
+
+--- Partial Correlations (with Clustered Bootstrap CI) ---
+GWS | Usage               0.289        [-0.111, 0.592]
+GWS | RW-L2               0.185        [-0.128, 0.470]
+RW-L2 | Usage             0.151        [-0.202, 0.642]
+Usage | RW-L2             0.344        [0.093, 0.653]
+
+--- Incremental Out-of-Sample Models (GroupKFold over j) ---
+Model A: Usage
+  Folds: [ 0.7928  0.3025 -0.3131 -0.4416  0.6815]
+  Mean ± Std: 0.2044 ± 0.5037
+
+Model B: Usage + RW-L2
+  Folds: [ 0.921   0.3734  0.0212 -0.4905  0.5972]
+  Mean ± Std: 0.2845 ± 0.4860
+
+Model C: Usage + RW-L2 + signed GWS
+  Folds: [0.7863 0.4502 0.432  0.0409 0.6374]
+  Mean ± Std: 0.4694 ± 0.2506
+
+Model D: Usage + RW-L2 + GWS²
+  Folds: [ 0.9197  0.3592 -0.8069 -0.4965  0.5925]
+  Mean ± Std: 0.1136 ± 0.6571
+

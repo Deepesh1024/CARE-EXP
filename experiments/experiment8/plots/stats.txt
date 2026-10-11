@@ -1,0 +1,27 @@
+Loading experiments/experiment8/results_partial.json...
+
+--- Diagnostic Stats (Low-Damage Regime) ---
+Number of negative ΔCE pairs: 150
+Minimum ΔCE: -0.0002237
+Number within noise floor (abs(ΔCE) <= 1e-07): 0
+Number above noise floor: 1750
+Total pairs evaluated: 1750
+
+--- Primary Correlations Table ---
+Predictor                 Spearman ρ   Bootstrap 95% CI    
+---------------------------------------------------------
+GWS signed                0.148        [-0.198, 0.436]
+Usage                     0.766        [0.468, 0.922]
+RW-L2                     0.838        [0.653, 0.940]
+GWS squared               0.310        [-0.025, 0.581]
+
+--- Partial Correlations ---
+GWS | Usage:   0.289
+GWS | RW-L2:   0.185
+RW-L2 | Usage: 0.151
+Usage | RW-L2: 0.344
+
+--- Incremental Out-of-Sample Models (GroupKFold over j) ---
+1. Usage                 (Out-of-sample R²): 0.4098
+2. Usage + RW-L2         (Out-of-sample R²): 0.3967
+3. Usage + RW-L2 + GWS²  (Out-of-sample R²): 0.3605
