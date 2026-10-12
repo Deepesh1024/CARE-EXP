@@ -1,0 +1,81 @@
+[Eval] Loading WikiText-2 for PPL evaluation...
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (299078 > 131072). Running this sequence through the model will result in indexing errors
+[Eval] Prepared 32 evaluation sequences of length 1024.
+
+======================================================================
+STARTING QWEN3-30B-A3B BASELINE BENCHMARKS: RANDOM, REAP, SUB-MOE
+TARGETS: 128 -> 112 -> 96 -> 80
+======================================================================
+
+============================================================
+STARTING BASELINE: RANDOM MERGING (Seed 42)
+============================================================
+
+[Loader] Loading pristine Qwen/Qwen3-30B-A3B in BF16 directly to CPU RAM...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/531 [00:00<?, ?it/s]Loading weights:   1%|          | 4/531 [00:00<00:17, 29.59it/s]Loading weights:   1%|▏         | 7/531 [00:00<01:25,  6.13it/s]Loading weights:   3%|▎         | 15/531 [00:01<00:34, 15.11it/s]Loading weights:   4%|▎         | 19/531 [00:01<00:43, 11.73it/s]Loading weights:   5%|▍         | 26/531 [00:01<00:28, 17.81it/s]Loading weights:   6%|▌         | 30/531 [00:02<00:36, 13.74it/s]Loading weights:   7%|▋         | 37/531 [00:02<00:25, 19.54it/s]Loading weights:   8%|▊         | 41/531 [00:03<00:39, 12.31it/s]Loading weights:   9%|▉         | 48/531 [00:03<00:27, 17.69it/s]Loading weights:  10%|▉         | 52/531 [00:03<00:28, 16.86it/s]Loading weights:  11%|█▏        | 60/531 [00:03<00:24, 18.92it/s]Loading weights:  13%|█▎        | 70/531 [00:03<00:16, 28.64it/s]Loading weights:  14%|█▍        | 75/531 [00:04<00:19, 23.76it/s]Loading weights:  15%|█▌        | 82/531 [00:04<00:19, 22.83it/s]Loading weights:  18%|█▊        | 93/531 [00:04<00:16, 25.94it/s]Loading weights:  20%|█▉        | 104/531 [00:05<00:15, 28.03it/s]Loading weights:  22%|██▏       | 115/531 [00:05<00:14, 29.68it/s]Loading weights:  24%|██▎       | 126/531 [00:05<00:13, 30.57it/s]Loading weights:  26%|██▌       | 137/531 [00:06<00:12, 32.18it/s]Loading weights:  28%|██▊       | 148/531 [00:06<00:13, 28.18it/s]Loading weights:  30%|██▉       | 159/531 [00:07<00:12, 30.43it/s]Loading weights:  32%|███▏      | 170/531 [00:07<00:11, 31.91it/s]Loading weights:  34%|███▍      | 181/531 [00:07<00:10, 33.04it/s]Loading weights:  36%|███▌      | 192/531 [00:07<00:10, 33.58it/s]Loading weights:  38%|███▊      | 203/531 [00:08<00:09, 34.72it/s]Loading weights:  40%|████      | 214/531 [00:08<00:08, 35.55it/s]Loading weights:  42%|████▏     | 225/531 [00:08<00:09, 31.11it/s]Loading weights:  44%|████▍     | 235/531 [00:09<00:08, 35.71it/s]Loading weights:  45%|████▌     | 239/531 [00:09<00:09, 30.87it/s]Loading weights:  47%|████▋     | 247/531 [00:09<00:09, 29.12it/s]Loading weights:  49%|████▊     | 258/531 [00:10<00:10, 25.02it/s]Loading weights:  51%|█████     | 269/531 [00:10<00:09, 26.54it/s]Loading weights:  53%|█████▎    | 280/531 [00:10<00:08, 29.27it/s]Loading weights:  55%|█████▍    | 291/531 [00:11<00:07, 31.87it/s]Loading weights:  57%|█████▋    | 302/531 [00:11<00:06, 33.57it/s]Loading weights:  59%|█████▉    | 313/531 [00:11<00:06, 34.20it/s]Loading weights:  61%|██████    | 324/531 [00:12<00:05, 34.61it/s]Loading weights:  63%|██████▎   | 335/531 [00:12<00:05, 35.57it/s]Loading weights:  65%|██████▍   | 345/531 [00:12<00:04, 41.87it/s]Loading weights:  66%|██████▌   | 350/531 [00:12<00:06, 29.92it/s]Loading weights:  67%|██████▋   | 357/531 [00:13<00:06, 28.68it/s]Loading weights:  69%|██████▉   | 368/531 [00:13<00:05, 32.33it/s]Loading weights:  71%|███████▏  | 379/531 [00:13<00:04, 34.49it/s]Loading weights:  73%|███████▎  | 390/531 [00:14<00:04, 35.08it/s]Loading weights:  76%|███████▌  | 401/531 [00:14<00:03, 37.14it/s]Loading weights:  78%|███████▊  | 412/531 [00:14<00:03, 38.73it/s]Loading weights:  80%|███████▉  | 423/531 [00:14<00:02, 38.76it/s]Loading weights:  82%|████████▏ | 434/531 [00:15<00:02, 39.16it/s]Loading weights:  84%|████████▍ | 445/531 [00:15<00:02, 38.80it/s]Loading weights:  86%|████████▌ | 456/531 [00:15<00:02, 36.66it/s]Loading weights:  88%|████████▊ | 467/531 [00:16<00:01, 37.92it/s]Loading weights:  90%|█████████ | 478/531 [00:16<00:01, 39.25it/s]Loading weights:  92%|█████████▏| 489/531 [00:16<00:01, 39.01it/s]Loading weights:  94%|█████████▍| 500/531 [00:16<00:00, 39.78it/s]Loading weights:  96%|█████████▌| 511/531 [00:17<00:00, 39.50it/s]Loading weights:  98%|█████████▊| 522/531 [00:17<00:00, 40.38it/s]Loading weights: 100%|██████████| 531/531 [00:17<00:00, 30.59it/s]
+[Loader] Loaded in 20.14s
+[Random] Initial PPL @ 128: 9.5715
+
+[Random] Merging experts down from 128 to 112...
+[Random] Checkpoint PPL @ 112: 12.7422
+
+[Random] Merging experts down from 112 to 96...
+[Random] Checkpoint PPL @ 96: 26.3504
+
+[Random] Merging experts down from 96 to 80...
+[Random] Checkpoint PPL @ 80: 47.6214
+[Random] Completed in 475.68s
+
+============================================================
+STARTING BASELINE: REAP (Router-guided Pruning)
+============================================================
+
+[Loader] Loading pristine Qwen/Qwen3-30B-A3B in BF16 directly to CPU RAM...
+Loading weights:   0%|          | 0/531 [00:00<?, ?it/s]Loading weights:   1%|          | 4/531 [00:00<00:16, 32.08it/s]Loading weights:   2%|▏         | 8/531 [00:00<00:44, 11.75it/s]Loading weights:   3%|▎         | 15/531 [00:00<00:26, 19.38it/s]Loading weights:   3%|▎         | 18/531 [00:01<01:03,  8.06it/s]Loading weights:   5%|▍         | 26/531 [00:01<00:34, 14.45it/s]Loading weights:   6%|▌         | 30/531 [00:02<00:43, 11.55it/s]Loading weights:   7%|▋         | 38/531 [00:02<00:33, 14.73it/s]Loading weights:   9%|▉         | 49/531 [00:03<00:24, 19.94it/s]Loading weights:  11%|█▏        | 60/531 [00:03<00:19, 23.72it/s]Loading weights:  13%|█▎        | 71/531 [00:03<00:17, 26.17it/s]Loading weights:  15%|█▌        | 82/531 [00:04<00:16, 28.06it/s]Loading weights:  17%|█▋        | 92/531 [00:04<00:14, 29.43it/s]Loading weights:  18%|█▊        | 96/531 [00:04<00:18, 23.02it/s]Loading weights:  20%|█▉        | 104/531 [00:05<00:18, 23.57it/s]Loading weights:  22%|██▏       | 115/531 [00:05<00:15, 26.78it/s]Loading weights:  24%|██▎       | 126/531 [00:05<00:13, 29.63it/s]Loading weights:  26%|██▌       | 137/531 [00:06<00:12, 31.55it/s]Loading weights:  28%|██▊       | 148/531 [00:06<00:11, 33.52it/s]Loading weights:  30%|██▉       | 159/531 [00:06<00:10, 34.98it/s]Loading weights:  32%|███▏      | 170/531 [00:06<00:10, 35.95it/s]Loading weights:  34%|███▍      | 181/531 [00:07<00:09, 35.08it/s]Loading weights:  36%|███▌      | 192/531 [00:07<00:09, 35.64it/s]Loading weights:  38%|███▊      | 202/531 [00:07<00:07, 42.24it/s]Loading weights:  39%|███▉      | 207/531 [00:07<00:08, 36.42it/s]Loading weights:  40%|████      | 214/531 [00:08<00:09, 33.01it/s]Loading weights:  42%|████▏     | 225/531 [00:08<00:11, 27.57it/s]Loading weights:  44%|████▍     | 236/531 [00:08<00:09, 30.78it/s]Loading weights:  47%|████▋     | 247/531 [00:09<00:08, 32.38it/s]Loading weights:  49%|████▊     | 258/531 [00:09<00:07, 34.67it/s]Loading weights:  51%|█████     | 269/531 [00:09<00:08, 31.19it/s]Loading weights:  53%|█████▎    | 280/531 [00:10<00:07, 33.02it/s]Loading weights:  55%|█████▍    | 291/531 [00:10<00:06, 35.35it/s]Loading weights:  57%|█████▋    | 302/531 [00:10<00:06, 33.96it/s]Loading weights:  59%|█████▉    | 313/531 [00:11<00:06, 34.87it/s]Loading weights:  61%|██████    | 324/531 [00:11<00:05, 36.75it/s]Loading weights:  63%|██████▎   | 335/531 [00:11<00:05, 38.13it/s]Loading weights:  65%|██████▌   | 346/531 [00:11<00:04, 39.06it/s]Loading weights:  67%|██████▋   | 357/531 [00:12<00:04, 38.80it/s]Loading weights:  69%|██████▉   | 367/531 [00:12<00:04, 39.07it/s]Loading weights:  70%|██████▉   | 371/531 [00:12<00:04, 34.55it/s]Loading weights:  71%|███████▏  | 379/531 [00:12<00:04, 33.07it/s]Loading weights:  73%|███████▎  | 389/531 [00:13<00:03, 42.59it/s]Loading weights:  74%|███████▍  | 395/531 [00:13<00:03, 38.33it/s]Loading weights:  76%|███████▌  | 401/531 [00:13<00:03, 33.22it/s]Loading weights:  78%|███████▊  | 412/531 [00:13<00:03, 35.89it/s]Loading weights:  80%|███████▉  | 423/531 [00:14<00:02, 36.97it/s]Loading weights:  82%|████████▏ | 434/531 [00:14<00:02, 37.61it/s]Loading weights:  84%|████████▎ | 444/531 [00:14<00:02, 29.94it/s]Loading weights:  84%|████████▍ | 448/531 [00:15<00:03, 27.58it/s]Loading weights:  86%|████████▌ | 456/531 [00:15<00:02, 27.77it/s]Loading weights:  88%|████████▊ | 467/531 [00:15<00:02, 31.94it/s]Loading weights:  90%|█████████ | 478/531 [00:15<00:01, 34.38it/s]Loading weights:  92%|█████████▏| 489/531 [00:16<00:01, 35.88it/s]Loading weights:  94%|█████████▍| 500/531 [00:16<00:00, 37.66it/s]Loading weights:  96%|█████████▌| 511/531 [00:16<00:00, 39.10it/s]Loading weights:  98%|█████████▊| 522/531 [00:16<00:00, 38.98it/s]Loading weights: 100%|██████████| 531/531 [00:16<00:00, 31.32it/s]
+[Loader] Loaded in 19.72s
+[REAP] Initial PPL @ 128: 9.5715
+[REAP] Profiling router activations across 64 calibration samples...
+[REAP] Router profiling complete. Global score min=21.16, max=774.61
+
+[REAP] Pruning experts down from 128 to 112...
+[REAP] Checkpoint PPL @ 112: 11.2011
+
+[REAP] Pruning experts down from 112 to 96...
+[REAP] Checkpoint PPL @ 96: 13.1724
+
+[REAP] Pruning experts down from 96 to 80...
+[REAP] Checkpoint PPL @ 80: 16.1392
+[REAP] Completed in 171.16s
+
+============================================================
+STARTING BASELINE: Sub-MoE (CA Clustering)
+============================================================
+
+[Loader] Loading pristine Qwen/Qwen3-30B-A3B in BF16 directly to CPU RAM...
+Loading weights:   0%|          | 0/531 [00:00<?, ?it/s]Loading weights:   1%|          | 4/531 [00:00<00:20, 25.20it/s]Loading weights:   1%|▏         | 7/531 [00:00<00:54,  9.63it/s]Loading weights:   3%|▎         | 15/531 [00:01<00:35, 14.58it/s]Loading weights:   3%|▎         | 17/531 [00:01<00:53,  9.62it/s]Loading weights:   5%|▍         | 26/531 [00:01<00:28, 17.89it/s]Loading weights:   5%|▌         | 29/531 [00:02<00:38, 13.10it/s]Loading weights:   7%|▋         | 38/531 [00:02<00:28, 17.16it/s]Loading weights:   9%|▉         | 49/531 [00:02<00:22, 21.53it/s]Loading weights:  11%|█▏        | 60/531 [00:03<00:18, 25.01it/s]Loading weights:  13%|█▎        | 71/531 [00:03<00:17, 26.97it/s]Loading weights:  15%|█▌        | 82/531 [00:03<00:15, 28.95it/s]Loading weights:  18%|█▊        | 93/531 [00:04<00:14, 30.09it/s]Loading weights:  20%|█▉        | 104/531 [00:04<00:13, 31.03it/s]Loading weights:  22%|██▏       | 115/531 [00:04<00:12, 32.07it/s]Loading weights:  24%|██▎       | 126/531 [00:05<00:12, 31.68it/s]Loading weights:  26%|██▌       | 137/531 [00:05<00:11, 33.53it/s]Loading weights:  28%|██▊       | 148/531 [00:05<00:10, 35.18it/s]Loading weights:  30%|██▉       | 159/531 [00:06<00:10, 36.23it/s]Loading weights:  32%|███▏      | 169/531 [00:06<00:09, 39.84it/s]Loading weights:  33%|███▎      | 174/531 [00:06<00:13, 25.93it/s]Loading weights:  34%|███▍      | 181/531 [00:07<00:13, 25.67it/s]Loading weights:  36%|███▌      | 192/531 [00:07<00:11, 29.33it/s]Loading weights:  38%|███▊      | 203/531 [00:07<00:10, 32.52it/s]Loading weights:  40%|████      | 214/531 [00:07<00:09, 34.54it/s]Loading weights:  42%|████▏     | 224/531 [00:07<00:07, 42.12it/s]Loading weights:  43%|████▎     | 230/531 [00:08<00:07, 38.44it/s]Loading weights:  44%|████▍     | 236/531 [00:08<00:08, 33.30it/s]Loading weights:  47%|████▋     | 247/531 [00:08<00:07, 36.14it/s]Loading weights:  49%|████▊     | 258/531 [00:09<00:07, 36.87it/s]Loading weights:  51%|█████     | 269/531 [00:09<00:06, 38.38it/s]Loading weights:  53%|█████▎    | 279/531 [00:09<00:05, 45.06it/s]Loading weights:  54%|█████▎    | 285/531 [00:09<00:06, 40.66it/s]Loading weights:  55%|█████▍    | 291/531 [00:09<00:07, 32.03it/s]Loading weights:  57%|█████▋    | 302/531 [00:10<00:07, 30.68it/s]Loading weights:  59%|█████▉    | 312/531 [00:10<00:05, 38.00it/s]Loading weights:  60%|█████▉    | 317/531 [00:10<00:06, 34.42it/s]Loading weights:  61%|██████    | 324/531 [00:10<00:06, 31.19it/s]Loading weights:  63%|██████▎   | 335/531 [00:11<00:05, 33.86it/s]Loading weights:  65%|██████▌   | 346/531 [00:11<00:05, 34.27it/s]Loading weights:  67%|██████▋   | 357/531 [00:11<00:04, 36.66it/s]Loading weights:  69%|██████▉   | 368/531 [00:12<00:04, 37.73it/s]Loading weights:  71%|███████▏  | 379/531 [00:12<00:03, 39.24it/s]Loading weights:  73%|███████▎  | 390/531 [00:12<00:03, 40.16it/s]Loading weights:  76%|███████▌  | 401/531 [00:12<00:03, 40.12it/s]Loading weights:  78%|███████▊  | 412/531 [00:13<00:03, 34.17it/s]Loading weights:  80%|███████▉  | 423/531 [00:13<00:02, 36.10it/s]Loading weights:  82%|████████▏ | 433/531 [00:13<00:02, 40.52it/s]Loading weights:  82%|████████▏ | 438/531 [00:14<00:03, 30.84it/s]Loading weights:  84%|████████▍ | 445/531 [00:14<00:02, 29.36it/s]Loading weights:  86%|████████▌ | 456/531 [00:14<00:02, 32.86it/s]Loading weights:  88%|████████▊ | 467/531 [00:14<00:01, 34.75it/s]Loading weights:  90%|█████████ | 478/531 [00:15<00:01, 36.11it/s]Loading weights:  92%|█████████▏| 489/531 [00:15<00:01, 37.27it/s]Loading weights:  94%|█████████▍| 500/531 [00:15<00:00, 38.37it/s]Loading weights:  96%|█████████▌| 511/531 [00:15<00:00, 38.73it/s]Loading weights:  98%|█████████▊| 522/531 [00:16<00:00, 38.64it/s]Loading weights: 100%|██████████| 531/531 [00:16<00:00, 32.61it/s]
+[Loader] Loaded in 18.95s
+[Sub-MoE] Initial PPL @ 128: 9.5715
+[Sub-MoE] Computing initial Characteristic Activations across all layers...
+
+[Sub-MoE] Agglomerative CA merging from 128 to 112...
+[Sub-MoE] Checkpoint PPL @ 112: 11.8771
+
+[Sub-MoE] Agglomerative CA merging from 112 to 96...
+[Sub-MoE] Checkpoint PPL @ 96: 14.3825
+
+[Sub-MoE] Agglomerative CA merging from 96 to 80...
+[Sub-MoE] Checkpoint PPL @ 80: 90.7231
+[Sub-MoE] Completed in 533.84s
+
+======================================================================
+ALL BASELINES COMPLETED SUCCESSFULLY!
+Results written to: /home/ubuntu/DEEPESH/audit/baselines/QWEN3_BASELINES_RESULTS.json
+======================================================================
+
+--- SUMMARY TABLE (WikiText-2 PPL) ---
+Method       | 128      | 112      | 96       | 80       | Time (min)
+--------------------------------------------------------------
+Random       | 9.5715   | 12.7422  | 26.3504  | 47.6214  | 7.93      
+REAP         | 9.5715   | 11.2011  | 13.1724  | 16.1392  | 2.85      
+Sub-MoE      | 9.5715   | 11.8771  | 14.3825  | 90.7231  | 8.90      

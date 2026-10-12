@@ -1,0 +1,127 @@
+{
+  "model": "Qwen/Qwen3-30B-A3B",
+  "architecture": "48 layers, 128 experts/layer, fused 3D MoE tensors (bfloat16)",
+  "hardware": "NVIDIA L40S 48GB GPU (7.07 GB peak VRAM)",
+  "evaluation_dataset": "WikiText-2 (seq_len=1024, 32 chunks)",
+  "summary_ppl": {
+    "128": 9.57149,
+    "112": {
+      "CARE-Adaptive": 11.190207481384277,
+      "REAP": 11.201140403747559,
+      "Sub-MoE": 11.877066612243652,
+      "Random": 12.742232322692871
+    },
+    "96": {
+      "CARE-Adaptive": 14.81014633178711,
+      "REAP": 13.172416687011719,
+      "Sub-MoE": 14.382549285888672,
+      "Random": 26.35042381286621
+    },
+    "80": {
+      "CARE-Adaptive": 19.929229736328125,
+      "REAP": 16.139183044433594,
+      "Sub-MoE": 90.72314453125,
+      "Random": 47.62135314941406
+    }
+  },
+  "methods": {
+    "CARE-Adaptive": {
+      "method": "CARE-Adaptive (Ours)",
+      "type": "Dynamic Capability-guided Physical Merging",
+      "runtime_min": 352.48,
+      "ppl_history": {
+        "128": 9.571491241455078,
+        "112": 11.190207481384277,
+        "96": 14.81014633178711,
+        "80": 19.929229736328125
+      },
+      "total_merges": 48,
+      "candidate_evaluations": 240,
+      "trace_summary": {
+        "step": 48,
+        "experts_before": 81,
+        "experts_after": 80,
+        "selected_pair": [
+          2,
+          45
+        ],
+        "marginal_kl": 1.6171875,
+        "cumulative_kl": 73.3193359375,
+        "step_time_sec": 372.4474730491638,
+        "all_candidates": [
+          {
+            "pair": [
+              1,
+              70
+            ],
+            "capability_distance": 0.019872255623340607,
+            "marginal_kl": 1.697265625
+          },
+          {
+            "pair": [
+              54,
+              61
+            ],
+            "capability_distance": 0.021118363365530968,
+            "marginal_kl": 1.81640625
+          },
+          {
+            "pair": [
+              1,
+              39
+            ],
+            "capability_distance": 0.02177000418305397,
+            "marginal_kl": 1.958984375
+          },
+          {
+            "pair": [
+              2,
+              45
+            ],
+            "capability_distance": 0.021772904321551323,
+            "marginal_kl": 1.6171875
+          },
+          {
+            "pair": [
+              1,
+              58
+            ],
+            "capability_distance": 0.02192373387515545,
+            "marginal_kl": 1.775390625
+          }
+        ]
+      }
+    },
+    "REAP": {
+      "method": "REAP",
+      "ppl_history": {
+        "128": 9.571491241455078,
+        "112": 11.201140403747559,
+        "96": 13.172416687011719,
+        "80": 16.139183044433594
+      },
+      "runtime_sec": 171.15921449661255
+    },
+    "Sub-MoE": {
+      "method": "Sub-MoE",
+      "ppl_history": {
+        "128": 9.571491241455078,
+        "112": 11.877066612243652,
+        "96": 14.382549285888672,
+        "80": 90.72314453125
+      },
+      "runtime_sec": 533.8352766036987
+    },
+    "Random": {
+      "method": "Random",
+      "seed": 42,
+      "ppl_history": {
+        "128": 9.571491241455078,
+        "112": 12.742232322692871,
+        "96": 26.35042381286621,
+        "80": 47.62135314941406
+      },
+      "runtime_sec": 475.67983865737915
+    }
+  }
+}

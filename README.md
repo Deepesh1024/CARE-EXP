@@ -110,6 +110,7 @@ Each experiment is comprehensively documented with formal methodology, numerical
 | **V** | **Exp 7C** | *Does functional neuron geometry explain CARE-COM residuals?* Investigates fine-grained routing-conditioned neuron coverage. | [results/exp7c/revised/REVISED_EXPERIMENT_7C_FINAL_REPORT.md](./results/exp7c/revised/REVISED_EXPERIMENT_7C_FINAL_REPORT.md) |
 | **V** | **CARE-COM** | *Is adaptive functional selection superior to static ranking?* Validation of CARE-COM v2.2 adaptive compression. | [results/care_com_v22/v22_summary.md](./results/care_com_v22/v22_summary.md) |
 | **V** | **Benchmark** | *How does CARE-COM compare to SOTA external baselines?* External evaluation against Sub-MoE, HC-SMoE, M-SMoE, and Random. | [benchmark_results/OLMoE-1B-7B/summary/benchmark_summary.md](./benchmark_results/OLMoE-1B-7B/summary/benchmark_summary.md) |
+| **V** | **Exp 13** | *Does CARE-COM scale to ultra-large 30B MoEs on single-GPU hardware?* Full benchmark on `Qwen3-30B-A3B` across CARE-Adaptive, REAP, Sub-MoE, and Random. | [benchmark_results/Qwen3-30B-A3B/benchmark_summary.md](./benchmark_results/Qwen3-30B-A3B/benchmark_summary.md) |
 
 ---
 
@@ -133,7 +134,16 @@ CARE-EXP/
 │   ├── experiment7b/                   # Joint functional interaction failure analysis
 │   ├── experiment7c/                   # Functional neuron geometry diagnostics
 │   └── care_com_v22/                   # CARE-COM adaptive compression routines
-├── benchmark/OLMoE-1B-7B/                          # External state-of-the-art method benchmarking
+├── benchmark/
+│   ├── OLMoE-1B-7B/                    # External method benchmarking (OLMoE)
+│   ├── JetMoE-8B/                      # Cross-architecture benchmarking (JetMoE)
+│   ├── Phi-3.5-MoE/                    # Cross-architecture benchmarking (Phi)
+│   └── Qwen3-30B-A3B/                  # Ultra-large MoE benchmarking (Exp 13)
+├── benchmark_results/
+│   ├── OLMoE-1B-7B/                    # Evaluation artifacts & summaries
+│   ├── JetMoE-8B/                      # Evaluation artifacts & summaries
+│   ├── Phi-3.5-MoE/                    # Evaluation artifacts & summaries
+│   └── Qwen3-30B-A3B/                  # Evaluation artifacts, plots & summaries
 └── results/                            # Persistent artifacts, datasets, & markdown reports
     ├── exp1/ ... exp6d/                # Experiment outputs (metrics, plots, final reports)
 ```

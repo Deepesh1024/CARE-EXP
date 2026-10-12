@@ -1,0 +1,172 @@
+[Benchmark] Loading WikiText-2 for PPL evaluation...
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (299078 > 131072). Running this sequence through the model will result in indexing errors
+[Benchmark] Prepared 32 evaluation sequences of length 1024.
+Loading Qwen3-30B-A3B in BF16 directly to CPU RAM...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/531 [00:00<?, ?it/s]Loading weights:   1%|          | 4/531 [00:00<00:18, 28.97it/s]Loading weights:   1%|▏         | 7/531 [00:00<00:53,  9.75it/s]Loading weights:   3%|▎         | 15/531 [00:00<00:25, 20.29it/s]Loading weights:   3%|▎         | 18/531 [00:01<01:07,  7.64it/s]Loading weights:   5%|▍         | 26/531 [00:02<00:37, 13.30it/s]Loading weights:   6%|▌         | 30/531 [00:02<00:48, 10.41it/s]Loading weights:   7%|▋         | 37/531 [00:02<00:34, 14.32it/s]Loading weights:   8%|▊         | 40/531 [00:03<00:36, 13.42it/s]Loading weights:   9%|▉         | 49/531 [00:03<00:29, 16.14it/s]Loading weights:  11%|█▏        | 60/531 [00:03<00:22, 20.89it/s]Loading weights:  13%|█▎        | 71/531 [00:04<00:19, 24.15it/s]Loading weights:  15%|█▌        | 82/531 [00:04<00:16, 26.62it/s]Loading weights:  17%|█▋        | 92/531 [00:04<00:13, 32.42it/s]Loading weights:  18%|█▊        | 96/531 [00:05<00:15, 27.51it/s]Loading weights:  20%|█▉        | 104/531 [00:05<00:16, 26.27it/s]Loading weights:  22%|██▏       | 115/531 [00:05<00:14, 28.72it/s]Loading weights:  24%|██▎       | 126/531 [00:06<00:13, 30.59it/s]Loading weights:  26%|██▌       | 137/531 [00:06<00:12, 32.32it/s]Loading weights:  28%|██▊       | 148/531 [00:06<00:12, 31.64it/s]Loading weights:  30%|██▉       | 158/531 [00:06<00:10, 34.03it/s]Loading weights:  31%|███       | 162/531 [00:07<00:12, 29.89it/s]Loading weights:  32%|███▏      | 170/531 [00:07<00:12, 29.17it/s]Loading weights:  34%|███▍      | 181/531 [00:07<00:10, 31.97it/s]Loading weights:  36%|███▌      | 192/531 [00:08<00:10, 32.44it/s]Loading weights:  38%|███▊      | 203/531 [00:08<00:09, 33.64it/s]Loading weights:  40%|████      | 214/531 [00:08<00:09, 34.79it/s]Loading weights:  42%|████▏     | 225/531 [00:08<00:08, 36.02it/s]Loading weights:  44%|████▍     | 236/531 [00:09<00:09, 30.26it/s]Loading weights:  47%|████▋     | 247/531 [00:09<00:08, 32.66it/s]Loading weights:  49%|████▊     | 258/531 [00:09<00:07, 34.41it/s]Loading weights:  51%|█████     | 269/531 [00:10<00:07, 35.46it/s]Loading weights:  53%|█████▎    | 279/531 [00:10<00:05, 42.81it/s]Loading weights:  54%|█████▎    | 285/531 [00:10<00:07, 32.81it/s]Loading weights:  55%|█████▍    | 291/531 [00:11<00:08, 29.42it/s]Loading weights:  57%|█████▋    | 302/531 [00:11<00:07, 31.22it/s]Loading weights:  59%|█████▉    | 313/531 [00:11<00:06, 33.54it/s]Loading weights:  61%|██████    | 324/531 [00:11<00:06, 34.47it/s]Loading weights:  63%|██████▎   | 335/531 [00:12<00:05, 35.67it/s]Loading weights:  65%|██████▌   | 346/531 [00:12<00:05, 34.89it/s]Loading weights:  67%|██████▋   | 357/531 [00:12<00:04, 36.67it/s]Loading weights:  69%|██████▉   | 368/531 [00:13<00:04, 37.36it/s]Loading weights:  71%|███████▏  | 379/531 [00:13<00:03, 38.51it/s]Loading weights:  73%|███████▎  | 390/531 [00:13<00:03, 36.40it/s]Loading weights:  76%|███████▌  | 401/531 [00:13<00:03, 37.65it/s]Loading weights:  78%|███████▊  | 412/531 [00:14<00:04, 29.32it/s]Loading weights:  80%|███████▉  | 423/531 [00:14<00:03, 32.33it/s]Loading weights:  82%|████████▏ | 434/531 [00:15<00:02, 34.69it/s]Loading weights:  84%|████████▍ | 445/531 [00:15<00:02, 36.30it/s]Loading weights:  86%|████████▌ | 456/531 [00:15<00:02, 35.82it/s]Loading weights:  88%|████████▊ | 467/531 [00:15<00:01, 37.16it/s]Loading weights:  90%|█████████ | 478/531 [00:16<00:01, 38.37it/s]Loading weights:  92%|█████████▏| 489/531 [00:16<00:01, 38.51it/s]Loading weights:  94%|█████████▍| 500/531 [00:16<00:00, 39.42it/s]Loading weights:  96%|█████████▌| 511/531 [00:17<00:00, 38.45it/s]Loading weights:  98%|█████████▊| 522/531 [00:17<00:00, 38.70it/s]Loading weights: 100%|██████████| 531/531 [00:17<00:00, 30.72it/s]
+Model loaded in 19.84s
+Computing frozen baseline calibration distributions @ 128 experts...
+Computing Initial PPL @ 128 experts...
+Initial PPL @ 128: 9.5715
+
+[CARE-COM Step 1] Active Experts: 128 -> 127
+  Selected Merge: (109, 116) | KL: 1.03223 | Step Time: 491.7s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 2] Active Experts: 127 -> 126
+  Selected Merge: (15, 85) | KL: 1.20703 | Step Time: 491.3s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 3] Active Experts: 126 -> 125
+  Selected Merge: (15, 108) | KL: 1.19727 | Step Time: 485.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 4] Active Experts: 125 -> 124
+  Selected Merge: (21, 89) | KL: 1.25977 | Step Time: 487.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 5] Active Experts: 124 -> 123
+  Selected Merge: (22, 47) | KL: 1.34570 | Step Time: 488.8s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 6] Active Experts: 123 -> 122
+  Selected Merge: (92, 115) | KL: 1.40430 | Step Time: 476.3s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 7] Active Experts: 122 -> 121
+  Selected Merge: (48, 119) | KL: 1.39453 | Step Time: 481.9s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 8] Active Experts: 121 -> 120
+  Selected Merge: (43, 117) | KL: 1.32617 | Step Time: 488.5s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 9] Active Experts: 120 -> 119
+  Selected Merge: (21, 48) | KL: 1.43359 | Step Time: 486.3s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 10] Active Experts: 119 -> 118
+  Selected Merge: (89, 96) | KL: 1.37500 | Step Time: 484.2s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 11] Active Experts: 118 -> 117
+  Selected Merge: (15, 21) | KL: 1.50195 | Step Time: 482.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 12] Active Experts: 117 -> 116
+  Selected Merge: (69, 90) | KL: 1.44531 | Step Time: 476.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 13] Active Experts: 116 -> 115
+  Selected Merge: (92, 100) | KL: 1.49805 | Step Time: 479.2s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 14] Active Experts: 115 -> 114
+  Selected Merge: (14, 63) | KL: 1.52148 | Step Time: 471.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 15] Active Experts: 114 -> 113
+  Selected Merge: (68, 91) | KL: 1.55078 | Step Time: 477.1s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 16] Active Experts: 113 -> 112
+  Selected Merge: (87, 107) | KL: 1.43359 | Step Time: 467.6s | Peak VRAM: 7.07GB
+
+--- Checkpoint @ 112 Experts ---
+PPL @ 112: 11.1902
+
+[CARE-COM Step 17] Active Experts: 112 -> 111
+  Selected Merge: (33, 82) | KL: 1.56445 | Step Time: 445.5s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 18] Active Experts: 111 -> 110
+  Selected Merge: (14, 33) | KL: 1.45508 | Step Time: 449.7s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 19] Active Experts: 110 -> 109
+  Selected Merge: (5, 82) | KL: 1.55859 | Step Time: 460.3s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 20] Active Experts: 109 -> 108
+  Selected Merge: (30, 77) | KL: 1.52930 | Step Time: 454.3s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 21] Active Experts: 108 -> 107
+  Selected Merge: (5, 23) | KL: 1.56250 | Step Time: 460.0s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 22] Active Experts: 107 -> 106
+  Selected Merge: (58, 85) | KL: 1.66602 | Step Time: 456.9s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 23] Active Experts: 106 -> 105
+  Selected Merge: (43, 80) | KL: 1.55859 | Step Time: 451.9s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 24] Active Experts: 105 -> 104
+  Selected Merge: (31, 34) | KL: 1.54883 | Step Time: 440.0s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 25] Active Experts: 104 -> 103
+  Selected Merge: (42, 55) | KL: 1.62305 | Step Time: 386.0s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 26] Active Experts: 103 -> 102
+  Selected Merge: (14, 64) | KL: 1.60547 | Step Time: 451.0s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 27] Active Experts: 102 -> 101
+  Selected Merge: (14, 15) | KL: 1.62500 | Step Time: 443.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 28] Active Experts: 101 -> 100
+  Selected Merge: (72, 78) | KL: 1.58594 | Step Time: 439.0s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 29] Active Experts: 100 -> 99
+  Selected Merge: (38, 72) | KL: 1.59961 | Step Time: 434.5s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 30] Active Experts: 99 -> 98
+  Selected Merge: (38, 76) | KL: 1.65234 | Step Time: 416.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 31] Active Experts: 98 -> 97
+  Selected Merge: (35, 93) | KL: 1.65039 | Step Time: 423.4s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 32] Active Experts: 97 -> 96
+  Selected Merge: (24, 43) | KL: 1.66992 | Step Time: 420.4s | Peak VRAM: 7.07GB
+
+--- Checkpoint @ 96 Experts ---
+PPL @ 96: 14.8101
+
+[CARE-COM Step 33] Active Experts: 96 -> 95
+  Selected Merge: (28, 41) | KL: 1.63281 | Step Time: 421.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 34] Active Experts: 95 -> 94
+  Selected Merge: (5, 28) | KL: 1.62891 | Step Time: 415.3s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 35] Active Experts: 94 -> 93
+  Selected Merge: (71, 93) | KL: 1.68555 | Step Time: 409.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 36] Active Experts: 93 -> 92
+  Selected Merge: (5, 37) | KL: 1.59961 | Step Time: 406.7s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 37] Active Experts: 92 -> 91
+  Selected Merge: (42, 70) | KL: 1.59570 | Step Time: 394.8s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 38] Active Experts: 91 -> 90
+  Selected Merge: (24, 42) | KL: 1.65625 | Step Time: 406.7s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 39] Active Experts: 90 -> 89
+  Selected Merge: (68, 72) | KL: 1.59961 | Step Time: 402.7s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 40] Active Experts: 89 -> 88
+  Selected Merge: (5, 14) | KL: 1.54492 | Step Time: 399.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 41] Active Experts: 88 -> 87
+  Selected Merge: (26, 79) | KL: 1.65820 | Step Time: 395.8s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 42] Active Experts: 87 -> 86
+  Selected Merge: (26, 67) | KL: 1.57227 | Step Time: 387.1s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 43] Active Experts: 86 -> 85
+  Selected Merge: (33, 70) | KL: 1.64062 | Step Time: 391.5s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 44] Active Experts: 85 -> 84
+  Selected Merge: (23, 26) | KL: 1.59961 | Step Time: 385.7s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 45] Active Experts: 84 -> 83
+  Selected Merge: (24, 47) | KL: 1.64844 | Step Time: 377.4s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 46] Active Experts: 83 -> 82
+  Selected Merge: (57, 61) | KL: 1.63086 | Step Time: 379.6s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 47] Active Experts: 82 -> 81
+  Selected Merge: (57, 61) | KL: 1.62695 | Step Time: 369.1s | Peak VRAM: 7.07GB
+
+[CARE-COM Step 48] Active Experts: 81 -> 80
+  Selected Merge: (2, 45) | KL: 1.61719 | Step Time: 372.4s | Peak VRAM: 7.07GB
+
+--- Checkpoint @ 80 Experts ---
+PPL @ 80: 19.9292
+
+==========================================
+CARE-COM QWEN3 BENCHMARK FULLY COMPLETED
+Total time: 352.48 minutes
+PPL @ 128: 9.5715
+PPL @ 112: 11.1902
+PPL @ 96: 14.8101
+PPL @ 80: 19.9292
+==========================================
