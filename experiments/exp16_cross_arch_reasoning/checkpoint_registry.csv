@@ -1,0 +1,38 @@
+model,method,experts,checkpoint_or_builder,provenance,implementation_type,validation_status,baseline_ppl
+JetMoE-8B,Baseline,8,jetmoe/jetmoe-8b,Official Base Model,Official,VALIDATED,7.1258
+JetMoE-8B,CARE-Adaptive,7,benchmark_results/JetMoE-8B/checkpoints/jetmoe_care_7,In-repo CARE-Adaptive (Micro-eval + Micro-recomputation),In-repo,VALIDATED,10.1700
+JetMoE-8B,CARE-Adaptive,6,benchmark_results/JetMoE-8B/checkpoints/jetmoe_care_6,In-repo CARE-Adaptive (Micro-eval + Micro-recomputation),In-repo,VALIDATED,15.6900
+JetMoE-8B,CARE-Adaptive,4,benchmark_results/JetMoE-8B/checkpoints/jetmoe_care_4,In-repo CARE-Adaptive (Micro-eval + Micro-recomputation),In-repo,VALIDATED,87.1900
+JetMoE-8B,REAP,7,benchmark_results/JetMoE-8B/checkpoints/jetmoe_reap_7,In-repo REAP Saliency Pruning,In-repo,VALIDATED,8.1000
+JetMoE-8B,REAP,6,benchmark_results/JetMoE-8B/checkpoints/jetmoe_reap_6,In-repo REAP Saliency Pruning,In-repo,VALIDATED,9.8100
+JetMoE-8B,REAP,4,benchmark_results/JetMoE-8B/checkpoints/jetmoe_reap_4,In-repo REAP Saliency Pruning,In-repo,VALIDATED,17.4800
+JetMoE-8B,Sub-MoE,7,benchmark_results/JetMoE-8B/checkpoints/jetmoe_submoe_7,In-repo Sub-MoE Pairwise CA Merging,In-repo,VALIDATED,27.0600
+JetMoE-8B,Sub-MoE,6,benchmark_results/JetMoE-8B/checkpoints/jetmoe_submoe_6,In-repo Sub-MoE Pairwise CA Merging,In-repo,VALIDATED,83.4900
+JetMoE-8B,Sub-MoE,4,benchmark_results/JetMoE-8B/checkpoints/jetmoe_submoe_4,In-repo Sub-MoE Pairwise CA Merging,In-repo,VALIDATED,1149.0900
+JetMoE-8B,HC-SMoE,7,hc_smoe_engine.apply_hcsmoe_jetmoe_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (Batched Dim-0 Slice),VALIDATED,11.2204
+JetMoE-8B,HC-SMoE,6,hc_smoe_engine.apply_hcsmoe_jetmoe_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (Batched Dim-0 Slice),VALIDATED,73.9324
+JetMoE-8B,HC-SMoE,4,hc_smoe_engine.apply_hcsmoe_jetmoe_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (Batched Dim-0 Slice),VALIDATED,3859.9575
+JetMoE-8B,MC-SMoE,7,mc_smoe_engine.apply_mcsmoe_jetmoe_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (Stage-1 Merging Only),VALIDATED,10.9068
+JetMoE-8B,MC-SMoE,6,mc_smoe_engine.apply_mcsmoe_jetmoe_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (Stage-1 Merging Only),VALIDATED,3116.2949
+JetMoE-8B,MC-SMoE,4,mc_smoe_engine.apply_mcsmoe_jetmoe_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (Stage-1 Merging Only),VALIDATED,17964.9180
+Phi-3.5-MoE,Baseline,16,microsoft/Phi-3.5-MoE-instruct,Official Instruct Model (4-bit NF4),Official,VALIDATED,4.5700
+Phi-3.5-MoE,CARE-Adaptive,14,care_adaptive_target14_seed42.json,In-repo CARE-Adaptive (Micro-eval + KL Minimization),In-repo,VALIDATED,6.8800
+Phi-3.5-MoE,CARE-Adaptive,12,care_adaptive_target12_seed42.json,In-repo CARE-Adaptive (Micro-eval + KL Minimization),In-repo,VALIDATED,9.2400
+Phi-3.5-MoE,CARE-Adaptive,10,care_adaptive_target10_seed42.json,In-repo CARE-Adaptive (Micro-eval + KL Minimization),In-repo,VALIDATED,13.5700
+Phi-3.5-MoE,CARE-Adaptive,8,care_adaptive_target8_seed42.json,In-repo CARE-Adaptive (Micro-eval + KL Minimization),In-repo,VALIDATED,32.7500
+Phi-3.5-MoE,REAP,14,reap_target14_seed42.json,In-repo REAP Saliency Pruning,In-repo,VALIDATED,6.4400
+Phi-3.5-MoE,REAP,12,reap_target12_seed42.json,In-repo REAP Saliency Pruning,In-repo,VALIDATED,17.6500
+Phi-3.5-MoE,REAP,10,reap_target10_seed42.json,In-repo REAP Saliency Pruning,In-repo,VALIDATED,40.3300
+Phi-3.5-MoE,REAP,8,reap_target8_seed42.json,In-repo REAP Saliency Pruning,In-repo,VALIDATED,125.7200
+Phi-3.5-MoE,Sub-MoE,14,submoe_target14_seed42.json,In-repo Sub-MoE Output Activation Greedy,In-repo,VALIDATED,8.6400
+Phi-3.5-MoE,Sub-MoE,12,submoe_target12_seed42.json,In-repo Sub-MoE Output Activation Greedy,In-repo,VALIDATED,8.4100
+Phi-3.5-MoE,Sub-MoE,10,submoe_target10_seed42.json,In-repo Sub-MoE Output Activation Greedy,In-repo,VALIDATED,11.5000
+Phi-3.5-MoE,Sub-MoE,8,submoe_target8_seed42.json,In-repo Sub-MoE Output Activation Greedy,In-repo,VALIDATED,26.6800
+Phi-3.5-MoE,HC-SMoE,14,hc_smoe_engine.apply_hcsmoe_phi_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (4-bit Seq Dequant/Requant),VALIDATED,8.7284
+Phi-3.5-MoE,HC-SMoE,12,hc_smoe_engine.apply_hcsmoe_phi_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (4-bit Seq Dequant/Requant),VALIDATED,14.2885
+Phi-3.5-MoE,HC-SMoE,10,hc_smoe_engine.apply_hcsmoe_phi_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (4-bit Seq Dequant/Requant),VALIDATED,95.0932
+Phi-3.5-MoE,HC-SMoE,8,hc_smoe_engine.apply_hcsmoe_phi_layer,HC-SMoE (ICML 2025 commit bd77eba),Adaptation (4-bit Seq Dequant/Requant),VALIDATED,231.5584
+Phi-3.5-MoE,MC-SMoE,14,mc_smoe_engine.apply_mcsmoe_phi_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (4-bit Stage-1 Merging Only),VALIDATED,8.4418
+Phi-3.5-MoE,MC-SMoE,12,mc_smoe_engine.apply_mcsmoe_phi_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (4-bit Stage-1 Merging Only),VALIDATED,13.9748
+Phi-3.5-MoE,MC-SMoE,10,mc_smoe_engine.apply_mcsmoe_phi_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (4-bit Stage-1 Merging Only),VALIDATED,40.7512
+Phi-3.5-MoE,MC-SMoE,8,mc_smoe_engine.apply_mcsmoe_phi_layer,MC-SMoE (arXiv:2310.01334 commit 99b400f),Adaptation (4-bit Stage-1 Merging Only),VALIDATED,2543.9573

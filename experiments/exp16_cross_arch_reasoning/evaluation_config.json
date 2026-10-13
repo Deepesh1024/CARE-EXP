@@ -1,0 +1,54 @@
+{
+  "experiment": "CARE-COM Exp 16 — Cross-Architecture Reasoning Evaluation",
+  "version": "1.0.0",
+  "date": "2026-10-13",
+  "hardware": "NVIDIA GeForce RTX 4090 (24GB VRAM)",
+  "benchmarks": {
+    "gsm8k": {
+      "dataset_name": "openai/gsm8k",
+      "dataset_config": "main",
+      "split": "test",
+      "num_samples": 100,
+      "sample_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99],
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "do_sample": false,
+      "decoding": "greedy",
+      "metric": "exact_match",
+      "prompt_format_instruct": "Please reason step by step, and put your final answer within \\boxed{}.\n\nQuestion: {question}",
+      "prompt_format_base": "Question: {question}\nAnswer: Let's think step by step."
+    },
+    "math500": {
+      "dataset_name": "HuggingFaceH4/MATH-500",
+      "dataset_config": "default",
+      "split": "test",
+      "num_samples": 50,
+      "sample_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+      "max_new_tokens": 512,
+      "temperature": 0.0,
+      "do_sample": false,
+      "decoding": "greedy",
+      "metric": "math_verify_boxed",
+      "prompt_format_instruct": "Please reason step by step, and put your final answer within \\boxed{}.\n\nProblem: {problem}",
+      "prompt_format_base": "Problem: {problem}\nPlease reason step by step, and put your final answer within \\boxed{}.\nSolution:"
+    }
+  },
+  "models": {
+    "JetMoE-8B": {
+      "model_id": "jetmoe/jetmoe-8b",
+      "type": "base",
+      "dtype": "bfloat16",
+      "device": "cuda:0",
+      "targets": [8, 7, 6, 4],
+      "methods": ["Baseline", "CARE-Adaptive", "REAP", "Sub-MoE", "HC-SMoE", "MC-SMoE"]
+    },
+    "Phi-3.5-MoE": {
+      "model_id": "microsoft/Phi-3.5-MoE-instruct",
+      "type": "instruct",
+      "dtype": "4bit-nf4",
+      "device": "cuda:0",
+      "targets": [16, 14, 12, 10, 8],
+      "methods": ["Baseline", "CARE-Adaptive", "REAP", "Sub-MoE", "HC-SMoE", "MC-SMoE"]
+    }
+  }
+}
