@@ -97,6 +97,12 @@ def apply_mcsmoe_jetmoe_layer(
     mlp_module.input_linear.weight = nn.Parameter(new_input)
     mlp_module.output_linear.weight = nn.Parameter(new_output)
     mlp_module.router.layer.weight = nn.Parameter(new_router)
+    if hasattr(mlp_module, "input_linear") and hasattr(mlp_module.input_linear, "num_experts"):
+        mlp_module.input_linear.num_experts = target_k
+    if hasattr(mlp_module, "output_linear") and hasattr(mlp_module.output_linear, "num_experts"):
+        mlp_module.output_linear.num_experts = target_k
+    if hasattr(mlp_module, "router") and hasattr(mlp_module.router, "num_experts"):
+        mlp_module.router.num_experts = target_k
     if hasattr(mlp_module, "num_experts"):
         mlp_module.num_experts = target_k
         

@@ -47,6 +47,12 @@ def validate_tensor_invariants(model, target_k: int) -> Dict[str, bool]:
             shapes_ok = False
             print(f"  [Validation Error] Layer {l_idx} shapes: in={in_w.shape}, out={out_w.shape}, r={r_w.shape} != target {target_k}")
             
+        if getattr(mlp.input_linear, "num_experts", None) != target_k or \
+           getattr(mlp.output_linear, "num_experts", None) != target_k or \
+           getattr(mlp.router, "num_experts", None) != target_k:
+            shapes_ok = False
+            print(f"  [Validation Error] Layer {l_idx} num_experts mismatch: in={getattr(mlp.input_linear, 'num_experts', None)}, out={getattr(mlp.output_linear, 'num_experts', None)}, r={getattr(mlp.router, 'num_experts', None)} != {target_k}")
+            
         if torch.isnan(in_w).any() or torch.isinf(in_w).any() or \
            torch.isnan(out_w).any() or torch.isinf(out_w).any() or \
            torch.isnan(r_w).any() or torch.isinf(r_w).any():
@@ -88,6 +94,7 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
         # 2. Apply layer-by-layer compression on CPU
         for l_idx, layer in enumerate(model.model.layers):
             apply_fn(layer.mlp, target_k)
+        model.config.num_local_experts = target_k
             
         compression_time = time.time() - t_start
         
@@ -115,6 +122,13 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
             torch.cuda.empty_cache()
             gc.collect()
             break
+
+        # Quick forward pass sanity check
+        sample_test = tokenizer("Mixture of Experts verification.", return_tensors="pt").to("cuda")
+        with torch.no_grad():
+            test_out = model(**sample_test)
+        assert not torch.isnan(test_out.logits).any(), "NaN in compressed model logits"
+        del sample_test, test_out
             
         # 5. PPL Evaluation on GPU (15k tokens matching reference baseline)
         print(f"  [Evaluating Perplexity] WikiText-2 (seq_len=512, stride=512)...", flush=True)
