@@ -30,6 +30,7 @@ JETMOE_TARGETS = [7, 6, 4]
 REFERENCE_RESULTS = {
     "Original": {"8": 7.1258},
     "CARE-Adaptive": {"7": 10.17, "6": 15.69, "4": 87.19},
+    "Sub-MoE": {"7": 27.06, "6": 83.49, "4": 1149.09},
     "REAP": {"7": 8.10, "6": 9.81, "4": 17.48}
 }
 
@@ -259,7 +260,7 @@ def main():
     print(f"{'Method':<16} | {'7 Experts':<10} | {'6 Experts':<10} | {'4 Experts':<10}")
     print("-" * 52)
     print(f"{'CARE-Adaptive*':<16} | {'10.17':<10} | {'15.69':<10} | {'87.19':<10}")
-    print(f"{'REAP*':<16} | {'8.10':<10} | {'9.81':<10} | {'17.48':<10}")
+    print(f"{'Sub-MoE*':<16} | {'27.06':<10} | {'83.49':<10} | {'1149.09':<10}")
     
     for method in ["HC-SMoE", "MC-SMoE"]:
         sub = [r for r in all_results if r["method"] == method]
