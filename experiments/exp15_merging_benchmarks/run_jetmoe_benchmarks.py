@@ -1,8 +1,10 @@
 import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import sys
 import time
 import copy
 import json
+import gc
 from typing import Dict, List, Tuple, Any, Optional
 import torch
 import pandas as pd
@@ -53,14 +55,19 @@ def validate_tensor_invariants(model, target_k: int) -> Dict[str, bool]:
             
     return {"shapes_ok": shapes_ok, "numerical_integrity": no_nan_or_inf}
 
-def run_compatibility_test(model, tokenizer) -> bool:
+def run_compatibility_test(model_pristine, tokenizer) -> bool:
     print("\n--- [Phase 2.1] Running JetMoE Compatibility Test ---", flush=True)
     try:
+        # Move a clone to GPU temporarily to test baseline forward pass
+        test_model = copy.deepcopy(model_pristine).to("cuda")
         sample_input = tokenizer("Hello, Mixture of Experts evaluation.", return_tensors="pt").to("cuda")
         with torch.no_grad():
-            out = model(**sample_input)
+            out = test_model(**sample_input)
         assert not torch.isnan(out.logits).any(), "NaN found in baseline logits"
         print("  [Pass] Forward pass succeeded with clean numerical logits.", flush=True)
+        del test_model, sample_input, out
+        torch.cuda.empty_cache()
+        gc.collect()
         return True
     except Exception as e:
         print(f"  [Fail] Compatibility test failed: {e}", flush=True)
@@ -74,20 +81,23 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
     for target_k in JETMOE_TARGETS:
         print(f"\n>>> Compressing JetMoE-8B to {target_k} experts via {method_name}...", flush=True)
         t_start = time.time()
-        torch.cuda.reset_peak_memory_stats()
         
-        # Deepcopy pristine model to isolate checkpoints
+        # 1. Deepcopy pristine model on CPU (zero GPU VRAM usage)
         model = copy.deepcopy(model_pristine)
         
-        # Apply layer-by-layer compression
+        # 2. Apply layer-by-layer compression on CPU
         for l_idx, layer in enumerate(model.model.layers):
             apply_fn(layer.mlp, target_k)
             
         compression_time = time.time() - t_start
+        
+        # 3. Move compressed model to GPU for evaluation
+        torch.cuda.reset_peak_memory_stats()
+        model = model.to("cuda")
         peak_comp_vram = torch.cuda.max_memory_allocated() / (1024**3)
         print(f"  [Compression Complete] Time: {compression_time:.2f}s | Peak VRAM: {peak_comp_vram:.2f} GB", flush=True)
         
-        # Invariant validation gate
+        # 4. Invariant validation gate
         val = validate_tensor_invariants(model, target_k)
         if not (val["shapes_ok"] and val["numerical_integrity"]):
             print(f"  [Gate Failed] Checkpoint at {target_k} experts failed invariant checks! Halting further targets.", flush=True)
@@ -101,11 +111,14 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
                 "tokens_per_sec": 0.0,
                 "status": "FAIL"
             })
+            del model
+            torch.cuda.empty_cache()
+            gc.collect()
             break
             
-        # PPL Evaluation
+        # 5. PPL Evaluation on GPU (15k tokens matching reference baseline)
         print(f"  [Evaluating Perplexity] WikiText-2 (seq_len=512, stride=512)...", flush=True)
-        eval_metrics = evaluate_wikitext_ppl(model, tokenizer, num_tokens=50000)
+        eval_metrics = evaluate_wikitext_ppl(model, tokenizer, num_tokens=15000)
         ppl = eval_metrics["perplexity"]
         print(f"  [PPL @ {target_k} Experts]: {ppl:.4f} (Speed: {eval_metrics['tokens_per_sec']:.1f} tok/s, Peak VRAM: {eval_metrics['peak_vram_gb']:.2f} GB)", flush=True)
         
@@ -131,23 +144,25 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
             "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2)
         })
         
-        # Save validated checkpoint
-        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower()}_{target_k}exp.pt")
+        # 6. Save validated checkpoint
+        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp.pt")
         torch.save(model.state_dict(), ckpt_path)
         print(f"  [Saved Checkpoint]: {ckpt_path}", flush=True)
         
+        # 7. Explicit cleanup to free GPU VRAM completely before next target
         del model
         torch.cuda.empty_cache()
+        gc.collect()
         
     return results, runtime_records
 
 def main():
-    print(f"Loading {MODEL_ID} in bfloat16...", flush=True)
+    print(f"Loading {MODEL_ID} in bfloat16 on CPU...", flush=True)
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
     model_pristine = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         torch_dtype=torch.bfloat16,
-        device_map="cuda",
+        low_cpu_mem_usage=True,
         trust_remote_code=True
     )
     

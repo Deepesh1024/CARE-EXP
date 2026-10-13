@@ -44,12 +44,14 @@ def evaluate_wikitext_ppl(
             target_ids[:, :-trg_len] = -100
 
             outputs = model(input_ids, labels=target_ids)
-            neg_log_likelihood = outputs.loss
+            neg_log_likelihood = outputs.loss.item()
             nlls.append(neg_log_likelihood * trg_len)
             total_tokens += trg_len
+            del input_ids, target_ids, outputs
 
     elapsed_time = time.time() - start_time
-    ppl = torch.exp(torch.stack(nlls).sum() / total_tokens).item()
+    import math
+    ppl = math.exp(sum(nlls) / total_tokens) if total_tokens > 0 else float("nan")
     peak_vram_gb = torch.cuda.max_memory_allocated() / (1024**3)
     tokens_per_sec = total_tokens / elapsed_time if elapsed_time > 0 else 0
     
