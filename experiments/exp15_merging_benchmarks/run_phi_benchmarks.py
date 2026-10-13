@@ -135,96 +135,107 @@ def record_result(res_row: Dict[str, Any], rt_row: Optional[Dict[str, Any]] = No
             rt_df = pd.DataFrame([rt_row])
         rt_df.to_csv(RUNTIME_CSV, index=False)
 
-def benchmark_phi_method(method_name: str, apply_fn, tokenizer):
-    print(f"\n{'='*70}\nSTARTING PHI-3.5-MOE BENCHMARK: {method_name}\n{'='*70}", flush=True)
+def run_single_phi_target(method_name: str, apply_fn, tokenizer, target_k: int) -> bool:
+    print(f"\n>>> Compressing Phi-3.5-MoE to {target_k} experts via {method_name}...", flush=True)
+    model = load_fresh_phi_model()
+    torch.cuda.reset_peak_memory_stats()
+    t_start = time.time()
     
-    existing_res = {}
-    if os.path.exists(RESULTS_CSV):
-        prev_df = pd.read_csv(RESULTS_CSV)
-        for _, r in prev_df[prev_df["method"] == method_name].iterrows():
-            if str(r.get("status", "")).upper() == "PASS":
-                existing_res[int(r["experts"])] = float(r["perplexity"])
-                
-    for target_k in PHI_TARGETS:
-        if target_k in existing_res:
-            print(f"\n>>> [Reusing] {method_name} @ {target_k} experts already evaluated: PPL = {existing_res[target_k]}", flush=True)
-            continue
-            
-        print(f"\n>>> Compressing Phi-3.5-MoE to {target_k} experts via {method_name}...", flush=True)
-        model = load_fresh_phi_model()
-        torch.cuda.reset_peak_memory_stats()
-        t_start = time.time()
+    for l_idx, layer in enumerate(model.model.layers):
+        moe = getattr(layer, "block_sparse_moe", None) or getattr(layer, "mlp", None)
+        apply_fn(moe, target_k)
         
-        for l_idx, layer in enumerate(model.model.layers):
-            moe = getattr(layer, "block_sparse_moe", None) or getattr(layer, "mlp", None)
-            apply_fn(moe, target_k)
-            
-        model.config.num_local_experts = target_k
-        if hasattr(model.config, "num_experts"):
-            model.config.num_experts = target_k
-            
-        compression_time = time.time() - t_start
-        peak_comp_vram = torch.cuda.max_memory_allocated() / (1024**3)
-        print(f"  [Compression Complete] Time: {compression_time:.2f}s | Peak VRAM: {peak_comp_vram:.2f} GB", flush=True)
+    model.config.num_local_experts = target_k
+    if hasattr(model.config, "num_experts"):
+        model.config.num_experts = target_k
         
-        val = validate_phi_invariants(model, target_k)
-        if not (val["shapes_ok"] and val["numerical_integrity"]):
-            print(f"  [Gate Failed] Checkpoint at {target_k} experts failed invariant checks! Halting further targets.", flush=True)
-            res_row = {
-                "model": "Phi-3.5-MoE",
-                "method": method_name,
-                "experts": target_k,
-                "perplexity": "FAILED_VALIDATION",
-                "compression_time_sec": round(compression_time, 2),
-                "peak_vram_gb": round(peak_comp_vram, 2),
-                "tokens_per_sec": 0.0,
-                "status": "FAIL"
-            }
-            record_result(res_row)
-            del model
-            gc.collect()
-            torch.cuda.empty_cache()
-            break
-            
-        print(f"  [Evaluating Perplexity] WikiText-2 (seq_len=512, stride=512)...", flush=True)
-        eval_metrics = evaluate_wikitext_ppl(model, tokenizer, num_tokens=15000)
-        ppl = eval_metrics["perplexity"]
-        print(f"  [PPL @ {target_k} Experts]: {ppl:.4f} (Speed: {eval_metrics['tokens_per_sec']:.1f} tok/s, Peak VRAM: {eval_metrics['peak_vram_gb']:.2f} GB)", flush=True)
-        
+    compression_time = time.time() - t_start
+    peak_comp_vram = torch.cuda.max_memory_allocated() / (1024**3)
+    print(f"  [Compression Complete] Time: {compression_time:.2f}s | Peak VRAM: {peak_comp_vram:.2f} GB", flush=True)
+    
+    val = validate_phi_invariants(model, target_k)
+    if not (val["shapes_ok"] and val["numerical_integrity"]):
+        print(f"  [Gate Failed] Checkpoint at {target_k} experts failed invariant checks! Halting further targets.", flush=True)
         res_row = {
             "model": "Phi-3.5-MoE",
             "method": method_name,
             "experts": target_k,
-            "perplexity": round(ppl, 4),
+            "perplexity": "FAILED_VALIDATION",
             "compression_time_sec": round(compression_time, 2),
-            "peak_vram_gb": round(eval_metrics["peak_vram_gb"], 2),
-            "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2),
-            "status": "PASS"
+            "peak_vram_gb": round(peak_comp_vram, 2),
+            "tokens_per_sec": 0.0,
+            "status": "FAIL"
         }
-        
-        rt_row = {
-            "model": "Phi-3.5-MoE",
-            "method": method_name,
-            "target_experts": target_k,
-            "compression_time_sec": round(compression_time, 2),
-            "eval_time_sec": round(eval_metrics["total_eval_time_sec"], 2),
-            "peak_vram_gb": round(eval_metrics["peak_vram_gb"], 2),
-            "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2)
-        }
-        
-        record_result(res_row, rt_row)
-        
-        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp_moe.pt")
-        try:
-            moe_state = {k: v for k, v in model.state_dict().items() if "block_sparse_moe" in k or "mlp" in k}
-            torch.save(moe_state, ckpt_path)
-            print(f"  [Saved MoE Checkpoint]: {ckpt_path}", flush=True)
-        except Exception as e:
-            print(f"  [Checkpoint Warning] Could not save MoE checkpoint: {e}", flush=True)
-            
+        record_result(res_row)
         del model
         gc.collect()
+        gc.collect()
         torch.cuda.empty_cache()
+        return False
+        
+    print(f"  [Evaluating Perplexity] WikiText-2 (seq_len=512, stride=512)...", flush=True)
+    eval_metrics = evaluate_wikitext_ppl(model, tokenizer, num_tokens=15000)
+    ppl = eval_metrics["perplexity"]
+    print(f"  [PPL @ {target_k} Experts]: {ppl:.4f} (Speed: {eval_metrics['tokens_per_sec']:.1f} tok/s, Peak VRAM: {eval_metrics['peak_vram_gb']:.2f} GB)", flush=True)
+    
+    res_row = {
+        "model": "Phi-3.5-MoE",
+        "method": method_name,
+        "experts": target_k,
+        "perplexity": round(ppl, 4),
+        "compression_time_sec": round(compression_time, 2),
+        "peak_vram_gb": round(eval_metrics["peak_vram_gb"], 2),
+        "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2),
+        "status": "PASS"
+    }
+    
+    rt_row = {
+        "model": "Phi-3.5-MoE",
+        "method": method_name,
+        "target_experts": target_k,
+        "compression_time_sec": round(compression_time, 2),
+        "eval_time_sec": round(eval_metrics["total_eval_time_sec"], 2),
+        "peak_vram_gb": round(eval_metrics["peak_vram_gb"], 2),
+        "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2)
+    }
+    
+    record_result(res_row, rt_row)
+    
+    ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp_moe.pt")
+    try:
+        moe_state = {k: v.cpu() for k, v in model.state_dict().items() if "block_sparse_moe" in k or "mlp" in k}
+        torch.save(moe_state, ckpt_path)
+        del moe_state
+        print(f"  [Saved MoE Checkpoint]: {ckpt_path}", flush=True)
+    except Exception as e:
+        print(f"  [Checkpoint Warning] Could not save MoE checkpoint: {e}", flush=True)
+        
+    del model, eval_metrics, val
+    gc.collect()
+    gc.collect()
+    torch.cuda.empty_cache()
+    vram_after = torch.cuda.memory_allocated() / (1024**3)
+    print(f"  [VRAM Cleaned]: {vram_after:.2f} GB remaining on GPU after target {target_k}", flush=True)
+    return True
+
+def benchmark_phi_method(method_name: str, apply_fn, tokenizer):
+    print(f"\n{'='*70}\nSTARTING PHI-3.5-MOE BENCHMARK: {method_name}\n{'='*70}", flush=True)
+    
+    for target_k in PHI_TARGETS:
+        existing_res = {}
+        if os.path.exists(RESULTS_CSV):
+            prev_df = pd.read_csv(RESULTS_CSV)
+            for _, r in prev_df[prev_df["method"] == method_name].iterrows():
+                if str(r.get("status", "")).upper() == "PASS":
+                    existing_res[int(r["experts"])] = float(r["perplexity"])
+                    
+        if target_k in existing_res:
+            print(f"\n>>> [Reusing] {method_name} @ {target_k} experts already evaluated: PPL = {existing_res[target_k]}", flush=True)
+            continue
+            
+        success = run_single_phi_target(method_name, apply_fn, tokenizer, target_k)
+        if not success:
+            break
 
 def main():
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
@@ -245,8 +256,7 @@ def main():
     print(f"{'Method':<16} | {'14 Experts':<11} | {'12 Experts':<11} | {'10 Experts':<11} | {'8 Experts':<11}")
     print("-" * 65)
     print(f"{'CARE-Adaptive*':<16} | {'6.88':<11} | {'9.24':<11} | {'13.57':<11} | {'32.75':<11}")
-    print(f"{'REAP*':<16} | {'6.44':<11} | {'17.65':<11} | {'40.33':<11} | {'125.72':<11}")
-    print(f"{'Random*':<16} | {'8.50':<11} | {'23.34':<11} | {'44.74':<11} | {'71.90':<11}")
+    print(f"{'Sub-MoE*':<16} | {'N/A (audit)':<11} | {'N/A (audit)':<11} | {'N/A (audit)':<11} | {'N/A (audit)':<11}")
     
     if os.path.exists(RESULTS_CSV):
         res_df = pd.read_csv(RESULTS_CSV)
