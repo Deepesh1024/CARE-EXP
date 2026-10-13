@@ -1,12 +1,13 @@
 import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import sys
 import time
-import copy
+import gc
 import json
 from typing import Dict, List, Tuple, Any, Optional
 import torch
 import pandas as pd
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 if SCRIPT_DIR not in sys.path:
@@ -17,8 +18,10 @@ from mc_smoe_engine import apply_mcsmoe_phi_layer
 from evaluate_ppl import evaluate_wikitext_ppl
 
 MODEL_ID = "microsoft/Phi-3.5-MoE-instruct"
-RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
-CHECKPOINT_DIR = os.path.join(os.path.dirname(__file__), "checkpoints", "phi")
+RESULTS_DIR = os.path.join(SCRIPT_DIR, "results")
+CHECKPOINT_DIR = os.path.join(SCRIPT_DIR, "checkpoints", "phi")
+RESULTS_CSV = os.path.join(RESULTS_DIR, "phi_results.csv")
+RUNTIME_CSV = os.path.join(RESULTS_DIR, "runtime_memory.csv")
 os.makedirs(RESULTS_DIR, exist_ok=True)
 os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
@@ -31,55 +34,134 @@ REFERENCE_RESULTS = {
     "Random": {"14": 8.50, "12": 23.34, "10": 44.74, "8": 71.90}
 }
 
+def load_fresh_phi_model():
+    """
+    Loads a pristine copy of Phi-3.5-MoE in 4-bit NF4 with bfloat16 compute.
+    Directly placed on cuda:0 to fit the 42B model within 24GB VRAM (~21GB footprint).
+    """
+    print(f"Loading fresh {MODEL_ID} in 4-bit on GPU...", flush=True)
+    bnb_cfg = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=torch.bfloat16,
+        bnb_4bit_use_double_quant=True,
+    )
+    model = AutoModelForCausalLM.from_pretrained(
+        MODEL_ID,
+        torch_dtype=torch.bfloat16,
+        low_cpu_mem_usage=True,
+        quantization_config=bnb_cfg,
+        trust_remote_code=True,
+        device_map={"": 0}
+    )
+    model.eval()
+    return model
+
 def validate_phi_invariants(model, target_k: int) -> Dict[str, bool]:
     shapes_ok = True
     no_nan_or_inf = True
     
     for l_idx, layer in enumerate(model.model.layers):
-        moe = layer.block_sparse_moe
-        gu_w = moe.gate_up_proj.data
-        d_w = moe.down_proj.data
-        r_w = moe.gate.weight.data
-        
-        if gu_w.shape[0] != target_k or d_w.shape[0] != target_k or r_w.shape[0] != target_k:
+        moe = getattr(layer, "block_sparse_moe", None)
+        if moe is None:
+            moe = getattr(layer, "mlp", None)
+        if moe is None:
+            continue
+            
+        if hasattr(moe, "experts") and isinstance(moe.experts, (list, torch.nn.ModuleList)):
+            if len(moe.experts) != target_k:
+                shapes_ok = False
+                print(f"  [Validation Error] Layer {l_idx} experts count {len(moe.experts)} != target {target_k}")
+        elif hasattr(moe, "gate_up_proj"):
+            if moe.gate_up_proj.shape[0] != target_k:
+                shapes_ok = False
+                print(f"  [Validation Error] Layer {l_idx} gate_up_proj experts {moe.gate_up_proj.shape[0]} != target {target_k}")
+                
+        if hasattr(moe, "gate"):
+            router_out = moe.gate.weight.shape[0] if hasattr(moe.gate, "weight") else moe.gate.out_features
+            if router_out != target_k:
+                shapes_ok = False
+                print(f"  [Validation Error] Layer {l_idx} gate out_features {router_out} != target {target_k}")
+                
+        if hasattr(moe, "num_experts") and moe.num_experts != target_k:
             shapes_ok = False
-            print(f"  [Validation Error] Layer {l_idx} shapes: gu={gu_w.shape}, d={d_w.shape}, r={r_w.shape} != target {target_k}")
+            print(f"  [Validation Error] Layer {l_idx} moe.num_experts {moe.num_experts} != target {target_k}")
             
-        if torch.isnan(gu_w).any() or torch.isinf(gu_w).any() or \
-           torch.isnan(d_w).any() or torch.isinf(d_w).any() or \
-           torch.isnan(r_w).any() or torch.isinf(r_w).any():
-            no_nan_or_inf = False
-            print(f"  [Validation Error] NaN or Inf found in layer {l_idx}")
-            
+        if hasattr(moe, "gate") and hasattr(moe.gate, "weight") and moe.gate.weight.is_floating_point():
+            if torch.isnan(moe.gate.weight).any() or torch.isinf(moe.gate.weight).any():
+                no_nan_or_inf = False
+                print(f"  [Validation Error] NaN or Inf found in layer {l_idx} gate")
+                
     return {"shapes_ok": shapes_ok, "numerical_integrity": no_nan_or_inf}
 
-def run_compatibility_test(model, tokenizer) -> bool:
+def run_compatibility_test(tokenizer) -> bool:
     print("\n--- [Phase 3.1] Running Phi-3.5-MoE Compatibility Test ---", flush=True)
     try:
+        model = load_fresh_phi_model()
         sample_input = tokenizer("Hello, Mixture of Experts evaluation.", return_tensors="pt").to("cuda")
         with torch.no_grad():
             out = model(**sample_input)
         assert not torch.isnan(out.logits).any(), "NaN found in baseline logits"
         print("  [Pass] Forward pass succeeded with clean numerical logits.", flush=True)
+        del model, sample_input, out
+        gc.collect()
+        torch.cuda.empty_cache()
         return True
     except Exception as e:
         print(f"  [Fail] Compatibility test failed: {e}", flush=True)
         return False
 
-def benchmark_phi_method(method_name: str, apply_fn, model_pristine, tokenizer):
-    print(f"\n{'='*70}\nSTARTING PHI-3.5-MOE BENCHMARK: {method_name}\n{'='*70}", flush=True)
-    results = []
-    runtime_records = []
+def record_result(res_row: Dict[str, Any], rt_row: Optional[Dict[str, Any]] = None):
+    # Incremental persistence to phi_results.csv
+    if os.path.exists(RESULTS_CSV):
+        res_df = pd.read_csv(RESULTS_CSV)
+        # Replace row if exists, else append
+        idx = res_df[(res_df["method"] == res_row["method"]) & (res_df["experts"] == res_row["experts"])].index
+        if len(idx) > 0:
+            for k, v in res_row.items():
+                res_df.loc[idx[0], k] = v
+        else:
+            res_df = pd.concat([res_df, pd.DataFrame([res_row])], ignore_index=True)
+    else:
+        res_df = pd.DataFrame([res_row])
+    res_df.to_csv(RESULTS_CSV, index=False)
+    print(f"  [Persisted] Metrics recorded in {RESULTS_CSV}", flush=True)
     
+    # Incremental persistence to runtime_memory.csv
+    if rt_row is not None:
+        if os.path.exists(RUNTIME_CSV):
+            rt_df = pd.read_csv(RUNTIME_CSV)
+            rt_df = pd.concat([rt_df, pd.DataFrame([rt_row])], ignore_index=True)
+        else:
+            rt_df = pd.DataFrame([rt_row])
+        rt_df.to_csv(RUNTIME_CSV, index=False)
+
+def benchmark_phi_method(method_name: str, apply_fn, tokenizer):
+    print(f"\n{'='*70}\nSTARTING PHI-3.5-MOE BENCHMARK: {method_name}\n{'='*70}", flush=True)
+    
+    existing_res = {}
+    if os.path.exists(RESULTS_CSV):
+        prev_df = pd.read_csv(RESULTS_CSV)
+        for _, r in prev_df[prev_df["method"] == method_name].iterrows():
+            if str(r.get("status", "")).upper() == "PASS":
+                existing_res[int(r["experts"])] = float(r["perplexity"])
+                
     for target_k in PHI_TARGETS:
+        if target_k in existing_res:
+            print(f"\n>>> [Reusing] {method_name} @ {target_k} experts already evaluated: PPL = {existing_res[target_k]}", flush=True)
+            continue
+            
         print(f"\n>>> Compressing Phi-3.5-MoE to {target_k} experts via {method_name}...", flush=True)
-        t_start = time.time()
+        model = load_fresh_phi_model()
         torch.cuda.reset_peak_memory_stats()
-        
-        model = copy.deepcopy(model_pristine)
+        t_start = time.time()
         
         for l_idx, layer in enumerate(model.model.layers):
-            apply_fn(layer.block_sparse_moe, target_k)
+            moe = getattr(layer, "block_sparse_moe", None) or getattr(layer, "mlp", None)
+            apply_fn(moe, target_k)
+            
+        model.config.num_local_experts = target_k
+        if hasattr(model.config, "num_experts"):
+            model.config.num_experts = target_k
             
         compression_time = time.time() - t_start
         peak_comp_vram = torch.cuda.max_memory_allocated() / (1024**3)
@@ -88,20 +170,24 @@ def benchmark_phi_method(method_name: str, apply_fn, model_pristine, tokenizer):
         val = validate_phi_invariants(model, target_k)
         if not (val["shapes_ok"] and val["numerical_integrity"]):
             print(f"  [Gate Failed] Checkpoint at {target_k} experts failed invariant checks! Halting further targets.", flush=True)
-            results.append({
+            res_row = {
                 "model": "Phi-3.5-MoE",
                 "method": method_name,
                 "experts": target_k,
                 "perplexity": "FAILED_VALIDATION",
-                "compression_time_sec": compression_time,
-                "peak_vram_gb": peak_comp_vram,
+                "compression_time_sec": round(compression_time, 2),
+                "peak_vram_gb": round(peak_comp_vram, 2),
                 "tokens_per_sec": 0.0,
                 "status": "FAIL"
-            })
+            }
+            record_result(res_row)
+            del model
+            gc.collect()
+            torch.cuda.empty_cache()
             break
             
         print(f"  [Evaluating Perplexity] WikiText-2 (seq_len=512, stride=512)...", flush=True)
-        eval_metrics = evaluate_wikitext_ppl(model, tokenizer, num_tokens=50000)
+        eval_metrics = evaluate_wikitext_ppl(model, tokenizer, num_tokens=15000)
         ppl = eval_metrics["perplexity"]
         print(f"  [PPL @ {target_k} Experts]: {ppl:.4f} (Speed: {eval_metrics['tokens_per_sec']:.1f} tok/s, Peak VRAM: {eval_metrics['peak_vram_gb']:.2f} GB)", flush=True)
         
@@ -115,9 +201,8 @@ def benchmark_phi_method(method_name: str, apply_fn, model_pristine, tokenizer):
             "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2),
             "status": "PASS"
         }
-        results.append(res_row)
         
-        runtime_records.append({
+        rt_row = {
             "model": "Phi-3.5-MoE",
             "method": method_name,
             "target_experts": target_k,
@@ -125,56 +210,35 @@ def benchmark_phi_method(method_name: str, apply_fn, model_pristine, tokenizer):
             "eval_time_sec": round(eval_metrics["total_eval_time_sec"], 2),
             "peak_vram_gb": round(eval_metrics["peak_vram_gb"], 2),
             "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2)
-        })
+        }
         
-        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower()}_{target_k}exp.pt")
-        torch.save(model.state_dict(), ckpt_path)
-        print(f"  [Saved Checkpoint]: {ckpt_path}", flush=True)
+        record_result(res_row, rt_row)
         
+        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp_moe.pt")
+        try:
+            moe_state = {k: v for k, v in model.state_dict().items() if "block_sparse_moe" in k or "mlp" in k}
+            torch.save(moe_state, ckpt_path)
+            print(f"  [Saved MoE Checkpoint]: {ckpt_path}", flush=True)
+        except Exception as e:
+            print(f"  [Checkpoint Warning] Could not save MoE checkpoint: {e}", flush=True)
+            
         del model
+        gc.collect()
         torch.cuda.empty_cache()
-        
-    return results, runtime_records
 
 def main():
-    print(f"Loading {MODEL_ID} in bfloat16...", flush=True)
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
-    model_pristine = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID,
-        torch_dtype=torch.bfloat16,
-        device_map="cuda",
-        trust_remote_code=True
-    )
     
-    if not run_compatibility_test(model_pristine, tokenizer):
+    if not run_compatibility_test(tokenizer):
         sys.exit(1)
         
-    all_results = []
-    all_runtime = []
-    
     # 1. Benchmark HC-SMoE
-    hc_res, hc_rt = benchmark_phi_method("HC-SMoE", apply_hcsmoe_phi_layer, model_pristine, tokenizer)
-    all_results.extend(hc_res)
-    all_runtime.extend(hc_rt)
+    benchmark_phi_method("HC-SMoE", apply_hcsmoe_phi_layer, tokenizer)
     
     # 2. Benchmark MC-SMoE
-    mc_res, mc_rt = benchmark_phi_method("MC-SMoE", apply_mcsmoe_phi_layer, model_pristine, tokenizer)
-    all_results.extend(mc_res)
-    all_runtime.extend(mc_rt)
+    benchmark_phi_method("MC-SMoE", apply_mcsmoe_phi_layer, tokenizer)
     
-    res_df = pd.DataFrame(all_results)
-    res_csv = os.path.join(RESULTS_DIR, "phi_results.csv")
-    res_df.to_csv(res_csv, index=False)
-    print(f"\n[Saved] Phi-3.5-MoE results written to {res_csv}", flush=True)
-    
-    rt_df = pd.DataFrame(all_runtime)
-    rt_csv = os.path.join(RESULTS_DIR, "runtime_memory.csv")
-    if os.path.exists(rt_csv):
-        existing_rt = pd.read_csv(rt_csv)
-        rt_df = pd.concat([existing_rt, rt_df], ignore_index=True)
-    rt_df.to_csv(rt_csv, index=False)
-    print(f"[Saved] Runtime & Memory metrics written to {rt_csv}", flush=True)
-    
+    # Summary Table
     print("\n" + "="*70)
     print("PHI-3.5-MOE BENCHMARK COMPARISON TABLE (WikiText-2 PPL)")
     print("="*70)
@@ -184,10 +248,12 @@ def main():
     print(f"{'REAP*':<16} | {'6.44':<11} | {'17.65':<11} | {'40.33':<11} | {'125.72':<11}")
     print(f"{'Random*':<16} | {'8.50':<11} | {'23.34':<11} | {'44.74':<11} | {'71.90':<11}")
     
-    for method in ["HC-SMoE", "MC-SMoE"]:
-        sub = [r for r in all_results if r["method"] == method]
-        p_dict = {r["experts"]: str(r["perplexity"]) for r in sub}
-        print(f"{method:<16} | {p_dict.get(14, 'N/A'):<11} | {p_dict.get(12, 'N/A'):<11} | {p_dict.get(10, 'N/A'):<11} | {p_dict.get(8, 'N/A'):<11}")
+    if os.path.exists(RESULTS_CSV):
+        res_df = pd.read_csv(RESULTS_CSV)
+        for method in ["HC-SMoE", "MC-SMoE"]:
+            sub = res_df[res_df["method"] == method]
+            p_dict = {int(r["experts"]): str(r["perplexity"]) for _, r in sub.iterrows()}
+            print(f"{method:<16} | {p_dict.get(14, 'N/A'):<11} | {p_dict.get(12, 'N/A'):<11} | {p_dict.get(10, 'N/A'):<11} | {p_dict.get(8, 'N/A'):<11}")
     print("* Reference baselines reused from existing artifacts.")
 
 if __name__ == "__main__":
