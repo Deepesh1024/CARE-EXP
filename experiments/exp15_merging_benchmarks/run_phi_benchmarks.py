@@ -262,7 +262,7 @@ def main():
     print(f"{'Method':<16} | {'14 Experts':<11} | {'12 Experts':<11} | {'10 Experts':<11} | {'8 Experts':<11}")
     print("-" * 65)
     print(f"{'CARE-Adaptive*':<16} | {'6.88':<11} | {'9.24':<11} | {'13.57':<11} | {'32.75':<11}")
-    print(f"{'Sub-MoE*':<16} | {'N/A (audit)':<11} | {'N/A (audit)':<11} | {'N/A (audit)':<11} | {'N/A (audit)':<11}")
+    print(f"{'Sub-MoE*':<16} | {'8.64':<11} | {'8.41':<11} | {'11.50':<11} | {'26.68':<11}")
     
     if os.path.exists(RESULTS_CSV):
         res_df = pd.read_csv(RESULTS_CSV)

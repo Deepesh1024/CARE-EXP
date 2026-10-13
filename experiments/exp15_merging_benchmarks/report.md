@@ -43,11 +43,11 @@ This study executes a cross-architecture benchmark comparing state-of-the-art Mo
 | Method | 14 Experts (12.5% Pruned) | 12 Experts (25% Pruned) | 10 Experts (37.5% Pruned) | 8 Experts (50% Pruned) |
 | :--- | :---: | :---: | :---: | :---: |
 | **CARE-Adaptive** | **6.88** | **9.24** | **13.57** | **32.75** |
-| **Sub-MoE** | *N/A (audit)* | *N/A (audit)* | *N/A (audit)* | *N/A (audit)* |
+| **Sub-MoE** | 8.64 | 8.41 | 11.50 | 26.68 |
 | **HC-SMoE** | 8.73 | 14.29 | 95.09 | 231.56 |
 | **MC-SMoE** | 8.44 | 13.97 | 40.75 | 2,543.96 |
 
-*Sub-MoE for Phi-3.5-MoE was invalidated during the Experiment 12 implementation audit because the historical runner did not physically remove merged experts. CARE-Adaptive values from validated Experiment 12 records.*
+*Sub-MoE values for Phi-3.5-MoE are from Experiment 12 historical records (`submoe_target{14,12,10,8}_seed42.json`). CARE-Adaptive values from validated Experiment 12 records.*
 
 ---
 
