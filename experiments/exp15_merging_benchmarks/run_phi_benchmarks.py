@@ -3,9 +3,14 @@ import sys
 import time
 import copy
 import json
+from typing import Dict, List, Tuple, Any, Optional
 import torch
 import pandas as pd
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
 
 from hc_smoe_engine import apply_hcsmoe_phi_layer
 from mc_smoe_engine import apply_mcsmoe_phi_layer
