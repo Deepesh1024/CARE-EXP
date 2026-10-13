@@ -201,14 +201,20 @@ def run_single_phi_target(method_name: str, apply_fn, tokenizer, target_k: int) 
     
     record_result(res_row, rt_row)
     
-    ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp_moe.pt")
+    ckpt_meta_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp_meta.json")
     try:
-        moe_state = {k: v.cpu() for k, v in model.state_dict().items() if "block_sparse_moe" in k or "mlp" in k}
-        torch.save(moe_state, ckpt_path)
-        del moe_state
-        print(f"  [Saved MoE Checkpoint]: {ckpt_path}", flush=True)
+        with open(ckpt_meta_path, "w") as f:
+            json.dump({
+                "model": "Phi-3.5-MoE",
+                "method": method_name,
+                "target_experts": target_k,
+                "perplexity": round(ppl, 4),
+                "timestamp": time.time(),
+                "status": "PASS"
+            }, f, indent=2)
+        print(f"  [Saved Checkpoint Metadata]: {ckpt_meta_path}", flush=True)
     except Exception as e:
-        print(f"  [Checkpoint Warning] Could not save MoE checkpoint: {e}", flush=True)
+        print(f"  [Checkpoint Warning] Could not save metadata: {e}", flush=True)
         
     del model, eval_metrics, val
     gc.collect()
