@@ -1,0 +1,5 @@
+model,method,experts,perplexity,compression_time_sec,peak_vram_gb,tokens_per_sec,status
+JetMoE-8B,HC-SMoE,7,11.2204,11.07,14.6,7917.5,PASS
+JetMoE-8B,HC-SMoE,6,73.9324,10.98,13.05,11545.4,PASS
+JetMoE-8B,HC-SMoE,4,3859.955,9.9,9.96,12563.7,PASS
+JetMoE-8B,MC-SMoE,7,10.9091,8.68,14.6,10981.6,PASS

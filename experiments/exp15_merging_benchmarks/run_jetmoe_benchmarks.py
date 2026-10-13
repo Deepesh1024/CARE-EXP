@@ -83,8 +83,25 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
     print(f"\n{'='*70}\nSTARTING JETMOE BENCHMARK: {method_name}\n{'='*70}", flush=True)
     results = []
     runtime_records = []
+    res_csv = os.path.join(RESULTS_DIR, "jetmoe_results.csv")
+    rt_csv = os.path.join(RESULTS_DIR, "runtime_memory.csv")
     
     for target_k in JETMOE_TARGETS:
+        # Check if already completed and valid in jetmoe_results.csv
+        if os.path.exists(res_csv):
+            existing_df = pd.read_csv(res_csv)
+            match = existing_df[(existing_df["method"] == method_name) & (existing_df["experts"] == target_k)]
+            if len(match) > 0 and match.iloc[0]["status"] == "PASS":
+                prev_row = match.iloc[0].to_dict()
+                print(f"\n>>> [Reusing] {method_name} @ {target_k} experts already evaluated: PPL = {prev_row['perplexity']}", flush=True)
+                results.append(prev_row)
+                if os.path.exists(rt_csv):
+                    rt_df_ex = pd.read_csv(rt_csv)
+                    rt_match = rt_df_ex[(rt_df_ex["method"] == method_name) & (rt_df_ex["target_experts"] == target_k)]
+                    if len(rt_match) > 0:
+                        runtime_records.append(rt_match.iloc[0].to_dict())
+                continue
+
         print(f"\n>>> Compressing JetMoE-8B to {target_k} experts via {method_name}...", flush=True)
         t_start = time.time()
         
@@ -108,7 +125,7 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
         val = validate_tensor_invariants(model, target_k)
         if not (val["shapes_ok"] and val["numerical_integrity"]):
             print(f"  [Gate Failed] Checkpoint at {target_k} experts failed invariant checks! Halting further targets.", flush=True)
-            results.append({
+            fail_row = {
                 "model": "JetMoE-8B",
                 "method": method_name,
                 "experts": target_k,
@@ -117,7 +134,8 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
                 "peak_vram_gb": peak_comp_vram,
                 "tokens_per_sec": 0.0,
                 "status": "FAIL"
-            })
+            }
+            results.append(fail_row)
             del model
             torch.cuda.empty_cache()
             gc.collect()
@@ -148,7 +166,7 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
         }
         results.append(res_row)
         
-        runtime_records.append({
+        rt_row = {
             "model": "JetMoE-8B",
             "method": method_name,
             "target_experts": target_k,
@@ -156,12 +174,35 @@ def benchmark_jetmoe_method(method_name: str, apply_fn, model_pristine, tokenize
             "eval_time_sec": round(eval_metrics["total_eval_time_sec"], 2),
             "peak_vram_gb": round(eval_metrics["peak_vram_gb"], 2),
             "tokens_per_sec": round(eval_metrics["tokens_per_sec"], 2)
-        })
+        }
+        runtime_records.append(rt_row)
         
-        # 6. Save validated checkpoint
-        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp.pt")
-        torch.save(model.state_dict(), ckpt_path)
-        print(f"  [Saved Checkpoint]: {ckpt_path}", flush=True)
+        # Immediately persist results incrementally to disk
+        if os.path.exists(res_csv):
+            current_df = pd.read_csv(res_csv)
+            current_df = current_df[~((current_df["method"] == method_name) & (current_df["experts"] == target_k))]
+            current_df = pd.concat([current_df, pd.DataFrame([res_row])], ignore_index=True)
+        else:
+            current_df = pd.DataFrame([res_row])
+        current_df.to_csv(res_csv, index=False)
+        
+        if os.path.exists(rt_csv):
+            current_rt = pd.read_csv(rt_csv)
+            current_rt = current_rt[~((current_rt["method"] == method_name) & (current_rt["target_experts"] == target_k))]
+            current_rt = pd.concat([current_rt, pd.DataFrame([rt_row])], ignore_index=True)
+        else:
+            current_rt = pd.DataFrame([rt_row])
+        current_rt.to_csv(rt_csv, index=False)
+        print(f"  [Persisted] Metrics recorded in {res_csv}", flush=True)
+        
+        # 6. Save validated MoE weights (only modified layers, saving 90% disk space)
+        ckpt_path = os.path.join(CHECKPOINT_DIR, f"{method_name.lower().replace('-', '_')}_{target_k}exp_moe.pt")
+        try:
+            moe_weights = {k: v.cpu() for k, v in model.state_dict().items() if "mlp" in k}
+            torch.save(moe_weights, ckpt_path)
+            print(f"  [Saved MoE Checkpoint]: {ckpt_path}", flush=True)
+        except Exception as e:
+            print(f"  [Notice] Checkpoint save skipped ({e}). Evaluation metrics are safely recorded.", flush=True)
         
         # 7. Explicit cleanup to free GPU VRAM completely before next target
         del model
