@@ -1,0 +1,71 @@
+{
+  "experiment": "Exp 15 — HC-SMoE and MC-SMoE Benchmark",
+  "provenance": {
+    "audit_timestamp": "2026-10-13T14:40:00Z",
+    "git_branch": "main",
+    "target_platform": "NVIDIA RTX 4090 (24GB VRAM)"
+  },
+  "methods": {
+    "HC-SMoE": {
+      "repo_url": "https://github.com/wazenmai/HC-SMoE",
+      "commit_hash": "bd77eba1b55ca58606a47e2d0807a24218da73c3",
+      "upstream_date": "2025-05-24",
+      "paper": "Retraining-Free Merging of Sparse Mixture-of-Experts via Hierarchical Clustering (ICML 2025)",
+      "clustering_approach": "Agglomerative Hierarchical Clustering",
+      "linkage": "ward",
+      "distance_metric": "expert-output cosine/euclidean",
+      "dominant_selection": "centroid_proximity",
+      "merging_weights": "frequency_weighted_or_uniform",
+      "adaptation_notes": "Slicing dimension 0 for batched JetMoE and fused Phi-3.5 projections"
+    },
+    "MC-SMoE": {
+      "repo_url": "https://github.com/UNITES-Lab/MC-SMoE",
+      "commit_hash": "99b400f0d5b3be0015ebec4a5a80a7821be1aebd",
+      "upstream_date": "2025-06-20",
+      "paper": "Merge, Then Compress: Demystify Efficient SMoE with Hints from Its Routing Policy (arXiv:2310.01334)",
+      "stages": {
+        "stage1_merging": "M-SMoE: routing frequency core expert selection + router logit similarity assignment + frequency-weighted averaging",
+        "stage2_compress": "LoSparse: Low-rank SVD + magnitude sparse decomposition"
+      },
+      "evaluated_mode": "M-SMoE (Stage 1 Merging-Only)",
+      "similarity_metric": "cosine(router_logits)",
+      "adaptation_notes": "Dimension 0 slicing for batched/fused architectures, explicit isolation from Stage 2"
+    }
+  },
+  "reference_baselines": {
+    "JetMoE-8B": {
+      "uncompressed_ppl": 7.1258,
+      "CARE-Adaptive": {
+        "7_exp": 10.17,
+        "6_exp": 15.69,
+        "4_exp": 87.19
+      },
+      "REAP": {
+        "7_exp": 8.10,
+        "6_exp": 9.81,
+        "4_exp": 17.48
+      }
+    },
+    "Phi-3.5-MoE": {
+      "uncompressed_ppl": 4.57,
+      "CARE-Adaptive": {
+        "14_exp": 6.88,
+        "12_exp": 9.24,
+        "10_exp": 13.57,
+        "8_exp": 32.75
+      },
+      "REAP": {
+        "14_exp": 6.44,
+        "12_exp": 17.65,
+        "10_exp": 40.33,
+        "8_exp": 125.72
+      },
+      "Random": {
+        "14_exp": 8.50,
+        "12_exp": 23.34,
+        "10_exp": 44.74,
+        "8_exp": 71.90
+      }
+    }
+  }
+}

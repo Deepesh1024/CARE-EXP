@@ -8,3 +8,4 @@ __pycache__/
 *.zip
 venv/benchmark_results/
 benchmark/external/
+exp15_merging_benchmarks/external/
