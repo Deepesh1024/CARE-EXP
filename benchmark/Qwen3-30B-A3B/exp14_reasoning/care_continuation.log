@@ -1,0 +1,107 @@
+=================================================================
+PHASE 1B: CARE-COM ADAPTIVE CONTINUATION (80 -> 72 -> 64 -> 60)
+=================================================================
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (299078 > 131072). Running this sequence through the model will result in indexing errors
+[Calibration] Loading calibration dataset...
+[Loader] Loading pristine weights of Qwen/Qwen3-30B-A3B directly to CPU RAM...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/531 [00:00<?, ?it/s]Loading weights:   1%|          | 4/531 [00:00<00:16, 32.49it/s]Loading weights:   2%|▏         | 8/531 [00:00<00:53,  9.81it/s]Loading weights:   3%|▎         | 15/531 [00:01<00:37, 13.66it/s]Loading weights:   3%|▎         | 17/531 [00:01<01:08,  7.47it/s]Loading weights:   5%|▍         | 26/531 [00:02<00:34, 14.72it/s]Loading weights:   6%|▌         | 30/531 [00:02<00:43, 11.64it/s]Loading weights:   7%|▋         | 37/531 [00:02<00:33, 14.81it/s]Loading weights:   8%|▊         | 40/531 [00:03<00:42, 11.61it/s]Loading weights:   9%|▉         | 49/531 [00:03<00:31, 15.45it/s]Loading weights:  11%|█▏        | 60/531 [00:04<00:28, 16.79it/s]Loading weights:  13%|█▎        | 71/531 [00:04<00:23, 19.27it/s]Loading weights:  15%|█▌        | 82/531 [00:05<00:20, 22.44it/s]Loading weights:  18%|█▊        | 93/531 [00:05<00:17, 25.23it/s]Loading weights:  19%|█▉        | 103/531 [00:05<00:15, 27.68it/s]Loading weights:  20%|█▉        | 106/531 [00:05<00:18, 23.54it/s]Loading weights:  21%|██▏       | 114/531 [00:06<00:15, 26.58it/s]Loading weights:  22%|██▏       | 117/531 [00:06<00:18, 22.28it/s]Loading weights:  24%|██▎       | 126/531 [00:06<00:18, 22.40it/s]Loading weights:  26%|██▌       | 137/531 [00:07<00:14, 26.28it/s]Loading weights:  28%|██▊       | 148/531 [00:07<00:13, 29.40it/s]Loading weights:  30%|██▉       | 159/531 [00:07<00:14, 25.02it/s]Loading weights:  32%|███▏      | 170/531 [00:08<00:13, 27.35it/s]Loading weights:  34%|███▍      | 181/531 [00:08<00:11, 29.85it/s]Loading weights:  36%|███▌      | 192/531 [00:08<00:10, 31.43it/s]Loading weights:  38%|███▊      | 202/531 [00:09<00:08, 37.97it/s]Loading weights:  39%|███▉      | 207/531 [00:09<00:14, 22.46it/s]Loading weights:  40%|████      | 214/531 [00:10<00:15, 20.98it/s]Loading weights:  42%|████▏     | 225/531 [00:10<00:12, 25.01it/s]Loading weights:  44%|████▍     | 236/531 [00:10<00:10, 28.21it/s]Loading weights:  47%|████▋     | 247/531 [00:11<00:10, 27.37it/s]Loading weights:  49%|████▊     | 258/531 [00:11<00:09, 29.85it/s]Loading weights:  51%|█████     | 269/531 [00:11<00:08, 31.98it/s]Loading weights:  53%|█████▎    | 280/531 [00:11<00:07, 33.54it/s]Loading weights:  55%|█████▍    | 291/531 [00:12<00:06, 34.74it/s]Loading weights:  57%|█████▋    | 302/531 [00:12<00:07, 28.89it/s]Loading weights:  59%|█████▉    | 313/531 [00:13<00:07, 31.04it/s]Loading weights:  61%|██████    | 324/531 [00:13<00:06, 32.96it/s]Loading weights:  63%|██████▎   | 335/531 [00:13<00:05, 33.92it/s]Loading weights:  65%|██████▌   | 346/531 [00:13<00:05, 34.71it/s]Loading weights:  67%|██████▋   | 357/531 [00:14<00:05, 33.10it/s]Loading weights:  69%|██████▉   | 368/531 [00:14<00:04, 34.80it/s]Loading weights:  71%|███████▏  | 379/531 [00:14<00:04, 34.11it/s]Loading weights:  73%|███████▎  | 390/531 [00:15<00:03, 35.75it/s]Loading weights:  76%|███████▌  | 401/531 [00:15<00:03, 35.02it/s]Loading weights:  78%|███████▊  | 412/531 [00:15<00:03, 36.48it/s]Loading weights:  80%|███████▉  | 423/531 [00:16<00:02, 37.33it/s]Loading weights:  82%|████████▏ | 434/531 [00:16<00:02, 38.30it/s]Loading weights:  84%|████████▍ | 445/531 [00:16<00:02, 39.16it/s]Loading weights:  86%|████████▌ | 456/531 [00:17<00:02, 36.61it/s]Loading weights:  88%|████████▊ | 467/531 [00:17<00:01, 37.59it/s]Loading weights:  90%|█████████ | 478/531 [00:17<00:01, 37.45it/s]Loading weights:  92%|█████████▏| 489/531 [00:17<00:01, 38.55it/s]Loading weights:  94%|█████████▍| 500/531 [00:18<00:00, 39.68it/s]Loading weights:  96%|█████████▌| 511/531 [00:18<00:00, 40.24it/s]Loading weights:  98%|█████████▊| 521/531 [00:18<00:00, 46.00it/s]Loading weights:  99%|█████████▉| 527/531 [00:18<00:00, 41.17it/s]Loading weights: 100%|██████████| 531/531 [00:18<00:00, 28.38it/s]
+[Loader] Pristine model loaded in 21.43s.
+[Baseline] Computing frozen baseline output distributions @ 128 experts...
+[Baseline] Baseline distributions computed in 21.14s.
+[Replay] Replaying 48 recorded merges to reach CARE-80...
+[Replay] Replay finished in 348.51s. Active experts: 80
+[Verify] Verifying CARE-80 PPL before continuation...
+[Verify] CARE-80 PPL: 19.929230 (Exp13 Reference: 19.929229736328125)
+
+[CARE-COM Continuation] Starting adaptive search from 80 -> 60 experts...
+
+--- [CARE-COM Step 49] Active Experts: 80 -> 79 ---
+  Selected Merge: [53, 60] | Marginal KL: 1.63672 | Cumul KL: 74.956 | Step Time: 336.8s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 50] Active Experts: 79 -> 78 ---
+  Selected Merge: [1, 68] | Marginal KL: 1.61133 | Cumul KL: 76.567 | Step Time: 333.3s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 51] Active Experts: 78 -> 77 ---
+  Selected Merge: [1, 57] | Marginal KL: 1.66016 | Cumul KL: 78.228 | Step Time: 333.6s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 52] Active Experts: 77 -> 76 ---
+  Selected Merge: [24, 53] | Marginal KL: 1.60156 | Cumul KL: 79.829 | Step Time: 325.1s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 53] Active Experts: 76 -> 75 ---
+  Selected Merge: [24, 55] | Marginal KL: 1.72461 | Cumul KL: 81.554 | Step Time: 322.7s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 54] Active Experts: 75 -> 74 ---
+  Selected Merge: [35, 65] | Marginal KL: 1.63867 | Cumul KL: 83.192 | Step Time: 287.0s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 55] Active Experts: 74 -> 73 ---
+  Selected Merge: [23, 24] | Marginal KL: 1.63086 | Cumul KL: 84.823 | Step Time: 318.1s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 56] Active Experts: 73 -> 72 ---
+  Selected Merge: [55, 64] | Marginal KL: 1.67188 | Cumul KL: 86.495 | Step Time: 309.2s | Peak VRAM: 7.07GB
+
+==========================================
+MILESTONE REACHED: 72 Active Experts
+==========================================
+[Validation Gate] Physical surgery invariants passed for 72 experts.
+[PPL Evaluation] WikiText-2 PPL @ 72 experts: 25.891281 (Eval time: 24.0s)
+[Checkpoint] Saving compressed weights to /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_72exp.pt...
+[Checkpoint] Saved /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_72exp.pt (33.24 GB)
+[Artifact] Saved milestone summary to /home/ubuntu/DEEPESH/exp14_reasoning/care_results_72.json
+
+--- [CARE-COM Step 57] Active Experts: 72 -> 71 ---
+  Selected Merge: [1, 31] | Marginal KL: 1.69336 | Cumul KL: 88.188 | Step Time: 315.0s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 58] Active Experts: 71 -> 70 ---
+  Selected Merge: [34, 42] | Marginal KL: 1.80469 | Cumul KL: 89.993 | Step Time: 311.2s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 59] Active Experts: 70 -> 69 ---
+  Selected Merge: [33, 36] | Marginal KL: 1.73047 | Cumul KL: 91.724 | Step Time: 310.3s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 60] Active Experts: 69 -> 68 ---
+  Selected Merge: [33, 42] | Marginal KL: 1.72656 | Cumul KL: 93.450 | Step Time: 288.4s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 61] Active Experts: 68 -> 67 ---
+  Selected Merge: [24, 67] | Marginal KL: 1.74414 | Cumul KL: 95.194 | Step Time: 302.2s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 62] Active Experts: 67 -> 66 ---
+  Selected Merge: [2, 12] | Marginal KL: 1.74805 | Cumul KL: 96.942 | Step Time: 301.1s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 63] Active Experts: 66 -> 65 ---
+  Selected Merge: [2, 23] | Marginal KL: 1.67578 | Cumul KL: 98.618 | Step Time: 293.9s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 64] Active Experts: 65 -> 64 ---
+  Selected Merge: [5, 22] | Marginal KL: 1.64062 | Cumul KL: 100.259 | Step Time: 293.5s | Peak VRAM: 7.07GB
+
+==========================================
+MILESTONE REACHED: 64 Active Experts
+==========================================
+[Validation Gate] Physical surgery invariants passed for 64 experts.
+[PPL Evaluation] WikiText-2 PPL @ 64 experts: 31.353079 (Eval time: 21.7s)
+[Checkpoint] Saving compressed weights to /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_64exp.pt...
+[Checkpoint] Saved /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_64exp.pt (29.86 GB)
+[Artifact] Saved milestone summary to /home/ubuntu/DEEPESH/exp14_reasoning/care_results_64.json
+
+--- [CARE-COM Step 65] Active Experts: 64 -> 63 ---
+  Selected Merge: [2, 30] | Marginal KL: 1.72852 | Cumul KL: 101.987 | Step Time: 287.8s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 66] Active Experts: 63 -> 62 ---
+  Selected Merge: [23, 47] | Marginal KL: 1.75977 | Cumul KL: 103.747 | Step Time: 287.9s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 67] Active Experts: 62 -> 61 ---
+  Selected Merge: [2, 23] | Marginal KL: 1.77539 | Cumul KL: 105.522 | Step Time: 285.1s | Peak VRAM: 7.07GB
+
+--- [CARE-COM Step 68] Active Experts: 61 -> 60 ---
+  Selected Merge: [20, 26] | Marginal KL: 1.74219 | Cumul KL: 107.265 | Step Time: 279.7s | Peak VRAM: 7.07GB
+
+==========================================
+MILESTONE REACHED: 60 Active Experts
+==========================================
+[Validation Gate] Physical surgery invariants passed for 60 experts.
+[PPL Evaluation] WikiText-2 PPL @ 60 experts: 33.505806 (Eval time: 20.4s)
+[Checkpoint] Saving compressed weights to /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_60exp.pt...
+[Checkpoint] Saved /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_60exp.pt (28.17 GB)
+[Artifact] Saved milestone summary to /home/ubuntu/DEEPESH/exp14_reasoning/care_results_60.json
+
+[Completed] CARE-Adaptive continuation complete! Saved to /home/ubuntu/DEEPESH/exp14_reasoning/care_adaptive_80_to_60.json
+Final PPL History: {'128': 9.571491241455078, '112': 11.190207481384277, '96': 14.81014633178711, '80': 19.929229736328125, '72': 25.891281127929688, '64': 31.353078842163086, '60': 33.50580596923828}

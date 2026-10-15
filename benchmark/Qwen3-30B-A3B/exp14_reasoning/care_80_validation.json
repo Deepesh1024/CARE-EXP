@@ -1,0 +1,41 @@
+{
+  "status": "PASSED",
+  "provenance": {
+    "source_model_id": "Qwen/Qwen3-30B-A3B",
+    "exp13_care_results_path": "/home/ubuntu/DEEPESH/audit/QWEN3_CARE_COM_RESULTS.json",
+    "exp13_care_results_sha256": "3470eae743f364d027e4da8d11177c75823bd8ded2022bd9af37138229757644"
+  },
+  "validation_checks": {
+    "all_layer_shapes_match_80": true,
+    "no_nan_or_inf_in_weights": true,
+    "num_experts_metadata_updated": true,
+    "ppl_matches_exp13_within_tolerance": true,
+    "dual_path_verified": true
+  },
+  "reconstructed_care80": {
+    "num_experts": 80,
+    "reconstructed_wikitext_ppl": 19.929229736328125,
+    "exp13_reference_ppl": 19.929229736328125,
+    "absolute_ppl_delta": 0.0,
+    "streaming_peak_vram_gb": 5.432669162750244,
+    "fingerprints": {
+      "layer_0_gate_up_sha256": "b0c399d2122d6ddaaad60fb29edaa9a0f60a7e70ad35a2ef53c5a69f05415e64",
+      "layer_0_down_sha256": "6bebf605d572a3b42379c52590d442ae9ee3ddbe67d97a5895ffae00f9fa0305",
+      "layer_0_router_sha256": "7b54720c34c33fa4f148b440815a77c1658e4770aa7b63ee8518bbee907565f5",
+      "layer_24_gate_up_sha256": "159f43bbe8eb81616f96244d5defe7b83856b4ce5d1ec041c711655c5146b4cd",
+      "layer_47_gate_up_sha256": "42a8136dad93606f46c96de987441a2f1b9691e2ec04286e7f683f0622549fb8",
+      "layer_47_router_sha256": "cf63ecb07974f16c829f5391ec5c3a4306296500917ed847b69a09dba4c1b2bd"
+    }
+  },
+  "dual_path_profiling": {
+    "full_gpu_feasible": true,
+    "full_gpu_allocated_gb": 36.620656967163086,
+    "full_gpu_reserved_gb": 36.626953125,
+    "full_gpu_peak_vram_gb": 36.62671089172363,
+    "gen_peak_vram_gb": 36.6998815536499,
+    "generation_tokens_per_sec": 16.194367749211672,
+    "logits_max_abs_diff": 0.0,
+    "logits_mean_abs_diff": 0.0,
+    "equivalent_within_tolerance": true
+  }
+}

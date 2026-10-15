@@ -1,0 +1,254 @@
+{
+  "model": "Qwen/Qwen3-30B-A3B",
+  "dataset": "WikiText-2 (32 chunks x 1024 tokens = 32,768 tokens)",
+  "HC-SMoE": {
+    "expert_sweep": {
+      "112": {
+        "ppl": 14.495352745056152,
+        "latency_sec": 39.72374018654227,
+        "tokens_per_sec": 824.8971483078334,
+        "peak_vram_gb": 5.714041233062744,
+        "total_tokens": 32768,
+        "regime": "Regime B (CPU-offloaded streaming)",
+        "decode_tokens_per_sec_mean": 0.76,
+        "expert_count": 112,
+        "top_k": 8
+      },
+      "96": {
+        "ppl": 22.804391860961914,
+        "latency_sec": 30.37072131410241,
+        "tokens_per_sec": 1078.9338738815015,
+        "peak_vram_gb": 5.573355197906494,
+        "total_tokens": 32768,
+        "regime": "Regime B (CPU-offloaded streaming)",
+        "decode_tokens_per_sec_mean": 0.85,
+        "expert_count": 96,
+        "top_k": 8
+      },
+      "80": {
+        "ppl": 38.33964157104492,
+        "latency_sec": 2.5957719199359417,
+        "tokens_per_sec": 12623.605236013434,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "regime": "Regime A (Pure GPU-Resident)",
+        "vram_allocated_gb": 36.62065601348877,
+        "decode_tokens_per_sec_mean": 19.074396997683518,
+        "decode_tokens_per_sec_std": 0.36881237778880105,
+        "expert_count": 80,
+        "top_k": 8
+      },
+      "64": {
+        "ppl": 64.20681762695312,
+        "latency_sec": 2.5092226546257734,
+        "tokens_per_sec": 13059.024451095207,
+        "peak_vram_gb": 33.7369589805603,
+        "total_tokens": 32768,
+        "regime": "Regime A (Pure GPU-Resident)",
+        "vram_allocated_gb": 29.86772632598877,
+        "expert_count": 64,
+        "top_k": 8,
+        "decode_tokens_per_sec_mean": 19.311090661660803,
+        "decode_tokens_per_sec_std": 0.17473012146465242
+      },
+      "60": {
+        "ppl": 74.04607391357422,
+        "latency_sec": 2.485883094370365,
+        "tokens_per_sec": 13181.633550752158,
+        "peak_vram_gb": 32.0487265586853,
+        "total_tokens": 32768,
+        "regime": "Regime A (Pure GPU-Resident)",
+        "vram_allocated_gb": 28.17949390411377,
+        "expert_count": 60,
+        "top_k": 8,
+        "decode_tokens_per_sec_mean": 20.176135915036507,
+        "decode_tokens_per_sec_std": 0.05595492343019274
+      }
+    },
+    "topk_sweep_80exp": {
+      "k8": {
+        "ppl": 38.33964157104492,
+        "latency_sec": 2.599525135010481,
+        "tokens_per_sec": 12605.379174326732,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 8,
+        "regime": "Regime A (Pure GPU-Resident)"
+      },
+      "k6": {
+        "ppl": 38.41459655761719,
+        "latency_sec": 2.284865068271756,
+        "tokens_per_sec": 14341.328271426248,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 6,
+        "regime": "Regime A (Pure GPU-Resident)"
+      },
+      "k4": {
+        "ppl": 46.15619659423828,
+        "latency_sec": 1.9797144113108516,
+        "tokens_per_sec": 16551.882338575764,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 4,
+        "regime": "Regime A (Pure GPU-Resident)"
+      },
+      "k2": {
+        "ppl": 207.66734313964844,
+        "latency_sec": 1.710330351255834,
+        "tokens_per_sec": 19158.871837794162,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 2,
+        "regime": "Regime A (Pure GPU-Resident)"
+      }
+    },
+    "compression_costs": {
+      "112": {
+        "compression_time_sec": 53.38092589378357,
+        "method": "HC-SMoE (Hierarchical Agglomerative Clustering)"
+      },
+      "96": {
+        "compression_time_sec": 57.46639537811279,
+        "method": "HC-SMoE (Hierarchical Agglomerative Clustering)"
+      },
+      "80": {
+        "compression_time_sec": 126.82022047042847,
+        "method": "HC-SMoE (Hierarchical Agglomerative Clustering)"
+      },
+      "64": {
+        "compression_time_sec": 132.46493482589722,
+        "method": "HC-SMoE (Hierarchical Agglomerative Clustering)"
+      },
+      "60": {
+        "compression_time_sec": 133.97712421417236,
+        "method": "HC-SMoE (Hierarchical Agglomerative Clustering)"
+      }
+    }
+  },
+  "MC-SMoE": {
+    "expert_sweep": {
+      "112": {
+        "ppl": 15.490614891052246,
+        "latency_sec": 34.4306520735845,
+        "tokens_per_sec": 951.710119517019,
+        "peak_vram_gb": 5.714041233062744,
+        "total_tokens": 32768,
+        "regime": "Regime B (CPU-offloaded streaming)",
+        "decode_tokens_per_sec_mean": 0.76,
+        "expert_count": 112,
+        "top_k": 8
+      },
+      "96": {
+        "ppl": 82.12176513671875,
+        "latency_sec": 30.392972678877413,
+        "tokens_per_sec": 1078.1439626263734,
+        "peak_vram_gb": 5.573355197906494,
+        "total_tokens": 32768,
+        "regime": "Regime B (CPU-offloaded streaming)",
+        "decode_tokens_per_sec_mean": 0.85,
+        "expert_count": 96,
+        "top_k": 8
+      },
+      "80": {
+        "ppl": 235.31793212890625,
+        "latency_sec": 3.20642535854131,
+        "tokens_per_sec": 10219.48005516868,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "regime": "Regime A (Pure GPU-Resident)",
+        "vram_allocated_gb": 36.61272144317627,
+        "expert_count": 80,
+        "top_k": 8,
+        "decode_tokens_per_sec_mean": 18.78239663429534,
+        "decode_tokens_per_sec_std": 0.6692267670861525
+      },
+      "64": {
+        "ppl": 490.4446716308594,
+        "latency_sec": 2.4973087925463915,
+        "tokens_per_sec": 13121.324882930465,
+        "peak_vram_gb": 33.7369589805603,
+        "total_tokens": 32768,
+        "regime": "Regime A (Pure GPU-Resident)",
+        "vram_allocated_gb": 29.86772632598877,
+        "expert_count": 64,
+        "top_k": 8,
+        "decode_tokens_per_sec_mean": 19.304860762285244,
+        "decode_tokens_per_sec_std": 0.09428778110925629
+      },
+      "60": {
+        "ppl": 542.872802734375,
+        "latency_sec": 2.4758947174996138,
+        "tokens_per_sec": 13234.811548486254,
+        "peak_vram_gb": 32.0487265586853,
+        "total_tokens": 32768,
+        "regime": "Regime A (Pure GPU-Resident)",
+        "vram_allocated_gb": 28.17949390411377,
+        "expert_count": 60,
+        "top_k": 8,
+        "decode_tokens_per_sec_mean": 19.451858951090102,
+        "decode_tokens_per_sec_std": 0.048834729552224204
+      }
+    },
+    "topk_sweep_80exp": {
+      "k8": {
+        "ppl": 235.31793212890625,
+        "latency_sec": 2.600148248486221,
+        "tokens_per_sec": 12602.3583536351,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 8,
+        "regime": "Regime A (Pure GPU-Resident)"
+      },
+      "k6": {
+        "ppl": 218.4853057861328,
+        "latency_sec": 2.2879763869568706,
+        "tokens_per_sec": 14321.82612845195,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 6,
+        "regime": "Regime A (Pure GPU-Resident)"
+      },
+      "k4": {
+        "ppl": 224.5419464111328,
+        "latency_sec": 1.9825291708111763,
+        "tokens_per_sec": 16528.382271718387,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 4,
+        "regime": "Regime A (Pure GPU-Resident)"
+      },
+      "k2": {
+        "ppl": 304.5240173339844,
+        "latency_sec": 1.7063112165778875,
+        "tokens_per_sec": 19203.99964651129,
+        "peak_vram_gb": 40.4898886680603,
+        "total_tokens": 32768,
+        "top_k": 2,
+        "regime": "Regime A (Pure GPU-Resident)"
+      }
+    },
+    "compression_costs": {
+      "112": {
+        "compression_time_sec": 45.87041902542114,
+        "method": "MC-SMoE (Multi-Centroid Routing-Guided Merging)"
+      },
+      "96": {
+        "compression_time_sec": 23.0821590423584,
+        "method": "MC-SMoE (Multi-Centroid Routing-Guided Merging)"
+      },
+      "80": {
+        "compression_time_sec": 78.85849022865295,
+        "method": "MC-SMoE (Multi-Centroid Routing-Guided Merging)"
+      },
+      "64": {
+        "compression_time_sec": 102.36128044128418,
+        "method": "MC-SMoE (Multi-Centroid Routing-Guided Merging)"
+      },
+      "60": {
+        "compression_time_sec": 131.41445112228394,
+        "method": "MC-SMoE (Multi-Centroid Routing-Guided Merging)"
+      }
+    }
+  }
+}

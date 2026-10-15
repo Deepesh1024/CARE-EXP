@@ -1,0 +1,218 @@
+{
+  "model": "Qwen/Qwen3-30B-A3B",
+  "dataset": "WikiText-2 (32 chunks x 1024 tokens = 32,768 tokens, Salesforce/wikitext test split)",
+  "single_dataset_single_model_guarantee": true,
+  "wikitext_ppl_by_method": {
+    "Baseline": {
+      "128": 9.5715
+    },
+    "CARE-Adaptive": {
+      "112": 11.1902,
+      "96": 14.8101,
+      "80": 19.9292,
+      "64": 31.3531,
+      "60": 33.5058
+    },
+    "HC-SMoE": {
+      "112": 14.4954,
+      "96": 22.8044,
+      "80": 38.3396,
+      "64": 64.2068,
+      "60": 74.0461
+    },
+    "Random": {
+      "112": 12.7422,
+      "96": 26.3504,
+      "80": 47.6214,
+      "64": 189.8233,
+      "60": 213.4241
+    },
+    "Sub-MoE": {
+      "112": 11.8771,
+      "96": 14.3825,
+      "80": 90.7231,
+      "64": 176.9348,
+      "60": 203.6507
+    },
+    "MC-SMoE": {
+      "112": 15.4906,
+      "96": 82.1218,
+      "80": 235.3179,
+      "64": 490.4447,
+      "60": 542.8728
+    },
+    "REAP": {
+      "112": 11.2011,
+      "96": 13.1724,
+      "80": 16.1392,
+      "64": 22.0596,
+      "60": 23.9455
+    }
+  },
+  "topk_sweeps_ppl": {
+    "Baseline-128": {
+      "8": 9.5715,
+      "6": 9.8657,
+      "4": 11.4332,
+      "2": 52.6092
+    },
+    "CARE-80": {
+      "8": 19.9292,
+      "6": 20.362,
+      "4": 24.4178,
+      "2": 114.2377
+    },
+    "HC-SMoE-80": {
+      "8": 38.3396,
+      "6": 38.4146,
+      "4": 46.1562,
+      "2": 207.6673
+    },
+    "MC-SMoE-80": {
+      "8": 235.3179,
+      "6": 218.4853,
+      "4": 224.5419,
+      "2": 304.524
+    }
+  },
+  "hardware_regimes": {
+    "Regime_A": {
+      "threshold": "E <= 80",
+      "vram_allocated_gb": "<= 36.62 GB",
+      "decode_throughput_tok_sec": "~19.3 - 19.9 tok/s"
+    },
+    "Regime_B": {
+      "threshold": "E > 80",
+      "vram_allocated_gb": "5.57 - 5.89 GB (CPU streaming)",
+      "decode_throughput_tok_sec": "~0.68 - 0.85 tok/s"
+    }
+  },
+  "systems_profile": {
+    "storage_gb": {
+      "128": 59.7,
+      "112": 52.95,
+      "96": 46.19,
+      "80": 39.44,
+      "64": 32.69,
+      "60": 31.0
+    },
+    "parameters_b": {
+      "128": 32.05,
+      "112": 28.43,
+      "96": 24.8,
+      "80": 21.18,
+      "64": 17.55,
+      "60": 16.64
+    },
+    "vram_allocated_gb": {
+      "128": 5.89,
+      "112": 5.71,
+      "96": 5.57,
+      "80": 36.62,
+      "64": 29.87,
+      "60": 28.18
+    },
+    "prefill_tok_sec": {
+      "128": 851.4,
+      "112": 824.9,
+      "96": 1078.9,
+      "80": 12623.6,
+      "64": 20196.0,
+      "60": 20425.1
+    },
+    "decode_tok_sec": {
+      "128": 0.68,
+      "112": 0.76,
+      "96": 0.85,
+      "80": 19.29,
+      "64": 19.62,
+      "60": 19.86
+    }
+  },
+  "reasoning_evaluations_merging": [
+    {
+      "model": "Qwen3-30B-A3B",
+      "config": "Baseline (128E, k=8)",
+      "gsm8k_acc": 20.0,
+      "math500_acc": 0.0,
+      "status": "Audited Baseline",
+      "profile": "Standard reasoning baseline (Correct CoT steps)"
+    },
+    {
+      "model": "Qwen3-30B-A3B",
+      "config": "CARE-80 (80E, k=8)",
+      "gsm8k_acc": 22.0,
+      "math500_acc": 2.0,
+      "status": "Audited Exp14",
+      "profile": "Preserves reasoning geometry; solves discrete algebra"
+    },
+    {
+      "model": "Qwen3-30B-A3B",
+      "config": "Random-80 (80E, k=8)",
+      "gsm8k_acc": 28.0,
+      "math500_acc": 4.0,
+      "status": "Audited Exp14",
+      "profile": "Stochastic variance preservation prevents circuit loss"
+    },
+    {
+      "model": "Qwen3-30B-A3B",
+      "config": "Sub-MoE-80 (80E, k=8)",
+      "gsm8k_acc": 23.0,
+      "math500_acc": 0.0,
+      "status": "Audited Exp14",
+      "profile": "Basic CoT logic intact despite language modeling degradation"
+    }
+  ],
+  "compression_costs_merging": [
+    {
+      "method": "CARE-Adaptive",
+      "wall_clock_sec": 21148.8,
+      "wall_clock_formatted": "5h 52m",
+      "gpu_vram_gb": 0.0,
+      "host_ram_gb": 40.2,
+      "calibration_passes": 240,
+      "algorithm_family": "Geometric Subspace Dynamic Merging",
+      "in_ram_merging": "Yes"
+    },
+    {
+      "method": "Sub-MoE",
+      "wall_clock_sec": 533.8,
+      "wall_clock_formatted": "8m 54s",
+      "gpu_vram_gb": 0.0,
+      "host_ram_gb": 40.2,
+      "calibration_passes": 0,
+      "algorithm_family": "Saliency-Guided Centroid Clustering",
+      "in_ram_merging": "Yes"
+    },
+    {
+      "method": "Random Merging",
+      "wall_clock_sec": 475.7,
+      "wall_clock_formatted": "7m 56s",
+      "gpu_vram_gb": 0.0,
+      "host_ram_gb": 40.2,
+      "calibration_passes": 0,
+      "algorithm_family": "Stochastic Uniform Pairing",
+      "in_ram_merging": "Yes"
+    },
+    {
+      "method": "HC-SMoE",
+      "wall_clock_sec": 126.8,
+      "wall_clock_formatted": "2m 07s",
+      "gpu_vram_gb": 0.0,
+      "host_ram_gb": 40.2,
+      "calibration_passes": 0,
+      "algorithm_family": "Hierarchical Agglomerative Clustering (Lance-Williams)",
+      "in_ram_merging": "Yes"
+    },
+    {
+      "method": "MC-SMoE",
+      "wall_clock_sec": 78.9,
+      "wall_clock_formatted": "1m 19s",
+      "gpu_vram_gb": 0.0,
+      "host_ram_gb": 40.2,
+      "calibration_passes": 0,
+      "algorithm_family": "Router-Guided Multi-Centroid Merging",
+      "in_ram_merging": "Yes"
+    }
+  ]
+}

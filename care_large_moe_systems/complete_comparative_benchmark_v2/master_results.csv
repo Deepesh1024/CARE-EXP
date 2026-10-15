@@ -1,0 +1,44 @@
+model,dataset,eval_token_budget,method,method_type,expert_count,inference_topk,regime,wikitext_ppl,delta_ppl_vs_base,rel_ppl_pct,total_params_b,active_params_b,checkpoint_size_gb,prefill_tok_sec,decode_tok_sec,vram_allocated_gb,peak_vram_gb
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Baseline,Dense Uncompressed,128,8,Regime B (CPU-Offloaded),9.5715,0.0000,+0.00%,32.05,4.86,59.7,851.4,0.68,5.89,5.89
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Baseline,Dense Uncompressed,128,6,Regime B (CPU-Offloaded),9.8657,0.2942,+3.07%,32.05,4.86,59.7,851.4,0.68,5.89,5.89
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Baseline,Dense Uncompressed,128,4,Regime B (CPU-Offloaded),11.4332,1.8617,+19.45%,32.05,4.86,59.7,851.4,0.68,5.89,5.89
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Baseline,Dense Uncompressed,128,2,Regime B (CPU-Offloaded),52.6092,43.0377,+449.64%,32.05,4.86,59.7,851.4,0.68,5.89,5.89
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,112,8,Regime B (CPU-Offloaded),11.1902,1.6187,+16.91%,28.43,4.86,52.95,824.9,0.76,5.71,5.71
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,96,8,Regime B (CPU-Offloaded),14.8101,5.2386,+54.73%,24.8,4.86,46.19,1078.9,0.85,5.57,5.57
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,80,8,Regime A (Pure GPU-Resident),19.9292,10.3577,+108.21%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,64,8,Regime A (Pure GPU-Resident),31.3531,21.7816,+227.57%,17.55,4.86,32.69,20196.0,19.62,29.87,33.74
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,60,8,Regime A (Pure GPU-Resident),33.5058,23.9343,+250.06%,16.64,4.86,31.0,20425.1,19.86,28.18,32.05
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,112,8,Regime B (CPU-Offloaded),14.4954,4.9239,+51.44%,28.43,4.86,52.95,824.9,0.76,5.71,5.71
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,96,8,Regime B (CPU-Offloaded),22.8044,13.2329,+138.25%,24.8,4.86,46.19,1078.9,0.85,5.57,5.57
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,80,8,Regime A (Pure GPU-Resident),38.3396,28.7681,+300.56%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,64,8,Regime A (Pure GPU-Resident),64.2068,54.6353,+570.81%,17.55,4.86,32.69,20196.0,19.62,29.87,33.74
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,60,8,Regime A (Pure GPU-Resident),74.0461,64.4746,+673.61%,16.64,4.86,31.0,20425.1,19.86,28.18,32.05
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Random,Expert Merging,112,8,Regime B (CPU-Offloaded),12.7422,3.1707,+33.13%,28.43,4.86,52.95,824.9,0.76,5.71,5.71
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Random,Expert Merging,96,8,Regime B (CPU-Offloaded),26.3504,16.7789,+175.30%,24.8,4.86,46.19,1078.9,0.85,5.57,5.57
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Random,Expert Merging,80,8,Regime A (Pure GPU-Resident),47.6214,38.0499,+397.53%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Random,Expert Merging,64,8,Regime A (Pure GPU-Resident),189.8233,180.2518,+1883.21%,17.55,4.86,32.69,20196.0,19.62,29.87,33.74
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Random,Expert Merging,60,8,Regime A (Pure GPU-Resident),213.4241,203.8526,+2129.79%,16.64,4.86,31.0,20425.1,19.86,28.18,32.05
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Sub-MoE,Expert Merging,112,8,Regime B (CPU-Offloaded),11.8771,2.3056,+24.09%,28.43,4.86,52.95,824.9,0.76,5.71,5.71
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Sub-MoE,Expert Merging,96,8,Regime B (CPU-Offloaded),14.3825,4.8110,+50.26%,24.8,4.86,46.19,1078.9,0.85,5.57,5.57
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Sub-MoE,Expert Merging,80,8,Regime A (Pure GPU-Resident),90.7231,81.1516,+847.85%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Sub-MoE,Expert Merging,64,8,Regime A (Pure GPU-Resident),176.9348,167.3633,+1748.56%,17.55,4.86,32.69,20196.0,19.62,29.87,33.74
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,Sub-MoE,Expert Merging,60,8,Regime A (Pure GPU-Resident),203.6507,194.0792,+2027.68%,16.64,4.86,31.0,20425.1,19.86,28.18,32.05
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,112,8,Regime B (CPU-Offloaded),15.4906,5.9191,+61.84%,28.43,4.86,52.95,824.9,0.76,5.71,5.71
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,96,8,Regime B (CPU-Offloaded),82.1218,72.5503,+757.98%,24.8,4.86,46.19,1078.9,0.85,5.57,5.57
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,80,8,Regime A (Pure GPU-Resident),235.3179,225.7464,+2358.53%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,64,8,Regime A (Pure GPU-Resident),490.4447,480.8732,+5024.01%,17.55,4.86,32.69,20196.0,19.62,29.87,33.74
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,60,8,Regime A (Pure GPU-Resident),542.8728,533.3013,+5571.76%,16.64,4.86,31.0,20425.1,19.86,28.18,32.05
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,REAP,Parameter Pruning,112,8,Regime B (CPU-Offloaded),11.2011,1.6296,+17.03%,28.43,4.86,52.95,824.9,0.76,5.71,5.71
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,REAP,Parameter Pruning,96,8,Regime B (CPU-Offloaded),13.1724,3.6009,+37.62%,24.8,4.86,46.19,1078.9,0.85,5.57,5.57
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,REAP,Parameter Pruning,80,8,Regime A (Pure GPU-Resident),16.1392,6.5677,+68.62%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,REAP,Parameter Pruning,64,8,Regime A (Pure GPU-Resident),22.0596,12.4881,+130.47%,17.55,4.86,32.69,20196.0,19.62,29.87,33.74
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,REAP,Parameter Pruning,60,8,Regime A (Pure GPU-Resident),23.9455,14.3740,+150.17%,16.64,4.86,31.0,20425.1,19.86,28.18,32.05
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,80,6,Regime A (Pure GPU-Resident),20.3620,10.7905,+112.74%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,80,4,Regime A (Pure GPU-Resident),24.4178,14.8463,+155.11%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,CARE-Adaptive,Expert Merging,80,2,Regime A (Pure GPU-Resident),114.2377,104.6662,+1093.52%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,80,6,Regime A (Pure GPU-Resident),38.4146,28.8431,+301.34%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,80,4,Regime A (Pure GPU-Resident),46.1562,36.5847,+382.23%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,HC-SMoE,Expert Merging,80,2,Regime A (Pure GPU-Resident),207.6673,198.0958,+2069.64%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,80,6,Regime A (Pure GPU-Resident),218.4853,208.9138,+2182.67%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,80,4,Regime A (Pure GPU-Resident),224.5419,214.9704,+2245.94%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53
+Qwen/Qwen3-30B-A3B,WikiText-2,32768,MC-SMoE,Expert Merging,80,2,Regime A (Pure GPU-Resident),304.5240,294.9525,+3081.57%,21.18,4.86,39.44,12623.6,19.29,36.62,40.53

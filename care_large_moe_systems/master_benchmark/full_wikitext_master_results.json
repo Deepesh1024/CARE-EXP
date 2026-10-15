@@ -1,0 +1,100 @@
+{
+  "model": "Qwen/Qwen3-30B-A3B",
+  "dataset": "WikiText-2 (32 chunks x 1024 tokens = 32,768 tokens)",
+  "baseline_128_regime_b": {
+    "k8": {
+      "ppl": 9.571491241455078,
+      "latency_sec": 38.48754773102701,
+      "tokens_per_sec": 851.3922536452965,
+      "peak_vram_gb": 5.891838550567627,
+      "total_tokens": 32768,
+      "regime": "Regime B (CPU-offloaded streaming)",
+      "experts": 128,
+      "top_k": 8
+    },
+    "k6": {
+      "ppl": 9.865684509277344,
+      "latency_sec": 37.92292386852205,
+      "tokens_per_sec": 864.0683960341756,
+      "peak_vram_gb": 5.891838550567627,
+      "total_tokens": 32768,
+      "regime": "Regime B (CPU-offloaded streaming)",
+      "experts": 128,
+      "top_k": 6
+    },
+    "k4": {
+      "ppl": 11.433223724365234,
+      "latency_sec": 37.3026456553489,
+      "tokens_per_sec": 878.4363528194235,
+      "peak_vram_gb": 5.891838550567627,
+      "total_tokens": 32768,
+      "regime": "Regime B (CPU-offloaded streaming)",
+      "experts": 128,
+      "top_k": 4
+    },
+    "k2": {
+      "ppl": 52.60918045043945,
+      "latency_sec": 37.03639003355056,
+      "tokens_per_sec": 884.7514558064674,
+      "peak_vram_gb": 5.891838550567627,
+      "total_tokens": 32768,
+      "regime": "Regime B (CPU-offloaded streaming)",
+      "experts": 128,
+      "top_k": 2
+    }
+  },
+  "care_80_regime_a": {
+    "k8": {
+      "ppl": 19.929229736328125,
+      "latency_sec": 2.582281058654189,
+      "tokens_per_sec": 12689.555960681422,
+      "peak_vram_gb": 40.526999950408936,
+      "total_tokens": 32768,
+      "regime": "Regime A (Pure GPU-Resident)",
+      "experts": 80,
+      "top_k": 8,
+      "vram_allocated_gb": 36.62065601348877,
+      "decode_tokens_per_sec_mean": 19.29322340735548,
+      "decode_tokens_per_sec_std": 0.3249994794292098
+    },
+    "k6": {
+      "ppl": 20.362030029296875,
+      "latency_sec": 2.2676978139206767,
+      "tokens_per_sec": 14449.897071315081,
+      "peak_vram_gb": 40.52700090408325,
+      "total_tokens": 32768,
+      "regime": "Regime A (Pure GPU-Resident)",
+      "experts": 80,
+      "top_k": 6,
+      "vram_allocated_gb": 36.62065601348877,
+      "decode_tokens_per_sec_mean": 19.455692894508385,
+      "decode_tokens_per_sec_std": 0.05065000511443749
+    },
+    "k4": {
+      "ppl": 24.417802810668945,
+      "latency_sec": 1.9561599604785442,
+      "tokens_per_sec": 16751.186335489565,
+      "peak_vram_gb": 40.52700090408325,
+      "total_tokens": 32768,
+      "regime": "Regime A (Pure GPU-Resident)",
+      "experts": 80,
+      "top_k": 4,
+      "vram_allocated_gb": 36.62065601348877,
+      "decode_tokens_per_sec_mean": 19.416830228394044,
+      "decode_tokens_per_sec_std": 0.0748673719794082
+    },
+    "k2": {
+      "ppl": 114.23768615722656,
+      "latency_sec": 1.675575340166688,
+      "tokens_per_sec": 19556.267757402187,
+      "peak_vram_gb": 40.52700090408325,
+      "total_tokens": 32768,
+      "regime": "Regime A (Pure GPU-Resident)",
+      "experts": 80,
+      "top_k": 2,
+      "vram_allocated_gb": 36.62065601348877,
+      "decode_tokens_per_sec_mean": 19.680980027768637,
+      "decode_tokens_per_sec_std": 0.15723862063647465
+    }
+  }
+}

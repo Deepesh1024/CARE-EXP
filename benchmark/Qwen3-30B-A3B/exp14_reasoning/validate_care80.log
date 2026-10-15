@@ -1,0 +1,62 @@
+=================================================================
+PHASE 1A: CARE-80 RECONSTRUCTION, DUAL-PATH PROFILING & VALIDATION
+=================================================================
+[Provenance] Exp13 Results SHA-256: 3470eae743f364d027e4da8d11177c75823bd8ded2022bd9af37138229757644
+[Trace] Loaded 48 merge steps from Exp 13.
+[Reference] Exp 13 Recorded CARE-80 PPL: 19.929229736328125
+[Eval] Loading WikiText-2 raw v1 (test split)...
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (299078 > 131072). Running this sequence through the model will result in indexing errors
+[Eval] Prepared 32 chunks of length 1024.
+
+[1/5] Loading pristine weights of Qwen/Qwen3-30B-A3B directly to CPU RAM...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/531 [00:00<?, ?it/s]Loading weights:   1%|          | 4/531 [00:00<00:14, 36.92it/s]Loading weights:   2%|▏         | 8/531 [00:00<01:02,  8.42it/s]Loading weights:   3%|▎         | 15/531 [00:00<00:30, 16.92it/s]Loading weights:   4%|▎         | 19/531 [00:01<00:42, 12.02it/s]Loading weights:   5%|▍         | 26/531 [00:01<00:31, 16.01it/s]Loading weights:   5%|▌         | 29/531 [00:02<00:44, 11.26it/s]Loading weights:   7%|▋         | 37/531 [00:03<00:46, 10.71it/s]Loading weights:   7%|▋         | 39/531 [00:03<00:49, 10.00it/s]Loading weights:   9%|▉         | 49/531 [00:03<00:32, 14.99it/s]Loading weights:  11%|█▏        | 60/531 [00:04<00:27, 17.42it/s]Loading weights:  13%|█▎        | 71/531 [00:04<00:21, 21.04it/s]Loading weights:  15%|█▌        | 82/531 [00:04<00:18, 24.11it/s]Loading weights:  18%|█▊        | 93/531 [00:05<00:17, 25.71it/s]Loading weights:  20%|█▉        | 104/531 [00:05<00:15, 27.40it/s]Loading weights:  22%|██▏       | 115/531 [00:05<00:14, 28.82it/s]Loading weights:  24%|██▎       | 126/531 [00:06<00:13, 30.21it/s]Loading weights:  26%|██▌       | 137/531 [00:06<00:12, 31.71it/s]Loading weights:  28%|██▊       | 147/531 [00:06<00:09, 39.14it/s]Loading weights:  29%|██▉       | 153/531 [00:06<00:10, 35.26it/s]Loading weights:  30%|██▉       | 159/531 [00:07<00:12, 30.61it/s]Loading weights:  32%|███▏      | 169/531 [00:07<00:09, 39.32it/s]Loading weights:  33%|███▎      | 175/531 [00:07<00:10, 35.37it/s]Loading weights:  34%|███▍      | 181/531 [00:07<00:12, 28.94it/s]Loading weights:  36%|███▌      | 192/531 [00:08<00:10, 31.90it/s]Loading weights:  38%|███▊      | 203/531 [00:08<00:10, 32.06it/s]Loading weights:  40%|████      | 214/531 [00:08<00:09, 33.60it/s]Loading weights:  42%|████▏     | 225/531 [00:09<00:10, 29.65it/s]Loading weights:  44%|████▍     | 236/531 [00:09<00:09, 29.86it/s]Loading weights:  46%|████▋     | 246/531 [00:09<00:08, 34.88it/s]Loading weights:  47%|████▋     | 250/531 [00:10<00:09, 30.91it/s]Loading weights:  49%|████▊     | 258/531 [00:10<00:09, 29.81it/s]Loading weights:  50%|█████     | 268/531 [00:10<00:06, 38.61it/s]Loading weights:  51%|█████▏    | 273/531 [00:10<00:07, 34.24it/s]Loading weights:  53%|█████▎    | 280/531 [00:10<00:08, 30.56it/s]Loading weights:  55%|█████▍    | 291/531 [00:11<00:07, 32.90it/s]Loading weights:  57%|█████▋    | 301/531 [00:11<00:05, 41.92it/s]Loading weights:  58%|█████▊    | 307/531 [00:11<00:07, 30.19it/s]Loading weights:  59%|█████▉    | 313/531 [00:12<00:08, 27.22it/s]Loading weights:  61%|██████    | 323/531 [00:12<00:06, 34.30it/s]Loading weights:  62%|██████▏   | 328/531 [00:12<00:06, 31.28it/s]Loading weights:  63%|██████▎   | 335/531 [00:12<00:06, 29.09it/s]Loading weights:  65%|██████▌   | 346/531 [00:12<00:05, 31.86it/s]Loading weights:  67%|██████▋   | 357/531 [00:13<00:05, 34.68it/s]Loading weights:  69%|██████▉   | 368/531 [00:13<00:04, 35.80it/s]Loading weights:  71%|███████▏  | 379/531 [00:13<00:04, 36.81it/s]Loading weights:  73%|███████▎  | 390/531 [00:14<00:03, 37.62it/s]Loading weights:  76%|███████▌  | 401/531 [00:14<00:03, 38.75it/s]Loading weights:  78%|███████▊  | 412/531 [00:14<00:02, 39.72it/s]Loading weights:  79%|███████▉  | 422/531 [00:14<00:02, 47.88it/s]Loading weights:  81%|████████  | 428/531 [00:14<00:02, 42.38it/s]Loading weights:  82%|████████▏ | 434/531 [00:15<00:03, 29.65it/s]Loading weights:  84%|████████▍ | 445/531 [00:15<00:02, 31.10it/s]Loading weights:  86%|████████▌ | 456/531 [00:15<00:02, 34.02it/s]Loading weights:  88%|████████▊ | 467/531 [00:16<00:01, 36.05it/s]Loading weights:  90%|█████████ | 478/531 [00:16<00:01, 30.18it/s]Loading weights:  92%|█████████▏| 489/531 [00:16<00:01, 32.73it/s]Loading weights:  94%|█████████▍| 500/531 [00:17<00:00, 31.80it/s]Loading weights:  96%|█████████▌| 511/531 [00:17<00:00, 33.79it/s]Loading weights:  98%|█████████▊| 522/531 [00:17<00:00, 35.58it/s]Loading weights: 100%|██████████| 531/531 [00:17<00:00, 29.69it/s]
+[Loader] Pristine model loaded in 20.70s.
+[Loader] Initial expert count: 128
+
+[2/5] Replaying 48 recorded merges to reconstruct CARE-80...
+  Replayed step 8/48 (Merged pair: [43, 117] -> 120 active experts) in 8.12s
+  Replayed step 16/48 (Merged pair: [87, 107] -> 112 active experts) in 7.99s
+  Replayed step 24/48 (Merged pair: [31, 34] -> 104 active experts) in 7.11s
+  Replayed step 32/48 (Merged pair: [24, 43] -> 96 active experts) in 6.84s
+  Replayed step 40/48 (Merged pair: [5, 14] -> 88 active experts) in 6.56s
+  Replayed step 48/48 (Merged pair: [2, 45] -> 80 active experts) in 6.13s
+[Replay] Completed 48 merges in 349.43s. Current experts: 80
+
+[3/5] Validating Physical Surgery Invariants on CARE-80...
+  Shape check passed: True
+  NaN/Inf check passed: True
+  Metadata check passed: True
+[Fingerprints] Reconstructed CARE-80 Tensor Fingerprints:
+  layer_0_gate_up_sha256: b0c399d2122d6dda...
+  layer_0_down_sha256: 6bebf605d572a3b4...
+  layer_0_router_sha256: 7b54720c34c33fa4...
+  layer_24_gate_up_sha256: 159f43bbe8eb8161...
+  layer_47_gate_up_sha256: 42a8136dad93606f...
+  layer_47_router_sha256: cf63ecb07974f16c...
+
+[4/5] Evaluating WikiText-2 PPL on Reconstructed CARE-80 (Layer-Streaming)...
+  PPL batch 1/8 finished in 3.9s
+  PPL batch 2/8 finished in 3.3s
+  PPL batch 3/8 finished in 3.3s
+  PPL batch 4/8 finished in 3.3s
+  PPL batch 5/8 finished in 3.3s
+  PPL batch 6/8 finished in 3.3s
+  PPL batch 7/8 finished in 3.3s
+  PPL batch 8/8 finished in 3.3s
+[PPL Evaluation] Reconstructed CARE-80 PPL: 19.929230
+[PPL Evaluation] Experiment 13 Reference PPL: 19.929229736328125
+[PPL Evaluation] Absolute Delta: 0.000000e+00 (Eval time: 26.8s, Peak VRAM: 5.43GB)
+
+[5/5] Dual-Path Equivalence Test (Layer-Streaming vs Full-GPU Path)...
+[Full-GPU] Transferring model to GPU (model.to('cuda'))...
+[Full-GPU] Successfully transferred model to GPU in 9.71s!
+[Full-GPU] Memory Allocated: 36.62GB, Reserved: 36.63GB
+[Full-GPU] Peak VRAM during forward pass: 36.63GB
+[Prefill Equivalence] Max absolute logit diff: 0.000000e+00
+[Prefill Equivalence] Mean absolute logit diff: 0.000000e+00
+[Full-GPU] Testing autoregressive generation with KV caching...
+[Full-GPU Generation] Generated 10 tokens in 0.62s (16.19 tok/s, Peak VRAM: 36.70GB)
+
+[Artifact] Saved complete validation report to /home/ubuntu/DEEPESH/exp14_reasoning/care_80_validation.json
+FINAL RESULT: PASSED

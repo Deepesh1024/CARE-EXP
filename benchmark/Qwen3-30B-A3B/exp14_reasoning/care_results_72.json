@@ -1,0 +1,22 @@
+{
+  "method": "CARE-Adaptive",
+  "num_experts": 72,
+  "ppl": 25.891281127929688,
+  "fingerprints": {
+    "layer_0_gate_up_sha256": "651036cad78b9d1758ab979c7a4f6f01ddd8699dc0f2781d9b04de587dcbd1a5",
+    "layer_0_down_sha256": "d213fccaa9160da9913b2a2ccf5c21d0677c668ef932191b92e476dcbea30f60",
+    "layer_0_router_sha256": "127edf5747d91bb13770449306c50a503b8063b8c79f1c26c557ba5084031357",
+    "layer_24_gate_up_sha256": "889391cbc2baa6448e696d846ff6cc5495e9e36bdc8b2176a875981f9b9d21fd",
+    "layer_47_gate_up_sha256": "a3a2f0606cf640d955b58149c65fb089792381d942803d1f7fc73da62ce35b30",
+    "layer_47_router_sha256": "58fa2654a389dc0b559ee1671f4f800be96caf6e5225dcae0558bf6591ee59de"
+  },
+  "cumulative_kl": 86.4951171875,
+  "ppl_history": {
+    "128": 9.571491241455078,
+    "112": 11.190207481384277,
+    "96": 14.81014633178711,
+    "80": 19.929229736328125,
+    "72": 25.891281127929688
+  },
+  "checkpoint_file": "/home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_72exp.pt"
+}

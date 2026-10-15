@@ -1,0 +1,12 @@
+method,expert_count,inference_topk,regime,failure_category,symptom,root_cause,evidence_artifact
+Sub-MoE,80,8,GPU-Resident (Regime A),Severe Degradation,WikiText-2 PPL jumps to 90.72 (+847.85%),Centroid clustering creates severe activation conflict without subspace regularization,master_benchmark_results.csv
+Sub-MoE,64,8,GPU-Resident (Regime A),Catastrophic Collapse,WikiText-2 PPL explodes to 176.93 (+1748.56%),Loss of routing capacity in lower layers,master_benchmark_results.csv
+Sub-MoE,60,8,GPU-Resident (Regime A),Catastrophic Collapse,WikiText-2 PPL explodes to 203.65 (+2027.68%),Severe representation distortion,master_benchmark_results.csv
+Random,80,8,GPU-Resident (Regime A),Severe Degradation,WikiText-2 PPL degrades to 47.62 (+397.53%),Stochastic pairing merges orthogonal expert representations,master_benchmark_results.csv
+Random,64,8,GPU-Resident (Regime A),Catastrophic Collapse,WikiText-2 PPL explodes to 189.82 (+1883.22%),Arbitrary weight destruction across 48 layers,master_benchmark_results.csv
+Random,60,8,GPU-Resident (Regime A),Catastrophic Collapse,WikiText-2 PPL explodes to 213.42 (+2129.79%),Total network incoherence,master_benchmark_results.csv
+REAP,90,8,GPU-Resident (Regime A),Reasoning Collapse,0.0% GSM8K and 0.0% MATH-500 accuracy,Degenerate infinite repetition loops (newline and assistant tokens) due to missing specialized reasoning experts,reasoning_predictions.jsonl
+REAP,80,8,GPU-Resident (Regime A),Reasoning Collapse,0.0% GSM8K accuracy,Pruning low-frequency experts erases math/logic reasoning circuits,reasoning_predictions.jsonl
+REAP,60,8,GPU-Resident (Regime A),Reasoning Collapse,0.0% GSM8K accuracy,Pruning low-frequency experts erases math/logic reasoning circuits,reasoning_predictions.jsonl
+Baseline,128,2,CPU-Offloaded (Regime B),Top-K Sparsity Collapse,WikiText-2 PPL degrades from 9.57 to 52.61 (+449.64%),Routing capacity insufficient with only 2 active experts per token,full_wikitext_master_results.json
+CARE-Adaptive,80,2,GPU-Resident (Regime A),Top-K Sparsity Collapse,WikiText-2 PPL degrades from 19.93 to 114.24 (+1093.52%),Dual bottleneck of reduced population and insufficient active routing,full_wikitext_master_results.json

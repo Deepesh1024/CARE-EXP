@@ -1,0 +1,15 @@
+{
+  "pilot_description": "WikiText-2 Pilot (4 chunks x 512 tokens = 2048 tokens)",
+  "baseline_128_pilot": {
+    "k8": { "top_k": 8, "ppl": 11.5793, "latency_sec": 26.82, "peak_vram_gb": 5.89, "regime": "Regime B (CPU-offloaded streaming)" },
+    "k6": { "top_k": 6, "ppl": 11.8077, "latency_sec": 18.18, "peak_vram_gb": 5.89, "regime": "Regime B (CPU-offloaded streaming)" },
+    "k4": { "top_k": 4, "ppl": 14.0768, "latency_sec": 18.17, "peak_vram_gb": 5.89, "regime": "Regime B (CPU-offloaded streaming)" },
+    "k2": { "top_k": 2, "ppl": 75.5065, "latency_sec": 18.11, "peak_vram_gb": 5.89, "regime": "Regime B (CPU-offloaded streaming)" }
+  },
+  "care_80_pilot": {
+    "k8": { "top_k": 8, "ppl": 28.5473, "latency_sec": 0.980, "peak_vram_gb": 36.96, "regime": "Regime A (Pure GPU-Resident)" },
+    "k6": { "top_k": 6, "ppl": 28.9969, "latency_sec": 0.512, "peak_vram_gb": 36.96, "regime": "Regime A (Pure GPU-Resident)" },
+    "k4": { "top_k": 4, "ppl": 35.1138, "latency_sec": 0.481, "peak_vram_gb": 36.96, "regime": "Regime A (Pure GPU-Resident)" },
+    "k2": { "top_k": 2, "ppl": 155.5357, "latency_sec": 0.441, "peak_vram_gb": 36.96, "regime": "Regime A (Pure GPU-Resident)" }
+  }
+}

@@ -1,0 +1,2608 @@
+{
+  "ppl_history": {
+    "128": 9.571491241455078,
+    "112": 11.190207481384277,
+    "96": 14.81014633178711,
+    "80": 19.929229736328125
+  },
+  "trace": [
+    {
+      "step": 1,
+      "experts_before": 128,
+      "experts_after": 127,
+      "selected_pair": [
+        109,
+        116
+      ],
+      "marginal_kl": 1.0322265625,
+      "cumulative_kl": 1.0322265625,
+      "step_time_sec": 491.6523365974426,
+      "all_candidates": [
+        {
+          "pair": [
+            109,
+            116
+          ],
+          "capability_distance": 0.013489464297890663,
+          "marginal_kl": 1.0322265625
+        },
+        {
+          "pair": [
+            15,
+            85
+          ],
+          "capability_distance": 0.013544612564146519,
+          "marginal_kl": 1.099609375
+        },
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.01358950324356556,
+          "marginal_kl": 1.271484375
+        },
+        {
+          "pair": [
+            15,
+            109
+          ],
+          "capability_distance": 0.014587623998522758,
+          "marginal_kl": 1.142578125
+        },
+        {
+          "pair": [
+            49,
+            125
+          ],
+          "capability_distance": 0.01477617584168911,
+          "marginal_kl": 1.44140625
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "experts_before": 127,
+      "experts_after": 126,
+      "selected_pair": [
+        15,
+        85
+      ],
+      "marginal_kl": 1.20703125,
+      "cumulative_kl": 2.2392578125,
+      "step_time_sec": 491.25051736831665,
+      "all_candidates": [
+        {
+          "pair": [
+            15,
+            85
+          ],
+          "capability_distance": 0.012630722485482693,
+          "marginal_kl": 1.20703125
+        },
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.01273714192211628,
+          "marginal_kl": 1.447265625
+        },
+        {
+          "pair": [
+            49,
+            124
+          ],
+          "capability_distance": 0.014157145284116268,
+          "marginal_kl": 1.41796875
+        },
+        {
+          "pair": [
+            90,
+            124
+          ],
+          "capability_distance": 0.01420658826828003,
+          "marginal_kl": 1.421875
+        },
+        {
+          "pair": [
+            72,
+            85
+          ],
+          "capability_distance": 0.014478984288871288,
+          "marginal_kl": 1.20703125
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "experts_before": 126,
+      "experts_after": 125,
+      "selected_pair": [
+        15,
+        108
+      ],
+      "marginal_kl": 1.197265625,
+      "cumulative_kl": 3.4365234375,
+      "step_time_sec": 485.581422328949,
+      "all_candidates": [
+        {
+          "pair": [
+            15,
+            108
+          ],
+          "capability_distance": 0.011008824221789837,
+          "marginal_kl": 1.197265625
+        },
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.012629547156393528,
+          "marginal_kl": 1.458984375
+        },
+        {
+          "pair": [
+            49,
+            123
+          ],
+          "capability_distance": 0.014049547724425793,
+          "marginal_kl": 1.447265625
+        },
+        {
+          "pair": [
+            89,
+            123
+          ],
+          "capability_distance": 0.014099539257586002,
+          "marginal_kl": 1.419921875
+        },
+        {
+          "pair": [
+            21,
+            82
+          ],
+          "capability_distance": 0.014215253293514252,
+          "marginal_kl": 1.4296875
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "experts_before": 125,
+      "experts_after": 124,
+      "selected_pair": [
+        21,
+        89
+      ],
+      "marginal_kl": 1.259765625,
+      "cumulative_kl": 4.6962890625,
+      "step_time_sec": 487.56491780281067,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.012663895264267921,
+          "marginal_kl": 1.59765625
+        },
+        {
+          "pair": [
+            89,
+            122
+          ],
+          "capability_distance": 0.013899775221943855,
+          "marginal_kl": 1.373046875
+        },
+        {
+          "pair": [
+            49,
+            122
+          ],
+          "capability_distance": 0.014140087179839611,
+          "marginal_kl": 1.509765625
+        },
+        {
+          "pair": [
+            21,
+            82
+          ],
+          "capability_distance": 0.014248557388782501,
+          "marginal_kl": 1.3828125
+        },
+        {
+          "pair": [
+            21,
+            89
+          ],
+          "capability_distance": 0.01435618381947279,
+          "marginal_kl": 1.259765625
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "experts_before": 124,
+      "experts_after": 123,
+      "selected_pair": [
+        22,
+        47
+      ],
+      "marginal_kl": 1.345703125,
+      "cumulative_kl": 6.0419921875,
+      "step_time_sec": 488.81298637390137,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.012719554826617241,
+          "marginal_kl": 1.4404296875
+        },
+        {
+          "pair": [
+            49,
+            121
+          ],
+          "capability_distance": 0.014251005835831165,
+          "marginal_kl": 1.41796875
+        },
+        {
+          "pair": [
+            21,
+            53
+          ],
+          "capability_distance": 0.014890311285853386,
+          "marginal_kl": 1.35546875
+        },
+        {
+          "pair": [
+            57,
+            116
+          ],
+          "capability_distance": 0.01528176385909319,
+          "marginal_kl": 1.43359375
+        },
+        {
+          "pair": [
+            22,
+            47
+          ],
+          "capability_distance": 0.015308997593820095,
+          "marginal_kl": 1.345703125
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "experts_before": 123,
+      "experts_after": 122,
+      "selected_pair": [
+        92,
+        115
+      ],
+      "marginal_kl": 1.404296875,
+      "cumulative_kl": 7.4462890625,
+      "step_time_sec": 476.2823603153229,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.01264007855206728,
+          "marginal_kl": 1.505859375
+        },
+        {
+          "pair": [
+            48,
+            120
+          ],
+          "capability_distance": 0.014600618742406368,
+          "marginal_kl": 1.478515625
+        },
+        {
+          "pair": [
+            43,
+            118
+          ],
+          "capability_distance": 0.014672732912003994,
+          "marginal_kl": 1.51953125
+        },
+        {
+          "pair": [
+            92,
+            115
+          ],
+          "capability_distance": 0.014808866195380688,
+          "marginal_kl": 1.404296875
+        },
+        {
+          "pair": [
+            21,
+            43
+          ],
+          "capability_distance": 0.015056510455906391,
+          "marginal_kl": 1.533203125
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "experts_before": 122,
+      "experts_after": 121,
+      "selected_pair": [
+        48,
+        119
+      ],
+      "marginal_kl": 1.39453125,
+      "cumulative_kl": 8.8408203125,
+      "step_time_sec": 481.8799602985382,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.012306694872677326,
+          "marginal_kl": 1.521484375
+        },
+        {
+          "pair": [
+            48,
+            119
+          ],
+          "capability_distance": 0.01419009268283844,
+          "marginal_kl": 1.39453125
+        },
+        {
+          "pair": [
+            43,
+            117
+          ],
+          "capability_distance": 0.014489421620965004,
+          "marginal_kl": 1.484375
+        },
+        {
+          "pair": [
+            34,
+            119
+          ],
+          "capability_distance": 0.015068953856825829,
+          "marginal_kl": 1.41015625
+        },
+        {
+          "pair": [
+            21,
+            117
+          ],
+          "capability_distance": 0.015082997269928455,
+          "marginal_kl": 1.591796875
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "experts_before": 121,
+      "experts_after": 120,
+      "selected_pair": [
+        43,
+        117
+      ],
+      "marginal_kl": 1.326171875,
+      "cumulative_kl": 10.1669921875,
+      "step_time_sec": 488.53041791915894,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.013474520295858383,
+          "marginal_kl": 1.5625
+        },
+        {
+          "pair": [
+            21,
+            48
+          ],
+          "capability_distance": 0.01531259249895811,
+          "marginal_kl": 1.47265625
+        },
+        {
+          "pair": [
+            90,
+            97
+          ],
+          "capability_distance": 0.015820199623703957,
+          "marginal_kl": 1.51953125
+        },
+        {
+          "pair": [
+            21,
+            43
+          ],
+          "capability_distance": 0.015915483236312866,
+          "marginal_kl": 1.380859375
+        },
+        {
+          "pair": [
+            43,
+            117
+          ],
+          "capability_distance": 0.01627608761191368,
+          "marginal_kl": 1.326171875
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "experts_before": 120,
+      "experts_after": 119,
+      "selected_pair": [
+        21,
+        48
+      ],
+      "marginal_kl": 1.43359375,
+      "cumulative_kl": 11.6005859375,
+      "step_time_sec": 486.31142258644104,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.012932644225656986,
+          "marginal_kl": 1.6953125
+        },
+        {
+          "pair": [
+            21,
+            43
+          ],
+          "capability_distance": 0.014353041537106037,
+          "marginal_kl": 1.435546875
+        },
+        {
+          "pair": [
+            21,
+            48
+          ],
+          "capability_distance": 0.015226508490741253,
+          "marginal_kl": 1.43359375
+        },
+        {
+          "pair": [
+            90,
+            97
+          ],
+          "capability_distance": 0.015501760877668858,
+          "marginal_kl": 1.48046875
+        },
+        {
+          "pair": [
+            95,
+            104
+          ],
+          "capability_distance": 0.015987398102879524,
+          "marginal_kl": 1.5859375
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "experts_before": 119,
+      "experts_after": 118,
+      "selected_pair": [
+        89,
+        96
+      ],
+      "marginal_kl": 1.375,
+      "cumulative_kl": 12.9755859375,
+      "step_time_sec": 484.204692363739,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.013077573850750923,
+          "marginal_kl": 1.53125
+        },
+        {
+          "pair": [
+            15,
+            21
+          ],
+          "capability_distance": 0.014773321337997913,
+          "marginal_kl": 1.44921875
+        },
+        {
+          "pair": [
+            51,
+            118
+          ],
+          "capability_distance": 0.015514056198298931,
+          "marginal_kl": 1.453125
+        },
+        {
+          "pair": [
+            89,
+            96
+          ],
+          "capability_distance": 0.015524378977715969,
+          "marginal_kl": 1.375
+        },
+        {
+          "pair": [
+            43,
+            90
+          ],
+          "capability_distance": 0.015688737854361534,
+          "marginal_kl": 1.515625
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "experts_before": 118,
+      "experts_after": 117,
+      "selected_pair": [
+        15,
+        21
+      ],
+      "marginal_kl": 1.501953125,
+      "cumulative_kl": 14.4775390625,
+      "step_time_sec": 482.63344049453735,
+      "all_candidates": [
+        {
+          "pair": [
+            33,
+            37
+          ],
+          "capability_distance": 0.013591296039521694,
+          "marginal_kl": 1.609375
+        },
+        {
+          "pair": [
+            15,
+            21
+          ],
+          "capability_distance": 0.015279646962881088,
+          "marginal_kl": 1.501953125
+        },
+        {
+          "pair": [
+            70,
+            91
+          ],
+          "capability_distance": 0.015648609027266502,
+          "marginal_kl": 1.568359375
+        },
+        {
+          "pair": [
+            15,
+            89
+          ],
+          "capability_distance": 0.01568370684981346,
+          "marginal_kl": 1.568359375
+        },
+        {
+          "pair": [
+            89,
+            112
+          ],
+          "capability_distance": 0.015724094584584236,
+          "marginal_kl": 1.54296875
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "experts_before": 117,
+      "experts_after": 116,
+      "selected_pair": [
+        69,
+        90
+      ],
+      "marginal_kl": 1.4453125,
+      "cumulative_kl": 15.9228515625,
+      "step_time_sec": 476.62058877944946,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.013434750959277153,
+          "marginal_kl": 1.51171875
+        },
+        {
+          "pair": [
+            88,
+            111
+          ],
+          "capability_distance": 0.015061690472066402,
+          "marginal_kl": 1.609375
+        },
+        {
+          "pair": [
+            69,
+            90
+          ],
+          "capability_distance": 0.015096362680196762,
+          "marginal_kl": 1.4453125
+        },
+        {
+          "pair": [
+            93,
+            101
+          ],
+          "capability_distance": 0.015630248934030533,
+          "marginal_kl": 1.677734375
+        },
+        {
+          "pair": [
+            30,
+            79
+          ],
+          "capability_distance": 0.015638364478945732,
+          "marginal_kl": 1.638671875
+        }
+      ]
+    },
+    {
+      "step": 13,
+      "experts_before": 116,
+      "experts_after": 115,
+      "selected_pair": [
+        92,
+        100
+      ],
+      "marginal_kl": 1.498046875,
+      "cumulative_kl": 17.4208984375,
+      "step_time_sec": 479.1691036224365,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.013114436529576778,
+          "marginal_kl": 1.60546875
+        },
+        {
+          "pair": [
+            69,
+            78
+          ],
+          "capability_distance": 0.01496877521276474,
+          "marginal_kl": 1.552734375
+        },
+        {
+          "pair": [
+            5,
+            79
+          ],
+          "capability_distance": 0.015094215981662273,
+          "marginal_kl": 1.595703125
+        },
+        {
+          "pair": [
+            92,
+            100
+          ],
+          "capability_distance": 0.015110418200492859,
+          "marginal_kl": 1.498046875
+        },
+        {
+          "pair": [
+            88,
+            110
+          ],
+          "capability_distance": 0.015196218155324459,
+          "marginal_kl": 1.5546875
+        }
+      ]
+    },
+    {
+      "step": 14,
+      "experts_before": 115,
+      "experts_after": 114,
+      "selected_pair": [
+        14,
+        63
+      ],
+      "marginal_kl": 1.521484375,
+      "cumulative_kl": 18.9423828125,
+      "step_time_sec": 471.6467788219452,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.013008861802518368,
+          "marginal_kl": 1.529296875
+        },
+        {
+          "pair": [
+            69,
+            92
+          ],
+          "capability_distance": 0.014121560379862785,
+          "marginal_kl": 1.572265625
+        },
+        {
+          "pair": [
+            69,
+            78
+          ],
+          "capability_distance": 0.01509219128638506,
+          "marginal_kl": 1.59765625
+        },
+        {
+          "pair": [
+            14,
+            63
+          ],
+          "capability_distance": 0.015502098016440868,
+          "marginal_kl": 1.521484375
+        },
+        {
+          "pair": [
+            42,
+            89
+          ],
+          "capability_distance": 0.015512999147176743,
+          "marginal_kl": 1.603515625
+        }
+      ]
+    },
+    {
+      "step": 15,
+      "experts_before": 114,
+      "experts_after": 113,
+      "selected_pair": [
+        68,
+        91
+      ],
+      "marginal_kl": 1.55078125,
+      "cumulative_kl": 20.4931640625,
+      "step_time_sec": 477.09881496429443,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.012762058526277542,
+          "marginal_kl": 1.63671875
+        },
+        {
+          "pair": [
+            68,
+            91
+          ],
+          "capability_distance": 0.013475742191076279,
+          "marginal_kl": 1.55078125
+        },
+        {
+          "pair": [
+            14,
+            42
+          ],
+          "capability_distance": 0.015005631372332573,
+          "marginal_kl": 1.6015625
+        },
+        {
+          "pair": [
+            42,
+            88
+          ],
+          "capability_distance": 0.01501372642815113,
+          "marginal_kl": 1.63671875
+        },
+        {
+          "pair": [
+            87,
+            108
+          ],
+          "capability_distance": 0.015083206817507744,
+          "marginal_kl": 1.55859375
+        }
+      ]
+    },
+    {
+      "step": 16,
+      "experts_before": 113,
+      "experts_after": 112,
+      "selected_pair": [
+        87,
+        107
+      ],
+      "marginal_kl": 1.43359375,
+      "cumulative_kl": 21.9267578125,
+      "step_time_sec": 467.62558102607727,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.012903440743684769,
+          "marginal_kl": 1.662109375
+        },
+        {
+          "pair": [
+            87,
+            107
+          ],
+          "capability_distance": 0.014973865821957588,
+          "marginal_kl": 1.43359375
+        },
+        {
+          "pair": [
+            14,
+            42
+          ],
+          "capability_distance": 0.015040300786495209,
+          "marginal_kl": 1.46484375
+        },
+        {
+          "pair": [
+            42,
+            88
+          ],
+          "capability_distance": 0.015128785744309425,
+          "marginal_kl": 1.619140625
+        },
+        {
+          "pair": [
+            5,
+            23
+          ],
+          "capability_distance": 0.015503458678722382,
+          "marginal_kl": 1.671875
+        }
+      ]
+    },
+    {
+      "step": 17,
+      "experts_before": 112,
+      "experts_after": 111,
+      "selected_pair": [
+        33,
+        82
+      ],
+      "marginal_kl": 1.564453125,
+      "cumulative_kl": 23.4912109375,
+      "step_time_sec": 445.4671742916107,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.012783735990524292,
+          "marginal_kl": 1.60546875
+        },
+        {
+          "pair": [
+            14,
+            42
+          ],
+          "capability_distance": 0.015388083644211292,
+          "marginal_kl": 1.56640625
+        },
+        {
+          "pair": [
+            42,
+            88
+          ],
+          "capability_distance": 0.01542466040700674,
+          "marginal_kl": 1.611328125
+        },
+        {
+          "pair": [
+            5,
+            84
+          ],
+          "capability_distance": 0.015771975740790367,
+          "marginal_kl": 1.65625
+        },
+        {
+          "pair": [
+            33,
+            82
+          ],
+          "capability_distance": 0.015980994328856468,
+          "marginal_kl": 1.564453125
+        }
+      ]
+    },
+    {
+      "step": 18,
+      "experts_before": 111,
+      "experts_after": 110,
+      "selected_pair": [
+        14,
+        33
+      ],
+      "marginal_kl": 1.455078125,
+      "cumulative_kl": 24.9462890625,
+      "step_time_sec": 449.6575207710266,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            36
+          ],
+          "capability_distance": 0.012824776582419872,
+          "marginal_kl": 1.59375
+        },
+        {
+          "pair": [
+            14,
+            33
+          ],
+          "capability_distance": 0.015139540657401085,
+          "marginal_kl": 1.455078125
+        },
+        {
+          "pair": [
+            42,
+            87
+          ],
+          "capability_distance": 0.015300596132874489,
+          "marginal_kl": 1.548828125
+        },
+        {
+          "pair": [
+            5,
+            78
+          ],
+          "capability_distance": 0.015363522805273533,
+          "marginal_kl": 1.771484375
+        },
+        {
+          "pair": [
+            5,
+            23
+          ],
+          "capability_distance": 0.015553541481494904,
+          "marginal_kl": 1.59765625
+        }
+      ]
+    },
+    {
+      "step": 19,
+      "experts_before": 110,
+      "experts_after": 109,
+      "selected_pair": [
+        5,
+        82
+      ],
+      "marginal_kl": 1.55859375,
+      "cumulative_kl": 26.5048828125,
+      "step_time_sec": 460.298504114151,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            35
+          ],
+          "capability_distance": 0.013041184283792973,
+          "marginal_kl": 1.619140625
+        },
+        {
+          "pair": [
+            41,
+            86
+          ],
+          "capability_distance": 0.015532939694821835,
+          "marginal_kl": 1.595703125
+        },
+        {
+          "pair": [
+            5,
+            23
+          ],
+          "capability_distance": 0.015747379511594772,
+          "marginal_kl": 1.630859375
+        },
+        {
+          "pair": [
+            5,
+            82
+          ],
+          "capability_distance": 0.015837928280234337,
+          "marginal_kl": 1.55859375
+        },
+        {
+          "pair": [
+            59,
+            78
+          ],
+          "capability_distance": 0.015897236764431,
+          "marginal_kl": 1.568359375
+        }
+      ]
+    },
+    {
+      "step": 20,
+      "experts_before": 109,
+      "experts_after": 108,
+      "selected_pair": [
+        30,
+        77
+      ],
+      "marginal_kl": 1.529296875,
+      "cumulative_kl": 28.0341796875,
+      "step_time_sec": 454.2793970108032,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            35
+          ],
+          "capability_distance": 0.014261521399021149,
+          "marginal_kl": 1.6328125
+        },
+        {
+          "pair": [
+            5,
+            23
+          ],
+          "capability_distance": 0.014541108161211014,
+          "marginal_kl": 1.59765625
+        },
+        {
+          "pair": [
+            3,
+            23
+          ],
+          "capability_distance": 0.015968704596161842,
+          "marginal_kl": 1.5703125
+        },
+        {
+          "pair": [
+            30,
+            77
+          ],
+          "capability_distance": 0.016216842457652092,
+          "marginal_kl": 1.529296875
+        },
+        {
+          "pair": [
+            41,
+            85
+          ],
+          "capability_distance": 0.01648111827671528,
+          "marginal_kl": 1.611328125
+        }
+      ]
+    },
+    {
+      "step": 21,
+      "experts_before": 108,
+      "experts_after": 107,
+      "selected_pair": [
+        5,
+        23
+      ],
+      "marginal_kl": 1.5625,
+      "cumulative_kl": 29.5966796875,
+      "step_time_sec": 460.0118200778961,
+      "all_candidates": [
+        {
+          "pair": [
+            32,
+            35
+          ],
+          "capability_distance": 0.01710386388003826,
+          "marginal_kl": 1.63671875
+        },
+        {
+          "pair": [
+            5,
+            23
+          ],
+          "capability_distance": 0.019004134461283684,
+          "marginal_kl": 1.5625
+        },
+        {
+          "pair": [
+            5,
+            30
+          ],
+          "capability_distance": 0.0192320067435503,
+          "marginal_kl": 1.611328125
+        },
+        {
+          "pair": [
+            1,
+            94
+          ],
+          "capability_distance": 0.019670778885483742,
+          "marginal_kl": 1.59765625
+        },
+        {
+          "pair": [
+            59,
+            86
+          ],
+          "capability_distance": 0.019804559648036957,
+          "marginal_kl": 1.68359375
+        }
+      ]
+    },
+    {
+      "step": 22,
+      "experts_before": 107,
+      "experts_after": 106,
+      "selected_pair": [
+        58,
+        85
+      ],
+      "marginal_kl": 1.666015625,
+      "cumulative_kl": 31.2626953125,
+      "step_time_sec": 456.9257974624634,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.01841084472835064,
+          "marginal_kl": 1.708984375
+        },
+        {
+          "pair": [
+            31,
+            34
+          ],
+          "capability_distance": 0.01866593025624752,
+          "marginal_kl": 1.7421875
+        },
+        {
+          "pair": [
+            70,
+            99
+          ],
+          "capability_distance": 0.01983705721795559,
+          "marginal_kl": 1.705078125
+        },
+        {
+          "pair": [
+            5,
+            66
+          ],
+          "capability_distance": 0.019890228286385536,
+          "marginal_kl": 1.740234375
+        },
+        {
+          "pair": [
+            58,
+            85
+          ],
+          "capability_distance": 0.01997821219265461,
+          "marginal_kl": 1.666015625
+        }
+      ]
+    },
+    {
+      "step": 23,
+      "experts_before": 106,
+      "experts_after": 105,
+      "selected_pair": [
+        43,
+        80
+      ],
+      "marginal_kl": 1.55859375,
+      "cumulative_kl": 32.8212890625,
+      "step_time_sec": 451.94416332244873,
+      "all_candidates": [
+        {
+          "pair": [
+            31,
+            34
+          ],
+          "capability_distance": 0.017238784581422806,
+          "marginal_kl": 1.751953125
+        },
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.017501676455140114,
+          "marginal_kl": 1.654296875
+        },
+        {
+          "pair": [
+            70,
+            98
+          ],
+          "capability_distance": 0.019090687856078148,
+          "marginal_kl": 1.732421875
+        },
+        {
+          "pair": [
+            5,
+            66
+          ],
+          "capability_distance": 0.019248567521572113,
+          "marginal_kl": 1.646484375
+        },
+        {
+          "pair": [
+            43,
+            80
+          ],
+          "capability_distance": 0.019334537908434868,
+          "marginal_kl": 1.55859375
+        }
+      ]
+    },
+    {
+      "step": 24,
+      "experts_before": 105,
+      "experts_after": 104,
+      "selected_pair": [
+        31,
+        34
+      ],
+      "marginal_kl": 1.548828125,
+      "cumulative_kl": 34.3701171875,
+      "step_time_sec": 439.98560857772827,
+      "all_candidates": [
+        {
+          "pair": [
+            31,
+            34
+          ],
+          "capability_distance": 0.016734257340431213,
+          "marginal_kl": 1.548828125
+        },
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.016795331612229347,
+          "marginal_kl": 1.615234375
+        },
+        {
+          "pair": [
+            82,
+            100
+          ],
+          "capability_distance": 0.017755655571818352,
+          "marginal_kl": 1.609375
+        },
+        {
+          "pair": [
+            43,
+            56
+          ],
+          "capability_distance": 0.017998212948441505,
+          "marginal_kl": 1.6015625
+        },
+        {
+          "pair": [
+            5,
+            40
+          ],
+          "capability_distance": 0.018138181418180466,
+          "marginal_kl": 1.7109375
+        }
+      ]
+    },
+    {
+      "step": 25,
+      "experts_before": 104,
+      "experts_after": 103,
+      "selected_pair": [
+        42,
+        55
+      ],
+      "marginal_kl": 1.623046875,
+      "cumulative_kl": 35.9931640625,
+      "step_time_sec": 386.0054452419281,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.016528846696019173,
+          "marginal_kl": 1.7109375
+        },
+        {
+          "pair": [
+            42,
+            55
+          ],
+          "capability_distance": 0.018357422202825546,
+          "marginal_kl": 1.623046875
+        },
+        {
+          "pair": [
+            5,
+            65
+          ],
+          "capability_distance": 0.018980754539370537,
+          "marginal_kl": 1.759765625
+        },
+        {
+          "pair": [
+            36,
+            69
+          ],
+          "capability_distance": 0.01917567290365696,
+          "marginal_kl": 1.8125
+        },
+        {
+          "pair": [
+            81,
+            99
+          ],
+          "capability_distance": 0.019202273339033127,
+          "marginal_kl": 1.658203125
+        }
+      ]
+    },
+    {
+      "step": 26,
+      "experts_before": 103,
+      "experts_after": 102,
+      "selected_pair": [
+        14,
+        64
+      ],
+      "marginal_kl": 1.60546875,
+      "cumulative_kl": 37.5986328125,
+      "step_time_sec": 451.0223503112793,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.017469674348831177,
+          "marginal_kl": 1.74609375
+        },
+        {
+          "pair": [
+            5,
+            64
+          ],
+          "capability_distance": 0.019312188029289246,
+          "marginal_kl": 1.646484375
+        },
+        {
+          "pair": [
+            25,
+            44
+          ],
+          "capability_distance": 0.0199462678283453,
+          "marginal_kl": 1.607421875
+        },
+        {
+          "pair": [
+            14,
+            64
+          ],
+          "capability_distance": 0.02003958821296692,
+          "marginal_kl": 1.60546875
+        },
+        {
+          "pair": [
+            42,
+            79
+          ],
+          "capability_distance": 0.02017888054251671,
+          "marginal_kl": 1.662109375
+        }
+      ]
+    },
+    {
+      "step": 27,
+      "experts_before": 102,
+      "experts_after": 101,
+      "selected_pair": [
+        14,
+        15
+      ],
+      "marginal_kl": 1.625,
+      "cumulative_kl": 39.2236328125,
+      "step_time_sec": 443.5669927597046,
+      "all_candidates": [
+        {
+          "pair": [
+            14,
+            15
+          ],
+          "capability_distance": 0.01580044999718666,
+          "marginal_kl": 1.625
+        },
+        {
+          "pair": [
+            36,
+            83
+          ],
+          "capability_distance": 0.02102218195796013,
+          "marginal_kl": 1.65234375
+        },
+        {
+          "pair": [
+            5,
+            39
+          ],
+          "capability_distance": 0.02127949148416519,
+          "marginal_kl": 1.646484375
+        },
+        {
+          "pair": [
+            67,
+            83
+          ],
+          "capability_distance": 0.021541036665439606,
+          "marginal_kl": 1.646484375
+        },
+        {
+          "pair": [
+            36,
+            97
+          ],
+          "capability_distance": 0.021578889340162277,
+          "marginal_kl": 1.8125
+        }
+      ]
+    },
+    {
+      "step": 28,
+      "experts_before": 101,
+      "experts_after": 100,
+      "selected_pair": [
+        72,
+        78
+      ],
+      "marginal_kl": 1.5859375,
+      "cumulative_kl": 40.8095703125,
+      "step_time_sec": 438.96168279647827,
+      "all_candidates": [
+        {
+          "pair": [
+            35,
+            96
+          ],
+          "capability_distance": 0.019670585170388222,
+          "marginal_kl": 1.712890625
+        },
+        {
+          "pair": [
+            5,
+            38
+          ],
+          "capability_distance": 0.019812460988759995,
+          "marginal_kl": 1.61328125
+        },
+        {
+          "pair": [
+            1,
+            87
+          ],
+          "capability_distance": 0.020019106566905975,
+          "marginal_kl": 1.82421875
+        },
+        {
+          "pair": [
+            72,
+            78
+          ],
+          "capability_distance": 0.020054729655385017,
+          "marginal_kl": 1.5859375
+        },
+        {
+          "pair": [
+            41,
+            77
+          ],
+          "capability_distance": 0.020133458077907562,
+          "marginal_kl": 1.595703125
+        }
+      ]
+    },
+    {
+      "step": 29,
+      "experts_before": 100,
+      "experts_after": 99,
+      "selected_pair": [
+        38,
+        72
+      ],
+      "marginal_kl": 1.599609375,
+      "cumulative_kl": 42.4091796875,
+      "step_time_sec": 434.4901354312897,
+      "all_candidates": [
+        {
+          "pair": [
+            38,
+            72
+          ],
+          "capability_distance": 0.01620403118431568,
+          "marginal_kl": 1.599609375
+        },
+        {
+          "pair": [
+            72,
+            77
+          ],
+          "capability_distance": 0.0193212628364563,
+          "marginal_kl": 1.642578125
+        },
+        {
+          "pair": [
+            24,
+            43
+          ],
+          "capability_distance": 0.01937784254550934,
+          "marginal_kl": 1.669921875
+        },
+        {
+          "pair": [
+            41,
+            77
+          ],
+          "capability_distance": 0.019735626876354218,
+          "marginal_kl": 1.693359375
+        },
+        {
+          "pair": [
+            28,
+            41
+          ],
+          "capability_distance": 0.0203314870595932,
+          "marginal_kl": 1.6875
+        }
+      ]
+    },
+    {
+      "step": 30,
+      "experts_before": 99,
+      "experts_after": 98,
+      "selected_pair": [
+        38,
+        76
+      ],
+      "marginal_kl": 1.65234375,
+      "cumulative_kl": 44.0615234375,
+      "step_time_sec": 416.6262204647064,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            38
+          ],
+          "capability_distance": 0.017684297636151314,
+          "marginal_kl": 1.6953125
+        },
+        {
+          "pair": [
+            38,
+            76
+          ],
+          "capability_distance": 0.019681287929415703,
+          "marginal_kl": 1.65234375
+        },
+        {
+          "pair": [
+            41,
+            76
+          ],
+          "capability_distance": 0.019769838079810143,
+          "marginal_kl": 1.65625
+        },
+        {
+          "pair": [
+            43,
+            72
+          ],
+          "capability_distance": 0.01979430951178074,
+          "marginal_kl": 1.7890625
+        },
+        {
+          "pair": [
+            24,
+            43
+          ],
+          "capability_distance": 0.019846592098474503,
+          "marginal_kl": 1.712890625
+        }
+      ]
+    },
+    {
+      "step": 31,
+      "experts_before": 98,
+      "experts_after": 97,
+      "selected_pair": [
+        35,
+        93
+      ],
+      "marginal_kl": 1.650390625,
+      "cumulative_kl": 45.7119140625,
+      "step_time_sec": 423.41129660606384,
+      "all_candidates": [
+        {
+          "pair": [
+            24,
+            43
+          ],
+          "capability_distance": 0.019128965213894844,
+          "marginal_kl": 1.654296875
+        },
+        {
+          "pair": [
+            43,
+            72
+          ],
+          "capability_distance": 0.019543010741472244,
+          "marginal_kl": 1.869140625
+        },
+        {
+          "pair": [
+            35,
+            93
+          ],
+          "capability_distance": 0.019818361848592758,
+          "marginal_kl": 1.650390625
+        },
+        {
+          "pair": [
+            28,
+            41
+          ],
+          "capability_distance": 0.020191095769405365,
+          "marginal_kl": 1.701171875
+        },
+        {
+          "pair": [
+            62,
+            71
+          ],
+          "capability_distance": 0.020314503461122513,
+          "marginal_kl": 1.767578125
+        }
+      ]
+    },
+    {
+      "step": 32,
+      "experts_before": 97,
+      "experts_after": 96,
+      "selected_pair": [
+        24,
+        43
+      ],
+      "marginal_kl": 1.669921875,
+      "cumulative_kl": 47.3818359375,
+      "step_time_sec": 420.3714003562927,
+      "all_candidates": [
+        {
+          "pair": [
+            24,
+            43
+          ],
+          "capability_distance": 0.019718024879693985,
+          "marginal_kl": 1.669921875
+        },
+        {
+          "pair": [
+            28,
+            35
+          ],
+          "capability_distance": 0.019915495067834854,
+          "marginal_kl": 1.697265625
+        },
+        {
+          "pair": [
+            43,
+            72
+          ],
+          "capability_distance": 0.020192336291074753,
+          "marginal_kl": 1.822265625
+        },
+        {
+          "pair": [
+            28,
+            41
+          ],
+          "capability_distance": 0.020438505336642265,
+          "marginal_kl": 1.751953125
+        },
+        {
+          "pair": [
+            28,
+            39
+          ],
+          "capability_distance": 0.02056405134499073,
+          "marginal_kl": 1.74609375
+        }
+      ]
+    },
+    {
+      "step": 33,
+      "experts_before": 96,
+      "experts_after": 95,
+      "selected_pair": [
+        28,
+        41
+      ],
+      "marginal_kl": 1.6328125,
+      "cumulative_kl": 49.0146484375,
+      "step_time_sec": 421.62962341308594,
+      "all_candidates": [
+        {
+          "pair": [
+            28,
+            41
+          ],
+          "capability_distance": 0.020741283893585205,
+          "marginal_kl": 1.6328125
+        },
+        {
+          "pair": [
+            27,
+            86
+          ],
+          "capability_distance": 0.021028542891144753,
+          "marginal_kl": 1.654296875
+        },
+        {
+          "pair": [
+            28,
+            35
+          ],
+          "capability_distance": 0.021177826449275017,
+          "marginal_kl": 1.705078125
+        },
+        {
+          "pair": [
+            5,
+            24
+          ],
+          "capability_distance": 0.02122657746076584,
+          "marginal_kl": 1.7109375
+        },
+        {
+          "pair": [
+            28,
+            39
+          ],
+          "capability_distance": 0.021269729360938072,
+          "marginal_kl": 1.685546875
+        }
+      ]
+    },
+    {
+      "step": 34,
+      "experts_before": 95,
+      "experts_after": 94,
+      "selected_pair": [
+        5,
+        28
+      ],
+      "marginal_kl": 1.62890625,
+      "cumulative_kl": 50.6435546875,
+      "step_time_sec": 415.3362658023834,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            28
+          ],
+          "capability_distance": 0.019543543457984924,
+          "marginal_kl": 1.62890625
+        },
+        {
+          "pair": [
+            60,
+            69
+          ],
+          "capability_distance": 0.019649460911750793,
+          "marginal_kl": 1.78125
+        },
+        {
+          "pair": [
+            1,
+            82
+          ],
+          "capability_distance": 0.019653530791401863,
+          "marginal_kl": 1.7265625
+        },
+        {
+          "pair": [
+            27,
+            85
+          ],
+          "capability_distance": 0.0198164414614439,
+          "marginal_kl": 1.802734375
+        },
+        {
+          "pair": [
+            5,
+            24
+          ],
+          "capability_distance": 0.01983339712023735,
+          "marginal_kl": 1.74609375
+        }
+      ]
+    },
+    {
+      "step": 35,
+      "experts_before": 94,
+      "experts_after": 93,
+      "selected_pair": [
+        71,
+        93
+      ],
+      "marginal_kl": 1.685546875,
+      "cumulative_kl": 52.3291015625,
+      "step_time_sec": 409.6478080749512,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            37
+          ],
+          "capability_distance": 0.018120113760232925,
+          "marginal_kl": 1.771484375
+        },
+        {
+          "pair": [
+            59,
+            68
+          ],
+          "capability_distance": 0.02022930234670639,
+          "marginal_kl": 1.77734375
+        },
+        {
+          "pair": [
+            43,
+            93
+          ],
+          "capability_distance": 0.020948123186826706,
+          "marginal_kl": 1.689453125
+        },
+        {
+          "pair": [
+            71,
+            93
+          ],
+          "capability_distance": 0.02096354216337204,
+          "marginal_kl": 1.685546875
+        },
+        {
+          "pair": [
+            7,
+            68
+          ],
+          "capability_distance": 0.021061770617961884,
+          "marginal_kl": 1.791015625
+        }
+      ]
+    },
+    {
+      "step": 36,
+      "experts_before": 93,
+      "experts_after": 92,
+      "selected_pair": [
+        5,
+        37
+      ],
+      "marginal_kl": 1.599609375,
+      "cumulative_kl": 53.9287109375,
+      "step_time_sec": 406.7016806602478,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            37
+          ],
+          "capability_distance": 0.01831737719476223,
+          "marginal_kl": 1.599609375
+        },
+        {
+          "pair": [
+            70,
+            75
+          ],
+          "capability_distance": 0.020377693697810173,
+          "marginal_kl": 1.650390625
+        },
+        {
+          "pair": [
+            27,
+            84
+          ],
+          "capability_distance": 0.020825982093811035,
+          "marginal_kl": 1.66015625
+        },
+        {
+          "pair": [
+            1,
+            81
+          ],
+          "capability_distance": 0.02090560272336006,
+          "marginal_kl": 1.73828125
+        },
+        {
+          "pair": [
+            59,
+            68
+          ],
+          "capability_distance": 0.02156010828912258,
+          "marginal_kl": 1.7109375
+        }
+      ]
+    },
+    {
+      "step": 37,
+      "experts_before": 92,
+      "experts_after": 91,
+      "selected_pair": [
+        42,
+        70
+      ],
+      "marginal_kl": 1.595703125,
+      "cumulative_kl": 55.5244140625,
+      "step_time_sec": 394.7890136241913,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.013744479976594448,
+          "marginal_kl": 1.603515625
+        },
+        {
+          "pair": [
+            24,
+            70
+          ],
+          "capability_distance": 0.019955405965447426,
+          "marginal_kl": 1.64453125
+        },
+        {
+          "pair": [
+            42,
+            70
+          ],
+          "capability_distance": 0.020318929105997086,
+          "marginal_kl": 1.595703125
+        },
+        {
+          "pair": [
+            69,
+            74
+          ],
+          "capability_distance": 0.020378069952130318,
+          "marginal_kl": 1.607421875
+        },
+        {
+          "pair": [
+            1,
+            80
+          ],
+          "capability_distance": 0.020554935559630394,
+          "marginal_kl": 1.779296875
+        }
+      ]
+    },
+    {
+      "step": 38,
+      "experts_before": 91,
+      "experts_after": 90,
+      "selected_pair": [
+        24,
+        42
+      ],
+      "marginal_kl": 1.65625,
+      "cumulative_kl": 57.1806640625,
+      "step_time_sec": 406.6905941963196,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.013689950108528137,
+          "marginal_kl": 1.705078125
+        },
+        {
+          "pair": [
+            34,
+            42
+          ],
+          "capability_distance": 0.019497957080602646,
+          "marginal_kl": 1.685546875
+        },
+        {
+          "pair": [
+            24,
+            42
+          ],
+          "capability_distance": 0.019807377830147743,
+          "marginal_kl": 1.65625
+        },
+        {
+          "pair": [
+            1,
+            79
+          ],
+          "capability_distance": 0.019950374960899353,
+          "marginal_kl": 1.779296875
+        },
+        {
+          "pair": [
+            69,
+            73
+          ],
+          "capability_distance": 0.020042188465595245,
+          "marginal_kl": 1.705078125
+        }
+      ]
+    },
+    {
+      "step": 39,
+      "experts_before": 90,
+      "experts_after": 89,
+      "selected_pair": [
+        68,
+        72
+      ],
+      "marginal_kl": 1.599609375,
+      "cumulative_kl": 58.7802734375,
+      "step_time_sec": 402.7384977340698,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.013997840695083141,
+          "marginal_kl": 1.6171875
+        },
+        {
+          "pair": [
+            57,
+            66
+          ],
+          "capability_distance": 0.02012658677995205,
+          "marginal_kl": 1.68359375
+        },
+        {
+          "pair": [
+            1,
+            78
+          ],
+          "capability_distance": 0.020273808389902115,
+          "marginal_kl": 1.708984375
+        },
+        {
+          "pair": [
+            68,
+            72
+          ],
+          "capability_distance": 0.021244674921035767,
+          "marginal_kl": 1.599609375
+        },
+        {
+          "pair": [
+            67,
+            78
+          ],
+          "capability_distance": 0.021577758714556694,
+          "marginal_kl": 1.63671875
+        }
+      ]
+    },
+    {
+      "step": 40,
+      "experts_before": 89,
+      "experts_after": 88,
+      "selected_pair": [
+        5,
+        14
+      ],
+      "marginal_kl": 1.544921875,
+      "cumulative_kl": 60.3251953125,
+      "step_time_sec": 399.5651903152466,
+      "all_candidates": [
+        {
+          "pair": [
+            5,
+            14
+          ],
+          "capability_distance": 0.014251157641410828,
+          "marginal_kl": 1.544921875
+        },
+        {
+          "pair": [
+            1,
+            77
+          ],
+          "capability_distance": 0.019884178414940834,
+          "marginal_kl": 1.740234375
+        },
+        {
+          "pair": [
+            57,
+            66
+          ],
+          "capability_distance": 0.02045619860291481,
+          "marginal_kl": 1.693359375
+        },
+        {
+          "pair": [
+            7,
+            68
+          ],
+          "capability_distance": 0.020676933228969574,
+          "marginal_kl": 1.78515625
+        },
+        {
+          "pair": [
+            7,
+            25
+          ],
+          "capability_distance": 0.02195988968014717,
+          "marginal_kl": 1.720703125
+        }
+      ]
+    },
+    {
+      "step": 41,
+      "experts_before": 88,
+      "experts_after": 87,
+      "selected_pair": [
+        26,
+        79
+      ],
+      "marginal_kl": 1.658203125,
+      "cumulative_kl": 61.9833984375,
+      "step_time_sec": 395.8204016685486,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            76
+          ],
+          "capability_distance": 0.020554814487695694,
+          "marginal_kl": 1.71484375
+        },
+        {
+          "pair": [
+            56,
+            65
+          ],
+          "capability_distance": 0.021766141057014465,
+          "marginal_kl": 1.78125
+        },
+        {
+          "pair": [
+            26,
+            79
+          ],
+          "capability_distance": 0.022216767072677612,
+          "marginal_kl": 1.658203125
+        },
+        {
+          "pair": [
+            7,
+            67
+          ],
+          "capability_distance": 0.022256525233387947,
+          "marginal_kl": 1.798828125
+        },
+        {
+          "pair": [
+            7,
+            24
+          ],
+          "capability_distance": 0.02227221615612507,
+          "marginal_kl": 1.767578125
+        }
+      ]
+    },
+    {
+      "step": 42,
+      "experts_before": 87,
+      "experts_after": 86,
+      "selected_pair": [
+        26,
+        67
+      ],
+      "marginal_kl": 1.572265625,
+      "cumulative_kl": 63.5556640625,
+      "step_time_sec": 387.11444664001465,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            76
+          ],
+          "capability_distance": 0.018495216965675354,
+          "marginal_kl": 1.779296875
+        },
+        {
+          "pair": [
+            26,
+            67
+          ],
+          "capability_distance": 0.01946505531668663,
+          "marginal_kl": 1.572265625
+        },
+        {
+          "pair": [
+            26,
+            65
+          ],
+          "capability_distance": 0.020177533850073814,
+          "marginal_kl": 1.6640625
+        },
+        {
+          "pair": [
+            7,
+            67
+          ],
+          "capability_distance": 0.020200351253151894,
+          "marginal_kl": 1.75390625
+        },
+        {
+          "pair": [
+            56,
+            65
+          ],
+          "capability_distance": 0.020756205543875694,
+          "marginal_kl": 1.76171875
+        }
+      ]
+    },
+    {
+      "step": 43,
+      "experts_before": 86,
+      "experts_after": 85,
+      "selected_pair": [
+        33,
+        70
+      ],
+      "marginal_kl": 1.640625,
+      "cumulative_kl": 65.1962890625,
+      "step_time_sec": 391.53596663475037,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            75
+          ],
+          "capability_distance": 0.018895236775279045,
+          "marginal_kl": 1.73046875
+        },
+        {
+          "pair": [
+            56,
+            65
+          ],
+          "capability_distance": 0.020983358845114708,
+          "marginal_kl": 1.806640625
+        },
+        {
+          "pair": [
+            33,
+            70
+          ],
+          "capability_distance": 0.02104722522199154,
+          "marginal_kl": 1.640625
+        },
+        {
+          "pair": [
+            23,
+            26
+          ],
+          "capability_distance": 0.02119705080986023,
+          "marginal_kl": 1.64453125
+        },
+        {
+          "pair": [
+            7,
+            24
+          ],
+          "capability_distance": 0.021529607474803925,
+          "marginal_kl": 1.703125
+        }
+      ]
+    },
+    {
+      "step": 44,
+      "experts_before": 85,
+      "experts_after": 84,
+      "selected_pair": [
+        23,
+        26
+      ],
+      "marginal_kl": 1.599609375,
+      "cumulative_kl": 66.7958984375,
+      "step_time_sec": 385.7181017398834,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            74
+          ],
+          "capability_distance": 0.018779125064611435,
+          "marginal_kl": 1.7109375
+        },
+        {
+          "pair": [
+            56,
+            65
+          ],
+          "capability_distance": 0.02080831304192543,
+          "marginal_kl": 1.658203125
+        },
+        {
+          "pair": [
+            23,
+            26
+          ],
+          "capability_distance": 0.020861487835645676,
+          "marginal_kl": 1.599609375
+        },
+        {
+          "pair": [
+            24,
+            48
+          ],
+          "capability_distance": 0.02135106548666954,
+          "marginal_kl": 1.642578125
+        },
+        {
+          "pair": [
+            7,
+            24
+          ],
+          "capability_distance": 0.021354828029870987,
+          "marginal_kl": 1.685546875
+        }
+      ]
+    },
+    {
+      "step": 45,
+      "experts_before": 84,
+      "experts_after": 83,
+      "selected_pair": [
+        24,
+        47
+      ],
+      "marginal_kl": 1.6484375,
+      "cumulative_kl": 68.4443359375,
+      "step_time_sec": 377.39006996154785,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            73
+          ],
+          "capability_distance": 0.01894417591392994,
+          "marginal_kl": 1.685546875
+        },
+        {
+          "pair": [
+            55,
+            64
+          ],
+          "capability_distance": 0.020771870389580727,
+          "marginal_kl": 1.765625
+        },
+        {
+          "pair": [
+            7,
+            24
+          ],
+          "capability_distance": 0.02134244330227375,
+          "marginal_kl": 1.650390625
+        },
+        {
+          "pair": [
+            24,
+            47
+          ],
+          "capability_distance": 0.02161150984466076,
+          "marginal_kl": 1.6484375
+        },
+        {
+          "pair": [
+            58,
+            62
+          ],
+          "capability_distance": 0.021952584385871887,
+          "marginal_kl": 1.767578125
+        }
+      ]
+    },
+    {
+      "step": 46,
+      "experts_before": 83,
+      "experts_after": 82,
+      "selected_pair": [
+        57,
+        61
+      ],
+      "marginal_kl": 1.630859375,
+      "cumulative_kl": 70.0751953125,
+      "step_time_sec": 379.59709429740906,
+      "all_candidates": [
+        {
+          "pair": [
+            2,
+            45
+          ],
+          "capability_distance": 0.020097026601433754,
+          "marginal_kl": 1.6640625
+        },
+        {
+          "pair": [
+            1,
+            72
+          ],
+          "capability_distance": 0.02052474580705166,
+          "marginal_kl": 1.92578125
+        },
+        {
+          "pair": [
+            57,
+            61
+          ],
+          "capability_distance": 0.020895004272460938,
+          "marginal_kl": 1.630859375
+        },
+        {
+          "pair": [
+            36,
+            49
+          ],
+          "capability_distance": 0.021658923476934433,
+          "marginal_kl": 1.798828125
+        },
+        {
+          "pair": [
+            1,
+            22
+          ],
+          "capability_distance": 0.022245820611715317,
+          "marginal_kl": 1.78515625
+        }
+      ]
+    },
+    {
+      "step": 47,
+      "experts_before": 82,
+      "experts_after": 81,
+      "selected_pair": [
+        57,
+        61
+      ],
+      "marginal_kl": 1.626953125,
+      "cumulative_kl": 71.7021484375,
+      "step_time_sec": 369.10333728790283,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            71
+          ],
+          "capability_distance": 0.019659725949168205,
+          "marginal_kl": 1.84765625
+        },
+        {
+          "pair": [
+            57,
+            61
+          ],
+          "capability_distance": 0.021458711475133896,
+          "marginal_kl": 1.626953125
+        },
+        {
+          "pair": [
+            1,
+            58
+          ],
+          "capability_distance": 0.02166667953133583,
+          "marginal_kl": 1.75
+        },
+        {
+          "pair": [
+            17,
+            20
+          ],
+          "capability_distance": 0.02191397175192833,
+          "marginal_kl": 1.818359375
+        },
+        {
+          "pair": [
+            2,
+            45
+          ],
+          "capability_distance": 0.022225702181458473,
+          "marginal_kl": 1.6484375
+        }
+      ]
+    },
+    {
+      "step": 48,
+      "experts_before": 81,
+      "experts_after": 80,
+      "selected_pair": [
+        2,
+        45
+      ],
+      "marginal_kl": 1.6171875,
+      "cumulative_kl": 73.3193359375,
+      "step_time_sec": 372.4474730491638,
+      "all_candidates": [
+        {
+          "pair": [
+            1,
+            70
+          ],
+          "capability_distance": 0.019872255623340607,
+          "marginal_kl": 1.697265625
+        },
+        {
+          "pair": [
+            54,
+            61
+          ],
+          "capability_distance": 0.021118363365530968,
+          "marginal_kl": 1.81640625
+        },
+        {
+          "pair": [
+            1,
+            39
+          ],
+          "capability_distance": 0.02177000418305397,
+          "marginal_kl": 1.958984375
+        },
+        {
+          "pair": [
+            2,
+            45
+          ],
+          "capability_distance": 0.021772904321551323,
+          "marginal_kl": 1.6171875
+        },
+        {
+          "pair": [
+            1,
+            58
+          ],
+          "capability_distance": 0.02192373387515545,
+          "marginal_kl": 1.775390625
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_wall_time": 21149.050078630447,
+    "total_merges": 48,
+    "candidate_evals": 240,
+    "final_cumulative_kl": 73.3193359375
+  }
+}

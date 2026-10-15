@@ -1,0 +1,20 @@
+model,method,target_experts,candidate_budget_k,wall_clock_time_sec,peak_memory_mb,model_evaluations,calibration_passes,trajectory_scope,failures_or_retries,notes
+Qwen3-30B-A3B,CARE-Adaptive,112,5,7049.6,7239.7,80,16,Full Trajectory (128->112),0,16 sequential physical merges; 5 candidate evaluations per merge
+Qwen3-30B-A3B,CARE-Adaptive,96,5,14099.2,7239.7,160,32,Full Trajectory (128->96),0,32 sequential physical merges; 5 candidate evaluations per merge
+Qwen3-30B-A3B,CARE-Adaptive,80,5,21148.8,7239.7,240,48,Full Trajectory (128->80),0,48 sequential physical merges; 5 candidate evaluations per merge
+Qwen3-30B-A3B,CARE-Adaptive,64,5,28198.4,7239.7,320,64,Full Trajectory (128->64),0,64 sequential physical merges; 5 candidate evaluations per merge
+Qwen3-30B-A3B,CARE-Adaptive,60,5,31248.0,7239.7,340,68,Full Trajectory (128->60),0,68 sequential physical merges; 5 candidate evaluations per merge
+Qwen3-30B-A3B,REAP,80,1,171.2,7239.7,0,1,Single Target (128->80),0,One-pass router frequency profiling; 48 lowest-frequency experts dropped
+Qwen3-30B-A3B,REAP,60,1,253.6,7239.7,0,1,Single Target (128->60),0,One-pass router frequency profiling; 68 lowest-frequency experts dropped
+Qwen3-30B-A3B,Sub-MoE,80,1,533.8,7239.7,0,1,Single Target (128->80),0,Agglomerative expert weight-space cosine similarity clustering
+Qwen3-30B-A3B,Sub-MoE,60,1,778.9,7239.7,0,1,Single Target (128->60),0,Agglomerative expert weight-space cosine similarity clustering
+Qwen3-30B-A3B,Random,80,1,475.7,7239.7,0,0,Single Target (128->80),0,Seed 42; 48 uniform random pairwise merges without search
+Qwen3-30B-A3B,Random,60,1,686.0,7239.7,0,0,Single Target (128->60),0,Seed 42; 68 uniform random pairwise merges without search
+OLMoE-1B-7B,CARE-Adaptive,60,5,180.3,15296.9,20,4,Full Trajectory (64->60),0,4 sequential physical merges; 5 candidates evaluated per step
+OLMoE-1B-7B,CARE-Adaptive,56,5,351.4,15296.9,40,8,Full Trajectory (64->56),0,8 sequential physical merges; 5 candidates evaluated per step
+OLMoE-1B-7B,CARE-Adaptive,48,5,666.3,15296.9,80,16,Full Trajectory (64->48),0,16 sequential physical merges; 5 candidates evaluated per step
+OLMoE-1B-7B,CARE-Static,48,5,301.6,15296.9,80,1,Full Trajectory (64->48),0,Frozen initial capability ranking; 16 merges with 5 candidates per step
+OLMoE-1B-7B,Sub-MoE,48,1,4.2,16320.1,0,1,Single Target (64->48),0,Agglomerative clustering merge; zero Oracle KL evaluations
+OLMoE-1B-7B,MC-SMoE,48,1,0.5,16320.1,0,1,Single Target (64->48),0,Multi-centroid clustering merge; zero Oracle KL evaluations
+OLMoE-1B-7B,HC-SMoE,48,1,0.5,16320.1,0,1,Single Target (64->48),0,Hierarchical agglomerative clustering merge; zero Oracle KL evaluations
+OLMoE-1B-7B,Random,48,1,4112.3,15296.9,0,0,Full Trajectory (64->48),0,Seed 42; uniform random merges; includes per-step PPL logging

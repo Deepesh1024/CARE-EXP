@@ -1,0 +1,88 @@
+=================================================================
+PHASE 3: COMPREHENSIVE REASONING EVALUATION (GSM8K & MATH-500)
+=================================================================
+
+=======================================================
+EVALUATING REASONING CAPABILITY: Baseline-128 (128 experts)
+=======================================================
+[Inference Loader] Loading uncompressed 128-expert baseline...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[W1013 05:53:47.924797288 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 40502296576 bytes (free: 6568607744, total: 50867666944).
+[W1013 05:53:47.925085728 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 40502296576 bytes (free: 6568607744, total: 50867666944).
+[Error] Failed reasoning evaluation on Baseline-128: CUDA out of memory. Tried to allocate 37.72 GiB. GPU 0 has a total capacity of 47.37 GiB of which 6.12 GiB is free. Process 2335295 has 426.00 MiB memory in use. Process 3691855 has 40.41 GiB memory in use. Including non-PyTorch memory, this process has 426.00 MiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+Traceback (most recent call last):
+  File "/home/ubuntu/DEEPESH/run_exp14_reasoning_eval.py", line 370, in main
+    model = load_model_for_inference(ckpt, n_exp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/run_exp14_reasoning_eval.py", line 101, in load_model_for_inference
+    model = AutoModelForCausalLM.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 411, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4338, in from_pretrained
+    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4418, in _load_pretrained_model
+    caching_allocator_warmup(model, expanded_device_map, load_config.hf_quantizer)
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/transformers/modeling_utils.py", line 5106, in caching_allocator_warmup
+    _ = torch.empty(int(byte_count // 2), dtype=torch.float16, device=device, requires_grad=False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 37.72 GiB. GPU 0 has a total capacity of 47.37 GiB of which 6.12 GiB is free. Process 2335295 has 426.00 MiB memory in use. Process 3691855 has 40.41 GiB memory in use. Including non-PyTorch memory, this process has 426.00 MiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+
+=======================================================
+EVALUATING REASONING CAPABILITY: CARE-Adaptive-60 (60 experts)
+=======================================================
+[Inference Loader] Instantiating 60-expert model structure via meta device...
+[Inference Loader] Empty structure created in 0.30s
+[Inference Loader] Loading weights from /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/care_adaptive_60exp.pt...
+[Inference Loader] State dict loaded in 77.14s
+[Inference Loader] Transferring model to GPU (model.to('cuda'))...
+[W1013 05:55:06.962372723 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 377487360 bytes (free: 373620736, total: 50867666944).
+[W1013 05:55:06.962614393 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 377487360 bytes (free: 373620736, total: 50867666944).
+[Error] Failed reasoning evaluation on CARE-Adaptive-60: CUDA out of memory. Tried to allocate 360.00 MiB. GPU 0 has a total capacity of 47.37 GiB of which 356.31 MiB is free. Process 2335295 has 426.00 MiB memory in use. Process 3691855 has 40.49 GiB memory in use. Including non-PyTorch memory, this process has 6.10 GiB memory in use. Of the allocated memory 5.68 GiB is allocated by PyTorch, and 1.81 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+Traceback (most recent call last):
+  File "/home/ubuntu/DEEPESH/run_exp14_reasoning_eval.py", line 370, in main
+    model = load_model_for_inference(ckpt, n_exp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/run_exp14_reasoning_eval.py", line 134, in load_model_for_inference
+    model.to("cuda")
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/transformers/modeling_utils.py", line 3711, in to
+    return super().to(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1388, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/torch/nn/modules/module.py", line 933, in _apply
+    module._apply(fn)
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/torch/nn/modules/module.py", line 933, in _apply
+    module._apply(fn)
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/torch/nn/modules/module.py", line 933, in _apply
+    module._apply(fn)
+  [Previous line repeated 2 more times]
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/torch/nn/modules/module.py", line 966, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/ubuntu/DEEPESH/.conda/qwen-care/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1374, in convert
+    return t.to(
+           ^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 360.00 MiB. GPU 0 has a total capacity of 47.37 GiB of which 356.31 MiB is free. Process 2335295 has 426.00 MiB memory in use. Process 3691855 has 40.49 GiB memory in use. Including non-PyTorch memory, this process has 6.10 GiB memory in use. Of the allocated memory 5.68 GiB is allocated by PyTorch, and 1.81 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+
+=======================================================
+EVALUATING REASONING CAPABILITY: REAP-60 (60 experts)
+=======================================================
+[Inference Loader] Instantiating 60-expert model structure via meta device...
+[Inference Loader] Empty structure created in 0.39s
+[Inference Loader] Loading weights from /home/ubuntu/DEEPESH/exp14_reasoning/checkpoints/reap_60exp.pt...
+[Inference Loader] State dict loaded in 86.46s
+[Inference Loader] Transferring model to GPU (model.to('cuda'))...
+[Inference Loader] Transferred to GPU in 4.95s | VRAM: 28.17 GB
+
+--- [GSM8K Eval] Running on 100 questions for REAP-60 ---
+  [GSM8K] 10/100 done | Acc: 0.00% (0/10) | Speed: 20.3 tok/s | Elapsed: 252.6s
+  [GSM8K] 20/100 done | Acc: 0.00% (0/20) | Speed: 20.4 tok/s | Elapsed: 504.8s
+  [GSM8K] 30/100 done | Acc: 0.00% (0/30) | Speed: 20.2 tok/s | Elapsed: 756.7s
+  [GSM8K] 40/100 done | Acc: 0.00% (0/40) | Speed: 20.5 tok/s | Elapsed: 1008.6s
+  [GSM8K] 50/100 done | Acc: 0.00% (0/50) | Speed: 20.4 tok/s | Elapsed: 1261.1s
+  [GSM8K] 60/100 done | Acc: 0.00% (0/60) | Speed: 20.2 tok/s | Elapsed: 1512.0s
+  [GSM8K] 70/100 done | Acc: 0.00% (0/70) | Speed: 20.3 tok/s | Elapsed: 1763.8s

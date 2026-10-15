@@ -1,0 +1,6 @@
+model,target_experts,method,wall_clock_sec,wall_clock_formatted,gpu_vram_gb,host_ram_gb,calibration_passes,in_ram_merging,algorithm_family
+Qwen/Qwen3-30B-A3B,80,CARE-Adaptive,21148.8,5h 52m,0.0,40.2,240,Yes,Geometric Subspace Dynamic Merging
+Qwen/Qwen3-30B-A3B,80,Sub-MoE,533.8,8m 54s,0.0,40.2,0,Yes,Saliency-Guided Centroid Clustering
+Qwen/Qwen3-30B-A3B,80,Random Merging,475.7,7m 56s,0.0,40.2,0,Yes,Stochastic Uniform Pairing
+Qwen/Qwen3-30B-A3B,80,HC-SMoE,126.8,2m 07s,0.0,40.2,0,Yes,Hierarchical Agglomerative Clustering (Lance-Williams)
+Qwen/Qwen3-30B-A3B,80,MC-SMoE,78.9,1m 19s,0.0,40.2,0,Yes,Router-Guided Multi-Centroid Merging

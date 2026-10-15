@@ -1,0 +1,94 @@
+{
+  "CARE-Adaptive-90": {
+    "model": "CARE-Adaptive-90",
+    "experts": 90,
+    "runtime_sec": 3635.5,
+    "gsm8k": {
+      "accuracy_pct": 22.0,
+      "correct": 22,
+      "total": 100,
+      "total_tokens": 51133,
+      "avg_tokens_per_q": 511.3,
+      "avg_tok_per_sec": 19.94,
+      "scoring_failed_pct": 0.0
+    },
+    "math500": {
+      "accuracy_pct": 2.0,
+      "correct": 1,
+      "total": 50,
+      "total_tokens": 25600,
+      "avg_tokens_per_q": 512.0,
+      "avg_tok_per_sec": 20.21,
+      "scoring_failed_pct": 96.0
+    }
+  },
+  "REAP-90": {
+    "model": "REAP-90",
+    "experts": 90,
+    "runtime_sec": 4221.4,
+    "gsm8k": {
+      "accuracy_pct": 0.0,
+      "correct": 0,
+      "total": 100,
+      "total_tokens": 51200,
+      "avg_tokens_per_q": 512.0,
+      "avg_tok_per_sec": 20.03,
+      "scoring_failed_pct": 100.0
+    },
+    "math500": {
+      "accuracy_pct": 0.0,
+      "correct": 0,
+      "total": 50,
+      "total_tokens": 25600,
+      "avg_tokens_per_q": 512.0,
+      "avg_tok_per_sec": 20.48,
+      "scoring_failed_pct": 100.0
+    }
+  },
+  "Sub-MoE-90": {
+    "model": "Sub-MoE-90",
+    "experts": 90,
+    "runtime_sec": 1993.8,
+    "gsm8k": {
+      "accuracy_pct": 23.0,
+      "correct": 23,
+      "total": 100,
+      "total_tokens": 51200,
+      "avg_tokens_per_q": 512.0,
+      "avg_tok_per_sec": 20.32,
+      "scoring_failed_pct": 0.0
+    },
+    "math500": {
+      "accuracy_pct": 0.0,
+      "correct": 0,
+      "total": 50,
+      "total_tokens": 25600,
+      "avg_tokens_per_q": 512.0,
+      "avg_tok_per_sec": 20.19,
+      "scoring_failed_pct": 96.0
+    }
+  },
+  "Random-90": {
+    "model": "Random-90",
+    "experts": 90,
+    "runtime_sec": 4136.9,
+    "gsm8k": {
+      "accuracy_pct": 28.0,
+      "correct": 28,
+      "total": 100,
+      "total_tokens": 51187,
+      "avg_tokens_per_q": 511.9,
+      "avg_tok_per_sec": 20.44,
+      "scoring_failed_pct": 1.0
+    },
+    "math500": {
+      "accuracy_pct": 4.0,
+      "correct": 2,
+      "total": 50,
+      "total_tokens": 25600,
+      "avg_tokens_per_q": 512.0,
+      "avg_tok_per_sec": 20.55,
+      "scoring_failed_pct": 90.0
+    }
+  }
+}
