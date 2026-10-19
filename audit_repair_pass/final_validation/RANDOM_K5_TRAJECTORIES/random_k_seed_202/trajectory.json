@@ -1,0 +1,980 @@
+{
+  "config": {
+    "model": {
+      "name": "allenai/OLMoE-1B-7B-0924",
+      "device": "cuda",
+      "precision": "bfloat16"
+    },
+    "evaluation": {
+      "dataset": "wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "split": "test",
+      "max_length": 512,
+      "batch_size": 4,
+      "num_eval_chunks": 128
+    },
+    "compression": {
+      "original_experts": 64,
+      "checkpoints": [
+        64,
+        60,
+        56,
+        48
+      ],
+      "candidate_pool_size": 5
+    },
+    "baselines": {
+      "random_seeds": [
+        42,
+        43,
+        44
+      ],
+      "methods_to_run": [
+        "random",
+        "care_static",
+        "care_adaptive",
+        "hc_smoe",
+        "m_smoe",
+        "sub_moe",
+        "ream",
+        "puzzlemoe"
+      ]
+    }
+  },
+  "ppl": {
+    "64": 10.28439712524414,
+    "60": 13.183690071105957,
+    "56": 16.305410385131836,
+    "48": 34.897056579589844
+  },
+  "trace": [
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 1,
+      "experts_before": 64,
+      "experts_after": 63,
+      "candidate_pairs": [
+        {
+          "pair": [
+            22,
+            54
+          ],
+          "marginal_kl": 0.43017578125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            47,
+            62
+          ],
+          "marginal_kl": 0.57989501953125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            9,
+            30
+          ],
+          "marginal_kl": 0.98291015625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            33,
+            56
+          ],
+          "marginal_kl": 0.7025146484375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            2,
+            24
+          ],
+          "marginal_kl": 0.613555908203125,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        22,
+        54
+      ],
+      "marginal_kl": 0.43017578125,
+      "cumulative_kl": 0.43017578125,
+      "evaluations_completed": 5,
+      "wall_time_sec": 11.152809381484985,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 2,
+      "experts_before": 63,
+      "experts_after": 62,
+      "candidate_pairs": [
+        {
+          "pair": [
+            44,
+            52
+          ],
+          "marginal_kl": 0.549896240234375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            7,
+            57
+          ],
+          "marginal_kl": 0.62884521484375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            34,
+            58
+          ],
+          "marginal_kl": 0.80950927734375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            5,
+            49
+          ],
+          "marginal_kl": 0.614593505859375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            15,
+            24
+          ],
+          "marginal_kl": 0.66021728515625,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        44,
+        52
+      ],
+      "marginal_kl": 0.549896240234375,
+      "cumulative_kl": 0.980072021484375,
+      "evaluations_completed": 10,
+      "wall_time_sec": 11.087073564529419,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 3,
+      "experts_before": 62,
+      "experts_after": 61,
+      "candidate_pairs": [
+        {
+          "pair": [
+            27,
+            59
+          ],
+          "marginal_kl": 0.77294921875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            18,
+            51
+          ],
+          "marginal_kl": 0.77349853515625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            0,
+            57
+          ],
+          "marginal_kl": 0.7012939453125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            5,
+            42
+          ],
+          "marginal_kl": 0.72430419921875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            12,
+            25
+          ],
+          "marginal_kl": 0.6541748046875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        12,
+        25
+      ],
+      "marginal_kl": 0.6541748046875,
+      "cumulative_kl": 1.634246826171875,
+      "evaluations_completed": 15,
+      "wall_time_sec": 11.018751859664917,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 4,
+      "experts_before": 61,
+      "experts_after": 60,
+      "candidate_pairs": [
+        {
+          "pair": [
+            16,
+            32
+          ],
+          "marginal_kl": 0.75579833984375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            38,
+            47
+          ],
+          "marginal_kl": 0.7158203125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            28,
+            42
+          ],
+          "marginal_kl": 0.7403564453125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            22,
+            33
+          ],
+          "marginal_kl": 0.90374755859375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            21,
+            54
+          ],
+          "marginal_kl": 1.01904296875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        38,
+        47
+      ],
+      "marginal_kl": 0.7158203125,
+      "cumulative_kl": 2.350067138671875,
+      "evaluations_completed": 20,
+      "wall_time_sec": 10.967646360397339,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 5,
+      "experts_before": 60,
+      "experts_after": 59,
+      "candidate_pairs": [
+        {
+          "pair": [
+            7,
+            51
+          ],
+          "marginal_kl": 0.9228515625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            29,
+            45
+          ],
+          "marginal_kl": 0.86224365234375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            9,
+            22
+          ],
+          "marginal_kl": 1.211669921875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            7,
+            36
+          ],
+          "marginal_kl": 0.86419677734375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            22,
+            45
+          ],
+          "marginal_kl": 0.77581787109375,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        22,
+        45
+      ],
+      "marginal_kl": 0.77581787109375,
+      "cumulative_kl": 3.125885009765625,
+      "evaluations_completed": 25,
+      "wall_time_sec": 10.903510808944702,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 6,
+      "experts_before": 59,
+      "experts_after": 58,
+      "candidate_pairs": [
+        {
+          "pair": [
+            7,
+            18
+          ],
+          "marginal_kl": 0.96893310546875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            23,
+            51
+          ],
+          "marginal_kl": 0.82598876953125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            0,
+            50
+          ],
+          "marginal_kl": 0.886474609375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            20,
+            58
+          ],
+          "marginal_kl": 0.800994873046875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            26,
+            46
+          ],
+          "marginal_kl": 0.85040283203125,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        20,
+        58
+      ],
+      "marginal_kl": 0.800994873046875,
+      "cumulative_kl": 3.9268798828125,
+      "evaluations_completed": 30,
+      "wall_time_sec": 10.85004711151123,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 7,
+      "experts_before": 58,
+      "experts_after": 57,
+      "candidate_pairs": [
+        {
+          "pair": [
+            24,
+            57
+          ],
+          "marginal_kl": 0.9014892578125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            43,
+            56
+          ],
+          "marginal_kl": 1.01629638671875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            7,
+            35
+          ],
+          "marginal_kl": 1.101318359375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            6,
+            23
+          ],
+          "marginal_kl": 1.042724609375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            27,
+            41
+          ],
+          "marginal_kl": 0.8853759765625,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        27,
+        41
+      ],
+      "marginal_kl": 0.8853759765625,
+      "cumulative_kl": 4.812255859375,
+      "evaluations_completed": 35,
+      "wall_time_sec": 10.795670509338379,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 8,
+      "experts_before": 57,
+      "experts_after": 56,
+      "candidate_pairs": [
+        {
+          "pair": [
+            29,
+            49
+          ],
+          "marginal_kl": 1.2330322265625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            19,
+            49
+          ],
+          "marginal_kl": 1.0928955078125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            3,
+            11
+          ],
+          "marginal_kl": 1.05029296875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            26,
+            55
+          ],
+          "marginal_kl": 1.085205078125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            1,
+            18
+          ],
+          "marginal_kl": 1.075927734375,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        3,
+        11
+      ],
+      "marginal_kl": 1.05029296875,
+      "cumulative_kl": 5.862548828125,
+      "evaluations_completed": 40,
+      "wall_time_sec": 10.738684892654419,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 9,
+      "experts_before": 56,
+      "experts_after": 55,
+      "candidate_pairs": [
+        {
+          "pair": [
+            18,
+            42
+          ],
+          "marginal_kl": 1.111083984375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            13,
+            17
+          ],
+          "marginal_kl": 1.40283203125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            22,
+            53
+          ],
+          "marginal_kl": 1.10687255859375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            9,
+            27
+          ],
+          "marginal_kl": 1.359375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            13,
+            36
+          ],
+          "marginal_kl": 1.6357421875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        22,
+        53
+      ],
+      "marginal_kl": 1.10687255859375,
+      "cumulative_kl": 6.96942138671875,
+      "evaluations_completed": 45,
+      "wall_time_sec": 10.686235904693604,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 10,
+      "experts_before": 55,
+      "experts_after": 54,
+      "candidate_pairs": [
+        {
+          "pair": [
+            21,
+            53
+          ],
+          "marginal_kl": 1.2548828125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            30,
+            35
+          ],
+          "marginal_kl": 1.1552734375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            21,
+            49
+          ],
+          "marginal_kl": 1.1527099609375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            1,
+            8
+          ],
+          "marginal_kl": 1.15771484375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            17,
+            34
+          ],
+          "marginal_kl": 1.3717041015625,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        21,
+        49
+      ],
+      "marginal_kl": 1.1527099609375,
+      "cumulative_kl": 8.12213134765625,
+      "evaluations_completed": 50,
+      "wall_time_sec": 10.631645917892456,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 11,
+      "experts_before": 54,
+      "experts_after": 53,
+      "candidate_pairs": [
+        {
+          "pair": [
+            32,
+            40
+          ],
+          "marginal_kl": 1.27099609375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            34,
+            37
+          ],
+          "marginal_kl": 1.251220703125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            14,
+            24
+          ],
+          "marginal_kl": 1.278564453125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            25,
+            35
+          ],
+          "marginal_kl": 1.2958984375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            10,
+            48
+          ],
+          "marginal_kl": 1.3046875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        34,
+        37
+      ],
+      "marginal_kl": 1.251220703125,
+      "cumulative_kl": 9.37335205078125,
+      "evaluations_completed": 55,
+      "wall_time_sec": 10.553289651870728,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 12,
+      "experts_before": 53,
+      "experts_after": 52,
+      "candidate_pairs": [
+        {
+          "pair": [
+            10,
+            43
+          ],
+          "marginal_kl": 1.299072265625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            23,
+            45
+          ],
+          "marginal_kl": 1.3192138671875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            32,
+            44
+          ],
+          "marginal_kl": 1.4783935546875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            9,
+            24
+          ],
+          "marginal_kl": 2.0262451171875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            8,
+            18
+          ],
+          "marginal_kl": 1.341796875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        10,
+        43
+      ],
+      "marginal_kl": 1.299072265625,
+      "cumulative_kl": 10.67242431640625,
+      "evaluations_completed": 60,
+      "wall_time_sec": 10.48302674293518,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 13,
+      "experts_before": 52,
+      "experts_after": 51,
+      "candidate_pairs": [
+        {
+          "pair": [
+            3,
+            33
+          ],
+          "marginal_kl": 1.3724365234375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            9,
+            30
+          ],
+          "marginal_kl": 1.792724609375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            8,
+            12
+          ],
+          "marginal_kl": 1.51806640625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            16,
+            48
+          ],
+          "marginal_kl": 1.6671142578125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            6,
+            8
+          ],
+          "marginal_kl": 1.3143310546875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        6,
+        8
+      ],
+      "marginal_kl": 1.3143310546875,
+      "cumulative_kl": 11.98675537109375,
+      "evaluations_completed": 65,
+      "wall_time_sec": 10.436921119689941,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 14,
+      "experts_before": 51,
+      "experts_after": 50,
+      "candidate_pairs": [
+        {
+          "pair": [
+            8,
+            47
+          ],
+          "marginal_kl": 1.8056640625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            18,
+            45
+          ],
+          "marginal_kl": 1.4019775390625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            30,
+            50
+          ],
+          "marginal_kl": 1.4259033203125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            2,
+            27
+          ],
+          "marginal_kl": 1.37451171875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            29,
+            38
+          ],
+          "marginal_kl": 1.187744140625,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        29,
+        38
+      ],
+      "marginal_kl": 1.187744140625,
+      "cumulative_kl": 13.17449951171875,
+      "evaluations_completed": 70,
+      "wall_time_sec": 10.380558013916016,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 15,
+      "experts_before": 50,
+      "experts_after": 49,
+      "candidate_pairs": [
+        {
+          "pair": [
+            3,
+            21
+          ],
+          "marginal_kl": 1.22607421875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            1,
+            38
+          ],
+          "marginal_kl": 1.2208251953125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            0,
+            45
+          ],
+          "marginal_kl": 1.262451171875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            4,
+            49
+          ],
+          "marginal_kl": 1.2554931640625,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            5,
+            47
+          ],
+          "marginal_kl": 1.312744140625,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        1,
+        38
+      ],
+      "marginal_kl": 1.2208251953125,
+      "cumulative_kl": 14.39532470703125,
+      "evaluations_completed": 75,
+      "wall_time_sec": 10.304861068725586,
+      "peak_memory_mb": 26306.12646484375
+    },
+    {
+      "method": "random_k_seed_202",
+      "seed": 202,
+      "step": 16,
+      "experts_before": 49,
+      "experts_after": 48,
+      "candidate_pairs": [
+        {
+          "pair": [
+            0,
+            2
+          ],
+          "marginal_kl": 1.2305908203125,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            15,
+            39
+          ],
+          "marginal_kl": 1.25341796875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            15,
+            24
+          ],
+          "marginal_kl": 1.2078857421875,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            6,
+            7
+          ],
+          "marginal_kl": 1.2855224609375,
+          "status": "valid"
+        },
+        {
+          "pair": [
+            5,
+            27
+          ],
+          "marginal_kl": 1.513671875,
+          "status": "valid"
+        }
+      ],
+      "selected_pair": [
+        15,
+        24
+      ],
+      "marginal_kl": 1.2078857421875,
+      "cumulative_kl": 15.60321044921875,
+      "evaluations_completed": 80,
+      "wall_time_sec": 10.22926378250122,
+      "peak_memory_mb": 26306.12646484375
+    }
+  ]
+}

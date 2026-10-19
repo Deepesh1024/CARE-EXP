@@ -8,12 +8,21 @@ def prepare_wikitext_eval_batches(tokenizer, config):
     Loads WikiText-2 and chunks it into fixed-length sequences.
     Re-uses the CARE-COM v2.2 data loading protocol exactly.
     """
-    print("[Benchmark] Loading WikiText-2 for PPL evaluation...")
-    dataset = load_dataset(
-        config['evaluation']['dataset'],
-        config['evaluation']['subset'],
-        split=config['evaluation']['split']
-    )
+    dataset_name = config['evaluation']['dataset']
+    if dataset_name == "wikitext":
+        dataset_name = "Salesforce/wikitext"
+    try:
+        dataset = load_dataset(
+            dataset_name,
+            config['evaluation']['subset'],
+            split=config['evaluation']['split']
+        )
+    except Exception:
+        dataset = load_dataset(
+            config['evaluation']['dataset'],
+            config['evaluation']['subset'],
+            split=config['evaluation']['split']
+        )
     
     # Simple chunking approach to match v2.2 exactly
     text = "\n\n".join(dataset["text"])

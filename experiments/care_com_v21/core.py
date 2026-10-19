@@ -22,6 +22,7 @@ class PhysicalMergeEngine:
         first_block = self.moe_blocks[0]
         router = getattr(first_block, "gate", getattr(first_block, "router", None))
         self.current_num_experts = router.weight.shape[0]
+        self.is_fused = hasattr(first_block.experts, "gate_up_proj")
         
         self._snapshot = None
         
@@ -30,40 +31,47 @@ class PhysicalMergeEngine:
         self._snapshot = {
             "expert_i": expert_i,
             "model_num_experts": getattr(self.model.config, 'num_experts', None),
+            "is_fused": self.is_fused,
             "blocks": []
         }
         
-        for block in self.moe_blocks:
-            router = getattr(block, "gate", getattr(block, "router", None))
-            
-            # Save original experts list (module list itself)
-            original_experts = nn.ModuleList([exp for exp in block.experts])
-            
-            # Save router weights
-            original_router_weight = router.weight.clone().detach()
-            
-            # Save num_experts attributes across the block recursively
-            num_experts_map = []
-            for module in block.modules():
-                if hasattr(module, 'num_experts'):
-                    num_experts_map.append((module, module.num_experts))
-                    
-            # Deepcopy ONLY the weights that are going to be in-place modified during merge
-            exp = block.experts[expert_i]
-            expert_weights = {
-                "gate": exp.gate_proj.weight.clone().detach(),
-                "up": exp.up_proj.weight.clone().detach(),
-                "down": exp.down_proj.weight.clone().detach()
-            }
+        if self.is_fused:
+            for block in self.moe_blocks:
+                router = getattr(block, "gate", getattr(block, "router", None))
+                self._snapshot["blocks"].append({
+                    "block": block,
+                    "router": router,
+                    "gate_up": block.experts.gate_up_proj.data.clone(),
+                    "down": block.experts.down_proj.data.clone(),
+                    "router_weight": router.weight.data.clone(),
+                    "num_experts": self.current_num_experts
+                })
+        else:
+            for block in self.moe_blocks:
+                router = getattr(block, "gate", getattr(block, "router", None))
+                original_experts = nn.ModuleList([exp for exp in block.experts])
+                original_router_weight = router.weight.clone().detach()
                 
-            self._snapshot["blocks"].append({
-                "block": block,
-                "router": router,
-                "experts": original_experts,
-                "expert_weights": expert_weights,
-                "router_weight": original_router_weight,
-                "num_experts_map": num_experts_map
-            })
+                num_experts_map = []
+                for module in block.modules():
+                    if hasattr(module, 'num_experts'):
+                        num_experts_map.append((module, module.num_experts))
+                        
+                exp = block.experts[expert_i]
+                expert_weights = {
+                    "gate": exp.gate_proj.weight.clone().detach(),
+                    "up": exp.up_proj.weight.clone().detach(),
+                    "down": exp.down_proj.weight.clone().detach()
+                }
+                    
+                self._snapshot["blocks"].append({
+                    "block": block,
+                    "router": router,
+                    "experts": original_experts,
+                    "expert_weights": expert_weights,
+                    "router_weight": original_router_weight,
+                    "num_experts_map": num_experts_map
+                })
             
     def restore(self):
         """Restores the model precisely to the state in the snapshot."""
@@ -75,28 +83,39 @@ class PhysicalMergeEngine:
         if self._snapshot["model_num_experts"] is not None:
             self.model.config.num_experts = self._snapshot["model_num_experts"]
             
-        for b_data in self._snapshot["blocks"]:
-            block = b_data["block"]
-            router = b_data["router"]
-            
-            # Restore experts ModuleList
-            block.experts = b_data["experts"]
-            
-            # Restore expert parameter weights that were modified in-place
-            w_dict = b_data["expert_weights"]
-            exp = block.experts[expert_i]
-            exp.gate_proj.weight.data.copy_(w_dict["gate"])
-            exp.up_proj.weight.data.copy_(w_dict["up"])
-            exp.down_proj.weight.data.copy_(w_dict["down"])
-            
-            # Restore router weight
-            router.weight = nn.Parameter(b_data["router_weight"])
-            
-            # Restore num_experts map
-            for module, orig_val in b_data["num_experts_map"]:
-                module.num_experts = orig_val
+        if self._snapshot["is_fused"]:
+            for b_data in self._snapshot["blocks"]:
+                block = b_data["block"]
+                router = b_data["router"]
+                orig_n = b_data["num_experts"]
                 
-        self.current_num_experts = self._snapshot["blocks"][0]["router"].weight.shape[0]
+                block.experts.gate_up_proj = nn.Parameter(b_data["gate_up"])
+                block.experts.down_proj = nn.Parameter(b_data["down"])
+                router.weight = nn.Parameter(b_data["router_weight"])
+                if hasattr(block.experts, 'num_experts'):
+                    block.experts.num_experts = orig_n
+                if hasattr(router, 'num_experts'):
+                    router.num_experts = orig_n
+            self.current_num_experts = self._snapshot["blocks"][0]["num_experts"]
+        else:
+            for b_data in self._snapshot["blocks"]:
+                block = b_data["block"]
+                router = b_data["router"]
+                
+                block.experts = b_data["experts"]
+                
+                w_dict = b_data["expert_weights"]
+                exp = block.experts[expert_i]
+                exp.gate_proj.weight.data.copy_(w_dict["gate"])
+                exp.up_proj.weight.data.copy_(w_dict["up"])
+                exp.down_proj.weight.data.copy_(w_dict["down"])
+                
+                router.weight = nn.Parameter(b_data["router_weight"])
+                
+                for module, orig_val in b_data["num_experts_map"]:
+                    module.num_experts = orig_val
+                    
+            self.current_num_experts = self._snapshot["blocks"][0]["router"].weight.shape[0]
         self._snapshot = None
 
     @torch.no_grad()
@@ -108,47 +127,79 @@ class PhysicalMergeEngine:
         if expert_i >= self.current_num_experts or expert_j >= self.current_num_experts:
             raise ValueError(f"Invalid expert indices {expert_i}, {expert_j} for N={self.current_num_experts}")
             
-        for block in self.moe_blocks:
-            router_module = getattr(block, "gate", getattr(block, "router", None))
-            
-            # 1. Merge the internal expert MLPs
-            gate_new = (block.experts[expert_i].gate_proj.weight.data + block.experts[expert_j].gate_proj.weight.data) / 2.0
-            up_new = (block.experts[expert_i].up_proj.weight.data + block.experts[expert_j].up_proj.weight.data) / 2.0
-            down_new = (block.experts[expert_i].down_proj.weight.data + block.experts[expert_j].down_proj.weight.data) / 2.0
-            
-            # 2. Merge router weights
-            router_w = router_module.weight.data
-            router_new = (router_w[expert_i] + router_w[expert_j]) / 2.0
-            
-            # Update expert i in-place
-            block.experts[expert_i].gate_proj.weight.data.copy_(gate_new)
-            block.experts[expert_i].up_proj.weight.data.copy_(up_new)
-            block.experts[expert_i].down_proj.weight.data.copy_(down_new)
-            
-            # 3. Create a new smaller ModuleList omitting expert_j
-            keep_indices = [idx for idx in range(len(block.experts)) if idx != expert_j]
-            new_experts = nn.ModuleList([block.experts[idx] for idx in keep_indices])
-            block.experts = new_experts
-            
-            new_expert_i = keep_indices.index(expert_i)
-            
-            # 4. Create smaller router parameter
-            new_router_w = router_w[keep_indices].clone()
-            new_router_w[new_expert_i] = router_new
-            router_module.weight = nn.Parameter(new_router_w)
-            
-            new_num_experts = len(keep_indices)
-            
-            # 5. Update recursively the HF `num_experts` properties
-            for module in block.modules():
-                if hasattr(module, 'num_experts'):
-                    module.num_experts = new_num_experts
+        if self.is_fused:
+            if expert_i > expert_j:
+                expert_i, expert_j = expert_j, expert_i
+                
+            for block in self.moe_blocks:
+                router_module = getattr(block, "gate", getattr(block, "router", None))
+                dev = block.experts.gate_up_proj.device
+                n = self.current_num_experts
+                
+                avg_gate_up = (block.experts.gate_up_proj.data[expert_i] + block.experts.gate_up_proj.data[expert_j]) / 2.0
+                avg_down = (block.experts.down_proj.data[expert_i] + block.experts.down_proj.data[expert_j]) / 2.0
+                avg_router = (router_module.weight.data[expert_i] + router_module.weight.data[expert_j]) / 2.0
+                
+                keep_idx = torch.tensor([k for k in range(n) if k != expert_j], device=dev)
+                new_gate_up = block.experts.gate_up_proj.data[keep_idx]
+                new_down = block.experts.down_proj.data[keep_idx]
+                new_router = router_module.weight.data[keep_idx]
+                
+                new_gate_up[expert_i] = avg_gate_up
+                new_down[expert_i] = avg_down
+                new_router[expert_i] = avg_router
+                
+                block.experts.gate_up_proj = nn.Parameter(new_gate_up)
+                block.experts.down_proj = nn.Parameter(new_down)
+                router_module.weight = nn.Parameter(new_router)
+                
+                if hasattr(block.experts, 'num_experts'):
+                    block.experts.num_experts = n - 1
+                if hasattr(router_module, 'num_experts'):
+                    router_module.num_experts = n - 1
+                    
+            self.current_num_experts -= 1
+        else:
+            for block in self.moe_blocks:
+                router_module = getattr(block, "gate", getattr(block, "router", None))
+                
+                # 1. Merge the internal expert MLPs
+                gate_new = (block.experts[expert_i].gate_proj.weight.data + block.experts[expert_j].gate_proj.weight.data) / 2.0
+                up_new = (block.experts[expert_i].up_proj.weight.data + block.experts[expert_j].up_proj.weight.data) / 2.0
+                down_new = (block.experts[expert_i].down_proj.weight.data + block.experts[expert_j].down_proj.weight.data) / 2.0
+                
+                # 2. Merge router weights
+                router_w = router_module.weight.data
+                router_new = (router_w[expert_i] + router_w[expert_j]) / 2.0
+                
+                # Update expert i in-place
+                block.experts[expert_i].gate_proj.weight.data.copy_(gate_new)
+                block.experts[expert_i].up_proj.weight.data.copy_(up_new)
+                block.experts[expert_i].down_proj.weight.data.copy_(down_new)
+                
+                # 3. Create a new smaller ModuleList omitting expert_j
+                keep_indices = [idx for idx in range(len(block.experts)) if idx != expert_j]
+                new_experts = nn.ModuleList([block.experts[idx] for idx in keep_indices])
+                block.experts = new_experts
+                
+                new_expert_i = keep_indices.index(expert_i)
+                
+                # 4. Create smaller router parameter
+                new_router_w = router_w[keep_indices].clone()
+                new_router_w[new_expert_i] = router_new
+                router_module.weight = nn.Parameter(new_router_w)
+                
+                new_num_experts = len(keep_indices)
+                
+                # 5. Update recursively the HF `num_experts` properties
+                for module in block.modules():
+                    if hasattr(module, 'num_experts'):
+                        module.num_experts = new_num_experts
+            self.current_num_experts -= 1
                     
         # Update config
         if hasattr(self.model.config, 'num_experts'):
-            self.model.config.num_experts = new_num_experts
-            
-        self.current_num_experts = new_num_experts
+            self.model.config.num_experts = self.current_num_experts
 
 def generate_candidate_pool(distances: Dict[int, Dict[int, float]], pool_size: int) -> List[Tuple[int, int]]:
     """

@@ -1,0 +1,3 @@
+timestamp,component,phase,error_type,description,remediation
+2026-10-15T11:00:00Z,master_report,Phase 2,Table Contradiction,MC-SMoE PPL contradiction (304.5240 vs 235.3179) caused by router state leakage from top_k sweep,Audited and fixed in audit_fix_hcsmoe_mcsmoe_k8.py with strict top_k=8 assertion. True PPL is 235.3179.
+2026-10-15T18:11:00Z,rerun_harness,Phase 2,RuntimeError,Device mismatch in SequentialQwen3Runner when transitioning from Regime A (Pure GPU) back to Regime B (Streaming),embed_tokens and lm_head were moved to CPU by model.to('cpu'). Added ensure_gpu_pinned() to SequentialQwen3Runner before every forward pass.
