@@ -1,0 +1,74 @@
+{
+  "methods": {
+    "care_adaptive": {
+      "method_id": "care_adaptive",
+      "name": "CARE-Adaptive",
+      "paradigm": "parameter_merging",
+      "fidelity_status": "FAITHFUL",
+      "description": "Dynamic capability recomputation + micro-eval candidate ranking + sequential transactional commit",
+      "stochastic": true,
+      "depends_on_seed": true,
+      "supports_probe_strategies": ["generic", "specific", "multi"]
+    },
+    "care_static": {
+      "method_id": "care_static",
+      "name": "CARE-Static",
+      "paradigm": "parameter_merging",
+      "fidelity_status": "FAITHFUL",
+      "description": "Frozen initial capability ranking + micro-eval candidate ranking + sequential transactional commit",
+      "stochastic": false,
+      "depends_on_seed": false,
+      "supports_probe_strategies": ["generic", "specific", "multi"]
+    },
+    "random": {
+      "method_id": "random",
+      "name": "Random-K5 Control",
+      "paradigm": "parameter_merging",
+      "fidelity_status": "CONTROL",
+      "description": "Uniform random K=5 candidate nomination + micro-eval transactional commit",
+      "stochastic": true,
+      "depends_on_seed": true,
+      "supports_probe_strategies": ["none"]
+    },
+    "reap_prune": {
+      "method_id": "reap_prune",
+      "name": "REAP-Prune",
+      "paradigm": "expert_pruning",
+      "fidelity_status": "FAITHFUL",
+      "description": "Router-weighted activation saliency accumulation and physical expert deletion (pruning without parameter fusion)",
+      "stochastic": false,
+      "depends_on_seed": false,
+      "supports_probe_strategies": ["none"]
+    },
+    "sub_moe": {
+      "method_id": "sub_moe",
+      "name": "Sub-MoE",
+      "paradigm": "parameter_merging",
+      "fidelity_status": "ADAPTED_PROXY",
+      "description": "Characteristic activation / router proxy clustering with frequency-weighted singular component reconstruction or direct averaging",
+      "stochastic": false,
+      "depends_on_seed": false,
+      "supports_probe_strategies": ["none"]
+    },
+    "hc_smoe": {
+      "method_id": "hc_smoe",
+      "name": "HC-SMoE",
+      "paradigm": "parameter_merging",
+      "fidelity_status": "PARTIAL_PROXY",
+      "description": "Lance-Williams hierarchical agglomerative clustering using router-cosine or weight-proxy dissimilarity",
+      "stochastic": false,
+      "depends_on_seed": false,
+      "supports_probe_strategies": ["none"]
+    },
+    "mc_smoe": {
+      "method_id": "mc_smoe",
+      "name": "MC-SMoE",
+      "paradigm": "parameter_merging",
+      "fidelity_status": "PARTIAL",
+      "description": "Routing-guided core expert selection with bipartite Hungarian matching (Stages 1-4 only; Stage 5 low-rank SVD residual pruning omitted)",
+      "stochastic": false,
+      "depends_on_seed": false,
+      "supports_probe_strategies": ["none"]
+    }
+  }
+}

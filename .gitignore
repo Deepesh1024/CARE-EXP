@@ -1,11 +1,39 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-.DS_Store
-*.swp
-.ipynb_checkpoints/
 
+# Caches and runtime state
+.pytest_cache/
+.ipynb_checkpoints/
+*.swp
+*.swo
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Model checkpoints and weights (downloaded externally via HuggingFace)
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+
+# Keys and credentials
+*.pem
+*.key
+
+# Archive files
 *.zip
-venv/benchmark_results/
+*.tar.gz
+
+# Submodule build artifacts
 benchmark/external/
 experiments/exp15_merging_benchmarks/external/
+
+# Local/temporary execution logs only (do not blanket ignore *.log)
+local_*.log
+tmp_*.log
+temp_*.log

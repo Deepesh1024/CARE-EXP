@@ -1,0 +1,97 @@
+{
+  "campaign_id": "run_20261026_master",
+  "created_at": "2026-10-26T14:45:00Z",
+  "models": {
+    "allenai/OLMoE-1B-7B-0924": {
+      "family": "OLMoE",
+      "model_id": "allenai/OLMoE-1B-7B-0924",
+      "revision": "main",
+      "architecture": "OlmoeForCausalLM",
+      "total_layers": 16,
+      "experts_per_layer": 64,
+      "top_k_routing": 8,
+      "active_parameters": "1.3B",
+      "total_parameters": "6.92B",
+      "default_dtype": "bfloat16",
+      "device_requirement": "cuda:0",
+      "supported_compression_targets": [60, 56, 48],
+      "supported_methods": [
+        "care_adaptive",
+        "care_static",
+        "random",
+        "reap_prune",
+        "sub_moe",
+        "hc_smoe",
+        "mc_smoe"
+      ],
+      "status": "VERIFIED_ACTIVE"
+    },
+    "jetmoe/jetmoe-8b": {
+      "family": "JetMoE",
+      "model_id": "jetmoe/jetmoe-8b",
+      "revision": "main",
+      "architecture": "JetMoEForCausalLM",
+      "total_layers": 24,
+      "experts_per_layer": 8,
+      "top_k_routing": 2,
+      "active_parameters": "2.2B",
+      "total_parameters": "8.0B",
+      "default_dtype": "bfloat16",
+      "device_requirement": "cuda:0",
+      "supported_compression_targets": [7, 6, 4],
+      "supported_methods": [
+        "care_adaptive",
+        "reap_prune",
+        "sub_moe",
+        "hc_smoe",
+        "mc_smoe"
+      ],
+      "status": "VERIFIED_ACTIVE"
+    },
+    "microsoft/Phi-3.5-MoE-instruct": {
+      "family": "Phi-3.5-MoE",
+      "model_id": "microsoft/Phi-3.5-MoE-instruct",
+      "revision": "main",
+      "architecture": "PhiMoEForCausalLM",
+      "total_layers": 32,
+      "experts_per_layer": 16,
+      "top_k_routing": 2,
+      "active_parameters": "6.6B",
+      "total_parameters": "41.9B",
+      "default_dtype": "4bit-nf4",
+      "device_requirement": "cuda:0",
+      "supported_compression_targets": [14, 12, 10, 8],
+      "supported_methods": [
+        "care_adaptive",
+        "reap_prune",
+        "sub_moe",
+        "hc_smoe",
+        "mc_smoe"
+      ],
+      "status": "VERIFIED_ACTIVE"
+    },
+    "Qwen/Qwen3-30B-A3B": {
+      "family": "Qwen",
+      "model_id": "Qwen/Qwen3-30B-A3B",
+      "revision": "main",
+      "architecture": "Qwen3MoeForCausalLM",
+      "total_layers": 48,
+      "experts_per_layer": 128,
+      "top_k_routing": 8,
+      "active_parameters": "3.3B",
+      "total_parameters": "30.5B",
+      "default_dtype": "bfloat16",
+      "device_requirement": "cuda:0 (Regime A pure GPU <= 80E; Regime B streaming > 80E)",
+      "supported_compression_targets": [112, 96, 80, 64, 60],
+      "supported_methods": [
+        "care_adaptive",
+        "random",
+        "reap_prune",
+        "sub_moe",
+        "hc_smoe",
+        "mc_smoe"
+      ],
+      "status": "VERIFIED_ACTIVE"
+    }
+  }
+}

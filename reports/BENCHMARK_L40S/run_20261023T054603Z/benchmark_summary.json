@@ -1,0 +1,63 @@
+{
+  "manifest": {
+    "timestamp": "2026-10-23T05:46:03.786349+00:00",
+    "git_revision": "",
+    "model_id": "allenai/OLMoE-1B-7B-0924",
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "gpu_name": "NVIDIA L40S",
+    "gpu_total_memory_gb": 47.37,
+    "pytorch_version": "2.14.1+cu130",
+    "python_version": "3.11.17",
+    "eval_token_count": 8192,
+    "eval_batch_size": 4,
+    "methods": [
+      "care_static"
+    ],
+    "targets": [
+      60
+    ],
+    "seeds": [
+      42
+    ],
+    "router_merge_mode": "uniform"
+  },
+  "baseline": {
+    "experts": 64,
+    "parameters": 6919161856,
+    "perplexity": 11.2139,
+    "throughput_tokens_per_s": 34014.83,
+    "latency_ms_per_batch": 60.21,
+    "peak_vram_mb": 14906.46
+  },
+  "results": [
+    {
+      "method": "care_static",
+      "display_name": "care-static",
+      "target_experts": 60,
+      "actual_experts": 60,
+      "seed": 42,
+      "all_layers_verified": true,
+      "fidelity_status": "FAITHFUL",
+      "parameters": 6516377600,
+      "param_reduction_pct": 5.82,
+      "baseline_ppl": 11.2139,
+      "compressed_ppl": 12.7366,
+      "ppl_degradation": 1.5227,
+      "functional_kl": 0.710938,
+      "compression_time_s": 19.95,
+      "peak_vram_mb": 39681.07,
+      "throughput_tokens_per_s": 34710.22,
+      "latency_ms_per_batch": 59.0,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": []
+    }
+  ]
+}

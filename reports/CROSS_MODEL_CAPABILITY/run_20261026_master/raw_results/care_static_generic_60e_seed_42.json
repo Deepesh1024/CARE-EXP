@@ -1,0 +1,20 @@
+{
+  "run_id": "care_static_generic_60e_seed_42",
+  "model": "OLMoE-1B-7B",
+  "method": "care_static",
+  "probe_strategy": "generic",
+  "target_experts": 60,
+  "verified_experts": 60,
+  "all_layers_verified": true,
+  "seed": 42,
+  "compression_time_s": 228.76,
+  "status": "SUCCESS",
+  "wikitext2_ppl": 11.1774,
+  "causal_heldout_kl": 0.10676,
+  "gsm8k_accuracy": 5.0,
+  "gsm8k_truncation_rate": 5.0,
+  "gsm8k_parse_failure_rate": 48.0,
+  "mmlu_accuracy": 50.0,
+  "mbpp_pass_at_1": 0.0,
+  "total_eval_time_s": 697.93
+}

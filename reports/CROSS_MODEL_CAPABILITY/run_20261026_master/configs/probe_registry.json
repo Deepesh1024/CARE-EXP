@@ -1,0 +1,61 @@
+{
+  "probe_strategies": {
+    "generic": {
+      "strategy_id": "generic",
+      "name": "Generic 10-Axis Probe (Reference)",
+      "description": "Standard CARE 10-axis capability probe spanning STEM, Humanities, Law, and Reasoning from cais/mmlu and ai2_arc",
+      "artifact_source": "results/exp6c/token_vectors/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet",
+      "num_axes": 10,
+      "samples_per_axis": 20,
+      "separation_guarantee": "Disjoint sample IDs from held-out evaluation sets"
+    },
+    "math": {
+      "strategy_id": "math",
+      "name": "Mathematical Reasoning Probe (GSM8K)",
+      "dataset": "openai/gsm8k",
+      "subset": "main",
+      "split": "train",
+      "num_samples": 100,
+      "evaluation_target": "Track B (GSM8K test split)",
+      "separation_guarantee": "100% disjoint split (train vs test; zero test example exposure)"
+    },
+    "coding": {
+      "strategy_id": "coding",
+      "name": "Program Synthesis Probe (MBPP)",
+      "dataset": "google-research-datasets/mbpp",
+      "subset": "sanitized",
+      "split": "train",
+      "num_samples": 100,
+      "evaluation_target": "Track E (MBPP test split)",
+      "separation_guarantee": "100% disjoint split (train vs test; zero test example exposure)"
+    },
+    "knowledge": {
+      "strategy_id": "knowledge",
+      "name": "General Knowledge Probe (MMLU)",
+      "dataset": "cais/mmlu",
+      "subset": "all",
+      "split": "dev",
+      "num_samples": 100,
+      "evaluation_target": "Track C (MMLU test split)",
+      "separation_guarantee": "100% disjoint split (dev vs test; zero test example exposure)"
+    },
+    "lm": {
+      "strategy_id": "lm",
+      "name": "General Language Modeling Probe (WikiText-2)",
+      "dataset": "Salesforce/wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "split": "train",
+      "num_samples": 100,
+      "evaluation_target": "Track A (WikiText-2 test split)",
+      "separation_guarantee": "100% disjoint split (train vs test; zero test example exposure)"
+    },
+    "multi_capability": {
+      "strategy_id": "multi_capability",
+      "name": "Combined Multi-Capability Probe",
+      "composition": ["math", "coding", "knowledge", "lm"],
+      "aggregation_rule": "Equal-weight unit-normalized concatenation C_multi = 1/sqrt(K) * [C_math, C_coding, C_knowledge, C_lm]",
+      "num_capabilities": 4,
+      "separation_guarantee": "Strict union of train/dev splits; zero test overlap across all tracks"
+    }
+  }
+}

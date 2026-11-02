@@ -47,26 +47,42 @@ def prepare_wikitext_eval_batches(tokenizer, config):
 @torch.no_grad()
 def compute_ppl(model, eval_chunks, device="cuda", batch_size=4):
     """
-    Computes perplexity on the prepared chunks.
-    Matches the fixed v2.2 methodology where pad tokens are masked out.
+    Computes exact language model perplexity on the prepared chunks:
+    PPL = exp( sum(valid_token_nll) / total_valid_tokens )
+    Computes cross-entropy directly from shifted logits, strictly avoiding any
+    auxiliary router losses in outputs.loss and correctly weighting every valid token.
     """
     model.eval()
-    nlls = []
+    total_nll = 0.0
+    total_tokens = 0
     
     for i in tqdm(range(0, len(eval_chunks), batch_size), desc="Computing PPL", leave=False):
         batch = eval_chunks[i:i + batch_size]
-        
         input_ids = torch.stack([x["input_ids"] for x in batch]).to(device)
         attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(device)
         
-        # Mask padding tokens with -100 so CrossEntropyLoss ignores them (though in our chunking there is no padding)
-        labels = input_ids.clone()
-        labels[attention_mask == 0] = -100
+        outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+        logits = outputs.logits
         
-        outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
-        nlls.append(outputs.loss.item())
+        shift_logits = logits[..., :-1, :].contiguous()
+        shift_labels = input_ids[..., 1:].contiguous()
+        shift_mask = attention_mask[..., 1:].contiguous()
         
-    avg_nll = sum(nlls) / len(nlls) if nlls else 0
+        loss_fn = torch.nn.CrossEntropyLoss(reduction="none")
+        token_losses = loss_fn(
+            shift_logits.view(-1, shift_logits.size(-1)),
+            shift_labels.view(-1)
+        ).view(shift_labels.shape)
+        
+        valid_loss = (token_losses * shift_mask).sum().item()
+        num_valid = shift_mask.sum().item()
+        
+        total_nll += valid_loss
+        total_tokens += num_valid
+        
+    if total_tokens == 0:
+        raise ValueError("Cannot compute PPL: zero valid prediction tokens found in evaluation chunks.")
+    avg_nll = total_nll / total_tokens
     ppl = torch.exp(torch.tensor(avg_nll)).item()
     return ppl
 
@@ -121,3 +137,58 @@ def evaluate_marginal_kl(model, df_tokens, baseline_probs, batch_size=32, device
         total_kl += kl.item() * batch_actual_size
         
     return total_kl / num_samples
+
+
+def compute_causal_kl_from_logits(base_logits: torch.Tensor, comp_logits: torch.Tensor, attention_mask: torch.Tensor):
+    """
+    Computes token-wise KL divergence for causally aligned next-token prediction:
+    Target token at index t+1 is predicted by logits at index t.
+    Compares base_logits[..., :-1, :] vs comp_logits[..., :-1, :]
+    Masks with attention_mask[..., 1:].
+    Returns (sum_kl, valid_tokens).
+    """
+    shift_base = base_logits[..., :-1, :].contiguous()
+    shift_comp = comp_logits[..., :-1, :].contiguous()
+    shift_mask = attention_mask[..., 1:].bool().contiguous()
+
+    p_log = F.log_softmax(shift_base, dim=-1)
+    p = torch.exp(p_log)
+    q_log = F.log_softmax(shift_comp, dim=-1)
+    tok_kl = (p * (p_log - q_log)).sum(dim=-1)
+
+    valid_kl = (tok_kl * shift_mask).sum().item()
+    valid_tokens = shift_mask.sum().item()
+    return valid_kl, valid_tokens
+
+
+@torch.no_grad()
+def compute_heldout_kl(base_model, comp_model, eval_chunks, device="cuda", batch_size=4, max_chunks=32):
+    """
+    Computes true held-out KL divergence KL(P_orig || P_comp) over held-out test chunks:
+    KL(P || Q) = sum_v P(v) * (log P(v) - log Q(v))
+    Causally aligned: compares logits[..., :-1, :] and masks with attention_mask[..., 1:].
+    Accumulates KL over valid target tokens only.
+    """
+    base_model.eval()
+    comp_model.eval()
+    total_kl = 0.0
+    total_tokens = 0
+    chunks_to_eval = eval_chunks[:max_chunks]
+    
+    for i in range(0, len(chunks_to_eval), batch_size):
+        batch = chunks_to_eval[i:i + batch_size]
+        input_ids = torch.stack([x["input_ids"] for x in batch]).to(device)
+        attention_mask = torch.stack([x["attention_mask"] for x in batch]).to(device)
+        
+        base_logits = base_model(input_ids=input_ids, attention_mask=attention_mask).logits
+        comp_logits = comp_model(input_ids=input_ids, attention_mask=attention_mask).logits
+        
+        batch_kl, batch_tokens = compute_causal_kl_from_logits(base_logits, comp_logits, attention_mask)
+        total_kl += batch_kl
+        total_tokens += batch_tokens
+
+    if total_tokens == 0:
+        raise ValueError("Cannot compute held-out KL: zero valid target tokens found across all evaluation chunks.")
+    return total_kl / total_tokens
+
+

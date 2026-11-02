@@ -1,0 +1,647 @@
+{
+  "manifest": {
+    "timestamp": "2026-10-25T18:40:19.280922+00:00",
+    "campaign_status": "COMPLETE",
+    "git": {
+      "revision": "unknown",
+      "is_dirty": true,
+      "dirty_files": [],
+      "error": "Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128."
+    },
+    "critical_source_hashes": {
+      "benchmark/run_l40s_benchmark.py": "8bd689fd044b9e5e50aecff42b15baadb88f61eaaa03ca4d0cee6476082ee5d0",
+      "experiments/care_com_v21/core.py": "4dc7120cecd1399134d5263ee871d3fd6295bc6cb4932d2a58c32f00bf5e728f",
+      "experiments/care_com_v22/adaptive.py": "7e3e9fc5c1742fb557e0abe5b9c26a3405ce7c317a24464ad6aa6abb51701a1e",
+      "experiments/care_com_v22/baselines.py": "9b8f3657e036c5988d457cc1bb0dd2d103eb790bebbe85f534bc36374089e2b1",
+      "benchmark/compressors/base.py": "6b2768d83feee48ac0bc09feca40db14ad37ac2793b5671d6b1b4555d24e4602",
+      "benchmark/compressors/care_static.py": "3b449807a972407b3fc49e3b0a3123fad421cd1793b838c240df5d41caa2ed34",
+      "benchmark/compressors/care_adaptive.py": "768c23ae5c019ded40e10d6147c0e5057778c2db1d9590abde2f39a7cba0b653",
+      "benchmark/compressors/random_control.py": "2eae9093a316081555016c7cf692772f157db182968005399d444200cceae0a6",
+      "benchmark/compressors/sub_moe.py": "51ed770bdd821f099fec535a0d5b7675ce051c03c94ef49710df8f9751a6208c",
+      "benchmark/compressors/reap_prune.py": "eb2ba72593456509ebc9903cba78010a6eda083a7ec9887a9078b7658633856e",
+      "benchmark/OLMoE-1B-7B/core/evaluate.py": "fe4f08dc427709c2e27d1de26b11ed31985edd84b515985017c0127446c47a98"
+    },
+    "calibration_artifact": {
+      "path": "/home/ubuntu/DEEPESH/results/exp6c/token_vectors/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet",
+      "sha256": "82351fe218308d83792e86a58a728ae47b42b44990e48a2ed653b3f35e1669ad",
+      "total_rows": 2866,
+      "required_columns": [
+        "input_ids",
+        "attention_mask",
+        "axis_idx"
+      ],
+      "cal_samples_requested": 128
+    },
+    "cli_arguments": {
+      "model_id": "allenai/OLMoE-1B-7B-0924",
+      "methods": [
+        "reap_prune",
+        "sub_moe",
+        "hc_smoe",
+        "mc_smoe"
+      ],
+      "targets": [
+        60,
+        48
+      ],
+      "seeds": [
+        42
+      ],
+      "eval_chunks": 128,
+      "batch_size": 4,
+      "cal_samples": 128,
+      "device": "cuda:0",
+      "dtype": "bfloat16",
+      "router_merge_mode": "uniform",
+      "output_dir": "/home/ubuntu/DEEPESH/reports/BENCHMARK_L40S",
+      "keep_checkpoints": false
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0924",
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "gpu_name": "NVIDIA L40S",
+    "gpu_total_memory_gb": 47.37,
+    "pytorch_version": "2.14.1+cu130",
+    "python_version": "3.11.17",
+    "evaluation_settings": {
+      "dataset": "Salesforce/wikitext",
+      "subset": "wikitext-2-raw-v1",
+      "test_split": "test",
+      "validation_split": "validation",
+      "eval_token_count": 65536,
+      "eval_chunks": 128,
+      "eval_batch_size": 4,
+      "max_length": 512,
+      "heldout_kl_chunks": 16,
+      "causally_aligned_kl": true
+    },
+    "candidate_budget": {
+      "candidate_k": 5,
+      "candidate_pool_size": 5
+    },
+    "router_configuration": {
+      "router_merge_mode": "uniform",
+      "renormalize_router_weights": true
+    },
+    "methods": [
+      "reap_prune",
+      "sub_moe",
+      "hc_smoe",
+      "mc_smoe"
+    ],
+    "targets": [
+      60,
+      48
+    ],
+    "seeds": [
+      42
+    ],
+    "planned_combinations": [
+      {
+        "method": "reap_prune",
+        "target_experts": 60,
+        "seed": 42
+      },
+      {
+        "method": "reap_prune",
+        "target_experts": 48,
+        "seed": 42
+      },
+      {
+        "method": "sub_moe",
+        "target_experts": 60,
+        "seed": 42
+      },
+      {
+        "method": "sub_moe",
+        "target_experts": 48,
+        "seed": 42
+      },
+      {
+        "method": "hc_smoe",
+        "target_experts": 60,
+        "seed": 42
+      },
+      {
+        "method": "hc_smoe",
+        "target_experts": 48,
+        "seed": 42
+      },
+      {
+        "method": "mc_smoe",
+        "target_experts": 60,
+        "seed": 42
+      },
+      {
+        "method": "mc_smoe",
+        "target_experts": 48,
+        "seed": 42
+      }
+    ],
+    "model_revision": "4.43.0.dev0",
+    "tokenizer_revision": "unknown",
+    "planned_runs_count": 8,
+    "successful_runs_count": 8,
+    "failed_runs_count": 0,
+    "missing_runs_count": 0,
+    "missing_combinations": [],
+    "completed_at": "2026-10-25T18:45:48.491577+00:00"
+  },
+  "baseline": {
+    "experts": 64,
+    "parameters": 6919161856,
+    "perplexity": 10.2804,
+    "throughput_tokens_per_s": 33564.71,
+    "latency_ms_per_batch": 61.02,
+    "peak_vram_mb": 14399.58
+  },
+  "planned_combinations": [
+    {
+      "method": "reap_prune",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "reap_prune",
+      "target_experts": 48,
+      "seed": 42
+    },
+    {
+      "method": "sub_moe",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "sub_moe",
+      "target_experts": 48,
+      "seed": 42
+    },
+    {
+      "method": "hc_smoe",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "hc_smoe",
+      "target_experts": 48,
+      "seed": 42
+    },
+    {
+      "method": "mc_smoe",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "mc_smoe",
+      "target_experts": 48,
+      "seed": 42
+    }
+  ],
+  "results": [
+    {
+      "method": "reap_prune",
+      "display_name": "reap-prune",
+      "target_experts": 60,
+      "actual_experts": 60,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "fidelity_status": "FAITHFUL (Cerebras Saliency Pruning)",
+      "parameters": 6516377600,
+      "param_reduction_pct": 5.82,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 10.4349,
+      "ppl_degradation": 0.1546,
+      "heldout_test_kl": 0.024248,
+      "probe_functional_kl": 0.71875,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 13.28,
+      "peak_vram_mb": 13685.42,
+      "throughput_tokens_per_s": 34072.21,
+      "latency_ms_per_batch": 60.11,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": []
+    },
+    {
+      "method": "reap_prune",
+      "display_name": "reap-prune",
+      "target_experts": 48,
+      "actual_experts": 48,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "fidelity_status": "FAITHFUL (Cerebras Saliency Pruning)",
+      "parameters": 5308024832,
+      "param_reduction_pct": 23.29,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 13.0079,
+      "ppl_degradation": 2.7276,
+      "heldout_test_kl": 0.331213,
+      "probe_functional_kl": 1.626953,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 12.88,
+      "peak_vram_mb": 25506.18,
+      "throughput_tokens_per_s": 36863.05,
+      "latency_ms_per_batch": 55.56,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": []
+    },
+    {
+      "method": "sub_moe",
+      "display_name": "sub-moe",
+      "target_experts": 60,
+      "actual_experts": 60,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "fidelity_status": "PARTIAL (router-weight clustering proxy)",
+      "parameters": 6516377600,
+      "param_reduction_pct": 5.82,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 12.3204,
+      "ppl_degradation": 2.04,
+      "heldout_test_kl": 0.192759,
+      "probe_functional_kl": 0.54834,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 15.57,
+      "peak_vram_mb": 23581.89,
+      "throughput_tokens_per_s": 34144.65,
+      "latency_ms_per_batch": 59.98,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": [
+        "Sub-MoE clustering uses router weights as a proxy for expert output representations; activation output representation accumulation is not implemented."
+      ]
+    },
+    {
+      "method": "sub_moe",
+      "display_name": "sub-moe",
+      "target_experts": 48,
+      "actual_experts": 48,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "fidelity_status": "PARTIAL (router-weight clustering proxy)",
+      "parameters": 5308024832,
+      "param_reduction_pct": 23.29,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 34.844,
+      "ppl_degradation": 24.5636,
+      "heldout_test_kl": 1.174168,
+      "probe_functional_kl": 1.876953,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 45.18,
+      "peak_vram_mb": 25864.42,
+      "throughput_tokens_per_s": 35826.12,
+      "latency_ms_per_batch": 57.16,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": [
+        "Sub-MoE clustering uses router weights as a proxy for expert output representations; activation output representation accumulation is not implemented."
+      ]
+    },
+    {
+      "method": "hc_smoe",
+      "display_name": "hc-smoe",
+      "target_experts": 60,
+      "actual_experts": 60,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "fidelity_status": "PARTIAL (router-proxy)",
+      "parameters": 6516377600,
+      "param_reduction_pct": 5.82,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 12.2183,
+      "ppl_degradation": 1.938,
+      "heldout_test_kl": 0.180284,
+      "probe_functional_kl": 0.598633,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 0.58,
+      "peak_vram_mb": 24043.06,
+      "throughput_tokens_per_s": 34039.49,
+      "latency_ms_per_batch": 60.17,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": [
+        "FIDELITY WARNING: Pairwise dissimilarity is computed from router weight cosine similarity as a proxy. The published paper (Chen et al., ICML 2025) specifies expert output activation profiles on calibration tokens."
+      ]
+    },
+    {
+      "method": "hc_smoe",
+      "display_name": "hc-smoe",
+      "target_experts": 48,
+      "actual_experts": 48,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "fidelity_status": "PARTIAL (router-proxy)",
+      "parameters": 5308024832,
+      "param_reduction_pct": 23.29,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 30.9989,
+      "ppl_degradation": 20.7186,
+      "heldout_test_kl": 1.082192,
+      "probe_functional_kl": 1.640625,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 1.3,
+      "peak_vram_mb": 26107.27,
+      "throughput_tokens_per_s": 35943.31,
+      "latency_ms_per_batch": 56.98,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": [
+        "FIDELITY WARNING: Pairwise dissimilarity is computed from router weight cosine similarity as a proxy. The published paper (Chen et al., ICML 2025) specifies expert output activation profiles on calibration tokens."
+      ]
+    },
+    {
+      "method": "mc_smoe",
+      "display_name": "mc-smoe",
+      "target_experts": 60,
+      "actual_experts": 60,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "fidelity_status": "PARTIAL (Stages 1\u20134 only)",
+      "parameters": 6516377600,
+      "param_reduction_pct": 5.82,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 11.9581,
+      "ppl_degradation": 1.6777,
+      "heldout_test_kl": 0.162427,
+      "probe_functional_kl": 0.545898,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 3.52,
+      "peak_vram_mb": 24294.91,
+      "throughput_tokens_per_s": 34181.41,
+      "latency_ms_per_batch": 59.92,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": [
+        "FIDELITY WARNING: Stage 5 (Low-rank SVD decomposition and structural sparsity pruning of residuals) is NOT implemented. Method executes Stages 1-4 only (routing policy grouping, dominant expert identification, Hungarian bipartite neuron matching, and permutation-aligned frequency-weighted merging)."
+      ]
+    },
+    {
+      "method": "mc_smoe",
+      "display_name": "mc-smoe",
+      "target_experts": 48,
+      "actual_experts": 48,
+      "seed": 42,
+      "status": "SUCCESS",
+      "failure_reason": null,
+      "traceback": null,
+      "all_layers_verified": true,
+      "all_layer_expert_counts": [
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "fidelity_status": "PARTIAL (Stages 1\u20134 only)",
+      "parameters": 5308024832,
+      "param_reduction_pct": 23.29,
+      "baseline_ppl": 10.2804,
+      "compressed_ppl": 26.7412,
+      "ppl_degradation": 16.4608,
+      "heldout_test_kl": 0.95499,
+      "probe_functional_kl": 1.986328,
+      "stepwise_marginal_kl_sum": null,
+      "compression_time_s": 13.6,
+      "peak_vram_mb": 26312.57,
+      "throughput_tokens_per_s": 36148.46,
+      "latency_ms_per_batch": 56.66,
+      "checkpoint_integrity": {
+        "status": "PASS",
+        "missing_keys_count": 0,
+        "unexpected_keys_count": 0,
+        "mismatched_keys_count": 0,
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "max_logit_diff": 0.0,
+        "mean_logit_diff": 0.0
+      },
+      "warnings": [
+        "FIDELITY WARNING: Stage 5 (Low-rank SVD decomposition and structural sparsity pruning of residuals) is NOT implemented. Method executes Stages 1-4 only (routing policy grouping, dominant expert identification, Hungarian bipartite neuron matching, and permutation-aligned frequency-weighted merging)."
+      ]
+    }
+  ],
+  "failed_runs": []
+}

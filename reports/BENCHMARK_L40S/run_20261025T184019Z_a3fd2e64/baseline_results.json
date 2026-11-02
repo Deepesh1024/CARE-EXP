@@ -1,0 +1,8 @@
+{
+  "experts": 64,
+  "parameters": 6919161856,
+  "perplexity": 10.2804,
+  "throughput_tokens_per_s": 33564.71,
+  "latency_ms_per_batch": 61.02,
+  "peak_vram_mb": 14399.58
+}

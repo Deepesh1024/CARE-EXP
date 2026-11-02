@@ -1,0 +1,20 @@
+{
+  "run_id": "care_adaptive_coding_60e_seed_42",
+  "model": "OLMoE-1B-7B",
+  "method": "care_adaptive",
+  "probe_strategy": "coding",
+  "target_experts": 60,
+  "verified_experts": 60,
+  "all_layers_verified": true,
+  "seed": 42,
+  "compression_time_s": 244.19,
+  "status": "SUCCESS",
+  "wikitext2_ppl": 12.3747,
+  "causal_heldout_kl": 0.185199,
+  "gsm8k_accuracy": 6.0,
+  "gsm8k_truncation_rate": 8.0,
+  "gsm8k_parse_failure_rate": 60.0,
+  "mmlu_accuracy": 40.0,
+  "mbpp_pass_at_1": 0.0,
+  "total_eval_time_s": 723.69
+}

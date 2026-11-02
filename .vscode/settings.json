@@ -1,8 +1,12 @@
 {
     "python.analysis.extraPaths": [
-        "./experiments/experiment3b"
+        "./experiments/experiment3b",
+        "./benchmark/OLMoE-1B-7B/methods",
+        "./benchmark/OLMoE-1B-7B"
     ],
     "python.autoComplete.extraPaths": [
-        "./experiments/experiment3b"
+        "./experiments/experiment3b",
+        "./benchmark/OLMoE-1B-7B/methods",
+        "./benchmark/OLMoE-1B-7B"
     ]
 }

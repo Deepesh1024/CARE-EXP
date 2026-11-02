@@ -1,0 +1,247 @@
+{
+  "timestamp": "2026-10-23T10:52:48.634891+00:00",
+  "campaign_status": "COMPLETE",
+  "git": {
+    "revision": "unknown",
+    "is_dirty": true,
+    "dirty_files": [],
+    "error": "Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128."
+  },
+  "critical_source_hashes": {
+    "benchmark/run_l40s_benchmark.py": "5082a53790a8dd1159a22281312793d907d75fc8971b60d4ad3750f532c0810b",
+    "experiments/care_com_v21/core.py": "4dc7120cecd1399134d5263ee871d3fd6295bc6cb4932d2a58c32f00bf5e728f",
+    "experiments/care_com_v22/adaptive.py": "7e3e9fc5c1742fb557e0abe5b9c26a3405ce7c317a24464ad6aa6abb51701a1e",
+    "experiments/care_com_v22/baselines.py": "9b8f3657e036c5988d457cc1bb0dd2d103eb790bebbe85f534bc36374089e2b1",
+    "benchmark/compressors/base.py": "6b2768d83feee48ac0bc09feca40db14ad37ac2793b5671d6b1b4555d24e4602",
+    "benchmark/compressors/care_static.py": "3b449807a972407b3fc49e3b0a3123fad421cd1793b838c240df5d41caa2ed34",
+    "benchmark/compressors/care_adaptive.py": "768c23ae5c019ded40e10d6147c0e5057778c2db1d9590abde2f39a7cba0b653",
+    "benchmark/compressors/random_control.py": "2eae9093a316081555016c7cf692772f157db182968005399d444200cceae0a6",
+    "benchmark/compressors/sub_moe.py": "51ed770bdd821f099fec535a0d5b7675ce051c03c94ef49710df8f9751a6208c",
+    "benchmark/compressors/reap_prune.py": "eb2ba72593456509ebc9903cba78010a6eda083a7ec9887a9078b7658633856e",
+    "benchmark/OLMoE-1B-7B/core/evaluate.py": "fe4f08dc427709c2e27d1de26b11ed31985edd84b515985017c0127446c47a98"
+  },
+  "calibration_artifact": {
+    "path": "/home/ubuntu/DEEPESH/results/exp6c/token_vectors/EXP6C_TOKEN_CAPABILITY_VECTORS.parquet",
+    "sha256": "82351fe218308d83792e86a58a728ae47b42b44990e48a2ed653b3f35e1669ad",
+    "total_rows": 2866,
+    "required_columns": [
+      "input_ids",
+      "attention_mask",
+      "axis_idx"
+    ],
+    "cal_samples_requested": 128
+  },
+  "cli_arguments": {
+    "model_id": "allenai/OLMoE-1B-7B-0924",
+    "methods": [
+      "care_static",
+      "care_adaptive",
+      "random"
+    ],
+    "targets": [
+      60,
+      56,
+      48
+    ],
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "eval_chunks": 128,
+    "batch_size": 4,
+    "cal_samples": 128,
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "router_merge_mode": "uniform",
+    "output_dir": "/home/ubuntu/DEEPESH/reports/BENCHMARK_L40S",
+    "keep_checkpoints": false
+  },
+  "model_id": "allenai/OLMoE-1B-7B-0924",
+  "device": "cuda:0",
+  "dtype": "bfloat16",
+  "gpu_name": "NVIDIA L40S",
+  "gpu_total_memory_gb": 47.37,
+  "pytorch_version": "2.14.1+cu130",
+  "python_version": "3.11.17",
+  "evaluation_settings": {
+    "dataset": "Salesforce/wikitext",
+    "subset": "wikitext-2-raw-v1",
+    "test_split": "test",
+    "validation_split": "validation",
+    "eval_token_count": 65536,
+    "eval_chunks": 128,
+    "eval_batch_size": 4,
+    "max_length": 512,
+    "heldout_kl_chunks": 16,
+    "causally_aligned_kl": true
+  },
+  "candidate_budget": {
+    "candidate_k": 5,
+    "candidate_pool_size": 5
+  },
+  "router_configuration": {
+    "router_merge_mode": "uniform",
+    "renormalize_router_weights": true
+  },
+  "methods": [
+    "care_static",
+    "care_adaptive",
+    "random"
+  ],
+  "targets": [
+    60,
+    56,
+    48
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "planned_combinations": [
+    {
+      "method": "care_static",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "care_static",
+      "target_experts": 56,
+      "seed": 42
+    },
+    {
+      "method": "care_static",
+      "target_experts": 48,
+      "seed": 42
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 56,
+      "seed": 42
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 48,
+      "seed": 42
+    },
+    {
+      "method": "random",
+      "target_experts": 60,
+      "seed": 42
+    },
+    {
+      "method": "random",
+      "target_experts": 56,
+      "seed": 42
+    },
+    {
+      "method": "random",
+      "target_experts": 48,
+      "seed": 42
+    },
+    {
+      "method": "care_static",
+      "target_experts": 60,
+      "seed": 43
+    },
+    {
+      "method": "care_static",
+      "target_experts": 56,
+      "seed": 43
+    },
+    {
+      "method": "care_static",
+      "target_experts": 48,
+      "seed": 43
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 60,
+      "seed": 43
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 56,
+      "seed": 43
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 48,
+      "seed": 43
+    },
+    {
+      "method": "random",
+      "target_experts": 60,
+      "seed": 43
+    },
+    {
+      "method": "random",
+      "target_experts": 56,
+      "seed": 43
+    },
+    {
+      "method": "random",
+      "target_experts": 48,
+      "seed": 43
+    },
+    {
+      "method": "care_static",
+      "target_experts": 60,
+      "seed": 44
+    },
+    {
+      "method": "care_static",
+      "target_experts": 56,
+      "seed": 44
+    },
+    {
+      "method": "care_static",
+      "target_experts": 48,
+      "seed": 44
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 60,
+      "seed": 44
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 56,
+      "seed": 44
+    },
+    {
+      "method": "care_adaptive",
+      "target_experts": 48,
+      "seed": 44
+    },
+    {
+      "method": "random",
+      "target_experts": 60,
+      "seed": 44
+    },
+    {
+      "method": "random",
+      "target_experts": 56,
+      "seed": 44
+    },
+    {
+      "method": "random",
+      "target_experts": 48,
+      "seed": 44
+    }
+  ],
+  "model_revision": "4.43.0.dev0",
+  "tokenizer_revision": "unknown",
+  "planned_runs_count": 27,
+  "successful_runs_count": 27,
+  "failed_runs_count": 0,
+  "missing_runs_count": 0,
+  "missing_combinations": [],
+  "completed_at": "2026-10-23T15:55:40.509749+00:00"
+}

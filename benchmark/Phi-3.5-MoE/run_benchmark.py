@@ -123,16 +123,17 @@ def merge_expert_pair_inplace(expert_a, expert_b):
                 _requantize_inplace(lin_a, merged)
                 del merged
 
-def apply_merge_to_all_layers(model, cfg, pair: Tuple[int, int]):
-    """Apply merge of expert pair (i, j) across all MoE layers."""
+def apply_merge_to_all_layers(model, cfg, pair: Tuple[int, int], engine=None):
+    """
+    Apply genuine physical merge of expert pair (i, j) across all MoE layers,
+    removing expert j and shrinking the router projection matrix.
+    Eliminates the historical dead-slot defect where unmerged weights were left active.
+    """
     i, j = pair
-    moe_idxs = get_moe_layers(model, cfg)
-    for li in moe_idxs:
-        moe = get_moe_layer(model, li)
-        experts = get_experts(moe)
-        merge_expert_pair_inplace(experts[i], experts[j])
-    # Note: dead experts (index j) are simply never selected by the router
-    # Router weights stay frozen as per protocol
+    if engine is None:
+        from phi_care_engine import PhiPhysicalMergeEngine
+        engine = PhiPhysicalMergeEngine(model)
+    engine.merge_experts(i, j)
 
 # ──────────────────────────────────────────────────────────
 # EVALUATION
@@ -153,53 +154,22 @@ def compute_ppl(model, batches, device):
 # CAPABILITY VECTORS (CARE)
 # ──────────────────────────────────────────────────────────
 @torch.no_grad()
-def compute_care_vectors(model, cfg, calib_batches, device):
+def compute_care_vectors(model, cfg, calib_batches, device, engine=None):
     """
-    Compute C_hat for each expert across all MoE layers.
-    C_hat[layer][expert] = normalized capability vector (routing frequency × output magnitude).
+    Compute multi-axis CARE capability vectors across calibration sequences.
+    Uses residual-stream probe activations across 10 capability axes,
+    eliminating the historical 1D routing frequency proxy defect.
     """
-    moe_idxs = get_moe_layers(model, cfg)
-    n_exp = cfg.num_local_experts
-    
-    # Accumulate routing counts + output magnitudes per layer per expert
-    route_counts = {li: torch.zeros(n_exp) for li in moe_idxs}
-    output_mags  = {li: torch.zeros(n_exp) for li in moe_idxs}
-    
-    hooks = []
-    for li in moe_idxs:
-        moe = get_moe_layer(model, li)
-        
-        def make_hook(layer_idx):
-            def hook(module, args, kwargs, output):
-                if isinstance(output, tuple):
-                    hidden, router_logits = output[0], output[1] if len(output) > 1 else None
-                    if router_logits is not None:
-                        topk_idx = torch.topk(router_logits, cfg.num_experts_per_tok, dim=-1).indices
-                        for ei in range(n_exp):
-                            mask = (topk_idx == ei).any(-1).float()
-                            route_counts[layer_idx][ei] += mask.sum().item()
-            return hook
-        
-        h = moe.register_forward_hook(make_hook(li), with_kwargs=True)
-        hooks.append(h)
-    
-    for batch in tqdm(calib_batches, desc="  Computing CARE vectors", leave=False):
-        model(batch.unsqueeze(0).to(device))
-    
-    for h in hooks:
-        h.remove()
-    
-    # Build C_hat: normalize per-layer
-    care_vecs = {}
-    for li in moe_idxs:
-        counts = route_counts[li].float()
-        total = counts.sum().clamp(min=1e-8)
-        care_vecs[li] = (counts / total).numpy()  # shape: (n_experts,)
-    
-    return care_vecs
+    from phi_care_engine import PhiPhysicalMergeEngine, extract_phi_care_capability
+    if engine is None:
+        engine = PhiPhysicalMergeEngine(model)
+    C = extract_phi_care_capability(model, engine, calib_batches, device, num_axes=10)
+    return C
 
 def compute_care_distance(care_vecs, i, j):
-    """Compute L2 distance between expert i and j averaged over all layers."""
+    """Compute Euclidean distance in global capability space between expert i and j."""
+    if isinstance(care_vecs, torch.Tensor):
+        return float(torch.norm(care_vecs[i] - care_vecs[j], p=2).item())
     dists = []
     for li, vecs in care_vecs.items():
         d = float(np.linalg.norm(vecs[i] - vecs[j]))

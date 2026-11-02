@@ -16,6 +16,9 @@ class CareComV21Config:
         
         self.calibration_fraction = 1.0
         
+        # Router merging semantics: 'uniform' (historical default) or 'frequency_weighted' (manuscript Eq. 6)
+        self.router_merge_mode = "uniform"
+        
         self.results_dir = os.path.join(os.path.dirname(__file__), "..", "..", "results", "care_com_v21")
         self.trace_path = os.path.join(self.results_dir, "trajectories", "v21_trace.json")
         self.model_save_dir = os.path.join(self.results_dir, "checkpoints")

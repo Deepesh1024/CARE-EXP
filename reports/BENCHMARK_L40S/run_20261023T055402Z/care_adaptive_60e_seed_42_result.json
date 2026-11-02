@@ -1,0 +1,28 @@
+{
+  "method": "care_adaptive",
+  "display_name": "care-adaptive",
+  "target_experts": 60,
+  "actual_experts": 60,
+  "seed": 42,
+  "all_layers_verified": true,
+  "fidelity_status": "FAITHFUL",
+  "parameters": 6516377600,
+  "param_reduction_pct": 5.82,
+  "baseline_ppl": 10.2844,
+  "compressed_ppl": 12.0298,
+  "ppl_degradation": 1.7454,
+  "functional_kl": 0.905273,
+  "compression_time_s": 109.17,
+  "peak_vram_mb": 39681.07,
+  "throughput_tokens_per_s": 33953.96,
+  "latency_ms_per_batch": 60.32,
+  "checkpoint_integrity": {
+    "status": "PASS",
+    "missing_keys_count": 0,
+    "unexpected_keys_count": 0,
+    "mismatched_keys_count": 0,
+    "max_logit_diff": 0.0,
+    "mean_logit_diff": 0.0
+  },
+  "warnings": []
+}

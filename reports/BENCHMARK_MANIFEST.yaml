@@ -1,0 +1,183 @@
+# ==============================================================================
+# CARE-COM Research Project — Benchmark Execution Manifest
+# Project: CARE-COM (ICLR 2027)
+# Date: October 19, 2026
+# Status: Pre-Registered / Awaiting Authorization
+# ==============================================================================
+
+benchmark_metadata:
+  project: "CARE-COM"
+  venue: "ICLR 2027"
+  audit_version: "v2.3-audited"
+  git_commit: "7baa00f"
+  target_hardware:
+    rtx_4090:
+      name: "NVIDIA GeForce RTX 4090"
+      vram_gb: 24
+      cuda_capability: "8.9"
+    l40:
+      name: "NVIDIA L40 / L40S"
+      vram_gb: 48
+      cuda_capability: "8.9"
+
+evaluation_standards:
+  dataset: "wikitext"
+  subset: "wikitext-2-raw-v1"
+  split: "test"
+  sequence_length: 1024
+  eval_chunks: 64
+  total_eval_tokens: 65536
+  primary_metric: "WikiText-2 Perplexity (PPL)"
+  secondary_metric: "Marginal Token KL Divergence"
+
+benchmarks:
+  # ----------------------------------------------------------------------------
+  # MODEL 1: allenai/OLMoE-1B-7B-0924 (Primary Submission Model)
+  # ----------------------------------------------------------------------------
+  - model_id: "allenai/OLMoE-1B-7B-0924"
+    architecture: "fused_batched_3d"
+    num_layers: 16
+    initial_experts: 64
+    target_checkpoints: [64, 60, 56, 48]
+    precision: "bfloat16"
+    expected_peak_vram_gb: 19.0
+    recommended_gpu: "RTX 4090 or L40"
+    methods:
+      - name: "care_adaptive"
+        script: "benchmark/OLMoE-1B-7B/methods/care_com.py"
+        seeds: [42, 123, 456, 789, 1011]
+        calibration_samples: 128
+        candidate_pool_size: 5
+        estimated_runtime_per_seed_sec: 1450
+        status: "VALIDATED_READY"
+        required_outputs:
+          - "benchmark_results/care_adaptive/trajectory.json"
+      - name: "random_k5"
+        script: "benchmark/OLMoE-1B-7B/methods/random_merge.py"
+        seeds: [42, 123, 456, 789, 1011]
+        calibration_samples: 128
+        candidate_pool_size: 5
+        estimated_runtime_per_seed_sec: 1380
+        status: "VALIDATED_READY"
+        required_outputs:
+          - "benchmark_results/random/trajectory.json"
+      - name: "care_static"
+        script: "benchmark/OLMoE-1B-7B/methods/care_com.py"
+        seeds: [42]
+        calibration_samples: 128
+        candidate_pool_size: 5
+        estimated_runtime_per_seed_sec: 420
+        status: "VALIDATED_READY"
+        required_outputs:
+          - "benchmark_results/care_static/trajectory.json"
+      - name: "reap"
+        script: "benchmark/OLMoE-1B-7B/methods/reap_family.py"
+        seeds: [42]
+        calibration_samples: 128
+        candidate_pool_size: null
+        estimated_runtime_per_seed_sec: 310
+        status: "VALIDATED_READY"
+        required_outputs:
+          - "benchmark_results/reap/trajectory.json"
+      - name: "hc_smoe"
+        script: "benchmark/OLMoE-1B-7B/methods/reap_family.py"
+        seeds: [42]
+        calibration_samples: 128
+        candidate_pool_size: null
+        estimated_runtime_per_seed_sec: 340
+        status: "VALIDATED_READY"
+        required_outputs:
+          - "benchmark_results/hc_smoe/trajectory.json"
+      - name: "sub_moe"
+        script: "benchmark/OLMoE-1B-7B/methods/reap_family.py"
+        seeds: [42]
+        calibration_samples: 128
+        candidate_pool_size: null
+        estimated_runtime_per_seed_sec: 325
+        status: "VALIDATED_READY"
+        required_outputs:
+          - "benchmark_results/sub_moe/trajectory.json"
+
+  # ----------------------------------------------------------------------------
+  # MODEL 2: microsoft/Phi-3.5-MoE-instruct (Multi-Architecture Transfer)
+  # ----------------------------------------------------------------------------
+  - model_id: "microsoft/Phi-3.5-MoE-instruct"
+    architecture: "quantized_int4_unfused"
+    num_layers: 32
+    initial_experts: 16
+    target_checkpoints: [16, 14, 12, 10, 8]
+    precision: "int4_bnb_sequential"
+    expected_peak_vram_gb: 11.5
+    recommended_gpu: "RTX 4090 or L40"
+    methods:
+      - name: "care_adaptive"
+        script: "benchmark/Phi-3.5-MoE/run_benchmark.py"
+        seeds: [42, 1337, 7]
+        calibration_samples: 64
+        candidate_pool_size: 5
+        estimated_runtime_per_seed_sec: 1850
+        status: "REPAIRED_READY_FOR_SMOKE"
+        required_outputs:
+          - "experiments/experiment12/results/phi35_care_adaptive.json"
+      - name: "random_k5"
+        script: "benchmark/Phi-3.5-MoE/run_benchmark.py"
+        seeds: [42, 1337, 7]
+        calibration_samples: 64
+        candidate_pool_size: 5
+        estimated_runtime_per_seed_sec: 1720
+        status: "REPAIRED_READY_FOR_SMOKE"
+        required_outputs:
+          - "experiments/experiment12/results/phi35_random.json"
+      - name: "rw_l2"
+        script: "benchmark/Phi-3.5-MoE/run_benchmark.py"
+        seeds: [42]
+        calibration_samples: 64
+        candidate_pool_size: null
+        estimated_runtime_per_seed_sec: 620
+        status: "REPAIRED_READY_FOR_SMOKE"
+        required_outputs:
+          - "experiments/experiment12/results/phi35_rw_l2.json"
+
+  # ----------------------------------------------------------------------------
+  # MODEL 3: Qwen/Qwen3-30B-A3B (Large MoE Systems)
+  # ----------------------------------------------------------------------------
+  - model_id: "Qwen/Qwen3-30B-A3B"
+    architecture: "sequential_layer_streaming"
+    num_layers: 48
+    initial_experts: 128
+    target_checkpoints: [128, 112, 96, 80]
+    precision: "bfloat16_cpu_gpu_streaming"
+    expected_peak_vram_gb: 8.0
+    recommended_gpu: "NVIDIA L40 / L40S (Requires 128GB+ System RAM)"
+    methods:
+      - name: "care_adaptive"
+        script: "benchmark/Qwen3-30B-A3B/run_benchmark.py"
+        seeds: [42]
+        calibration_samples: 32
+        candidate_pool_size: 5
+        estimated_runtime_per_seed_sec: 7200
+        status: "HISTORICAL_AUDITED_VALID"
+        required_outputs:
+          - "benchmark/Qwen3-30B-A3B/audit/QWEN3_CARE_COM_RESULTS.json"
+
+  # ----------------------------------------------------------------------------
+  # MODEL 4: jetmoe/jetmoe-8b (Exploratory Proof of Concept)
+  # ----------------------------------------------------------------------------
+  - model_id: "jetmoe/jetmoe-8b"
+    architecture: "proxy_weight_space_demotion"
+    num_layers: 24
+    initial_experts: 8
+    target_checkpoints: [8, 6, 4]
+    precision: "bfloat16"
+    expected_peak_vram_gb: 16.5
+    recommended_gpu: "RTX 4090 or L40"
+    methods:
+      - name: "care_adaptive_proxy"
+        script: "benchmark/JetMoE-8B/phase8_benchmark.py"
+        seeds: [42]
+        calibration_samples: 32
+        candidate_pool_size: 3
+        estimated_runtime_per_seed_sec: 450
+        status: "EXPLORATORY_PROXY_DOCUMENTED"
+        required_outputs:
+          - "benchmark/JetMoE-8B/jetmoe_architecture.json"

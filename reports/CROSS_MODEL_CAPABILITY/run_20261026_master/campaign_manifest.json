@@ -1,0 +1,21 @@
+{
+  "campaign_id": "run_20261026_master",
+  "title": "CARE-COM Cross-Model MoE Compression, Multi-Capability Probing & Reasoning Benchmarking",
+  "created_at": "2026-10-26T14:45:00Z",
+  "status": "IN_PROGRESS",
+  "evaluation_tracks": {
+    "track_a": "Language Modeling (WikiText-2 test PPL, 65,536 tokens; Held-out causal KL, 8,192 tokens)",
+    "track_b": "Mathematical Reasoning (GSM8K test split, 100 fixed problems, greedy, max_new_tokens=1536)",
+    "track_c": "General Knowledge & Reasoning (MMLU test split, 100 fixed balanced problems across 4 domains)",
+    "track_d": "Program Synthesis (MBPP test split, 50 fixed problems)",
+    "track_e": "Instruction Following / Multilingual Probe Retentions"
+  },
+  "staged_execution_phases": {
+    "phase_1_audit_and_setup": "Establish versioned registries, verify hardware, validate datasets and historical artifacts",
+    "phase_2_probe_formation": "Construct disjoint capability probes (Math, Coding, Knowledge, LM) and combined multi-capability probe",
+    "phase_3_olmoe_capability_ablation": "Controlled ablation on OLMoE comparing Generic CARE vs Specific Probes vs Multi-Capability CARE vs Controls & Baselines",
+    "phase_4_cross_model_evaluation": "Extend capability benchmark matrix to JetMoE-8B, Phi-3.5-MoE, and Qwen3-30B-A3B",
+    "phase_5_probe_diagnostics": "Measure representation stability, distance distributions, candidate overlap Jaccard, and functional damage",
+    "phase_6_consolidation_and_reporting": "Compile unified database, generate 12 publication figures, and produce final research report"
+  }
+}

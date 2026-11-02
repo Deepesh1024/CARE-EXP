@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-10-23T05:46:03.786349+00:00",
+  "git_revision": "",
+  "model_id": "allenai/OLMoE-1B-7B-0924",
+  "device": "cuda:0",
+  "dtype": "bfloat16",
+  "gpu_name": "NVIDIA L40S",
+  "gpu_total_memory_gb": 47.37,
+  "pytorch_version": "2.14.1+cu130",
+  "python_version": "3.11.17",
+  "eval_token_count": 8192,
+  "eval_batch_size": 4,
+  "methods": [
+    "care_static"
+  ],
+  "targets": [
+    60
+  ],
+  "seeds": [
+    42
+  ],
+  "router_merge_mode": "uniform"
+}

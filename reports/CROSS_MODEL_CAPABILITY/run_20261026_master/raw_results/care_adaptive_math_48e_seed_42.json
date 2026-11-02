@@ -1,0 +1,20 @@
+{
+  "run_id": "care_adaptive_math_48e_seed_42",
+  "model": "OLMoE-1B-7B",
+  "method": "care_adaptive",
+  "probe_strategy": "math",
+  "target_experts": 48,
+  "verified_experts": 48,
+  "all_layers_verified": true,
+  "seed": 42,
+  "compression_time_s": 1012.87,
+  "status": "SUCCESS",
+  "wikitext2_ppl": 20.9384,
+  "causal_heldout_kl": 0.690455,
+  "gsm8k_accuracy": 1.0,
+  "gsm8k_truncation_rate": 21.0,
+  "gsm8k_parse_failure_rate": 64.0,
+  "mmlu_accuracy": 19.0,
+  "mbpp_pass_at_1": 0.0,
+  "total_eval_time_s": 787.98
+}

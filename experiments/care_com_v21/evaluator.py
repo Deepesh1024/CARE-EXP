@@ -58,4 +58,6 @@ def evaluate_marginal_damage(model, eval_chunks, current_logprobs, batch_size, m
         total_kl += kl_per_token[shift_mask].sum().item()
         total_tokens += shift_mask.sum().item()
         
-    return total_kl / max(total_tokens, 1)
+    if total_tokens == 0:
+        raise ValueError("Cannot evaluate marginal damage: zero valid tokens found across all evaluation batches.")
+    return total_kl / total_tokens

@@ -7,7 +7,7 @@ model:
   precision: "bfloat16" # Must be exactly this to prevent overflow on OLMoE
 
 evaluation:
-  dataset: "wikitext"
+  dataset: "Salesforce/wikitext"
   subset: "wikitext-2-raw-v1"
   split: "test"
   max_length: 512

@@ -1,0 +1,20 @@
+{
+  "run_id": "care_adaptive_generic_48e_seed_42",
+  "model": "OLMoE-1B-7B",
+  "method": "care_adaptive",
+  "probe_strategy": "generic",
+  "target_experts": 48,
+  "verified_experts": 48,
+  "all_layers_verified": true,
+  "seed": 42,
+  "compression_time_s": 1456.72,
+  "status": "SUCCESS",
+  "wikitext2_ppl": 20.3228,
+  "causal_heldout_kl": 0.734219,
+  "gsm8k_accuracy": 0.0,
+  "gsm8k_truncation_rate": 26.0,
+  "gsm8k_parse_failure_rate": 76.0,
+  "mmlu_accuracy": 25.0,
+  "mbpp_pass_at_1": 0.0,
+  "total_eval_time_s": 1101.07
+}
